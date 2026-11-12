@@ -23,6 +23,8 @@ const toc = headings.filter((h) => h.depth === 2);
 // Count what readers see: the draft-notes comment is stripped from the page.
 const visibleBody = (entry.body ?? '').replace(/<!--[\s\S]*?-->/g, '');
 const todoCount = (visibleBody.match(/\[TODO:/g) ?? []).length;
+// Every build says so (the remark plugin's per-TODO warnings only run when the markdown changes).
+if (todoCount > 0) console.warn(`[legal-todo] ${id}.md: ${todoCount} unresolved [TODO: …] marker(s) shown on /${id}`);
 const updated = new Date(`${entry.data.sourceUpdated}T00:00:00Z`).toLocaleDateString('en-IN', {
   day: 'numeric',
   month: 'long',

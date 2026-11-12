@@ -83,3 +83,4 @@ Decisions taken here are recorded in `decisions.md`.
 - Phase 2: done (Stamp, Receipt, PhoneFrame, InkLink, DietaryMark, Rating, placeholder screenshot).
 - Phase 3: done. Landing page with all sections and signature motion; JS 1.5 KB gz. Found and fixed: the CSS minifier folds animation-timeline into the animation shorthand (invalid), so scroll-driven rules use longhands.
 - Phase 4: done. Legal pages from synced markdown (privacy @ f19f50e, terms @ 12c754a), 8 intentional [legal-todo] warnings, support, 404. Legal/support/404 ship no script files.
+- Phase 5: done. Favicons (svg with dark variant, ico), apple-touch, manifest icons, mask icon, OG images (home/legal/support/default), JSON-LD, sitemap, robots. All 10 gates pass.
