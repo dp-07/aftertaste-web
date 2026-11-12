@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Wordmark from '../components/brand/Wordmark.astro';
+import { site } from '../config/site';
+---
+
+<BaseLayout description={site.description} og="home">
+  <section class="wrap">
+    <h1>
+      <Wordmark variant="stacked" animate />
+    </h1>
+  </section>
+</BaseLayout>

@@ -1,0 +1,70 @@
+---
+/**
+ * One food letter of the wordmark (brand pack logo/glyphs/*.svg): mushroom t,
+ * sprout r, noodle s, cinnamon e. Paths and stroke widths are the pack's;
+ * colours come from the --g-* tokens so the light and -dark files are one
+ * element. `simple` is the pack's small-size variant (used at 32 px and below).
+ * Sized in em: height 0.865 em, width per brand.json glyphWidthEm.
+ */
+interface Props {
+  letter: 't' | 'r' | 's' | 'e';
+  simple?: boolean;
+  class?: string;
+}
+
+const { letter, simple = false, class: className } = Astro.props;
+const viewBox = { t: '20 0 60 90', r: '26 0 52 90', s: '24 0 50 90', e: '14 0 64 90' }[letter];
+const NOODLE = 'M60 40 C52 36 36 38 36 50 C36 62 64 58 64 72 C64 86 40 88 32 80';
+const ROLL = 'M24 62 H70 C70 46 60 37 47 37 C33 37 22 48 22 62 C22 77 33 87 48 87 C57 87 65 84 70 78';
+---
+
+<svg
+  class:list={['glyph', `glyph-${letter}`, { 'glyph--simple': simple }, className]}
+  viewBox={viewBox}
+  aria-hidden="true"
+  focusable="false"
+>
+  {letter === 't' && (
+    <>
+      <g class="g-t-stem">
+        <path class="g-outline" d="M49 42 V75 Q49 86 63 85" stroke-width={simple ? 16 : 15} />
+        <path class="g-stem" d="M49 42 V75 Q49 86 63 85" stroke-width={simple ? 8 : 9} />
+      </g>
+      <g class="g-t-cap">
+        <path class="g-cap" d="M24 38 C24 18 74 18 74 38 Q74 43 69 43 H29 Q24 43 24 38 Z" />
+        {!simple && (
+          <>
+            <circle class="g-spot" cx="38" cy="30" r="3.5" />
+            <circle class="g-spot" cx="56" cy="26" r="3" />
+            <circle class="g-spot" cx="64" cy="35" r="3" />
+          </>
+        )}
+      </g>
+    </>
+  )}
+  {letter === 'r' && (
+    <>
+      <path class="g-sprout g-r-stem" d="M36 87 V42" stroke-width={simple ? 10 : 8} />
+      <path class="g-leaf g-r-leaf" d="M36 50 C38 34 56 30 72 34 C66 48 52 50 36 50 Z" />
+    </>
+  )}
+  {letter === 's' &&
+    (simple ? (
+      <path class="g-noodle-simple" d={NOODLE} stroke-width="10" />
+    ) : (
+      <>
+        <path class="g-noodle-shadow" transform="translate(4 2)" d={NOODLE} stroke-width="3.5" />
+        <path class="g-noodle" d={NOODLE} stroke-width="7.5" />
+      </>
+    ))}
+  {letter === 'e' &&
+    (simple ? (
+      <path class="g-dough" d={ROLL} stroke-width="11" />
+    ) : (
+      <>
+        <path class="g-dough" d={ROLL} stroke-width="9" />
+        <path class="g-icing" d={ROLL} stroke-width="2" />
+        <path class="g-dough" d="M45 52 c3 1 5 -2 3 -4 c-3 -3 -8 0 -7 4 c1 4 9 4 10 0" stroke-width="3" />
+      </>
+    ))}
+</svg>

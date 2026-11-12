@@ -1,0 +1,62 @@
+---
+/**
+ * The food-cycle loader (brand pack loaders/, brand.json motion.foodCycle):
+ * mushroom → sprout → noodle → cinnamon roll, 0.8 s each in a 3.2 s loop,
+ * inside a dashed ring that turns once every 8 s. Reduced motion: a static
+ * mushroom inside a static ring. Decorative; size it with CSS.
+ */
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<svg class:list={['loader', className]} viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+  <circle class="ld-track" cx="50" cy="50" r="42" stroke-width="2"></circle>
+  <circle
+    class="ld-ring"
+    cx="50"
+    cy="50"
+    r="42"
+    stroke-width="2"
+    stroke-dasharray="6 8"
+    stroke-linecap="round"
+  ></circle>
+  <g class="ld-glyph ld-mushroom">
+    <path class="ld-stem" d="M45 52 H55 L56.5 66 Q50 70 43.5 66 Z" stroke-width="2" stroke-linejoin="round"></path>
+    <path class="g-cap" d="M33 50 C33 32 67 32 67 50 Q67 53 64 53 H36 Q33 53 33 50 Z"></path>
+    <circle class="g-spot" cx="42" cy="43" r="2.4"></circle>
+    <circle class="g-spot" cx="53" cy="38" r="2"></circle>
+    <circle class="g-spot" cx="60" cy="45" r="2"></circle>
+  </g>
+  <g class="ld-glyph ld-sprout">
+    <path class="g-sprout" d="M47 68 V44" stroke-width="5" stroke-linecap="round"></path>
+    <path class="g-leaf" d="M47 50 C49 37 60 33 69 36 C65 46 56 50 47 50 Z"></path>
+    <path class="g-leaf-alt" d="M47 57 C45 49 37 47 32 49 C35 56 41 58 47 57 Z"></path>
+  </g>
+  <g class="ld-glyph ld-noodle">
+    <path
+      class="g-noodle-shadow"
+      transform="translate(3 1.5)"
+      d="M58 36 C52 33 42 35 42 43 C42 52 58 49 58 58 C58 67 45 69 40 63"
+      stroke-width="2.5"
+    ></path>
+    <path
+      class="g-noodle"
+      d="M58 36 C52 33 42 35 42 43 C42 52 58 49 58 58 C58 67 45 69 40 63"
+      stroke-width="5.5"
+    ></path>
+  </g>
+  <g class="ld-glyph ld-cinnamon">
+    <path
+      class="g-dough"
+      d="M50 51 c3 0 3 -5 0 -5 c-6 0 -7 9 0 10 c9 1 12 -12 1 -15 c-11 -3 -18 7 -15 16 c3 10 19 12 25 2"
+      stroke-width="4.5"
+    ></path>
+    <path
+      class="g-icing"
+      d="M50 51 c3 0 3 -5 0 -5 c-6 0 -7 9 0 10 c9 1 12 -12 1 -15 c-11 -3 -18 7 -15 16 c3 10 19 12 25 2"
+      stroke-width="1.2"
+    ></path>
+  </g>
+</svg>

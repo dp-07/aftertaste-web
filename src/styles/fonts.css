@@ -1,0 +1,83 @@
+/*
+ * Self-hosted brand fonts (SIL OFL 1.1; licences in public/fonts/).
+ * Subset to Latin + ₹ by scripts/subset-fonts.sh. Vite fingerprints the files.
+ *
+ * The "fallback" faces are metric-matched local fonts (size-adjust and
+ * ascent/descent overrides measured from the real fonts against Georgia,
+ * Arial and Courier New), so the swap to the web font does not shift layout.
+ */
+
+@font-face {
+  font-family: 'Prata';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/prata-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/dm-sans-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../assets/fonts/dm-sans-500.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../assets/fonts/dm-sans-600.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'DM Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/dm-mono-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'DM Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../assets/fonts/dm-mono-500.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Prata fallback';
+  src: local('Georgia');
+  size-adjust: 108.17%;
+  ascent-override: 91.8%;
+  descent-override: 33.47%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'DM Sans fallback';
+  src: local('Arial');
+  size-adjust: 104.98%;
+  ascent-override: 94.49%;
+  descent-override: 29.53%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'DM Mono fallback';
+  src: local('Courier New');
+  size-adjust: 99.98%;
+  ascent-override: 99.22%;
+  descent-override: 31.01%;
+  line-gap-override: 0%;
+}

@@ -1,0 +1,22 @@
+# Cloudflare Pages headers. The script-src hash is the inline theme script
+# (src/scripts/theme.js); `npm run check:csp` fails if it drifts.
+# Cloudflare Web Analytics is off; see README "Analytics (optional)" before
+# enabling it, because it needs script-src and connect-src additions.
+
+/*
+  Content-Security-Policy: default-src 'none'; script-src 'self' 'sha256-DMibbF8bWOFVHpjaiVh86nLFaqXuDm3cYODQLvAvPOw='; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'; upgrade-insecure-requests
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()
+  Cross-Origin-Opener-Policy: same-origin
+  X-Frame-Options: DENY
+
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/og/*
+  Cache-Control: public, max-age=86400
+
+/fonts/*
+  Cache-Control: public, max-age=86400

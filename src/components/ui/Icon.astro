@@ -1,0 +1,30 @@
+---
+/**
+ * A Feather icon (the app's icon set), inlined at build time. Decorative by
+ * default; pass `label` when the icon is the only content of a control.
+ */
+import feather from 'feather-icons';
+
+interface Props {
+  name: string;
+  size?: number;
+  label?: string;
+  class?: string;
+  strokeWidth?: number;
+}
+
+const { name, size = 20, label, class: className, strokeWidth = 2 } = Astro.props;
+const icon = feather.icons[name];
+if (!icon) throw new Error(`[Icon] Unknown Feather icon "${name}"`);
+
+const svg = icon.toSvg({
+  width: size,
+  height: size,
+  'stroke-width': strokeWidth,
+  class: ['icon', className].filter(Boolean).join(' '),
+  focusable: 'false',
+  ...(label ? { role: 'img', 'aria-label': label } : { 'aria-hidden': 'true' }),
+});
+---
+
+<Fragment set:html={svg} />

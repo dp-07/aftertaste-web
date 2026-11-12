@@ -1,0 +1,57 @@
+---
+/**
+ * Where the Google Play badge goes. While `site.playStoreUrl` is null this is
+ * a quiet, disabled-looking "Coming soon on Google Play" plate (not a link,
+ * not focusable, no Google artwork). When the URL is set it becomes a link;
+ * swap the plate for Google's official badge artwork then (README "Play badge").
+ */
+import { site } from '../../config/site';
+
+const live = site.playStoreUrl !== null;
+---
+
+{live ? (
+  <a class="play play--live" href={site.playStoreUrl}>
+    <span class="play-small">Get it on</span>
+    <span class="play-big">Google Play</span>
+  </a>
+) : (
+  <p class="play" aria-disabled="true">
+    <span class="play-small">Coming soon on</span>
+    <span class="play-big">Google Play</span>
+  </p>
+)}
+
+<style>
+  .play {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    min-block-size: var(--control-h);
+    margin: 0;
+    padding: var(--s-4) var(--s-20);
+    border: 1px dashed var(--line-strong);
+    border-radius: var(--r-md);
+    color: var(--muted);
+    line-height: 1.1;
+    text-decoration: none;
+    user-select: none;
+  }
+
+  .play-small {
+    font-size: 0.6875rem;
+    letter-spacing: 0.04em;
+  }
+
+  .play-big {
+    font-size: 1.125rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  .play--live {
+    border: 1px solid var(--text);
+    background: var(--text);
+    color: var(--bg);
+  }
+</style>

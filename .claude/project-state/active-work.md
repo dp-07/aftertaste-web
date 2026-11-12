@@ -20,49 +20,49 @@ Read-only reads of the app repo (`DishDiary`, branch `work-branch`, legal docs a
 
 Colours use `light-dark(<light>, <dark>)` so each token's two values sit side by side; `color-scheme` on `:root` picks the branch (system by default, forced by `data-theme`).
 
-| App token (`src/ui-v1/tokens.ts`) | CSS | Light | Dark |
-|---|---|---|---|
-| bg | `--bg` | #F4EFE6 | #16130F |
-| surface | `--surface` | #FBF8F2 | #1F1B16 |
-| raised | `--raised` | #FFFDF9 | #29241E |
-| line / lineStrong | `--line` / `--line-strong` | #E4DCCD / #CFC4B1 | #3A332B / #4D453B |
-| text / muted / faint | `--text` / `--muted` / `--faint` | #1F1B16 / #6B6257 / #9A9083 | #F4EFE6 / #B3A999 / #7D7468 |
-| primary / primaryPressed | `--primary` / `--primary-pressed` | #C2412D / #A8361F | #E0573D / #C94A31 |
-| onPrimary / primarySoft | `--on-primary` / `--primary-soft` | #FFF8F0 / #F3DED6 | #FFF8F0 / #3A2219 |
-| herb / herbSoft | `--herb` / `--herb-soft` | #5E7F3A / #E4EAD6 | #8DAA5E / #26301C |
-| mustard / danger / brown | `--mustard` / `--danger` / `--brown` | #C99A2E / #B42318 / #8A5A3B | #E0B54E / #F0645A / #B98A63 |
-| scrim | `--scrim` | rgba(31,27,22,.45) | rgba(0,0,0,.6) |
+| App token (`src/ui-v1/tokens.ts`)               | CSS                                                   | Light                           | Dark                                    |
+| ----------------------------------------------- | ----------------------------------------------------- | ------------------------------- | --------------------------------------- |
+| bg                                              | `--bg`                                                | #F4EFE6                         | #16130F                                 |
+| surface                                         | `--surface`                                           | #FBF8F2                         | #1F1B16                                 |
+| raised                                          | `--raised`                                            | #FFFDF9                         | #29241E                                 |
+| line / lineStrong                               | `--line` / `--line-strong`                            | #E4DCCD / #CFC4B1               | #3A332B / #4D453B                       |
+| text / muted / faint                            | `--text` / `--muted` / `--faint`                      | #1F1B16 / #6B6257 / #9A9083     | #F4EFE6 / #B3A999 / #7D7468             |
+| primary / primaryPressed                        | `--primary` / `--primary-pressed`                     | #C2412D / #A8361F               | #E0573D / #C94A31                       |
+| onPrimary / primarySoft                         | `--on-primary` / `--primary-soft`                     | #FFF8F0 / #F3DED6               | #FFF8F0 / #3A2219                       |
+| herb / herbSoft                                 | `--herb` / `--herb-soft`                              | #5E7F3A / #E4EAD6               | #8DAA5E / #26301C                       |
+| mustard / danger / brown                        | `--mustard` / `--danger` / `--brown`                  | #C99A2E / #B42318 / #8A5A3B     | #E0B54E / #F0645A / #B98A63             |
+| scrim                                           | `--scrim`                                             | rgba(31,27,22,.45)              | rgba(0,0,0,.6)                          |
 | brand receipt paper/text/meta/rule (brand.json) | `--paper` `--paper-ink` `--paper-meta` `--paper-rule` | #FFFDF8 #1F1B16 #5E5548 #B9AE9F | same (a physical object, as in the app) |
-| stamp.logged | `--stamp-logged` | #C2412D | #C2412D (on paper) |
-| food glyph colours (brand.json `food`) | `--g-*` | light glyph files | `-dark` glyph files |
+| stamp.logged                                    | `--stamp-logged`                                      | #C2412D                         | #C2412D (on paper)                      |
+| food glyph colours (brand.json `food`)          | `--g-*`                                               | light glyph files               | `-dark` glyph files                     |
 
-| App type role | CSS | Value (app) | Web (fluid, 320 → 1440 px) |
-|---|---|---|---|
-| display (Prata) | `--fs-display` | 32/38 | clamp 2 → 3.75 rem, lh 1.1 (section heads) |
-| title (Prata) | `--fs-title` | 24/30 | clamp 1.5 → 2 rem, lh 1.25 |
-| cardTitle (Prata) | `--fs-card-title` | 20/26 | 1.25 rem, lh 1.3 |
-| heading (DM Sans 600) | `--fs-heading` | 18/24 | 1.125 rem, lh 1.33 |
-| button (DM Sans 500) | `--fs-button` | 16/20 | 1 rem, lh 1.25 |
-| body (DM Sans 400) | `--fs-body` | 16/24 | clamp 1 → 1.125 rem, lh 1.5 |
-| bodySmall | `--fs-body-sm` | 14/20 | 0.875 rem, lh 1.43 |
-| label (DM Sans 500, upper, 1.2 px) | `--fs-label` | 12/16 | 0.75 rem, tracking 0.1 em |
-| mono (DM Mono) | `--fs-mono` | 13/18 | 0.8125 rem, lh 1.38 |
-| Wordmark (hero) | `--fs-wordmark` | 44 (Login) | clamp 4 → 10 rem; glyphs 0.865 em, simple glyphs ≤ 32 px |
+| App type role                      | CSS               | Value (app) | Web (fluid, 320 → 1440 px)                               |
+| ---------------------------------- | ----------------- | ----------- | -------------------------------------------------------- |
+| display (Prata)                    | `--fs-display`    | 32/38       | clamp 2 → 3.75 rem, lh 1.1 (section heads)               |
+| title (Prata)                      | `--fs-title`      | 24/30       | clamp 1.5 → 2 rem, lh 1.25                               |
+| cardTitle (Prata)                  | `--fs-card-title` | 20/26       | 1.25 rem, lh 1.3                                         |
+| heading (DM Sans 600)              | `--fs-heading`    | 18/24       | 1.125 rem, lh 1.33                                       |
+| button (DM Sans 500)               | `--fs-button`     | 16/20       | 1 rem, lh 1.25                                           |
+| body (DM Sans 400)                 | `--fs-body`       | 16/24       | clamp 1 → 1.125 rem, lh 1.5                              |
+| bodySmall                          | `--fs-body-sm`    | 14/20       | 0.875 rem, lh 1.43                                       |
+| label (DM Sans 500, upper, 1.2 px) | `--fs-label`      | 12/16       | 0.75 rem, tracking 0.1 em                                |
+| mono (DM Mono)                     | `--fs-mono`       | 13/18       | 0.8125 rem, lh 1.38                                      |
+| Wordmark (hero)                    | `--fs-wordmark`   | 44 (Login)  | clamp 4 → 10 rem; glyphs 0.865 em, simple glyphs ≤ 32 px |
 
-| App | CSS |
-|---|---|
-| spacing s4…s40 | `--s-4` … `--s-40` (px values) + fluid `--space-section`, `--gutter` (20 px → 48 px; app screenPadding 20) |
-| radius sm/md/lg/xl/pill 8/14/20/28/999 | `--r-sm` `--r-md` `--r-lg` `--r-xl` `--r-pill` |
-| sizes controlHeight 52, minTouchTarget 44, chipHeight 40, iconTile 36 | `--control-h` `--touch` `--chip-h` `--icon-tile` |
-| elevation light: 0 2 8 rgba(31,27,22,.1); dark: 1 px `line` border | `--elevation` (shadow in light, `0 0 0 1px var(--line)` in dark) |
-| motion fast/base/slow 120/200/320 ms | `--dur-fast` `--dur-base` `--dur-slow` |
-| Easing.out(cubic) | `--ease-out` cubic-bezier(0.33, 1, 0.68, 1) |
-| brand easing enter/standard/press | `--ease-enter` (0.22,1,0.36,1), `--ease-standard` (0.45,0,0.25,1), `--ease-press` (0.3,1.3,0.5,1) |
-| pressScale 0.97, stagger 40 ms (max 8), enter translateY 8 | `--press-scale`, `--stagger`, `--enter-y` |
-| stampPress 700 ms: 1.7/−2° → 0.94/−8° @60% → 1/−8°, ink ripple at 420 ms (1 → 1.3, .35 → 0) | `@keyframes stamp-press`, `stamp-ripple` (VerdictStamp rotation −4° per SPEC v1.7) |
-| receiptPrint steps −1, −0.74, −0.46, −0.16, 0 (360 ms move / 200 ms pause) | `@keyframes receipt-feed` (scroll-driven; time-based fallback uses the same steps) |
-| reveal (DecisionCard): scale 1.08 → 1, rotate −3° → 0, fade, slow | `@keyframes reveal` |
-| food-cycle loader 3.2 s loop, ring 8 s | `@keyframes` on the 404 page and the demo's pick |
+| App                                                                                         | CSS                                                                                                        |
+| ------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| spacing s4…s40                                                                              | `--s-4` … `--s-40` (px values) + fluid `--space-section`, `--gutter` (20 px → 48 px; app screenPadding 20) |
+| radius sm/md/lg/xl/pill 8/14/20/28/999                                                      | `--r-sm` `--r-md` `--r-lg` `--r-xl` `--r-pill`                                                             |
+| sizes controlHeight 52, minTouchTarget 44, chipHeight 40, iconTile 36                       | `--control-h` `--touch` `--chip-h` `--icon-tile`                                                           |
+| elevation light: 0 2 8 rgba(31,27,22,.1); dark: 1 px `line` border                          | `--elevation` (shadow in light, `0 0 0 1px var(--line)` in dark)                                           |
+| motion fast/base/slow 120/200/320 ms                                                        | `--dur-fast` `--dur-base` `--dur-slow`                                                                     |
+| Easing.out(cubic)                                                                           | `--ease-out` cubic-bezier(0.33, 1, 0.68, 1)                                                                |
+| brand easing enter/standard/press                                                           | `--ease-enter` (0.22,1,0.36,1), `--ease-standard` (0.45,0,0.25,1), `--ease-press` (0.3,1.3,0.5,1)          |
+| pressScale 0.97, stagger 40 ms (max 8), enter translateY 8                                  | `--press-scale`, `--stagger`, `--enter-y`                                                                  |
+| stampPress 700 ms: 1.7/−2° → 0.94/−8° @60% → 1/−8°, ink ripple at 420 ms (1 → 1.3, .35 → 0) | `@keyframes stamp-press`, `stamp-ripple` (VerdictStamp rotation −4° per SPEC v1.7)                         |
+| receiptPrint steps −1, −0.74, −0.46, −0.16, 0 (360 ms move / 200 ms pause)                  | `@keyframes receipt-feed` (scroll-driven; time-based fallback uses the same steps)                         |
+| reveal (DecisionCard): scale 1.08 → 1, rotate −3° → 0, fade, slow                           | `@keyframes reveal`                                                                                        |
+| food-cycle loader 3.2 s loop, ring 8 s                                                      | `@keyframes` on the 404 page and the demo's pick                                                           |
 
 ## Plan
 
@@ -79,3 +79,4 @@ Decisions taken here are recorded in `decisions.md`.
 ## Progress
 
 - Phase 0: done.
+- Phase 1: done. Gates: build, astro check, eslint, prettier, html-validate pass; links/seo fail only on pages and icons added in phases 4–5.
