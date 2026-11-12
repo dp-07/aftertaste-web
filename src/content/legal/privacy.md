@@ -2,8 +2,8 @@
 # Synced by `npm run sync:legal` from the app repo. Do not edit here: edit docs/legal/privacy-policy.md in the app repo and re-sync.
 title: "Aftertaste Privacy Policy"
 source: "docs/legal/privacy-policy.md"
-sourceCommit: "f19f50e3ef7dca0171a2a3212a35a10e89cb8dd5"
-sourceUpdated: "2026-11-11"
+sourceCommit: "95d7fbba3e62c42f4240cdd6dfb6e3ca95089ad6"
+sourceUpdated: "2026-11-12"
 syncedAt: "2026-11-12"
 ---
 <!-- draft-notes
@@ -18,7 +18,7 @@ If the review's recommendations are implemented (stop copying Google photos, coo
 
 Aftertaste is a private food diary for iOS and Android. You keep a list of places you have eaten at, log visits and dishes with photos and ratings, and keep a private list of places you want to try. This policy explains what the app collects, why, who else handles it, and how to delete it. We have tried to keep it short and plain.
 
-**Who is responsible:** Paras Dev Prasad, an individual in India. Contact: [w17.paras@gmail.com](mailto:w17.paras@gmail.com).
+**Who is responsible:** Paras Dev Prasad, an individual in India. Contact: [hello@theaftertaste.app](mailto:hello@theaftertaste.app).
 
 ## 1. What we collect
 
@@ -93,7 +93,7 @@ We keep your data while your account exists. You can:
 
 - **Export it:** Profile, Settings, Export my data. The app builds a zip file (your data as JSON and HTML plus your photos) on your phone and opens the share sheet. We do not receive a copy.
 - **Delete it:** Profile, Settings, Delete account. The app shows how many places, visits and dishes will be deleted, then creates an export for you to save or share first (if the export fails you can retry, or choose to delete without it). Deleting removes your account, diary, wish list, photos and profile picture from our systems. It cannot be undone. [TODO: state the backup retention period of the hosting plan.]
-- **Ask us:** if you cannot use the app, email w17.paras@gmail.com from your sign-in address and we will delete the account.
+- **Ask us:** if you cannot use the app, email hello@theaftertaste.app from your sign-in address and we will delete the account.
 
 Our search service keeps a short-lived log of request counts per account (account ID and time only) to limit abuse. It contains no search text or location.
 
@@ -123,4 +123,4 @@ If we change this policy in a way that matters we will update the date above and
 
 ## 15. Contact
 
-[w17.paras@gmail.com](mailto:w17.paras@gmail.com)
+[hello@theaftertaste.app](mailto:hello@theaftertaste.app)

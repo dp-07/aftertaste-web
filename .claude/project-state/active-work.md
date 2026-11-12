@@ -87,3 +87,4 @@ Decisions taken here are recorded in `decisions.md`.
 - Phase 6: done. 11 gates pass; axe 0 violations (5 pages × 2 themes × 2 widths); keyboard checks pass; Lighthouse 100/100/100/100 mobile and desktop on /, /privacy, /terms, /support (404: 100/100/100, SEO excluded: noindex). Screenshots reviewed at 320/375/768/1024/1440/1920, light/dark, reduced motion.
 - Phase 7: done. README, CLAUDE.md, project-state. Next: on "approved", push `task/website-v1`, merge into `work-branch` with --no-ff, run `npm run gates`, push `work-branch`. The human promotes `work-branch` → `main`.
 - Domain change (2026-11-12): canonical https://theaftertaste.app, contact hello@theaftertaste.app. All gates and audits re-run and passing; zero "theaftertaste.in" in the repo.
+- Legal re-synced @ 95d7fbb (hello@theaftertaste.app); gates pass. Approved: pushing and merging.

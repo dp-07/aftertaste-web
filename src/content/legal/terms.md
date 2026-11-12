@@ -2,9 +2,8 @@
 # Synced by `npm run sync:legal` from the app repo. Do not edit here: edit docs/legal/terms.md in the app repo and re-sync.
 title: "Aftertaste Terms of Use"
 source: "docs/legal/terms.md"
-sourceCommit: "12c754a91a90cda8a41014be77c4805f1c06e1aa"
-sourceUpdated: "2026-11-11"
-siteLinksRewritten: 1
+sourceCommit: "95d7fbba3e62c42f4240cdd6dfb6e3ca95089ad6"
+sourceUpdated: "2026-11-12"
 syncedAt: "2026-11-12"
 ---
 <!-- draft-notes
@@ -65,4 +64,4 @@ These terms are governed by the laws of India. The courts at Dehradun, Uttarakha
 
 ## 12. Contact
 
-[w17.paras@gmail.com](mailto:w17.paras@gmail.com)
+[hello@theaftertaste.app](mailto:hello@theaftertaste.app)
