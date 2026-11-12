@@ -14,6 +14,7 @@
 - **Astro telemetry disabled** in npm scripts (`ASTRO_TELEMETRY_DISABLED=1`), in keeping with the no-tracking stance.
 
 ## 2026-11-12 — Quality pass (phase 6)
+
 - **Accessible colour roles (WCAG AA) using existing values only.** Some of the app's pairings fall below AA on the web: paprika small text on oat (4.49:1), cream on dark-mode paprika buttons (3.56:1), herb on herbSoft (3.73:1), paprika stamp ink on dark raised (4.10:1). New roles in tokens.css, no new colours: `--primary-ink` (light uses the app's primaryPressed #A8361F), `--btn-bg` / `--btn-bg-hover` (dark uses #A8361F / #C2412D), `--herb-ink` (light uses the brand olive stamp ink #4E6B2F), `--stamp-paper` (dark uses surface), `--todo-ink`. Icons, meters, markers and large numerals keep `--primary` (3:1 thresholds). `npm run check:contrast` (a gate) checks every pair in both themes. `--faint` is never used for text. Worth considering for the app too.
 - **Mono font stack order.** `'DM Mono', 'DM Mono fallback', 'DM Sans'`: with DM Sans second, the preloaded DM Sans stood in for DM Mono while it loaded and the legal meta line rewrapped (CLS 0.17 on mobile). DM Sans still supplies ₹.
 - **`content-visibility: auto` on below-the-fold landing sections** (not the sticky receipt section). Mobile Lighthouse went from 93 (TBT 296 ms, LCP render delay 800 ms) to 100 (TBT ~0, LCP 1.66 s).

@@ -1,4 +1,4 @@
-# Active work: website v1 (`task/website-v1`)
+# Active work: website v1 (`task/website-v1`) — complete, awaiting "approved"
 
 Branch `task/website-v1` from `work-branch` (root commit `3fa6519`; the repo had no commits, so `main` does not exist yet and is created by the human when promoting `work-branch`). Local phase commits only; push/merge wait for the human's "approved".
 
@@ -85,3 +85,4 @@ Decisions taken here are recorded in `decisions.md`.
 - Phase 4: done. Legal pages from synced markdown (privacy @ f19f50e, terms @ 12c754a), 8 intentional [legal-todo] warnings, support, 404. Legal/support/404 ship no script files.
 - Phase 5: done. Favicons (svg with dark variant, ico), apple-touch, manifest icons, mask icon, OG images (home/legal/support/default), JSON-LD, sitemap, robots. All 10 gates pass.
 - Phase 6: done. 11 gates pass; axe 0 violations (5 pages × 2 themes × 2 widths); keyboard checks pass; Lighthouse 100/100/100/100 mobile and desktop on /, /privacy, /terms, /support (404: 100/100/100, SEO excluded: noindex). Screenshots reviewed at 320/375/768/1024/1440/1920, light/dark, reduced motion.
+- Phase 7: done. README, CLAUDE.md, project-state. Next: on "approved", push `task/website-v1`, merge into `work-branch` with --no-ff, run `npm run gates`, push `work-branch`. The human promotes `work-branch` → `main`.
