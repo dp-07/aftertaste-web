@@ -1,0 +1,133 @@
+---
+import { notifyHref } from '../../config/site';
+import Icon from '../ui/Icon.astro';
+import InkLink from '../ui/InkLink.astro';
+---
+
+<section id="questions" class="faq" aria-labelledby="faq-title">
+  <div class="wrap">
+    <p class="running-head t-label">
+      <span class="num">08</span>Questions
+    </p>
+    <div class="grid-12 layout">
+      <h2 id="faq-title" class="t-display">
+        Good to know.
+      </h2>
+      <div class="list">
+        <details>
+          <summary>
+            <span>Is Aftertaste free?</span>
+            <Icon name="plus" size={20} class="mark" />
+          </summary>
+          <p>Yes, it is free to use. The Play Store version will have an optional tip. It unlocks nothing.</p>
+        </details>
+        <details>
+          <summary>
+            <span>When can I get it?</span>
+            <Icon name="plus" size={20} class="mark" />
+          </summary>
+          <p>
+            It is coming to Google Play soon. <InkLink href={notifyHref}>Email me</InkLink> and I will tell you when it
+            is live.
+          </p>
+        </details>
+        <details>
+          <summary>
+            <span>Is there an iPhone app?</span>
+            <Icon name="plus" size={20} class="mark" />
+          </summary>
+          <p>No. Aftertaste is for Android only.</p>
+        </details>
+        <details>
+          <summary>
+            <span>How do I sign in?</span>
+            <Icon name="plus" size={20} class="mark" />
+          </summary>
+          <p>With your Google account. There is no password to remember and no other way to sign in.</p>
+        </details>
+        <details>
+          <summary>
+            <span>Can my friends see my diary?</span>
+            <Icon name="plus" size={20} class="mark" />
+          </summary>
+          <p>
+            Only if you switch on sharing, and even then never your notes, favourites or Want to try list.{' '}
+            <InkLink href="/support#what-friends-see">See exactly what is shared</InkLink>.
+          </p>
+        </details>
+        <details>
+          <summary>
+            <span>How do I delete my account?</span>
+            <Icon name="plus" size={20} class="mark" />
+          </summary>
+          <p>
+            In the app: Profile, Settings, Delete account.{' '}
+            <InkLink href="/support#delete-account">Other ways and what gets deleted</InkLink>.
+          </p>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq {
+    padding-block-start: var(--space-section);
+  }
+
+  .layout {
+    row-gap: var(--space-block);
+    margin-block-start: var(--space-block);
+  }
+
+  .list {
+    border-block-start: 1px solid var(--line);
+  }
+
+  details {
+    border-block-end: 1px solid var(--line);
+  }
+
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-16);
+    min-block-size: var(--touch);
+    padding-block: var(--s-20);
+    font-family: var(--font-display);
+    font-size: var(--fs-card-title);
+    line-height: var(--lh-card-title);
+    list-style: none;
+    cursor: pointer;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  summary :global(.mark) {
+    flex: none;
+    color: var(--primary);
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+
+  details[open] summary :global(.mark) {
+    transform: rotate(45deg);
+  }
+
+  details p {
+    max-inline-size: 36rem;
+    padding-block-end: var(--s-24);
+    color: var(--muted);
+  }
+
+  @media (width >= 64rem) {
+    h2 {
+      grid-column: 1 / span 4;
+    }
+    .list {
+      grid-column: 6 / -1;
+    }
+  }
+</style>

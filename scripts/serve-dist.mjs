@@ -87,8 +87,12 @@ createServer((req, res) => {
   let file = resolve(path);
   let status = 200;
   if (!file) {
-    file = '404.html';
     status = 404;
+    if (!existsSync(join(DIST, '404.html'))) {
+      res.writeHead(404, { 'Content-Type': 'text/plain' });
+      return res.end('Not found');
+    }
+    file = '404.html';
   }
   const headers = { 'Content-Type': TYPES[extname(file)] || 'application/octet-stream' };
   for (const r of rules) if (matches(r.pattern, path)) for (const [k, v] of r.headers) headers[k] = v;

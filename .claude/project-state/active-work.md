@@ -80,3 +80,5 @@ Decisions taken here are recorded in `decisions.md`.
 
 - Phase 0: done.
 - Phase 1: done. Gates: build, astro check, eslint, prettier, html-validate pass; links/seo fail only on pages and icons added in phases 4–5.
+- Phase 2: done (Stamp, Receipt, PhoneFrame, InkLink, DietaryMark, Rating, placeholder screenshot).
+- Phase 3: done. Landing page with all sections and signature motion; JS 1.5 KB gz. Found and fixed: the CSS minifier folds animation-timeline into the animation shorthand (invalid), so scroll-driven rules use longhands.

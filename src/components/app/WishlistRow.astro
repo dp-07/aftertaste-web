@@ -1,0 +1,76 @@
+---
+/**
+ * The app's WishlistRow (SPEC v1.6): 64 px photo, name, mono meta, a faint
+ * source line, a tonal bookmark; tried rows dim and carry the TRIED stamp.
+ */
+import Stamp from '../brand/Stamp.astro';
+import Icon from '../ui/Icon.astro';
+import Thumb from './Thumb.astro';
+
+interface Props {
+  name: string;
+  meta: string;
+  source: string;
+  kind: 'mushroom' | 'sprout' | 'noodle' | 'cinnamon';
+  tried?: string;
+}
+const { name, meta, source, kind, tried } = Astro.props;
+---
+
+<li class:list={['wish', { 'wish--tried': tried }]}>
+  <Thumb kind={kind} class="wish-photo" />
+  <div class="text">
+    <p class="t-card-title name">{name}</p>
+    <p class="t-mono muted">{tried ? `Tried ${tried} · ${meta}` : meta}</p>
+    <p class="t-body-sm muted">{source}</p>
+  </div>
+  {tried ? (
+    <Stamp variant="tried" size="sm" />
+  ) : (
+    <span class="bookmark">
+      <Icon name="bookmark" size={18} label="Saved" />
+    </span>
+  )}
+</li>
+
+<style>
+  .wish {
+    display: flex;
+    align-items: center;
+    gap: var(--s-12);
+    padding: var(--s-8);
+    border-radius: var(--r-md);
+    background: var(--surface);
+  }
+  .wish :global(.wish-photo) {
+    inline-size: 64px;
+    block-size: 64px;
+  }
+  .text {
+    flex: 1;
+    min-inline-size: 0;
+  }
+  .name {
+    overflow: hidden;
+    font-size: 1.125rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .bookmark {
+    display: grid;
+    place-items: center;
+    inline-size: 40px;
+    block-size: 40px;
+    border-radius: 50%;
+    background: var(--primary-soft);
+    color: var(--primary);
+    flex: none;
+  }
+  .wish--tried :global(.wish-photo),
+  .wish--tried .name {
+    opacity: 0.6;
+  }
+  .wish :global(.stamp) {
+    margin-inline-end: var(--s-8);
+  }
+</style>

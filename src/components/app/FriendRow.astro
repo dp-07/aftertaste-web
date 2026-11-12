@@ -1,0 +1,104 @@
+---
+/**
+ * The app's "From friends" row: avatar initial, "{Name} visited {Place}",
+ * rating and relative time, at most one Must-try dish, a save bookmark.
+ */
+import Icon from '../ui/Icon.astro';
+import Rating from '../ui/Rating.astro';
+
+interface Props {
+  friend: string;
+  place: string;
+  rating: number;
+  when: string;
+  mustTry?: string;
+  tone?: 'herb' | 'mustard' | 'primary';
+}
+const { friend, place, rating, when, mustTry, tone = 'herb' } = Astro.props;
+---
+
+<li class="friend">
+  <span class:list={['avatar', `avatar--${tone}`]} aria-hidden="true">
+    {friend.charAt(0)}
+  </span>
+  <div class="text">
+    <p class="line">
+      <span class="who">{friend}</span> visited <span class="t-card-title where">{place}</span>
+    </p>
+    <p class="meta t-mono muted">
+      <Rating value={rating} /> · {when}
+    </p>
+    {mustTry && (
+      <p class="t-body-sm">
+        <span class="t-label must">Must-try</span> {mustTry}
+      </p>
+    )}
+  </div>
+  <span class="save">
+    <Icon name="bookmark" size={18} label={`Save ${place} to Want to try`} />
+  </span>
+</li>
+
+<style>
+  .friend {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--s-12);
+    padding: var(--s-16);
+    border-radius: var(--r-md);
+    background: var(--surface);
+  }
+  .avatar {
+    display: grid;
+    place-items: center;
+    inline-size: 40px;
+    block-size: 40px;
+    border-radius: 50%;
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    flex: none;
+  }
+  .avatar--herb {
+    background: var(--herb-soft);
+    color: var(--herb);
+  }
+  .avatar--mustard {
+    background: color-mix(in srgb, var(--mustard) 22%, var(--surface));
+    color: var(--brown);
+  }
+  .avatar--primary {
+    background: var(--primary-soft);
+    color: var(--primary);
+  }
+  .text {
+    display: grid;
+    gap: 2px;
+    flex: 1;
+    min-inline-size: 0;
+  }
+  .who {
+    font-weight: 600;
+  }
+  .where {
+    font-size: 1.0625rem;
+  }
+  .meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .must {
+    margin-inline-end: 4px;
+    color: var(--primary);
+  }
+  .save {
+    display: grid;
+    place-items: center;
+    inline-size: 40px;
+    block-size: 40px;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    color: var(--muted);
+    flex: none;
+  }
+</style>

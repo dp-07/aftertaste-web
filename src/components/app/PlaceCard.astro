@@ -1,0 +1,83 @@
+---
+/**
+ * The app's PlaceCard (SPEC v1.7): 3:2 photo, VerdictStamp at the photo's
+ * bottom-left (inset 12) for a strong verdict, Prata name, mono meta, the
+ * rating top-right with "{n} visits" under it. Card body padding 16.
+ */
+import Stamp from '../brand/Stamp.astro';
+import Rating from '../ui/Rating.astro';
+import Thumb from './Thumb.astro';
+
+interface Props {
+  name: string;
+  meta: string;
+  rating: number;
+  visits: number;
+  kind?: 'mushroom' | 'sprout' | 'noodle' | 'cinnamon';
+  pressStamp?: boolean;
+}
+const { name, meta, rating, visits, kind = 'mushroom', pressStamp = false } = Astro.props;
+---
+
+<article class="place-card">
+  <div class="photo">
+    <Thumb kind={kind} class="photo-fill" />
+    <Stamp variant="placeStrong" size="md" press={pressStamp} class="card-stamp" />
+  </div>
+  <div class="body">
+    <div class="text">
+      <h3 class="t-card-title">{name}</h3>
+      <p class="t-mono muted">{meta}</p>
+    </div>
+    <div class="side">
+      <Rating value={rating} />
+      <span class="t-mono muted">
+        {visits} {visits === 1 ? 'visit' : 'visits'}
+      </span>
+    </div>
+  </div>
+</article>
+
+<style>
+  .place-card {
+    overflow: hidden;
+    border-radius: var(--r-lg);
+    background: var(--surface);
+    box-shadow: var(--elevation);
+  }
+  .photo {
+    position: relative;
+    aspect-ratio: 3 / 2;
+  }
+  .photo :global(.photo-fill) {
+    position: absolute;
+    inset: 0;
+    border-radius: 0;
+  }
+  .photo :global(.photo-fill .food) {
+    inline-size: 44%;
+    block-size: 44%;
+  }
+  .photo :global(.card-stamp) {
+    position: absolute;
+    inset-inline-start: 12px;
+    inset-block-end: 12px;
+    transform-origin: 30% 70%;
+  }
+  .body {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--s-12);
+    padding: var(--s-16);
+  }
+  h3 {
+    margin-block-end: 2px;
+  }
+  .side {
+    display: grid;
+    justify-items: end;
+    align-content: start;
+    gap: 2px;
+    flex: none;
+  }
+</style>

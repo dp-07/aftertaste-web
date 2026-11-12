@@ -1,0 +1,145 @@
+---
+import heroShot from '../../assets/screenshots/home-placeholder.png';
+import { notifyHref, site } from '../../config/site';
+import PhoneFrame from '../brand/PhoneFrame.astro';
+import SealMark from '../brand/SealMark.astro';
+import Wordmark from '../brand/Wordmark.astro';
+import Button from '../ui/Button.astro';
+import PlayBadge from '../ui/PlayBadge.astro';
+// TODO(screenshots): home-placeholder.png is a rendered placeholder; replace it with a real Home screenshot (README "Screenshots").
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap grid-12 hero-grid">
+    <div class="intro">
+      <p class="t-label kicker">A food diary for Android</p>
+      <h1 id="hero-title">
+        <Wordmark variant="stacked" animate class="hero-mark" />
+        <span class="tagline">{site.tagline}</span>
+      </h1>
+      <p class="support">
+        Log the places you eat at and every dish you order, with a photo and a rating. Months later, you'll know exactly
+        what to order, and what to skip.
+      </p>
+      <div class="actions">
+        <PlayBadge />
+        <Button href={notifyHref} variant="secondary" icon="bell">
+          Get notified
+        </Button>
+      </div>
+      <p class="t-body-sm fine">Free. Private by default. No ads, no tracking.</p>
+    </div>
+    <div class="device">
+      <PhoneFrame
+        src={heroShot}
+        alt="The Aftertaste home screen: What should we eat?, a Pick for me button and a Want to try list."
+        priority
+      >
+        <SealMark class="seal-stamp" />
+      </PhoneFrame>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-block: clamp(2rem, 1rem + 4vw, 5rem) 0;
+  }
+
+  .hero-grid {
+    row-gap: var(--space-block);
+    align-items: center;
+  }
+
+  .intro {
+    display: grid;
+    justify-items: start;
+    gap: var(--s-24);
+  }
+
+  .kicker {
+    color: var(--primary);
+  }
+
+  h1 {
+    display: grid;
+    gap: clamp(1rem, 0.6rem + 1.6vw, 2rem);
+    margin: 0;
+  }
+
+  .hero :global(.hero-mark) {
+    font-size: var(--fs-wordmark);
+    margin-inline-start: -0.04em;
+  }
+
+  .tagline {
+    font-size: var(--fs-title);
+    line-height: var(--lh-title);
+    color: var(--text);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .tagline {
+      animation: settle var(--dur-slow) var(--ease-enter) 1150ms both;
+    }
+  }
+
+  @keyframes settle {
+    from {
+      opacity: 0;
+      transform: translateY(var(--enter-y));
+    }
+  }
+
+  .support {
+    max-inline-size: 30rem;
+    color: var(--muted);
+    font-size: var(--fs-body);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--s-12);
+  }
+
+  .fine {
+    color: var(--muted);
+  }
+
+  .device {
+    display: grid;
+    justify-items: center;
+  }
+
+  .device :global(.phone) {
+    max-inline-size: min(20rem, 78vw);
+  }
+
+  /* The diary seal, pressed onto the page where the phone meets it. */
+  .device :global(.seal-stamp) {
+    position: absolute;
+    inline-size: clamp(5rem, 4rem + 4vw, 7.5rem);
+    inset-inline-start: -6%;
+    inset-block-end: -3%;
+    transform: rotate(-8deg);
+    opacity: 0.94;
+  }
+
+  @media (width >= 64rem) {
+    .intro {
+      grid-column: 1 / span 7;
+    }
+    .device {
+      grid-column: 8 / -1;
+      justify-items: end;
+    }
+    .device :global(.phone) {
+      max-inline-size: 21rem;
+    }
+    .device :global(.seal-stamp) {
+      inset-inline-start: -22%;
+    }
+  }
+</style>

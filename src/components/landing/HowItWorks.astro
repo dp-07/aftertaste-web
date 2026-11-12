@@ -1,0 +1,155 @@
+---
+import PlaceCard from '../app/PlaceCard.astro';
+import DishCard from '../app/DishCard.astro';
+import PlaceList from '../app/PlaceList.astro';
+
+const steps = [
+  {
+    title: 'Log the place',
+    body: 'Search for a café, restaurant, dhaba or bakery, pick one near you, or type it in yourself. Each place keeps every visit.',
+  },
+  {
+    title: 'Rate what you ate',
+    body: 'Every dish gets a photo, a taste rating and a value rating out of 5, the price in your own currency, and a note to your future self.',
+  },
+  {
+    title: 'Remember it forever',
+    body: 'Close each visit with a stamp. Months later, open the place and see what you had, what it cost, and whether you’d go back.',
+  },
+];
+---
+
+<section id="how-it-works" class="how" aria-labelledby="how-title">
+  <div class="wrap">
+    <p class="running-head t-label">
+      <span class="num">01</span>How it works
+    </p>
+    <div class="grid-12 opener">
+      <h2 id="how-title" class="t-display">
+        Remember every bite.
+      </h2>
+      <p class="t-lede muted lead">Three small habits, and your diary does the remembering.</p>
+    </div>
+
+    <ol class="steps">
+      {steps.map((s, i) => (
+        <li class="grid-12 step">
+          <span class="numeral" aria-hidden="true">
+            {i + 1}
+            <span class="of">/{steps.length}</span>
+          </span>
+          <div class="copy">
+            <h3 class="t-title">{s.title}</h3>
+            <p class="muted">{s.body}</p>
+          </div>
+          <div class="visual">
+            {i === 0 && (
+              <PlaceList
+                label="Example: searching for a place"
+                query="hill road"
+                items={[
+                  { name: 'Hill Road Momos', meta: 'Restaurant · 450 m' },
+                  { name: 'Hill Road Bakehouse', meta: 'Bakery · 1.1 km' },
+                ]}
+              />
+            )}
+            {i === 1 && (
+              <DishCard name="Jhol momo" taste={5} value={4} price="₹180" diet="nonVeg" mustTry kind="noodle" />
+            )}
+            {i === 2 && (
+              <PlaceCard name="Hill Road Momos" meta="Restaurant · Dehradun" rating={4.6} visits={3} pressStamp />
+            )}
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .how {
+    padding-block-start: var(--space-section);
+    scroll-margin-block-start: var(--s-16);
+  }
+
+  .opener {
+    row-gap: var(--s-16);
+    margin-block: var(--space-block);
+    align-items: end;
+  }
+
+  .lead {
+    max-inline-size: 26rem;
+  }
+
+  .steps {
+    display: grid;
+    gap: var(--space-block);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .step {
+    row-gap: var(--s-20);
+    padding-block-start: var(--s-24);
+    border-block-start: 1px solid var(--line);
+    align-items: start;
+  }
+
+  .numeral {
+    font-family: var(--font-display);
+    font-size: clamp(3.5rem, 2.5rem + 5vw, 7.5rem);
+    line-height: 0.8;
+    color: var(--primary);
+  }
+
+  .of {
+    margin-inline-start: 0.1em;
+    font-family: var(--font-mono);
+    font-size: var(--fs-mono);
+    line-height: 1;
+    color: var(--muted);
+  }
+
+  .copy {
+    display: grid;
+    gap: var(--s-12);
+    max-inline-size: 28rem;
+  }
+
+  .visual {
+    max-inline-size: 26rem;
+    inline-size: 100%;
+  }
+
+  @media (width >= 40rem) and (width < 64rem) {
+    .step {
+      grid-template-columns: auto 1fr;
+      column-gap: var(--s-32);
+    }
+    .visual {
+      grid-column: 2;
+    }
+  }
+
+  @media (width >= 64rem) {
+    .opener h2 {
+      grid-column: 1 / span 7;
+    }
+    .opener .lead {
+      grid-column: 9 / -1;
+    }
+    .numeral {
+      grid-column: 1 / span 2;
+    }
+    .copy {
+      grid-column: 3 / span 4;
+      padding-block-start: var(--s-8);
+    }
+    .visual {
+      grid-column: 8 / -1;
+      justify-self: end;
+    }
+  }
+</style>

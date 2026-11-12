@@ -1,0 +1,233 @@
+---
+/**
+ * "What should we eat?" — the app's DecisionCard as a small working demo.
+ * "Pick for me" reveals one of a few sample places with the app's reveal
+ * (scale 1.08 → 1, −3° → 0, fade, 320 ms). The result is announced through a
+ * polite live region. Without JS the first sample is shown and the button is
+ * hidden. Logic: src/scripts/landing.ts.
+ */
+import FoodMark from '../brand/FoodMark.astro';
+import Loader from '../brand/Loader.astro';
+import Icon from '../ui/Icon.astro';
+
+const samples = [
+  { name: 'Hill Road Momos', meta: 'Restaurant · 1.2 km', reason: 'From your Want to try', kind: 'mushroom' },
+  { name: 'Banyan Tree Dhaba', meta: 'Dhaba · 3.4 km', reason: 'One of your favourites', kind: 'sprout' },
+  { name: 'Little Ladoo Bakery', meta: 'Bakery · 800 m', reason: 'Loved by Ronnie', kind: 'cinnamon' },
+  { name: 'Saffron & Salt', meta: 'Restaurant · 2.1 km', reason: 'From your Want to try', kind: 'noodle' },
+  { name: 'Mosaic Café', meta: 'Café · 650 m', reason: 'One of your favourites', kind: 'sprout' },
+] as const;
+const first = samples[0];
+---
+
+<div class="decision" data-decision data-samples={JSON.stringify(samples)}>
+  <div class="title-row">
+    <span class="tile">
+      <Icon name="shuffle" size={18} />
+    </span>
+    <h3 class="t-card-title">What should we eat?</h3>
+  </div>
+  <p class="t-body-sm muted idle-copy">We'll pick from your list, your favourites and friends' top spots.</p>
+
+  <div class="pick" data-pick data-kind={first.kind}>
+    <span class="photo">
+      <FoodMark kind="mushroom" />
+      <FoodMark kind="sprout" />
+      <FoodMark kind="noodle" />
+      <FoodMark kind="cinnamon" />
+    </span>
+    <span class="pick-text">
+      <span class="t-label reason" data-reason>
+        {first.reason}
+      </span>
+      <span class="t-card-title name" data-name>
+        {first.name}
+      </span>
+      <span class="t-mono muted" data-meta>
+        {first.meta}
+      </span>
+    </span>
+  </div>
+
+  <button type="button" class="pick-btn" data-pick-btn>
+    <span class="pick-icon">
+      <Icon name="shuffle" size={18} />
+    </span>
+    <Loader class="pick-loader" />
+    <span data-pick-label>Pick for me</span>
+  </button>
+  <p class="visually-hidden" aria-live="polite" data-status></p>
+  <p class="t-body-sm sample-note">Sample places. In the app, picks come from your own diary.</p>
+</div>
+
+<style>
+  .decision {
+    display: grid;
+    gap: var(--s-12);
+    max-inline-size: 26rem;
+    padding: var(--s-20);
+    border-radius: var(--r-lg);
+    background: var(--surface);
+    box-shadow: var(--elevation);
+  }
+
+  .title-row {
+    display: flex;
+    align-items: center;
+    gap: var(--s-12);
+  }
+
+  .tile {
+    display: grid;
+    place-items: center;
+    inline-size: var(--icon-tile);
+    block-size: var(--icon-tile);
+    border-radius: 50%;
+    background: var(--primary-soft);
+    color: var(--primary);
+    flex: none;
+  }
+
+  .pick {
+    display: flex;
+    align-items: center;
+    gap: var(--s-12);
+    padding: var(--s-12);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: var(--bg);
+  }
+
+  /* With JS: hidden until the first pick, so the button does the reveal. */
+  :global(html.js) .decision:not(.has-pick) .pick {
+    display: none;
+  }
+
+  :global(html.js) .decision.has-pick .idle-copy {
+    display: none;
+  }
+
+  .photo {
+    display: grid;
+    place-items: center;
+    inline-size: 64px;
+    block-size: 64px;
+    border-radius: var(--r-md);
+    background: var(--primary-soft);
+    flex: none;
+  }
+
+  .photo :global(.food) {
+    grid-area: 1 / 1;
+    inline-size: 40px;
+    block-size: 40px;
+    display: none;
+  }
+
+  .pick[data-kind='mushroom'] :global(.food--mushroom),
+  .pick[data-kind='sprout'] :global(.food--sprout),
+  .pick[data-kind='noodle'] :global(.food--noodle),
+  .pick[data-kind='cinnamon'] :global(.food--cinnamon) {
+    display: block;
+  }
+
+  .pick[data-kind='sprout'] .photo {
+    background: var(--herb-soft);
+  }
+  .pick[data-kind='noodle'] .photo {
+    background: color-mix(in srgb, var(--mustard) 22%, var(--surface));
+  }
+  .pick[data-kind='cinnamon'] .photo {
+    background: color-mix(in srgb, var(--brown) 20%, var(--surface));
+  }
+
+  .pick-text {
+    display: grid;
+    gap: 2px;
+    min-inline-size: 0;
+  }
+
+  .reason {
+    color: var(--primary);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .pick.is-revealing {
+      animation: reveal var(--dur-slow) var(--ease-out) both;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pick.is-revealing {
+      animation: fade var(--dur-base) linear both;
+    }
+  }
+
+  @keyframes reveal {
+    from {
+      opacity: 0;
+      transform: scale(1.08) rotate(-3deg);
+    }
+  }
+
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+  }
+
+  .pick-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--s-8);
+    min-block-size: var(--control-h);
+    padding-inline: var(--s-24);
+    border: 0;
+    border-radius: var(--r-pill);
+    background: var(--primary);
+    color: var(--on-primary);
+    font-weight: 500;
+    font-size: var(--fs-button);
+    cursor: pointer;
+    transition:
+      transform var(--dur-fast) var(--ease-out),
+      background-color var(--dur-base) var(--ease-out);
+  }
+
+  .pick-btn:hover {
+    background: var(--primary-pressed);
+  }
+
+  .pick-btn:active {
+    transform: scale(var(--press-scale));
+  }
+
+  :global(html:not(.js)) .pick-btn {
+    display: none;
+  }
+
+  .pick-btn :global(.pick-loader) {
+    display: none;
+    inline-size: 24px;
+    block-size: 24px;
+    --primary: var(--on-primary);
+  }
+
+  .pick-btn[aria-busy='true'] .pick-icon {
+    display: none;
+  }
+
+  .pick-btn[aria-busy='true'] :global(.pick-loader) {
+    display: block;
+  }
+
+  .pick-icon {
+    display: inline-flex;
+  }
+
+  .sample-note {
+    color: var(--muted);
+  }
+</style>
