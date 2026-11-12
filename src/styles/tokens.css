@@ -34,6 +34,19 @@
   --brown: light-dark(#8a5a3b, #b98a63);
   --scrim: light-dark(rgb(31 27 22 / 0.45), rgb(0 0 0 / 0.6));
 
+  /* ── Web accessibility roles (WCAG AA; existing app/brand values only) ── */
+  /* Paprika as small text: light uses primaryPressed (#C2412D on oat is 4.49:1). */
+  --primary-ink: light-dark(#a8361f, #e0573d);
+  /* Primary button fill: dark uses #A8361F (cream on #E0573D is 3.56:1). */
+  --btn-bg: light-dark(#c2412d, #a8361f);
+  --btn-bg-hover: light-dark(#a8361f, #c2412d);
+  /* Herb as small text on herbSoft: light uses the brand's olive stamp ink. */
+  --herb-ink: light-dark(#4e6b2f, #8daa5e);
+  /* Stamp paper: dark uses surface (paprika on raised is 4.10:1). */
+  --stamp-paper: light-dark(#fffdf9, #1f1b16);
+  /* "To do" tag on primarySoft. */
+  --todo-ink: light-dark(#a8361f, #f4efe6);
+
   /* ── Colour: brand pack (physical objects keep their paper in dark mode) ── */
   --paper: #fffdf8;
   --paper-ink: #1f1b16;
@@ -63,8 +76,9 @@
   /* ── Type ──────────────────────────────────────────────────────────── */
   --font-display: 'Prata', 'Prata fallback', georgia, serif;
   --font-ui: 'DM Sans', 'DM Sans fallback', system-ui, sans-serif;
-  /* DM Mono has no ₹; DM Sans supplies it. */
-  --font-mono: 'DM Mono', 'DM Sans', 'DM Mono fallback', ui-monospace, monospace;
+  /* DM Mono has no ₹; DM Sans supplies it. The metric-matched fallback comes first so
+     preloaded DM Sans never stands in for DM Mono while it loads (layout shift). */
+  --font-mono: 'DM Mono', 'DM Mono fallback', 'DM Sans', ui-monospace, monospace;
 
   /* App roles at 375 px, growing to editorial sizes by 1440 px. */
   --fs-wordmark: clamp(4rem, 1.65rem + 11.75vw, 10rem);

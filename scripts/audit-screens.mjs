@@ -64,7 +64,15 @@ try {
         }
         await page.evaluate(() => window.scrollTo(0, 0));
         await page.waitForTimeout(300);
+        // Full-page capture renders beyond the viewport, where content-visibility:auto
+        // would skip sections; render them for the review image only.
+        const setVisibility = (v) =>
+          page.evaluate((value) => {
+            for (const el of document.querySelectorAll('.defer-render')) el.style.contentVisibility = value;
+          }, v);
+        await setVisibility('visible');
         await page.screenshot({ path: join(OUT, `${name}.png`), fullPage: true });
+        await setVisibility('');
         const overflow = await page.evaluate(() => document.documentElement.scrollWidth - innerWidth);
         if (overflow > 0) problems.push(`${name}: horizontal overflow ${overflow}px`);
       }

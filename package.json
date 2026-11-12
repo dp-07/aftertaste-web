@@ -29,7 +29,10 @@
     "icons": "node scripts/build-icons.mjs",
     "og": "node scripts/render-og.mjs",
     "placeholders": "node scripts/render-placeholders.mjs",
-    "audit:screens": "node scripts/audit-screens.mjs"
+    "audit:screens": "node scripts/audit-screens.mjs",
+    "check:contrast": "node scripts/check-contrast.mjs",
+    "audit:a11y": "node scripts/audit-a11y.mjs",
+    "audit:lighthouse": "node scripts/audit-lighthouse.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "7.3.5",

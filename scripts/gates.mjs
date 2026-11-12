@@ -38,5 +38,6 @@ gate('links', 'node scripts/check-links.mjs');
 gate('seo', 'node scripts/check-seo.mjs');
 gate('csp', 'node scripts/check-csp.mjs');
 gate('js budget', 'node scripts/check-budget.mjs');
+gate('contrast', 'node scripts/check-contrast.mjs');
 gate('no app code', 'node scripts/check-no-app-code.mjs');
 console.log('All gates passed.');

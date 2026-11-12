@@ -24,7 +24,6 @@ body {
   font-size: var(--fs-body);
   line-height: var(--lh-body);
   font-synthesis-weight: none;
-  text-rendering: optimizelegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: clip;
@@ -168,7 +167,7 @@ a {
 .prose a:focus-visible {
   background-size: 100% 2px;
   text-decoration-color: transparent;
-  color: var(--primary);
+  color: var(--primary-ink);
 }
 
 /* ── Focus: the brand ink, offset like a stamp outline ──────────────── */
@@ -248,6 +247,13 @@ a {
   }
 }
 
+/* Below-the-fold sections skip rendering until they near the viewport, which
+   keeps the first render (and the hero image's LCP) cheap on slow phones. */
+.defer-render {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
+
 /* A section opens with a hairline and a running head: number + label. */
 .running-head {
   display: flex;
@@ -261,7 +267,7 @@ a {
 .running-head .num {
   font-family: var(--font-mono);
   font-size: var(--fs-mono);
-  color: var(--primary);
+  color: var(--primary-ink);
 }
 
 /* ── Page transitions (cross-document View Transitions, no JS) ──────── */

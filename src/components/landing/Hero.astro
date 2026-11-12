@@ -58,7 +58,7 @@ import PlayBadge from '../ui/PlayBadge.astro';
   }
 
   .kicker {
-    color: var(--primary);
+    color: var(--primary-ink);
   }
 
   h1 {
@@ -117,14 +117,10 @@ import PlayBadge from '../ui/PlayBadge.astro';
     max-inline-size: min(20rem, 78vw);
   }
 
-  /* The diary seal, pressed onto the page where the phone meets it. */
+  /* The diary seal, pressed onto the page beside the phone (wide layouts only:
+     on narrow screens it would sit on the app's own content). */
   .device :global(.seal-stamp) {
-    position: absolute;
-    inline-size: clamp(5rem, 4rem + 4vw, 7.5rem);
-    inset-inline-start: -6%;
-    inset-block-end: -3%;
-    transform: rotate(-8deg);
-    opacity: 0.94;
+    display: none;
   }
 
   @media (width >= 64rem) {
@@ -139,7 +135,13 @@ import PlayBadge from '../ui/PlayBadge.astro';
       max-inline-size: 21rem;
     }
     .device :global(.seal-stamp) {
-      inset-inline-start: -22%;
+      display: block;
+      position: absolute;
+      inline-size: 7.5rem;
+      inset-inline-start: -30%;
+      inset-block-end: 6%;
+      transform: rotate(-8deg);
+      opacity: 0.94;
     }
   }
 </style>

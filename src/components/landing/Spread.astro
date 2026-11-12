@@ -15,7 +15,11 @@ interface Props {
 const { id, num, label, title, flip = false, class: className } = Astro.props;
 ---
 
-<section id={id} class:list={['spread', { 'spread--flip': flip }, className]} aria-labelledby={`${id}-title`}>
+<section
+  id={id}
+  class:list={['spread', 'defer-render', { 'spread--flip': flip }, className]}
+  aria-labelledby={`${id}-title`}
+>
   <div class="wrap">
     <p class="running-head t-label">
       <span class="num">{num}</span>

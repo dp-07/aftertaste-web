@@ -55,12 +55,12 @@ const { friend, place, rating, when, mustTry, tone = 'herb' } = Astro.props;
     block-size: 40px;
     border-radius: 50%;
     font-family: var(--font-display);
-    font-size: 1.125rem;
+    font-size: 1.5rem; /* large text: tinted initials need 3:1, not 4.5:1 */
     flex: none;
   }
   .avatar--herb {
     background: var(--herb-soft);
-    color: var(--herb);
+    color: var(--herb-ink);
   }
   .avatar--mustard {
     background: color-mix(in srgb, var(--mustard) 22%, var(--surface));
@@ -89,7 +89,7 @@ const { friend, place, rating, when, mustTry, tone = 'herb' } = Astro.props;
   }
   .must {
     margin-inline-end: 4px;
-    color: var(--primary);
+    color: var(--primary-ink);
   }
   .save {
     display: grid;

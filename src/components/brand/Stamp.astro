@@ -59,7 +59,7 @@ const lines = variant === 'placeStrong' && size !== 'sm' ? [copy.lines.join(' ·
     padding: var(--outer);
     border: var(--outer) solid var(--ink);
     border-radius: var(--radius);
-    background: var(--raised);
+    background: var(--stamp-paper);
     color: var(--ink);
     font-family: var(--font-ui);
     font-weight: 500;
@@ -162,7 +162,7 @@ const lines = variant === 'placeStrong' && size !== 'sm' ? [copy.lines.join(' ·
       opacity: 1;
       transform: rotate(var(--rot)) scale(0.94);
       /* Ink settles: the paper is briefly flooded, then dries back. */
-      background-color: color-mix(in srgb, var(--ink) 16%, var(--raised));
+      background-color: color-mix(in srgb, var(--ink) 16%, var(--stamp-paper));
       animation-timing-function: var(--ease-out);
     }
     100% {

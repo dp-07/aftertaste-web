@@ -66,9 +66,12 @@ const { name, meta, source, kind, tried } = Astro.props;
     color: var(--primary);
     flex: none;
   }
-  .wish--tried :global(.wish-photo),
-  .wish--tried .name {
+  /* Tried: the photo dims; the name goes quiet in a colour that keeps AA contrast. */
+  .wish--tried :global(.wish-photo) {
     opacity: 0.6;
+  }
+  .wish--tried .name {
+    color: var(--muted);
   }
   .wish :global(.stamp) {
     margin-inline-end: var(--s-8);
