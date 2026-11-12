@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://theaftertaste.in/sitemap-index.xml
+Sitemap: https://theaftertaste.app/sitemap-index.xml

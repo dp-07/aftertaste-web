@@ -4,7 +4,7 @@ Context for Claude Code working in this repository. Keep it in sync: when you ch
 
 ## Overview
 
-The public website for **Aftertaste**, a private food diary for Android ("Your personal food memory"), served at **https://theaftertaste.in** (apex is canonical; `www` redirects to it). Static Astro site deployed by **Cloudflare Pages from `main`**. Pages: `/` (landing), `/privacy`, `/terms`, `/support`, and a branded `404`.
+The public website for **Aftertaste**, a private food diary for Android ("Your personal food memory"), served at **https://theaftertaste.app** (apex is canonical; `www` redirects to it via a Cloudflare Bulk Redirect). `.app` is an HSTS-preloaded TLD: never generate `http://` links (`check:seo` enforces HTTPS-only and the single canonical host). Contact: `hello@theaftertaste.app`. Static Astro site deployed by **Cloudflare Pages from `main`**. Pages: `/` (landing), `/privacy`, `/terms`, `/support`, and a branded `404`.
 
 The app lives in a separate repo (`DishDiary`, package `bitemarks`). This repo is public.
 

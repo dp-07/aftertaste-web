@@ -4,7 +4,7 @@ import { join, relative } from 'node:path';
 
 export const ROOT = new URL('..', import.meta.url).pathname;
 export const DIST = join(ROOT, 'dist');
-export const SITE = 'https://theaftertaste.in';
+export const SITE = 'https://theaftertaste.app';
 
 export function walkFiles(dir, filter = () => true) {
   const out = [];

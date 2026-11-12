@@ -4,6 +4,7 @@ title: "Aftertaste Terms of Use"
 source: "docs/legal/terms.md"
 sourceCommit: "12c754a91a90cda8a41014be77c4805f1c06e1aa"
 sourceUpdated: "2026-11-11"
+siteLinksRewritten: 1
 syncedAt: "2026-11-12"
 ---
 <!-- draft-notes
@@ -14,7 +15,7 @@ DRAFT for the human to review. Not legal advice. Resolve every "[TODO: ...]" bef
 
 **Effective date:** [TODO: set on publication]
 
-These terms are between you and Paras Dev Prasad, an individual in India ("we", "us") for the Aftertaste app. By signing in and using Aftertaste you agree to them. If you do not agree, please do not use the app. Our [Privacy Policy](https://theaftertaste.in/privacy) explains how we handle your data.
+These terms are between you and Paras Dev Prasad, an individual in India ("we", "us") for the Aftertaste app. By signing in and using Aftertaste you agree to them. If you do not agree, please do not use the app. Our [Privacy Policy](https://theaftertaste.app/privacy) explains how we handle your data.
 
 ## 1. What Aftertaste is
 

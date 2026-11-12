@@ -4,7 +4,7 @@
 import { execFileSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { ROOT } from './lib.mjs';
+import { ROOT, SITE } from './lib.mjs';
 
 const app = process.env.APP_REPO_PATH;
 if (!app || !existsSync(join(app, 'docs/legal'))) {
@@ -21,8 +21,14 @@ const OUT = join(ROOT, 'src/content/legal');
 mkdirSync(OUT, { recursive: true });
 const today = new Date().toISOString().slice(0, 10);
 
+// Links to the site's earlier domain are pointed at the canonical one (always
+// https://, as .app is HSTS-preloaded). Only URLs change; wording never does.
+const LEGACY_SITE = /(?:https?:\/\/)?(?:www\.)?theaftertaste\.in\b/g;
+
 for (const f of FILES) {
-  const body = readFileSync(join(app, f.from), 'utf8');
+  const source = readFileSync(join(app, f.from), 'utf8');
+  const rewritten = (source.match(LEGACY_SITE) || []).length;
+  const body = source.replace(LEGACY_SITE, SITE);
   const title = body.match(/^#\s+(.+)$/m)?.[1]?.trim();
   if (!title) throw new Error(`${f.from} has no H1 title`);
   const [commit, updated] = git('log', '-1', '--format=%H|%cs', '--', f.from).split('|');
@@ -38,10 +44,15 @@ for (const f of FILES) {
     `sourceCommit: ${JSON.stringify(commit)}`,
     `sourceUpdated: ${JSON.stringify(updated)}`,
     ...(dirty ? ['sourceDirty: true'] : []),
+    ...(rewritten ? [`siteLinksRewritten: ${rewritten}`] : []),
     `syncedAt: ${JSON.stringify(today)}`,
     '---',
     '',
   ].join('\n');
   writeFileSync(join(OUT, f.to), front + body);
   console.log(`✓ ${f.from} → src/content/legal/${f.to} (${commit.slice(0, 7)}, ${updated}, ${todos} TODO)`);
+  if (rewritten)
+    console.warn(
+      `! ${f.from}: ${rewritten} link(s) to the old domain rewritten to ${SITE}; update the source in the app repo.`,
+    );
 }

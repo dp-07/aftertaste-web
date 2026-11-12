@@ -1,3 +1,6 @@
+# www.theaftertaste.app → https://theaftertaste.app is a Cloudflare Bulk Redirect,
+# not a rule here: _redirects cannot match hostnames (README "Domain").
+
 # Clean URLs: pages are served without a trailing slash (Pages strips .html).
 /privacy/            /privacy                 301
 /terms/              /terms                   301

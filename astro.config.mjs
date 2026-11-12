@@ -7,7 +7,8 @@ import { remarkLegal } from './src/lib/remark-legal.mjs';
 // Static site for Cloudflare Pages. Canonical URLs have no trailing slash:
 // build.format 'file' writes privacy.html, which Pages serves at /privacy.
 export default defineConfig({
-  site: 'https://theaftertaste.in',
+  // .app is an HSTS-preloaded TLD: the site is HTTPS-only, so every absolute URL is https://.
+  site: 'https://theaftertaste.app',
   output: 'static',
   trailingSlash: 'never',
   build: {

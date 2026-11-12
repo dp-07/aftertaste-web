@@ -22,3 +22,9 @@
 - **Header home link** takes its accessible name from the wordmark ("Aftertaste"), so the name matches the visible text (WCAG 2.5.3).
 - **Scroll-driven CSS is written in longhands**: the CSS minifier folds `animation-timeline` into the `animation` shorthand, which browsers reject.
 - **html-validate `valid-id` is relaxed**: Astro's heading slugs start with digits (`3-your-location`), which is valid HTML5.
+
+## 2026-11-12 — Domain moves to theaftertaste.app
+
+- **Canonical URL `https://theaftertaste.app`, contact `hello@theaftertaste.app`** (human decision). `.app` is HSTS-preloaded, so HTTPS only; `check:seo` now fails on any `http://` URL (XML namespaces excepted) or any site host other than `theaftertaste.app` / `www.theaftertaste.app`.
+- **www → apex via Cloudflare Bulk Redirects**, per Cloudflare's Pages guide; `_redirects` cannot match hostnames.
+- **`sync:legal` rewrites links to the old domain** onto the canonical URL and records the count (`siteLinksRewritten`). It does not rewrite the legal contact email: that is policy wording and must change in the app repo.

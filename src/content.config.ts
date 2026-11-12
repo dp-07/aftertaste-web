@@ -11,6 +11,8 @@ const legal = defineCollection({
     sourceCommit: z.string().regex(/^[0-9a-f]{40}$/),
     sourceUpdated: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
     sourceDirty: z.boolean().optional(),
+    /** Links to the old domain rewritten to the canonical URL by sync:legal. */
+    siteLinksRewritten: z.number().int().optional(),
     syncedAt: z.string(),
   }),
 });

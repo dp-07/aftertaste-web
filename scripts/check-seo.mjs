@@ -2,7 +2,7 @@
 // and description, a canonical URL, lang="en-IN" and an existing OG image.
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
-import { DIST, SITE, htmlFiles, pagePath, read, report, requireDist } from './lib.mjs';
+import { DIST, SITE, htmlFiles, pagePath, read, rel, report, requireDist, walkFiles } from './lib.mjs';
 
 requireDist();
 const problems = [];
@@ -51,4 +51,19 @@ for (const [t, paths] of titles) if (paths.length > 1) problems.push(`duplicate 
 for (const [d, paths] of descriptions)
   if (paths.length > 1) problems.push(`duplicate description on ${paths.join(', ')}: ${d.slice(0, 40)}…`);
 
-report('seo (sitemap, robots, titles, canonicals, OG)', problems);
+// HTTPS only (.app is an HSTS-preloaded TLD) and one canonical host. Not
+// links, so exempt: XML namespace identifiers (xmlns="http://…", exact strings
+// by spec) and the font licences in /fonts/, which are redistributed verbatim.
+const host = new URL(SITE).hostname;
+const scanned = walkFiles(DIST, (p) => /\.(html|xml|txt|webmanifest|json|css|js|svg)$|_headers$|_redirects$/.test(p));
+for (const file of scanned) {
+  const text = read(file).replace(/xmlns(?::[\w-]+)?=(["'])[^"']*\1/g, '');
+  if (!rel(file).startsWith('dist/fonts/')) {
+    for (const m of text.matchAll(/http:\/\/[^\s"'<>)]+/g)) problems.push(`${rel(file)}: insecure URL ${m[0]}`);
+  }
+  for (const m of text.matchAll(/(?:www\.)?theaftertaste\.[a-z]+/g)) {
+    if (m[0] !== host && m[0] !== `www.${host}`) problems.push(`${rel(file)}: non-canonical host ${m[0]}`);
+  }
+}
+
+report('seo (sitemap, robots, titles, canonicals, OG, https-only, canonical host)', problems);

@@ -43,21 +43,21 @@ const pages = {
     <div style="position:absolute;left:90px;top:136px;font-size:150px">${stacked}</div>
     <div style="position:absolute;left:96px;bottom:84px;font:40px Prata">Your personal food memory</div>
     <div style="position:absolute;right:100px;top:140px;width:290px;height:290px">${seal}</div>
-    <div style="position:absolute;right:96px;bottom:98px" class="mono">theaftertaste.in</div>`,
+    <div style="position:absolute;right:96px;bottom:98px" class="mono">theaftertaste.app</div>`,
   legal: `
     <div class="frame"></div>
     <div style="position:absolute;left:96px;top:92px;font-size:44px">${oneLine}</div>
     <div style="position:absolute;left:96px;top:226px" class="label">Legal</div>
     <div style="position:absolute;left:92px;top:262px;font:104px/1.05 Prata">Privacy &amp; terms</div>
     <div style="position:absolute;left:96px;bottom:92px;font:30px 'DM Sans';color:#6B6257">What the app collects, why, and how to delete it.</div>
-    <div style="position:absolute;right:96px;top:104px" class="mono">theaftertaste.in</div>`,
+    <div style="position:absolute;right:96px;top:104px" class="mono">theaftertaste.app</div>`,
   support: `
     <div class="frame"></div>
     <div style="position:absolute;left:96px;top:92px;font-size:44px">${oneLine}</div>
     <div style="position:absolute;left:96px;top:226px" class="label">Support</div>
     <div style="position:absolute;left:92px;top:262px;font:104px/1.05 Prata">How can I help?</div>
     <div style="position:absolute;left:96px;bottom:92px;font:30px 'DM Sans';color:#6B6257">Account deletion, sharing, location and exports.</div>
-    <div style="position:absolute;right:96px;top:104px" class="mono">theaftertaste.in</div>`,
+    <div style="position:absolute;right:96px;top:104px" class="mono">theaftertaste.app</div>`,
 };
 pages.default = pages.home;
 

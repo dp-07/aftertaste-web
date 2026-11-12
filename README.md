@@ -1,4 +1,4 @@
-# theaftertaste.in
+# theaftertaste.app
 
 The website for **Aftertaste**, a private food diary for Android: “Your personal food memory”.
 
@@ -56,11 +56,22 @@ Connect the GitHub repo in Cloudflare Pages with:
 
 No secrets or other environment variables are needed. Preview deployments of other branches get public `*.pages.dev` URLs.
 
-**Domain.** Add `theaftertaste.in` (apex, canonical) and `www.theaftertaste.in` as custom domains. `_redirects` cannot match hostnames, so add a Cloudflare **Redirect Rule** (free): when hostname equals `www.theaftertaste.in`, redirect to `https://theaftertaste.in${path}` with status 301, preserving the query string.
+**Domain.** `https://theaftertaste.app` is canonical (apex). `.app` is an HSTS-preloaded top-level domain, so browsers only ever reach it over HTTPS: the site never emits `http://` URLs (`npm run check:seo` fails on one), and everything in `src/config/site.ts`, `astro.config.mjs`, `robots.txt`, the sitemap, canonicals, Open Graph and JSON-LD derives from `https://theaftertaste.app`.
+
+1. In the Pages project, add `theaftertaste.app` as a custom domain.
+2. **`www.theaftertaste.app` → apex.** `_redirects` cannot match hostnames (Cloudflare lists domain-level redirects as unsupported there), so use **Bulk Redirects**, as in Cloudflare's “Redirecting www to domain” guide for Pages:
+   - Create a bulk redirect list with one entry: source `www.theaftertaste.app`, target `https://theaftertaste.app`, status `301`, with _Preserve query string_, _Subpath matching_, _Preserve path suffix_ and _Include subdomains_ enabled.
+   - Create a bulk redirect rule that uses the list.
+   - In DNS, add `A` record `www` → `192.0.2.1`, **Proxied** (a placeholder address; the redirect answers before it is used).
+   - Check with `curl --head -i https://www.theaftertaste.app/privacy`: expect `301` and `location: https://theaftertaste.app/privacy`.
 
 **Zone settings to keep off**, because they inject scripts or rewrite HTML and would break the CSP: Email Address Obfuscation (Scrape Shield), Rocket Loader, Web Analytics automatic setup, and any “JavaScript detections” challenge. Keep “Always Use HTTPS” on.
 
-**Headers and redirects** live in `public/_headers` (CSP, HSTS, `nosniff`, referrer and permissions policies, `frame-ancestors 'none'`, immutable caching for fingerprinted `/_astro/*` files) and `public/_redirects` (trailing slashes, friendly aliases such as `/delete-account`). HSTS is sent with `includeSubDomains; preload`; submitting the domain to hstspreload.org is a separate, deliberate step (it covers every subdomain and is slow to undo).
+**Headers and redirects** live in `public/_headers` (CSP, HSTS, `nosniff`, referrer and permissions policies, `frame-ancestors 'none'`, immutable caching for fingerprinted `/_astro/*` files) and `public/_redirects` (trailing slashes, friendly aliases such as `/delete-account`). HSTS is sent with `includeSubDomains; preload`. The whole `.app` TLD is already on the browsers' HSTS preload list, so there is nothing to submit.
+
+## Email
+
+The site's contact address is `hello@theaftertaste.app` (`src/config/site.ts` → `contactEmail`; used by “Get notified”, Support, the footer and the legal pages' draft banner). It must receive mail before launch: for example, turn on **Cloudflare Email Routing** for the zone (free; it adds the MX and SPF records) and forward `hello@` to a real inbox.
 
 ## Updating the legal pages
 
@@ -71,7 +82,7 @@ APP_REPO_PATH=/path/to/DishDiary npm run sync:legal
 npm run gates
 ```
 
-The script only reads the app repo. It writes `src/content/legal/privacy.md` and `terms.md` with frontmatter recording the source path, commit and date (shown on the page as “Last updated” and “Version”). Do not edit those files by hand.
+The script only reads the app repo. Links to the site's earlier domain are rewritten to `https://theaftertaste.app` (counted in the `siteLinksRewritten` frontmatter; fix them in the app repo too); the wording is never changed. It writes `src/content/legal/privacy.md` and `terms.md` with frontmatter recording the source path, commit and date (shown on the page as “Last updated” and “Version”). Do not edit those files by hand.
 
 While the source contains `[TODO: …]` markers, each one is shown on the page as a highlighted “To do” note under a “Draft” banner, and every build logs a `[legal-todo]` warning. The `<!-- draft-notes … -->` comment is never published. Heading anchors such as `{#delete-your-data}` are kept, so `/privacy#delete-your-data` is a stable link (Google Play asks for an account-deletion URL; `/support#delete-account` or `/delete-account` also work).
 
