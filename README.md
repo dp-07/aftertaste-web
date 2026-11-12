@@ -4,6 +4,17 @@ The website for **Aftertaste**, a private food diary for Android: “Your person
 
 A static [Astro](https://astro.build) site with plain CSS, deployed by Cloudflare Pages from `main`. No analytics, cookies or third-party requests: fonts and assets are self-hosted.
 
+## Run locally in 60 seconds
+
+```sh
+nvm use            # Node 22.23.4 (.nvmrc)
+npm ci
+npm run dev        # http://localhost:4321
+npm run gates      # before every commit
+```
+
+Full docs are in [docs/](docs/README.md): [rules](docs/RULES.md), [architecture](docs/ARCHITECTURE.md), [design](docs/DESIGN.md), [developer guide](docs/DEV-GUIDE.md), [tasks](docs/TASKS.md).
+
 | Page                 | Source                                                                                                 |
 | -------------------- | ------------------------------------------------------------------------------------------------------ |
 | `/`                  | `src/pages/index.astro` (sections in `src/components/landing/`)                                        |

@@ -1,8 +1,9 @@
 // Internal link checker for dist/: every href/src/srcset that points at this
 // site must resolve to a built file, and every #fragment to an element id.
-import { existsSync } from 'node:fs';
-import { join } from 'node:path';
-import { DIST, SITE, attrs, htmlFiles, pagePath, read, report, requireDist } from './lib.mjs';
+// Also checks relative links (and #anchors) in the Markdown docs.
+import { existsSync, readdirSync } from 'node:fs';
+import { dirname, join, resolve } from 'node:path';
+import { DIST, ROOT, SITE, attrs, htmlFiles, pagePath, read, rel, report, requireDist } from './lib.mjs';
 
 requireDist();
 const problems = [];
@@ -67,4 +68,42 @@ for (const file of files) {
   }
 }
 
-report(`links (${files.length} pages)`, problems);
+// Markdown docs: relative links must point at files that exist, and #anchors
+// at headings (GitHub-style slugs). External links are not checked.
+const slug = (h) =>
+  h
+    .toLowerCase()
+    .replace(/[`*_]/g, '')
+    .replace(/[^\p{L}\p{N}\s-]/gu, '')
+    .trim()
+    .replace(/\s/g, '-');
+const mdIds = (file) =>
+  new Set(
+    read(file)
+      .replace(/```[\s\S]*?```/g, '')
+      .split('\n')
+      .filter((l) => /^#{1,6}\s/.test(l))
+      .map((l) => slug(l.replace(/^#+\s+/, ''))),
+  );
+const docs = [
+  join(ROOT, 'README.md'),
+  join(ROOT, 'CLAUDE.md'),
+  ...readdirSync(join(ROOT, 'docs'))
+    .filter((f) => f.endsWith('.md'))
+    .map((f) => join(ROOT, 'docs', f)),
+].filter(existsSync);
+for (const file of docs) {
+  const text = read(file).replace(/```[\s\S]*?```/g, '');
+  for (const m of text.matchAll(/\]\(([^)\s]+)\)/g)) {
+    const [target, hash] = m[1].split('#');
+    if (/^[a-z][a-z0-9+.-]*:/i.test(target)) continue;
+    const dest = target ? resolve(dirname(file), target) : file;
+    if (!existsSync(dest)) {
+      problems.push(`${rel(file)}: broken link ${m[1]}`);
+    } else if (hash && dest.endsWith('.md') && !mdIds(dest).has(hash)) {
+      problems.push(`${rel(file)}: missing anchor ${m[1]}`);
+    }
+  }
+}
+
+report(`links (${files.length} pages, ${docs.length} docs)`, problems);
