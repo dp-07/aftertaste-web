@@ -8,7 +8,7 @@
 | Legal, support, 404, sync:legal                                                                                                 | done                                |
 | SEO, icons, OG, manifest, JSON-LD, headers, redirects                                                                           | done                                |
 | Quality pass (screens, axe, Lighthouse, contrast)                                                                               | done                                |
-| Docs (README, CLAUDE.md, project-state)                                                                                         | done                                |
+| Docs (README, CLAUDE.md, project-state, `docs/`)                                                                                | done                                |
 | Real app screenshot                                                                                                             | placeholder (human)                 |
 | Google Play listing link + official badge                                                                                       | pending (human)                     |
 | assetlinks.json                                                                                                                 | pending (needs signing fingerprint) |
