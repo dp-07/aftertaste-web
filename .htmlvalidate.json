@@ -8,6 +8,17 @@
     "attribute-empty-style": "off",
     "no-inline-style": "error",
     "require-sri": "off",
-    "long-title": ["error", { "maxlength": 70 }]
+    "long-title": [
+      "error",
+      {
+        "maxlength": 70
+      }
+    ],
+    "valid-id": [
+      "error",
+      {
+        "relaxed": true
+      }
+    ]
   }
 }

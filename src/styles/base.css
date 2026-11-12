@@ -308,3 +308,27 @@ a {
 main:focus {
   outline: none;
 }
+
+/* ── Print: ink on white, no site chrome ────────────────────────────── */
+@media print {
+  :root {
+    color-scheme: light;
+  }
+
+  body {
+    background: #fff;
+  }
+
+  .skip-link,
+  .site-header nav,
+  .theme-toggle,
+  .site-footer .links {
+    display: none !important;
+  }
+
+  .site-footer {
+    margin-block-start: 2rem;
+    padding-block: 1rem 0;
+    background: none;
+  }
+}

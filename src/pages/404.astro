@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Loader from '../components/brand/Loader.astro';
+import Button from '../components/ui/Button.astro';
+import InkLink from '../components/ui/InkLink.astro';
+---
+
+<BaseLayout
+  title="Page not found"
+  description="This page is not on the menu. Head back to the Aftertaste home page."
+  noindex
+>
+  <section class="wrap">
+    <div class="lost">
+      <Loader class="lost-loader" />
+      <p class="t-label code">404</p>
+      <h1 class="t-display">This page isn’t on the menu.</h1>
+      <p class="muted">The link may be old, or the address has a typo. Everything else is where you left it.</p>
+      <div class="actions">
+        <Button href="/" icon="arrow-left">
+          Back to the home page
+        </Button>
+        <InkLink href="/support">Get help</InkLink>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .lost {
+    display: grid;
+    justify-items: start;
+    gap: var(--s-20);
+    max-inline-size: 44rem;
+    padding-block: clamp(3rem, 2rem + 6vw, 8rem) 0;
+  }
+
+  .lost :global(.lost-loader) {
+    inline-size: 120px;
+    block-size: 120px;
+    margin-inline-start: -10px;
+  }
+
+  .code {
+    color: var(--primary);
+    font-family: var(--font-mono);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--s-24);
+    margin-block-start: var(--s-12);
+  }
+</style>
