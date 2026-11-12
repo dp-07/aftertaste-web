@@ -1,0 +1,279 @@
+---
+/**
+ * Support: contact plus the four questions people ask most. Every answer
+ * restates the privacy policy (sections noted) and links to it.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/ui/Icon.astro';
+import InkLink from '../components/ui/InkLink.astro';
+import { mailto, site } from '../config/site';
+
+const topics = [
+  { id: 'delete-account', title: 'Deleting your account' },
+  { id: 'what-friends-see', title: 'What friends can see' },
+  { id: 'location', title: 'How location is used' },
+  { id: 'export', title: 'Exporting your data' },
+];
+---
+
+<BaseLayout
+  title="Support"
+  description="Get help with Aftertaste: delete your account, see what friends can see, how location is used, and export your data."
+  og="support"
+>
+  <div class="wrap support">
+    <header class="head">
+      <p class="t-label kicker">Support</p>
+      <h1 class="t-display">How can I help?</h1>
+      <p class="t-lede muted">
+        Aftertaste is made by one person. Write to me about anything: a bug, a question, an idea.
+      </p>
+    </header>
+
+    <section class="contact" aria-labelledby="contact-title">
+      <h2 id="contact-title" class="t-label muted">
+        Email
+      </h2>
+      <a class="email" href={mailto('Aftertaste support')}>
+        <Icon name="mail" size={22} />
+        <span>{site.contactEmail}</span>
+      </a>
+      <p class="t-body-sm muted">
+        For anything about your account, write from the Google address you sign in with, so I can find it.
+      </p>
+    </section>
+
+    <div class="layout">
+      <nav class="topics" aria-labelledby="topics-title">
+        <p id="topics-title" class="t-label muted">
+          Common questions
+        </p>
+        <ol>
+          {topics.map((t) => (
+            <li>
+              <a href={`#${t.id}`}>{t.title}</a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+
+      <div class="answers">
+        <section id="delete-account" aria-labelledby="delete-account-title">
+          <h2 id="delete-account-title" class="t-title">
+            Deleting your account
+          </h2>
+          <p>
+            In the app, go to <strong>Profile, Settings, Delete account</strong>. Aftertaste shows how many places,
+            visits and dishes will be deleted, then makes an export for you to save or share first. If the export fails
+            you can retry, or delete without it.
+          </p>
+          <p>
+            Deleting removes your account, diary, Want to try list, photos and profile picture. It cannot be undone.
+          </p>
+          <p>
+            Can’t open the app? Email{' '}
+            <InkLink href={mailto('Delete my Aftertaste account')}>{site.contactEmail}</InkLink> from the address you
+            sign in with and I will delete the account for you.
+          </p>
+          <p class="source">
+            <InkLink href="/privacy#delete-your-data">Privacy policy, section 8</InkLink>
+          </p>
+        </section>
+
+        <section id="what-friends-see" aria-labelledby="what-friends-see-title">
+          <h2 id="what-friends-see-title" class="t-title">
+            What friends can see
+          </h2>
+          <p>
+            Nothing, unless you choose to share. Your diary is visible only to you until you switch on “share my diary”
+            in Profile. While it is on, other signed-in Aftertaste users, not only people you know, can see:
+          </p>
+          <ul>
+            <li>your name and profile picture;</li>
+            <li>
+              the places you added (name, category, city, address, position on the map, cover photo) and your
+              “recommended” answer;
+            </li>
+            <li>the dates and overall ratings of your visits;</li>
+            <li>your dishes: name, photos, taste and value ratings, price, tags and veg / non-veg / vegan type.</li>
+          </ul>
+          <p>
+            <strong>Always private, even when sharing is on:</strong> your visit and dish notes, your “would go again”
+            answer, your favourites, your Want to try list, your email address and your settings.
+          </p>
+          <p>Switching sharing off removes your diary from other people’s views. Nobody can ever add to your diary.</p>
+          <p class="source">
+            <InkLink href="/privacy#7-discoverable-diaries-what-other-people-can-see">
+              Privacy policy, section 7
+            </InkLink>
+          </p>
+        </section>
+
+        <section id="location" aria-labelledby="location-title">
+          <h2 id="location-title" class="t-title">
+            How location is used
+          </h2>
+          <p>
+            Aftertaste asks for location only while the app is in use, and only the first time you search for a place.
+            It never asks for background location.
+          </p>
+          <ul>
+            <li>It puts places near you first in search results and shows distances.</li>
+            <li>
+              Your position is held in the app’s memory. It is not saved in our database and not written to our logs.
+            </li>
+            <li>To rank results, it is sent to our search service, which passes it to Google Places.</li>
+            <li>If you say no, search still works. You can change your mind any time in your phone’s settings.</li>
+          </ul>
+          <p class="source">
+            <InkLink href="/privacy#3-your-location">Privacy policy, section 3</InkLink>
+          </p>
+        </section>
+
+        <section id="export" aria-labelledby="export-title">
+          <h2 id="export-title" class="t-title">
+            Exporting your data
+          </h2>
+          <p>
+            In the app, go to <strong>Profile, Settings, Export my data</strong>. Aftertaste builds a zip file on your
+            phone with your data (as JSON and as a readable HTML page) and all your photos, then opens the share sheet
+            so you can save it wherever you like. We never receive a copy.
+          </p>
+          <p class="source">
+            <InkLink href="/privacy#delete-your-data">Privacy policy, section 8</InkLink>
+          </p>
+        </section>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .support {
+    padding-block-start: clamp(2rem, 1rem + 4vw, 4.5rem);
+  }
+
+  .head {
+    display: grid;
+    gap: var(--s-16);
+    max-inline-size: 44rem;
+  }
+
+  .kicker {
+    color: var(--primary-ink);
+  }
+
+  .contact {
+    display: grid;
+    justify-items: start;
+    gap: var(--s-12);
+    margin-block: var(--space-block);
+    padding: var(--s-24);
+    border-radius: var(--r-lg);
+    background: var(--surface);
+    box-shadow: var(--elevation);
+    max-inline-size: 44rem;
+  }
+
+  .email {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-12);
+    min-block-size: var(--touch);
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 1rem + 1.4vw, 2rem);
+    color: var(--text);
+    text-decoration-line: underline;
+    text-decoration-color: var(--primary);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.2em;
+    overflow-wrap: anywhere;
+  }
+
+  .email:hover {
+    color: var(--primary-ink);
+  }
+
+  .email :global(.icon) {
+    flex: none;
+    color: var(--primary);
+  }
+
+  .layout {
+    display: grid;
+    gap: var(--space-block);
+    padding-block-start: var(--space-block);
+    border-block-start: 1px solid var(--line-strong);
+  }
+
+  .topics ol {
+    display: grid;
+    gap: 2px;
+    margin: var(--s-12) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .topics a {
+    display: block;
+    padding-block: 6px;
+    color: var(--muted);
+    font-size: var(--fs-body-sm);
+    text-decoration: none;
+  }
+
+  .topics a:hover {
+    color: var(--primary-ink);
+  }
+
+  .answers {
+    display: grid;
+    gap: var(--space-block);
+    max-inline-size: 44rem;
+  }
+
+  .answers section {
+    display: grid;
+    gap: var(--s-16);
+    scroll-margin-block-start: var(--s-24);
+  }
+
+  .answers p,
+  .answers li {
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  .answers strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .answers ul {
+    display: grid;
+    gap: var(--s-8);
+    margin: 0;
+    padding-inline-start: 1.25rem;
+  }
+
+  .answers li::marker {
+    color: var(--primary);
+  }
+
+  .source {
+    font-size: var(--fs-body-sm);
+  }
+
+  @media (width >= 64rem) {
+    .layout {
+      grid-template-columns: 15rem minmax(0, 44rem);
+      column-gap: clamp(3rem, 6vw, 7rem);
+    }
+
+    .topics {
+      position: sticky;
+      inset-block-start: var(--s-24);
+      align-self: start;
+    }
+  }
+</style>

@@ -1,0 +1,114 @@
+---
+/**
+ * The app's DishCard (SPEC): 88 px photo, name, taste and value as 5-dot
+ * meters, mono price, dietary mark, and the MUST-TRY stamp in the price row.
+ */
+import Stamp from '../brand/Stamp.astro';
+import DietaryMark from '../ui/DietaryMark.astro';
+import Thumb from './Thumb.astro';
+
+interface Props {
+  name: string;
+  taste: number;
+  value: number;
+  price: string;
+  diet: 'veg' | 'nonVeg';
+  mustTry?: boolean;
+  kind?: 'mushroom' | 'sprout' | 'noodle' | 'cinnamon';
+}
+const { name, taste, value, price, diet, mustTry = false, kind = 'noodle' } = Astro.props;
+const meters = [
+  { label: 'Taste', n: taste },
+  { label: 'Value', n: value },
+];
+---
+
+<article class="dish-card">
+  <Thumb kind={kind} class="dish-photo" />
+  <div class="body">
+    <h3 class="t-card-title">{name}</h3>
+    <dl class="meters">
+      {meters.map((m) => (
+        <div class="meter">
+          <dt class="t-label">{m.label}</dt>
+          <dd>
+            <span class="dots" aria-hidden="true">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <span class:list={['dot', { on: i <= m.n }]} />
+              ))}
+            </span>
+            <span class="visually-hidden">{m.n} out of 5</span>
+          </dd>
+        </div>
+      ))}
+    </dl>
+    <div class="price-row">
+      <span class="t-mono">{price}</span>
+      <span class="marks">
+        {mustTry && <Stamp variant="mustTry" size="sm" />}
+        <DietaryMark kind={diet} />
+      </span>
+    </div>
+  </div>
+</article>
+
+<style>
+  .dish-card {
+    display: flex;
+    gap: var(--s-12);
+    padding: var(--s-12);
+    border-radius: var(--r-lg);
+    background: var(--surface);
+    box-shadow: var(--elevation);
+  }
+  .dish-card :global(.dish-photo) {
+    inline-size: 88px;
+    block-size: 88px;
+  }
+  .body {
+    display: grid;
+    gap: var(--s-8);
+    flex: 1;
+    min-inline-size: 0;
+  }
+  .meters {
+    display: grid;
+    gap: 4px;
+  }
+  .meter {
+    display: flex;
+    align-items: center;
+    gap: var(--s-12);
+  }
+  dt {
+    inline-size: 3.5rem;
+    color: var(--muted);
+  }
+  dd {
+    margin: 0;
+  }
+  .dots {
+    display: inline-flex;
+    gap: 5px;
+  }
+  .dot {
+    inline-size: 9px;
+    block-size: 9px;
+    border-radius: 50%;
+    background: var(--line-strong);
+  }
+  .dot.on {
+    background: var(--primary);
+  }
+  .price-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-8);
+  }
+  .marks {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-12);
+  }
+</style>

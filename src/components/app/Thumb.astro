@@ -1,0 +1,40 @@
+---
+/** A photo slot stand-in: a tinted panel with one food glyph (see FoodMark). */
+import FoodMark from '../brand/FoodMark.astro';
+
+interface Props {
+  kind: 'mushroom' | 'sprout' | 'noodle' | 'cinnamon';
+  class?: string;
+}
+const { kind, class: className } = Astro.props;
+---
+
+<span class:list={['thumb', `thumb--${kind}`, className]}>
+  <FoodMark kind={kind} />
+</span>
+
+<style>
+  .thumb {
+    display: grid;
+    place-items: center;
+    flex: none;
+    overflow: hidden;
+    border-radius: var(--r-md);
+  }
+  .thumb :global(.food) {
+    inline-size: 62%;
+    block-size: 62%;
+  }
+  .thumb--mushroom {
+    background: var(--primary-soft);
+  }
+  .thumb--sprout {
+    background: var(--herb-soft);
+  }
+  .thumb--noodle {
+    background: color-mix(in srgb, var(--mustard) 22%, var(--surface));
+  }
+  .thumb--cinnamon {
+    background: color-mix(in srgb, var(--brown) 20%, var(--surface));
+  }
+</style>

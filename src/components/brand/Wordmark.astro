@@ -1,0 +1,49 @@
+---
+/**
+ * The Aftertaste wordmark (brand pack README §3): Prata letters with the four
+ * food glyphs, sized from the font size, so set `font-size` on it.
+ *
+ *   oneLine  af[t]e[r]ta[s]t[e]
+ *   stacked  af[t]e[r] / ta[s]t[e]   left-aligned, line pitch 1.0 em
+ *
+ * `simple` switches to the pack's small-size glyphs; use it at 32 px and below.
+ * `animate` plays the hero assembly once on load (letters settle onto the
+ * baseline, then the mushroom t and sprout r grow in). CSS only; with reduced
+ * motion the wordmark is simply there.
+ */
+import Glyph from './Glyph.astro';
+
+interface Props {
+  variant?: 'oneLine' | 'stacked';
+  simple?: boolean;
+  animate?: boolean;
+  /** Accessible name; pass an empty string when a visible name sits beside it. */
+  label?: string;
+  class?: string;
+}
+
+const { variant = 'oneLine', simple = false, animate = false, label = 'Aftertaste', class: className } = Astro.props;
+const decorative = label === '';
+---
+
+<span
+  class:list={['wordmark', `wordmark--${variant}`, { 'wordmark--animate': animate }, className]}
+  role={decorative ? undefined : 'img'}
+  aria-label={decorative ? undefined : label}
+  aria-hidden={decorative ? 'true' : undefined}
+>
+  <span class="wm-line">
+    <span class="wm-c">a</span>
+    <span class="wm-c">f</span>
+    <Glyph letter="t" simple={simple} class="wm-c wm-grow" />
+    <span class="wm-c">e</span>
+    <Glyph letter="r" simple={simple} class="wm-c wm-grow" />
+  </span>
+  <span class="wm-line">
+    <span class="wm-c">t</span>
+    <span class="wm-c">a</span>
+    <Glyph letter="s" simple={simple} class="wm-c" />
+    <span class="wm-c">t</span>
+    <Glyph letter="e" simple={simple} class="wm-c" />
+  </span>
+</span>

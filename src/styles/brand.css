@@ -1,0 +1,298 @@
+/*
+ * Brand objects shared by several components: food glyphs, the wordmark and
+ * its assembly, the seal and the food-cycle loader. Timings come from
+ * brand.json `motion` and the app's motion tokens (see tokens.css).
+ */
+
+/* ── Food glyph parts ───────────────────────────────────────────────── */
+
+.glyph,
+.loader,
+.seal {
+  overflow: visible;
+}
+
+.glyph path,
+.loader path {
+  fill: none;
+  stroke-linecap: round;
+}
+
+.g-outline {
+  stroke: var(--g-outline);
+}
+.g-stem {
+  stroke: var(--g-stem);
+}
+.glyph .g-cap,
+.loader .g-cap {
+  fill: var(--g-cap);
+}
+.g-spot {
+  fill: var(--g-spot);
+}
+.g-sprout {
+  stroke: var(--g-sprout);
+}
+.glyph .g-leaf,
+.loader .g-leaf {
+  fill: var(--g-leaf);
+}
+.loader .g-leaf-alt {
+  fill: var(--g-leaf-alt);
+}
+.g-noodle {
+  stroke: var(--g-noodle);
+}
+.g-noodle-shadow {
+  stroke: var(--g-noodle-shadow);
+}
+.g-noodle-simple {
+  stroke: var(--g-noodle-simple);
+}
+.g-dough {
+  stroke: var(--g-dough);
+}
+.g-icing {
+  stroke: var(--g-icing);
+}
+
+/* ── Wordmark ───────────────────────────────────────────────────────── */
+
+.wordmark {
+  display: inline-flex;
+  align-items: baseline;
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+/* Flex lines: whitespace between letters never renders, and each glyph's
+   bottom edge (its synthesized baseline) sits on the text baseline. */
+.wm-line {
+  display: inline-flex;
+  align-items: baseline;
+}
+
+.wordmark--stacked {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.wordmark--stacked .wm-line {
+  block-size: 1em;
+}
+
+.wm-c {
+  display: inline-block;
+}
+
+/* Glyph box bottom on the text baseline (brand.json wordmark.baseline). */
+.glyph {
+  display: inline-block;
+  block-size: 0.865em;
+  vertical-align: baseline;
+}
+.glyph-t {
+  inline-size: 0.576em;
+}
+.glyph-r {
+  inline-size: 0.5em;
+}
+.glyph-s {
+  inline-size: 0.48em;
+}
+.glyph-e {
+  inline-size: 0.614em;
+}
+
+/* Assembly: letters drop onto the baseline one by one (app stagger, 40 ms),
+   then the mushroom stem grows and its cap pops, then the sprout. */
+@media (prefers-reduced-motion: no-preference) {
+  .wordmark--animate .wm-c:not(.wm-grow) {
+    animation: wm-settle 620ms var(--ease-enter) both;
+    animation-delay: calc(80ms + var(--i, 0) * var(--stagger));
+  }
+
+  .wordmark--animate .wm-line:first-child > :nth-child(2) {
+    --i: 1;
+  }
+  .wordmark--animate .wm-line:first-child > :nth-child(4) {
+    --i: 2;
+  }
+  .wordmark--animate .wm-line:last-child > :nth-child(1) {
+    --i: 3;
+  }
+  .wordmark--animate .wm-line:last-child > :nth-child(2) {
+    --i: 4;
+  }
+  .wordmark--animate .wm-line:last-child > :nth-child(3) {
+    --i: 5;
+  }
+  .wordmark--animate .wm-line:last-child > :nth-child(4) {
+    --i: 6;
+  }
+  .wordmark--animate .wm-line:last-child > :nth-child(5) {
+    --i: 7;
+  }
+
+  .wordmark--animate .g-t-stem,
+  .wordmark--animate .g-r-stem {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    animation: grow-y 380ms var(--ease-out) both;
+    animation-delay: 560ms;
+  }
+
+  .wordmark--animate .g-t-cap {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    animation: cap-pop 440ms var(--ease-press) both;
+    animation-delay: 840ms;
+  }
+
+  .wordmark--animate .g-r-stem {
+    animation-delay: 720ms;
+  }
+
+  .wordmark--animate .g-r-leaf {
+    transform-box: fill-box;
+    transform-origin: 0% 100%;
+    animation: leaf-unfurl 460ms var(--ease-press) both;
+    animation-delay: 1000ms;
+  }
+}
+
+@keyframes wm-settle {
+  from {
+    opacity: 0;
+    transform: translateY(-0.2em);
+  }
+  55% {
+    opacity: 1;
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes grow-y {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+@keyframes cap-pop {
+  from {
+    opacity: 0;
+    transform: translateY(0.6em) scale(0.3);
+  }
+  30% {
+    opacity: 1;
+  }
+}
+
+@keyframes leaf-unfurl {
+  from {
+    opacity: 0;
+    transform: scale(0) rotate(-40deg);
+  }
+  30% {
+    opacity: 1;
+  }
+}
+
+/* ── Seal ───────────────────────────────────────────────────────────── */
+
+.seal .seal-ink-stroke {
+  fill: none;
+  stroke: var(--primary);
+}
+.seal .seal-ink {
+  fill: var(--primary);
+}
+.seal .seal-stem {
+  fill: var(--g-stem);
+  stroke: var(--seal-stem-stroke);
+}
+.seal .seal-spot {
+  fill: var(--seal-spot);
+}
+
+/* ── Food-cycle loader ──────────────────────────────────────────────── */
+
+.loader .ld-track {
+  fill: none;
+  stroke: var(--primary);
+  opacity: 0.18;
+}
+.loader .ld-ring {
+  fill: none;
+  stroke: var(--primary);
+  transform-origin: 50% 50%;
+}
+.loader .ld-stem {
+  fill: var(--g-stem);
+  stroke: var(--g-outline);
+}
+.loader .ld-glyph {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+}
+/* Static state (and reduced motion): mushroom in the ring. */
+.loader .ld-mushroom {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .loader .ld-ring {
+    animation: ld-spin 8s linear infinite;
+  }
+  .loader .ld-glyph {
+    animation: ld-cycle 3.2s linear infinite both;
+  }
+  .loader .ld-sprout {
+    animation-delay: 0.8s;
+  }
+  .loader .ld-noodle {
+    animation-delay: 1.6s;
+  }
+  .loader .ld-cinnamon {
+    animation-delay: 2.4s;
+  }
+}
+
+@keyframes ld-spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+/* One glyph's 0.8 s slot in the 3.2 s loop: enter 160 ms, hold 512 ms, exit 128 ms. */
+@keyframes ld-cycle {
+  0% {
+    opacity: 0;
+    transform: translateY(6px) scale(0.7);
+    animation-timing-function: var(--ease-enter);
+  }
+  5% {
+    opacity: 1;
+    transform: none;
+  }
+  21% {
+    opacity: 1;
+    transform: none;
+    animation-timing-function: var(--ease-standard);
+  }
+  25% {
+    opacity: 0;
+    transform: translateY(-5px) scale(0.85);
+  }
+  100% {
+    opacity: 0;
+  }
+}

@@ -1,0 +1,36 @@
+---
+/**
+ * The diary seal with the mushroom (brand pack logo/mark/seal-primary.svg and
+ * seal-dark.svg, viewBox 0 0 100 100). Colours follow the theme. Decorative
+ * unless `label` is given. Size it with CSS (width/height).
+ */
+interface Props {
+  label?: string;
+  class?: string;
+}
+
+const { label, class: className } = Astro.props;
+---
+
+<svg
+  class:list={['seal', className]}
+  viewBox="0 0 100 100"
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+  focusable="false"
+>
+  <circle class="seal-ink-stroke" cx="50" cy="50" r="40" stroke-width="4"></circle>
+  <circle class="seal-ink-stroke" cx="50" cy="50" r="33.5" stroke-width="1.6"></circle>
+  <circle class="seal-ink" cx="50" cy="13.3" r="1.4"></circle>
+  <circle class="seal-ink" cx="50" cy="86.7" r="1.4"></circle>
+  <circle class="seal-ink" cx="13.3" cy="50" r="1.4"></circle>
+  <circle class="seal-ink" cx="86.7" cy="50" r="1.4"></circle>
+  <g transform="translate(0 -3)">
+    <path class="seal-stem" d="M44 55 H56 L57.5 71 Q50 76 42.5 71 Z" stroke-width="2.5" stroke-linejoin="round"></path>
+    <path class="seal-ink" d="M29 52 C29 30 71 30 71 52 Q71 56 67 56 H33 Q29 56 29 52 Z"></path>
+    <circle class="seal-spot" cx="40" cy="44" r="3"></circle>
+    <circle class="seal-spot" cx="53" cy="38" r="2.6"></circle>
+    <circle class="seal-spot" cx="62" cy="46" r="2.6"></circle>
+  </g>
+</svg>

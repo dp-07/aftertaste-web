@@ -1,0 +1,91 @@
+---
+/**
+ * An editorial spread: running head (number + label) on a hairline, then a
+ * Prata headline and copy beside a visual on an asymmetric 12-column grid.
+ * `flip` puts the visual first on wide screens.
+ */
+interface Props {
+  id: string;
+  num: string;
+  label: string;
+  title: string;
+  flip?: boolean;
+  class?: string;
+}
+const { id, num, label, title, flip = false, class: className } = Astro.props;
+---
+
+<section
+  id={id}
+  class:list={['spread', 'defer-render', { 'spread--flip': flip }, className]}
+  aria-labelledby={`${id}-title`}
+>
+  <div class="wrap">
+    <p class="running-head t-label">
+      <span class="num">{num}</span>
+      {label}
+    </p>
+    <div class="grid-12 body">
+      <div class="copy">
+        <h2 id={`${id}-title`} class="t-display">
+          {title}
+        </h2>
+        <slot />
+      </div>
+      <div class="visual">
+        <slot name="visual" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .spread {
+    padding-block-start: var(--space-section);
+    scroll-margin-block-start: var(--s-16);
+  }
+
+  .body {
+    row-gap: var(--space-block);
+    margin-block-start: var(--space-block);
+    align-items: center;
+  }
+
+  .copy {
+    display: grid;
+    gap: var(--s-20);
+    max-inline-size: var(--measure);
+  }
+
+  .copy :global(p) {
+    color: var(--muted);
+  }
+
+  .copy :global(p.lead) {
+    color: var(--text);
+    font-size: var(--fs-lede);
+    line-height: 1.45;
+  }
+
+  .visual {
+    container-type: inline-size;
+    min-inline-size: 0;
+  }
+
+  @media (width >= 64rem) {
+    .copy {
+      grid-column: 1 / span 5;
+    }
+    .visual {
+      grid-column: 7 / -1;
+    }
+    .spread--flip .copy {
+      grid-column: 8 / -1;
+      grid-row: 1;
+    }
+    .spread--flip .visual {
+      grid-column: 1 / span 6;
+      grid-row: 1;
+    }
+  }
+</style>

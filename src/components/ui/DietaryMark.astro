@@ -1,0 +1,39 @@
+---
+/**
+ * The app's dietary mark (SPEC DietaryMark): a square outline with a dot
+ * (veg, herb) or a triangle (non-veg, brown).
+ */
+interface Props {
+  kind: 'veg' | 'nonVeg';
+}
+const { kind } = Astro.props;
+const label = kind === 'veg' ? 'Vegetarian' : 'Non-vegetarian';
+---
+
+<svg class:list={['diet', `diet--${kind}`]} viewBox="0 0 16 16" role="img" aria-label={label} focusable="false">
+  <rect x="1" y="1" width="14" height="14" rx="2.5" stroke-width="1.5"></rect>
+  {kind === 'veg' ? <circle cx="8" cy="8" r="3.5" /> : <path d="M8 4.2 L11.8 11 H4.2 Z" />}
+</svg>
+
+<style>
+  .diet {
+    inline-size: 16px;
+    block-size: 16px;
+    flex: none;
+  }
+  rect {
+    fill: none;
+  }
+  .diet--veg rect {
+    stroke: var(--herb);
+  }
+  .diet--veg circle {
+    fill: var(--herb);
+  }
+  .diet--nonVeg rect {
+    stroke: var(--brown);
+  }
+  .diet--nonVeg path {
+    fill: var(--brown);
+  }
+</style>

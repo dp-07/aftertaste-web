@@ -1,0 +1,74 @@
+---
+/**
+ * Light / Dark / System, as the app's SegmentedControl. The theme script
+ * (src/scripts/theme.js, inline in <head>) owns the state: it sets
+ * aria-pressed and handles clicks through one delegated listener, so this
+ * component ships no JS of its own. Hidden when scripts do not run.
+ */
+import Icon from './Icon.astro';
+
+const options = [
+  { value: 'light', label: 'Light', icon: 'sun' },
+  { value: 'dark', label: 'Dark', icon: 'moon' },
+  { value: 'system', label: 'System', icon: 'monitor' },
+] as const;
+---
+
+<div class="theme-toggle" role="group" aria-label="Colour theme">
+  {options.map((o) => (
+    <button
+      type="button"
+      data-theme-set={o.value}
+      aria-pressed={o.value === 'system' ? 'true' : 'false'}
+      title={`${o.label} theme`}
+    >
+      <Icon name={o.icon} size={16} />
+      <span class="visually-hidden">{o.label} theme</span>
+    </button>
+  ))}
+</div>
+
+<style>
+  .theme-toggle {
+    display: inline-flex;
+    padding: 2px;
+    border: 1px solid var(--line);
+    border-radius: var(--r-pill);
+    background: var(--surface);
+  }
+
+  :global(html:not(.js)) .theme-toggle {
+    display: none;
+  }
+
+  button {
+    display: grid;
+    place-items: center;
+    inline-size: 40px;
+    block-size: 40px;
+    padding: 0;
+    border: 0;
+    border-radius: var(--r-pill);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition:
+      background-color var(--dur-base) var(--ease-out),
+      color var(--dur-base) var(--ease-out),
+      transform var(--dur-fast) var(--ease-out);
+  }
+
+  button:hover {
+    color: var(--text);
+  }
+
+  button:active {
+    transform: scale(var(--press-scale));
+  }
+
+  button[aria-pressed='true'] {
+    background: var(--raised);
+    color: var(--primary);
+    box-shadow: var(--elevation);
+  }
+</style>

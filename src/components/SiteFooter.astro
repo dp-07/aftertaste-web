@@ -1,0 +1,103 @@
+---
+import { mailto, site } from '../config/site';
+import Wordmark from './brand/Wordmark.astro';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="wrap inner">
+    <div class="brand">
+      <Wordmark variant="stacked" class="mark" />
+      <p class="tagline">{site.tagline}</p>
+    </div>
+    <nav aria-label="Footer" class="links">
+      <ul>
+        <li>
+          <a class="ink-link" href="/privacy">
+            Privacy policy
+          </a>
+        </li>
+        <li>
+          <a class="ink-link" href="/terms">
+            Terms of use
+          </a>
+        </li>
+        <li>
+          <a class="ink-link" href="/support">
+            Support
+          </a>
+        </li>
+        <li>
+          <a class="ink-link" href={mailto()}>
+            {site.contactEmail}
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <p class="colophon t-mono">
+      <span>Made in India by {site.ownerFirstName}</span>
+      <span>
+        © {year} {site.owner}
+      </span>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-block-start: var(--space-section);
+    padding-block: var(--space-block) var(--s-40);
+    border-block-start: 1px solid var(--line);
+    background: var(--surface);
+  }
+
+  .inner {
+    display: grid;
+    gap: var(--s-40);
+  }
+
+  .brand :global(.mark) {
+    font-size: clamp(2.75rem, 2rem + 3vw, 4.5rem);
+  }
+
+  .tagline {
+    margin-block-start: var(--s-16);
+    color: var(--muted);
+  }
+
+  .links ul {
+    display: grid;
+    gap: var(--s-8);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .links a {
+    display: inline-block;
+    padding-block: var(--s-4);
+    overflow-wrap: anywhere;
+  }
+
+  .colophon {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--s-8) var(--s-24);
+    padding-block-start: var(--s-20);
+    border-block-start: 1px solid var(--line);
+    color: var(--muted);
+  }
+
+  @media (width >= 48rem) {
+    .inner {
+      grid-template-columns: 1fr auto;
+      align-items: end;
+    }
+
+    .colophon {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

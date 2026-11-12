@@ -1,0 +1,126 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/landing/Hero.astro';
+import HowItWorks from '../components/landing/HowItWorks.astro';
+import Spread from '../components/landing/Spread.astro';
+import DecisionDemo from '../components/landing/DecisionDemo.astro';
+import ReceiptFeature from '../components/landing/ReceiptFeature.astro';
+import Privacy from '../components/landing/Privacy.astro';
+import Faq from '../components/landing/Faq.astro';
+import WishlistRow from '../components/app/WishlistRow.astro';
+import PlaceList from '../components/app/PlaceList.astro';
+import FriendRow from '../components/app/FriendRow.astro';
+import { site } from '../config/site';
+
+const logo = new URL('/icons/icon-512.png', site.url).href;
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: site.name,
+    url: site.url,
+    logo,
+    email: site.contactEmail,
+    founder: { '@type': 'Person', name: site.owner },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'MobileApplication',
+    name: site.name,
+    description: site.description,
+    url: site.url,
+    image: logo,
+    operatingSystem: 'Android',
+    applicationCategory: 'LifestyleApplication',
+    isAccessibleForFree: true,
+    inLanguage: 'en-IN',
+    author: { '@type': 'Person', name: site.owner },
+  },
+];
+---
+
+<BaseLayout description={site.description} og="home" jsonLd={jsonLd}>
+  <Hero />
+  <HowItWorks />
+
+  <Spread id="want-to-try" num="02" label="Want to try" title="A list for the places you keep hearing about." flip>
+    <p class="lead">Save a place from search or a friend’s diary. When you finally go, it moves to Tried.</p>
+    <p>
+      Your Want to try list is yours alone. It never shows up in anyone else’s view, even when your diary is shared.
+    </p>
+    <ul class="rows" slot="visual" aria-label="Example Want to try list">
+      <WishlistRow name="Saffron & Salt" meta="Restaurant · 2.1 km" source="Saved from search" kind="noodle" />
+      <WishlistRow name="Little Ladoo Bakery" meta="Bakery · 800 m" source="From Ronnie’s diary" kind="cinnamon" />
+      <WishlistRow name="Mosaic Café" meta="Café · Rajpur Road" source="Added by you" kind="sprout" tried="yesterday" />
+    </ul>
+  </Spread>
+
+  <Spread id="what-should-we-eat" num="03" label="What should we eat?" title="Can’t decide? Let it pick.">
+    <p class="lead">The question every group chat asks, answered in one tap.</p>
+    <p>
+      Aftertaste picks from your Want to try list, the places you recommend and the spots friends rate highly, and
+      favours the ones near you. Try it here.
+    </p>
+    <DecisionDemo slot="visual" />
+  </Spread>
+
+  <Spread id="near-you" num="04" label="Near you" title="The places around you, already listed." flip>
+    <p class="lead">Adding a place takes a tap: the ones nearby are waiting when you open Add place.</p>
+    <p>
+      Your location is used only while you search, only if you allow it, and it is never saved. Search still works if
+      you say no.
+    </p>
+    <PlaceList
+      slot="visual"
+      label="Example Near you list"
+      heading="Near you"
+      items={[
+        { name: 'Hill Road Momos', meta: 'Restaurant · 120 m' },
+        { name: 'Little Ladoo Bakery', meta: 'Bakery · 260 m', chip: 'On your list' },
+        { name: 'Banyan Tree Dhaba', meta: 'Dhaba · 540 m' },
+      ]}
+    />
+  </Spread>
+
+  <Spread id="from-friends" num="05" label="From friends" title="See where your friends ate this week.">
+    <p class="lead">
+      If a friend makes their diary discoverable, their recent visits show up for you, with a must-try dish.
+    </p>
+    <p>
+      It is read-only: nobody can add to your diary. Save their finds to your own list. Their notes, and yours, always
+      stay private.
+    </p>
+    <ul class="rows" slot="visual" aria-label="Example From friends list">
+      <FriendRow friend="Ronnie" place="Hill Road Momos" rating={5} when="Yesterday" mustTry="Jhol momo" />
+      <FriendRow friend="Meera" place="Banyan Tree Dhaba" rating={4} when="3 days ago" tone="mustard" />
+      <FriendRow
+        friend="Kabir"
+        place="Little Ladoo Bakery"
+        rating={4}
+        when="5 days ago"
+        mustTry="Besan ladoo"
+        tone="primary"
+      />
+    </ul>
+  </Spread>
+
+  <ReceiptFeature />
+  <Privacy />
+  <Faq />
+</BaseLayout>
+
+<script>
+  import '../scripts/landing';
+</script>
+
+<style>
+  .rows {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-8);
+    max-inline-size: 28rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+</style>

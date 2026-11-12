@@ -1,0 +1,87 @@
+---
+/**
+ * A single food glyph from the loader set (brand pack loaders/*.svg), static.
+ * Used where the app would show a photo, so the site needs no food photography.
+ * Decorative; size it with CSS.
+ */
+interface Props {
+  kind: 'mushroom' | 'sprout' | 'noodle' | 'cinnamon';
+  class?: string;
+}
+const { kind, class: className } = Astro.props;
+const SWIRL = 'M50 51 c3 0 3 -5 0 -5 c-6 0 -7 9 0 10 c9 1 12 -12 1 -15 c-11 -3 -18 7 -15 16 c3 10 19 12 25 2';
+const NOODLE = 'M58 36 C52 33 42 35 42 43 C42 52 58 49 58 58 C58 67 45 69 40 63';
+---
+
+<svg
+  class:list={['food', `food--${kind}`, className]}
+  viewBox="28 28 44 44"
+  aria-hidden="true"
+  focusable="false"
+  data-kind={kind}
+>
+  {kind === 'mushroom' && (
+    <>
+      <path class="ld-stem" d="M45 52 H55 L56.5 66 Q50 70 43.5 66 Z" stroke-width="2" stroke-linejoin="round" />
+      <path class="g-cap" d="M33 50 C33 32 67 32 67 50 Q67 53 64 53 H36 Q33 53 33 50 Z" />
+      <circle class="g-spot" cx="42" cy="43" r="2.4" />
+      <circle class="g-spot" cx="53" cy="38" r="2" />
+      <circle class="g-spot" cx="60" cy="45" r="2" />
+    </>
+  )}
+  {kind === 'sprout' && (
+    <>
+      <path class="g-sprout" d="M47 68 V44" stroke-width="5" stroke-linecap="round" />
+      <path class="g-leaf" d="M47 50 C49 37 60 33 69 36 C65 46 56 50 47 50 Z" />
+      <path class="g-leaf-alt" d="M47 57 C45 49 37 47 32 49 C35 56 41 58 47 57 Z" />
+    </>
+  )}
+  {kind === 'noodle' && (
+    <>
+      <path class="g-noodle-shadow" transform="translate(3 1.5)" d={NOODLE} stroke-width="2.5" />
+      <path class="g-noodle" d={NOODLE} stroke-width="5.5" />
+    </>
+  )}
+  {kind === 'cinnamon' && (
+    <>
+      <path class="g-dough" d={SWIRL} stroke-width="4.5" />
+      <path class="g-icing" d={SWIRL} stroke-width="1.2" />
+    </>
+  )}
+</svg>
+
+<style>
+  .food {
+    overflow: visible;
+  }
+  .food path,
+  .food circle {
+    stroke-linecap: round;
+  }
+  .food :global(.g-cap),
+  .food :global(.g-spot),
+  .food :global(.g-leaf),
+  .food :global(.g-leaf-alt) {
+    stroke: none;
+  }
+  .food :global(.g-cap) {
+    fill: var(--g-cap);
+  }
+  .food :global(.g-leaf) {
+    fill: var(--g-leaf);
+  }
+  .food :global(.g-leaf-alt) {
+    fill: var(--g-leaf-alt);
+  }
+  .food :global(.ld-stem) {
+    fill: var(--g-stem);
+    stroke: var(--g-outline);
+  }
+  .food :global(.g-noodle),
+  .food :global(.g-noodle-shadow),
+  .food :global(.g-dough),
+  .food :global(.g-icing),
+  .food :global(.g-sprout) {
+    fill: none;
+  }
+</style>

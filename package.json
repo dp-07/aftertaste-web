@@ -1,0 +1,56 @@
+{
+  "name": "aftertaste-web",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Website for Aftertaste, a private food diary for Android.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.23.4 <23"
+  },
+  "scripts": {
+    "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
+    "check:types": "ASTRO_TELEMETRY_DISABLED=1 astro check",
+    "lint": "eslint . --max-warnings 0",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check:html": "html-validate \"dist/**/*.html\"",
+    "check:links": "node scripts/check-links.mjs",
+    "check:seo": "node scripts/check-seo.mjs",
+    "check:csp": "node scripts/check-csp.mjs",
+    "check:budget": "node scripts/check-budget.mjs",
+    "check:no-app-code": "node scripts/check-no-app-code.mjs",
+    "gates": "node scripts/gates.mjs",
+    "sync:legal": "node scripts/sync-legal.mjs",
+    "fonts:subset": "bash scripts/subset-fonts.sh",
+    "serve:dist": "node scripts/serve-dist.mjs",
+    "csp:hash": "node scripts/update-csp-hash.mjs",
+    "icons": "node scripts/build-icons.mjs",
+    "og": "node scripts/render-og.mjs",
+    "placeholders": "node scripts/render-placeholders.mjs",
+    "audit:screens": "node scripts/audit-screens.mjs",
+    "check:contrast": "node scripts/check-contrast.mjs",
+    "audit:a11y": "node scripts/audit-a11y.mjs",
+    "audit:lighthouse": "node scripts/audit-lighthouse.mjs"
+  },
+  "dependencies": {
+    "@astrojs/markdown-remark": "7.3.5",
+    "@astrojs/sitemap": "3.7.4",
+    "astro": "7.4.4",
+    "sharp": "0.35.5"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.12",
+    "axe-core": "4.14.0",
+    "eslint": "10.13.0",
+    "eslint-plugin-astro": "3.2.1",
+    "feather-icons": "4.29.2",
+    "html-validate": "11.17.0",
+    "playwright-core": "1.64.1",
+    "prettier": "3.9.10",
+    "prettier-plugin-astro": "1.1.2",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.72.1"
+  }
+}

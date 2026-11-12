@@ -1,0 +1,137 @@
+---
+/**
+ * The privacy promise. Every statement is grounded in the published privacy
+ * policy (synced from the app repo); the section numbers are noted inline.
+ */
+import Icon from '../ui/Icon.astro';
+import InkLink from '../ui/InkLink.astro';
+
+const promises = [
+  {
+    icon: 'lock',
+    title: 'Your diary belongs to your account.',
+    body: 'Nobody else can add to it, and the database will not let one account read another’s private data.', // §7, §9
+  },
+  {
+    icon: 'eye-off',
+    title: 'Notes are never shared.',
+    body: 'Visit and dish notes stay private, even if you make your diary discoverable.', // §7
+  },
+  {
+    icon: 'map-pin',
+    title: 'Location is never stored.',
+    body: 'It is used only while you search, only if you allow it, and is not saved to our database or written to our logs.', // §3
+  },
+  {
+    icon: 'users',
+    title: 'Discoverable is your choice.',
+    body: 'Your diary is visible only to you until you switch on sharing in Profile. Switch it off any time.', // §7
+  },
+  {
+    icon: 'shield',
+    title: 'No ads, no analytics, no tracking.',
+    body: 'Not in the app, and not on this website either: no cookies, no trackers.', // §1
+  },
+  {
+    icon: 'download',
+    title: 'Take it with you.',
+    body: 'Export everything (data and photos) as a zip, or delete your account, from inside the app.', // §8
+  },
+];
+---
+
+<section id="privacy" class="privacy defer-render" aria-labelledby="privacy-title">
+  <div class="wrap">
+    <p class="running-head t-label">
+      <span class="num">07</span>Privacy
+    </p>
+    <div class="grid-12 layout">
+      <div class="intro">
+        <h2 id="privacy-title" class="t-display">
+          Private by default.
+        </h2>
+        <p class="muted">Plain statements, each one backed by the privacy policy.</p>
+        <p>
+          <InkLink href="/privacy">Read the privacy policy</InkLink>
+        </p>
+      </div>
+      <ul class="promises">
+        {promises.map((p) => (
+          <li>
+            <Icon name={p.icon} size={20} class="promise-icon" />
+            <h3 class="t-heading">{p.title}</h3>
+            <p class="muted">{p.body}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .privacy {
+    padding-block-start: var(--space-section);
+  }
+
+  .layout {
+    row-gap: var(--space-block);
+    margin-block-start: var(--space-block);
+  }
+
+  .intro {
+    display: grid;
+    align-content: start;
+    gap: var(--s-20);
+    max-inline-size: 24rem;
+  }
+
+  .promises {
+    display: grid;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: none;
+  }
+
+  li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: var(--s-16);
+    row-gap: var(--s-4);
+    padding-block: var(--s-24);
+    border-block-start: 1px solid var(--line);
+  }
+
+  li:last-child {
+    border-block-end: 1px solid var(--line);
+  }
+
+  li :global(.promise-icon) {
+    grid-row: 1 / span 2;
+    margin-block-start: 2px;
+    color: var(--primary);
+  }
+
+  @media (width >= 48rem) {
+    .promises {
+      grid-template-columns: 1fr 1fr;
+      column-gap: var(--gutter);
+    }
+    li:nth-last-child(2) {
+      border-block-end: 1px solid var(--line);
+    }
+  }
+
+  @media (width >= 64rem) {
+    .intro {
+      grid-column: 1 / span 4;
+      position: sticky;
+      inset-block-start: var(--s-32);
+      align-self: start;
+    }
+    .promises {
+      grid-column: 6 / -1;
+    }
+  }
+</style>

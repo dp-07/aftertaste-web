@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://theaftertaste.app/sitemap-index.xml

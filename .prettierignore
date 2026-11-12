@@ -1,0 +1,8 @@
+dist/
+.astro/
+node_modules/
+reports/
+package-lock.json
+public/fonts/
+src/content/legal/
+*.svg

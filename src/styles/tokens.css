@@ -1,0 +1,155 @@
+/*
+ * Aftertaste design tokens for the web.
+ *
+ * Values are transcribed from the app's App UI v1.8.1 tokens
+ * (design/app-ui-v1/SPEC.md §1) and the locked brand pack
+ * (design/aftertaste-v1/tokens/brand.json). The mapping table lives in
+ * .claude/project-state/active-work.md. Do not invent new colours here:
+ * a new value needs a decision in .claude/project-state/decisions.md.
+ *
+ * Colours use light-dark(<light>, <dark>). :root follows the system scheme;
+ * the theme script sets data-theme="light" | "dark" to force one.
+ */
+
+:root {
+  color-scheme: light dark;
+
+  /* ── Colour: App UI v1 ─────────────────────────────────────────────── */
+  --bg: light-dark(#f4efe6, #16130f);
+  --surface: light-dark(#fbf8f2, #1f1b16);
+  --raised: light-dark(#fffdf9, #29241e);
+  --line: light-dark(#e4dccd, #3a332b);
+  --line-strong: light-dark(#cfc4b1, #4d453b);
+  --text: light-dark(#1f1b16, #f4efe6);
+  --muted: light-dark(#6b6257, #b3a999);
+  --faint: light-dark(#9a9083, #7d7468);
+  --primary: light-dark(#c2412d, #e0573d);
+  --primary-pressed: light-dark(#a8361f, #c94a31);
+  --on-primary: #fff8f0;
+  --primary-soft: light-dark(#f3ded6, #3a2219);
+  --herb: light-dark(#5e7f3a, #8daa5e);
+  --herb-soft: light-dark(#e4ead6, #26301c);
+  --mustard: light-dark(#c99a2e, #e0b54e);
+  --danger: light-dark(#b42318, #f0645a);
+  --brown: light-dark(#8a5a3b, #b98a63);
+  --scrim: light-dark(rgb(31 27 22 / 0.45), rgb(0 0 0 / 0.6));
+
+  /* ── Web accessibility roles (WCAG AA; existing app/brand values only) ── */
+  /* Paprika as small text: light uses primaryPressed (#C2412D on oat is 4.49:1). */
+  --primary-ink: light-dark(#a8361f, #e0573d);
+  /* Primary button fill: dark uses #A8361F (cream on #E0573D is 3.56:1). */
+  --btn-bg: light-dark(#c2412d, #a8361f);
+  --btn-bg-hover: light-dark(#a8361f, #c2412d);
+  /* Herb as small text on herbSoft: light uses the brand's olive stamp ink. */
+  --herb-ink: light-dark(#4e6b2f, #8daa5e);
+  /* Stamp paper: dark uses surface (paprika on raised is 4.10:1). */
+  --stamp-paper: light-dark(#fffdf9, #1f1b16);
+  /* "To do" tag on primarySoft. */
+  --todo-ink: light-dark(#a8361f, #f4efe6);
+
+  /* ── Colour: brand pack (physical objects keep their paper in dark mode) ── */
+  --paper: #fffdf8;
+  --paper-ink: #1f1b16;
+  --paper-meta: #5e5548;
+  --paper-rule: #b9ae9f;
+  --stamp-logged: #c2412d;
+  --icon-cream: #fbf3e6;
+
+  /* Food glyphs: light files vs -dark files. */
+  --g-outline: light-dark(#1f1b16, #f4efe6);
+  --g-cap: light-dark(#c2412d, #e0573d);
+  --g-stem: #efe4d2;
+  --g-spot: #fbf8f2;
+  --g-sprout: light-dark(#5e8236, #7fa64a);
+  --g-leaf: light-dark(#6e9a3e, #8db85a);
+  --g-leaf-alt: #8db85a;
+  --g-noodle: light-dark(#e3b55e, #e9be68);
+  /* Noodle shadow stroke: #D9A548 at 0.7 (light), #E9BE68 at 0.6 (dark). */
+  --g-noodle-shadow: light-dark(rgb(217 165 72 / 0.7), rgb(233 190 104 / 0.6));
+  --g-noodle-simple: light-dark(#d9a548, #e9be68);
+  --g-dough: light-dark(#b9773a, #c98a4b);
+  --g-icing: #f6e7cf;
+  /* Seal: spots are iconCream in light, ink in dark (seal-primary / seal-dark). */
+  --seal-spot: light-dark(#fbf3e6, #1f1b16);
+  --seal-stem-stroke: light-dark(#1f1b16, transparent);
+
+  /* ── Type ──────────────────────────────────────────────────────────── */
+  --font-display: 'Prata', 'Prata fallback', georgia, serif;
+  --font-ui: 'DM Sans', 'DM Sans fallback', system-ui, sans-serif;
+  /* DM Mono has no ₹; DM Sans supplies it. The metric-matched fallback comes first so
+     preloaded DM Sans never stands in for DM Mono while it loads (layout shift). */
+  --font-mono: 'DM Mono', 'DM Mono fallback', 'DM Sans', ui-monospace, monospace;
+
+  /* App roles at 375 px, growing to editorial sizes by 1440 px. */
+  --fs-wordmark: clamp(4rem, 1.65rem + 11.75vw, 10rem);
+  --fs-display: clamp(2rem, 1.47rem + 2.63vw, 3.75rem);
+  --fs-title: clamp(1.5rem, 1.38rem + 0.6vw, 2rem);
+  --fs-card-title: 1.25rem;
+  --fs-heading: 1.125rem;
+  --fs-button: 1rem;
+  --fs-body: clamp(1rem, 0.96rem + 0.19vw, 1.125rem);
+  --fs-body-sm: 0.875rem;
+  --fs-label: 0.75rem;
+  --fs-mono: 0.8125rem;
+  --fs-lede: clamp(1.125rem, 1.02rem + 0.53vw, 1.5rem);
+
+  --lh-display: 1.1;
+  --lh-title: 1.25;
+  --lh-card-title: 1.3;
+  --lh-heading: 1.33;
+  --lh-body: 1.5;
+  --lh-body-sm: 1.43;
+  --lh-label: 1.33;
+  --lh-mono: 1.38;
+  --tracking-label: 0.1em; /* 1.2 px at 12 px */
+  --tracking-stamp: 0.14em; /* brand.json stampText */
+
+  /* ── Space ─────────────────────────────────────────────────────────── */
+  --s-4: 0.25rem;
+  --s-8: 0.5rem;
+  --s-12: 0.75rem;
+  --s-16: 1rem;
+  --s-20: 1.25rem;
+  --s-24: 1.5rem;
+  --s-32: 2rem;
+  --s-40: 2.5rem;
+  --gutter: clamp(1.25rem, 0.6rem + 3.25vw, 3rem); /* screenPadding 20 → 48 */
+  --space-section: clamp(4.5rem, 2.9rem + 8vw, 10rem);
+  --space-block: clamp(2.5rem, 1.9rem + 3vw, 5rem);
+  --measure: 34rem;
+  --page-max: 84rem;
+
+  /* ── Shape ─────────────────────────────────────────────────────────── */
+  --r-sm: 8px;
+  --r-md: 14px;
+  --r-lg: 20px;
+  --r-xl: 28px;
+  --r-pill: 999px;
+  --control-h: 52px;
+  --touch: 44px;
+  --chip-h: 40px;
+  --icon-tile: 36px;
+
+  /* Light: one soft shadow. Dark: no shadow, a 1 px line border instead. */
+  --elevation: 0 2px 8px light-dark(rgb(31 27 22 / 0.1), transparent), 0 0 0 1px light-dark(transparent, #3a332b);
+
+  /* ── Motion ────────────────────────────────────────────────────────── */
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 320ms;
+  --ease-out: cubic-bezier(0.33, 1, 0.68, 1); /* Easing.out(Easing.cubic) */
+  --ease-enter: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-standard: cubic-bezier(0.45, 0, 0.25, 1);
+  --ease-press: cubic-bezier(0.3, 1.3, 0.5, 1);
+  --press-scale: 0.97;
+  --stagger: 40ms;
+  --enter-y: 8px;
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}
