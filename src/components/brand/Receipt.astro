@@ -1,0 +1,272 @@
+---
+/**
+ * The visit receipt (brand pack README §8, brand.json `receipt`): 330 px of
+ * paper (#FFFDF8 in both themes; it is a physical object), DM Mono rows,
+ * dashed rules, a zigzag bottom edge, a barcode and the LOGGED stamp at −12°.
+ * Text is real text in reading order; rules, barcode and edge are hidden from
+ * assistive tech; the stamp is announced last as "Logged <date>".
+ */
+import Wordmark from './Wordmark.astro';
+import Stamp from './Stamp.astro';
+
+export interface ReceiptDish {
+  name: string;
+  /** Taste rating, 1–5. */
+  rating: number;
+}
+
+interface Props {
+  placeName: string;
+  area?: string;
+  date: string;
+  dishes: ReceiptDish[];
+  notes?: string;
+  total?: string;
+  overall: number;
+  /** Seed for the decorative barcode. */
+  seed?: string;
+  /** Adds data-press to the LOGGED stamp (see Stamp). */
+  pressStamp?: boolean;
+  class?: string;
+}
+
+const {
+  placeName,
+  area,
+  date,
+  dishes,
+  notes,
+  total,
+  overall,
+  seed = placeName,
+  pressStamp = false,
+  class: className,
+} = Astro.props;
+
+const rating = (n: number) => `${n}/5`;
+
+// Decorative barcode: deterministic bar widths from the seed (FNV-1a + xorshift).
+let h = 0x811c9dc5;
+for (const ch of seed) h = Math.imul(h ^ ch.charCodeAt(0), 0x01000193) >>> 0;
+const rand = () => {
+  h ^= h << 13;
+  h ^= h >>> 17;
+  h ^= h << 5;
+  return (h >>> 0) / 0xffffffff;
+};
+const bars: { x: number; w: number }[] = [];
+for (let x = 0; x < 196;) {
+  const w = 1 + Math.floor(rand() * 3);
+  bars.push({ x, w });
+  x += w + 1 + Math.floor(rand() * 2);
+}
+const span = bars.length ? bars[bars.length - 1]!.x + bars[bars.length - 1]!.w : 0;
+
+const zigzag = `M0 0 ${Array.from({ length: 33 }, (_, i) => `L${i * 10 + 5} ${i % 2 === 0 ? 10 : 0}`).join(' ')} L330 0 Z`;
+---
+
+<figure class:list={['receipt', className]} aria-label={`Sample receipt from ${placeName}`}>
+  <div class="paper">
+    <div class="head">
+      <Wordmark simple class="rc-mark" />
+      <p class="meta">TASTE DIARY</p>
+    </div>
+    <hr />
+    <div>
+      <p class="place">{placeName}</p>
+      <p class="row sub">{area ? `${area} · ${date}` : date}</p>
+    </div>
+    <hr />
+    <table>
+      <thead>
+        <tr>
+          <th scope="col" class="meta">
+            DISH
+          </th>
+          <th scope="col" class="meta">
+            RATING
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {dishes.map((d) => (
+          <tr class="row">
+            <td>{d.name}</td>
+            <td>{rating(d.rating)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    {notes && (
+      <>
+        <hr />
+        <div>
+          <p class="meta">NOTES</p>
+          <p class="row">{notes}</p>
+        </div>
+      </>
+    )}
+    <hr />
+    <dl>
+      {total && (
+        <div class="row line">
+          <dt>TOTAL</dt>
+          <dd>{total}</dd>
+        </div>
+      )}
+      <div class="overall line">
+        <dt>OVERALL</dt>
+        <dd>{rating(overall)}</dd>
+      </div>
+    </dl>
+    <hr />
+    <svg class="barcode" viewBox={`0 0 ${span} 28`} aria-hidden="true" focusable="false">
+      {bars.map((b) => (
+        <rect x={b.x} y="0" width={b.w} height="28" />
+      ))}
+    </svg>
+    <p class="meta thanks">THANKS FOR TASTING</p>
+  </div>
+  <svg class="edge" viewBox="0 0 330 10" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+    <path d={zigzag}></path>
+  </svg>
+  <Stamp variant="logged" date={date} press={pressStamp} class="rc-stamp" />
+</figure>
+
+<style>
+  .receipt {
+    /* Paper is paper in both themes: every light-dark() token resolves light here. */
+    color-scheme: light;
+    position: relative;
+    inline-size: min(330px, 100%);
+    margin: 0;
+    color: var(--paper-ink);
+    filter: drop-shadow(0 1px 1px rgb(31 27 22 / 0.08)) drop-shadow(0 10px 18px rgb(31 27 22 / 0.12));
+  }
+
+  .paper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 26px 24px 18px;
+    background-color: var(--paper);
+    /* Paper grain: a faint fractal-noise tile. */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .37 0 0 0 0 .33 0 0 0 0 .28 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .head {
+    display: grid;
+    justify-items: center;
+    gap: 6px;
+  }
+
+  .rc-mark {
+    font-size: 30px;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .meta {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    line-height: 14px;
+    letter-spacing: 0.15em;
+    color: var(--paper-meta);
+  }
+
+  .row,
+  td {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .place {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+  }
+
+  .sub {
+    color: var(--paper-meta);
+  }
+
+  hr {
+    block-size: 1px;
+    margin: 0;
+    border: 0;
+    background: repeating-linear-gradient(90deg, var(--paper-rule) 0 4px, transparent 4px 7px);
+  }
+
+  table {
+    inline-size: 100%;
+    border-collapse: collapse;
+  }
+
+  th {
+    padding: 0 0 4px;
+    font-weight: 400;
+    text-align: start;
+  }
+
+  th:last-child,
+  td:last-child {
+    text-align: end;
+    white-space: nowrap;
+    padding-inline-start: 12px;
+  }
+
+  td {
+    padding: 1px 0;
+  }
+
+  dl {
+    display: grid;
+    gap: 4px;
+    margin: 0;
+  }
+
+  .line {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  dd {
+    margin: 0;
+  }
+
+  .overall {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 20px;
+  }
+
+  .barcode {
+    inline-size: auto;
+    block-size: 28px;
+    margin-inline: auto;
+    fill: var(--paper-ink);
+  }
+
+  .thanks {
+    text-align: center;
+  }
+
+  .edge {
+    display: block;
+    inline-size: 100%;
+    block-size: 10px;
+    fill: var(--paper);
+  }
+
+  .receipt :global(.rc-stamp) {
+    position: absolute;
+    inset-inline-end: 14px;
+    inset-block-end: 20px;
+  }
+</style>

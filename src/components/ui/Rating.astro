@@ -1,0 +1,35 @@
+---
+/**
+ * The app's RatingInline: a small filled star and a mono value. (The app uses
+ * the Ionicons star here; this is an equivalent five-point star.)
+ */
+interface Props {
+  value: number;
+}
+const { value } = Astro.props;
+---
+
+<span class="rating t-mono">
+  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <path d="M12 2.6l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.5l-5.9 3.2 1.3-6.6-4.9-4.6 6.6-.8z"></path>
+  </svg>
+  <span>
+    <span class="visually-hidden">Rated </span>
+    {value.toFixed(1)}
+    <span class="visually-hidden"> out of 5</span>
+  </span>
+</span>
+
+<style>
+  .rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--text);
+  }
+  svg {
+    inline-size: 14px;
+    block-size: 14px;
+    fill: var(--primary);
+  }
+</style>
