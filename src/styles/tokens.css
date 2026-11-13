@@ -1,7 +1,7 @@
 /*
  * Aftertaste design tokens for the web.
  *
- * Values are transcribed from the app's App UI v1.8.1 tokens
+ * Values are transcribed from the app's App UI v1.9 tokens
  * (design/app-ui-v1/SPEC.md §1) and the locked brand pack
  * (design/aftertaste-v1/tokens/brand.json). The mapping table lives in
  * .claude/project-state/active-work.md. Do not invent new colours here:
@@ -21,23 +21,23 @@
   --line: light-dark(#e4dccd, #3a332b);
   --line-strong: light-dark(#cfc4b1, #4d453b);
   --text: light-dark(#1f1b16, #f4efe6);
-  --muted: light-dark(#6b6257, #b3a999);
-  --faint: light-dark(#9a9083, #7d7468);
+  --muted: light-dark(#665e53, #b3a999);
+  --faint: light-dark(#746b60, #958c7e);
   --primary: light-dark(#c2412d, #e0573d);
-  --primary-pressed: light-dark(#a8361f, #c94a31);
+  --primary-pressed: light-dark(#a8361f, #a8361f);
   --on-primary: #fff8f0;
   --primary-soft: light-dark(#f3ded6, #3a2219);
   --herb: light-dark(#5e7f3a, #8daa5e);
   --herb-soft: light-dark(#e4ead6, #26301c);
   --mustard: light-dark(#c99a2e, #e0b54e);
-  --danger: light-dark(#b42318, #f0645a);
+  --danger: light-dark(#b42318, #f5786e);
   --brown: light-dark(#8a5a3b, #b98a63);
   --scrim: light-dark(rgb(31 27 22 / 0.45), rgb(0 0 0 / 0.6));
 
   /* ── Web accessibility roles (WCAG AA; existing app/brand values only) ── */
   /* Paprika as small text: light uses primaryPressed (#C2412D on oat is 4.49:1). */
-  --primary-ink: light-dark(#a8361f, #e0573d);
-  /* Primary button fill: dark uses #A8361F (cream on #E0573D is 3.56:1). */
+  --primary-ink: light-dark(#a8361f, #e5715a);
+  /* Primary button fill (app: primaryFill #C2412D in both themes, 4.88:1 with cream). The site keeps the stricter #A8361F in dark (7:1). */
   --btn-bg: light-dark(#c2412d, #a8361f);
   --btn-bg-hover: light-dark(#a8361f, #c2412d);
   /* Herb as small text on herbSoft: light uses the brand's olive stamp ink. */
