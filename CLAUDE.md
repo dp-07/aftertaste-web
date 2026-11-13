@@ -24,4 +24,5 @@ The public website for **Aftertaste**, a private food diary, a native app for An
 ## Quick reference
 
 - `nvm use` (Node 22.23.4, `.nvmrc`), `npm ci`, `npm run dev` (http://localhost:4321), `npm run build`, `npm run gates`. All scripts: [DEV-GUIDE](docs/DEV-GUIDE.md#scripts).
+- **Sync with the app:** to check drift from the app and update the site, use the `sync-with-app` skill ([.claude/skills/sync-with-app/SKILL.md](.claude/skills/sync-with-app/SKILL.md); its ledger is `.claude/project-state/app-sync.json`). Steps: [DEV-GUIDE](docs/DEV-GUIDE.md#how-to-sync-with-the-app).
 - Site facts (name, URL, contact, Play URL) are in `src/config/site.ts`; tokens in `src/styles/tokens.css`; legal text in `src/content/legal/` is synced, never hand-edited.

@@ -1,0 +1,116 @@
+{
+  "schema": 1,
+  "about": "Sync ledger for the sync-with-app skill (.claude/skills/sync-with-app/SKILL.md). Records which app commit each website area was last synced to, plus checksums. Updated by the skill in Step 5. 'basis' says how an area was verified when the ledger was created: 'audited' = a recorded sync or a value-for-value comparison; 'baseline' = the area's last-changed app commit, not independently re-audited (the first skill run assesses it).",
+  "app": {
+    "repo_path_env": "APP_REPO_PATH",
+    "baseline_checkout_branch": "task/about-website",
+    "baseline_head": "9ff6462da33b9d145f1f2e3a245ab73dbb7f658f",
+    "baseline_work_branch_head": "426801d5ba96246e58e76a691e52e9c4b241c3ec",
+    "note": "At baseline the app checkout was on task/about-website, and that branch's v1.9 token commit (9ff6462) was not yet on the app's work-branch. The skill's preflight expects the app on its work-branch, so re-check that 9ff6462 has been merged there before the next run."
+  },
+  "last_synced": "9ff6462da33b9d145f1f2e3a245ab73dbb7f658f",
+  "last_checked": "2026-11-14",
+  "last_synced_date": "2026-11-14",
+  "spec_version": "1.9",
+  "last_report": null,
+  "areas": {
+    "tokens": {
+      "synced_commit": "9ff6462da33b9d145f1f2e3a245ab73dbb7f658f",
+      "basis": "audited",
+      "app_source": "src/ui-v1/tokens.ts + design/app-ui-v1/SPEC.md (v1.9)",
+      "website_file": "src/styles/tokens.css",
+      "note": "Aligned in task/website-tokens-v19 (2026-11-14).",
+      "checksums_sha256": {
+        "app/src/ui-v1/tokens.ts": "8c6fc8484e7feff2c4feb8dcdf09904d90d33d83e1d33fcb921286d9b7368ca0",
+        "app/design/aftertaste-v1/tokens/brand.json": "40310c813c5c65621b2a9d830dcc10af10045aa5ff938233bf64b50a3add2e94",
+        "web/src/styles/tokens.css": "4414c29f1b6c14deb69be6ec0183d0f9e4ac1adb9209436a555f2287502561b7"
+      }
+    },
+    "typography_fonts": {
+      "synced_commit": "2a821ea75529d61552def57f942aaaf01ab661c3",
+      "basis": "audited",
+      "app_source": "@expo-google-fonts packages: dm-mono 0.4.2, dm-sans 0.4.2, prata 0.4.1",
+      "website_files": "src/assets/fonts/*.woff2 (Latin + ₹ subsets), public/fonts/OFL-*.txt",
+      "note": "Licences are byte-identical to the app packages' LICENSE_FONT. The woff2 files are subsets, so they have no app-side checksum to compare.",
+      "checksums_sha256": {
+        "web/src/assets/fonts/dm-mono-400.woff2": "96dc29315054b5b85b744bee0e080269d115ed42197c78091e2e9d6b8bbbaa77",
+        "web/src/assets/fonts/dm-mono-500.woff2": "d8f5d0d64690537b5482f56cf2b87c59fea6899ddbe5f51db09a77bc1ae1e573",
+        "web/src/assets/fonts/dm-sans-400.woff2": "ed2c558996c0fc86c955542d0debe387eb5f108df69293bde81dfbd68f3136ec",
+        "web/src/assets/fonts/dm-sans-500.woff2": "07bac209555dd9ff2ba1bec34878ac3a9f04f593957ec2308cb71e4cc5ccb442",
+        "web/src/assets/fonts/dm-sans-600.woff2": "e0b74d3be1ba15f24327cdc1068fcc366098d63215ead41daf277d07f9f220a7",
+        "web/src/assets/fonts/prata-400.woff2": "bcd2a6663ebacf26b5f33552e027da05cff5ab62d5898e2d6002929d029eaaee",
+        "web/public/fonts/OFL-dm-mono.txt": "2bada5ea45c3c63b7f1ea1f88ce9672c9e4f0c42b2c3b7378949084fe55a3066",
+        "web/public/fonts/OFL-dm-sans.txt": "9af36190332437f5ecd09974de43c1f7c77a310a996cdd8ceb25628b458840e1",
+        "web/public/fonts/OFL-prata.txt": "1e055d25bde41906cc2e1a08bc156e7776d5084e1640d75dbd0065a937b488e3"
+      }
+    },
+    "icons": {
+      "synced_commit": "550feb323459bbd1070c28d9a464caba40b8f2e7",
+      "basis": "baseline",
+      "app_source": "src/constants/icons.ts (Feather via @expo/vector-icons)",
+      "website_file": "feather-icons 4.29.2 (devDependency), src/components/ui/Icon",
+      "note": "Both sides use the Feather family."
+    },
+    "brand_assets": {
+      "synced_commit": "1c836beb917557a9e52156bde9f1ecdf2d8e1c80",
+      "basis": "audited",
+      "app_source": "design/aftertaste-v1/ (Design v1.1)",
+      "website_file": "brand/app-icon-1024.png, public/favicon.svg, public/mask-icon.svg",
+      "note": "The app icon is byte-identical to the app's icon-v1.1/icon.png. The favicon differs from the app's icons/source/favicon.svg by design (dark-scheme fill added; see brand/README.md). The mask icon is derived (one colour).",
+      "checksums_sha256": {
+        "app/design/aftertaste-v1/icon-v1.1/icon.png": "a802ac05c856df00dfebb84a23d0480c569d7aee1b84ff5784045adbbcb72969",
+        "web/brand/app-icon-1024.png": "a802ac05c856df00dfebb84a23d0480c569d7aee1b84ff5784045adbbcb72969",
+        "app/design/aftertaste-v1/icons/source/favicon.svg": "80c29a316d104cb71e75c422d4a75548ba3ae3f9fc995f6d47581cb17addb24c",
+        "web/public/favicon.svg": "f340b8b5539fc4e96dd5f4af605730483d7b42ce8aae2afb9a9c64d61210b059",
+        "web/public/mask-icon.svg": "a7f28515c1fb93241d27dbdf60ad8bd80b0d51fe34b75cdd2bc0340b8159c1e4"
+      }
+    },
+    "features": {
+      "synced_commit": "9ff6462da33b9d145f1f2e3a245ab73dbb7f658f",
+      "basis": "baseline",
+      "app_source": ".claude/project-state/feature-status.md, current-state.md",
+      "website_file": "src/components/landing/*, FAQ, docs/PRD.md",
+      "note": "Not re-audited when the ledger was created. The first skill run assesses it in full."
+    },
+    "legal": {
+      "synced_commit": "2d334170d543f3cbdd261ca97454cb6cc54866ad",
+      "basis": "audited",
+      "app_source": "docs/legal/privacy-policy.md @ 2d33417, docs/legal/terms.md @ 04039aa",
+      "website_file": "src/content/legal/privacy.md, terms.md",
+      "terms_synced_commit": "04039aab6096274797d22c5e7237d69cbd827b6a",
+      "note": "Matches the sourceCommit stamps in the synced files' frontmatter.",
+      "checksums_sha256": {
+        "web/src/content/legal/privacy.md": "fcd024cab6e835fde6b0ef9b7954f7183bfec2e1bd9beed36bfe42cd08f07d1c",
+        "web/src/content/legal/terms.md": "c5ce8ba2c5906201bf9d7b2d1960b01f34007d2f702b9bf20145cdc11675ebdf"
+      }
+    },
+    "support_payments_config": {
+      "synced_commit": "6bc2c2bc71157d09e81723892af3354240e69ab4",
+      "basis": "audited",
+      "app_source": "src/config/supportDirect.ts (BMC_URL, UPI_ID); store URLs still null",
+      "website_file": "src/config/site.ts",
+      "note": "Buy Me a Coffee URL and UPI ID compared value for value on 2026-11-14 and match. Store URLs are null on both sides' website config until launch. The app's support config also holds a payee-name fallback, which the site deliberately does not store.",
+      "values": {
+        "buyMeACoffeeUrl": "https://buymeacoffee.com/parasdp",
+        "upiId": "dp.paras1707@oksbi",
+        "playStoreUrl": null,
+        "appStoreUrl": null,
+        "contactEmail": "hello@theaftertaste.app",
+        "domain": "https://theaftertaste.app"
+      }
+    },
+    "app_metadata": {
+      "synced_commit": "9ff6462da33b9d145f1f2e3a245ab73dbb7f658f",
+      "basis": "baseline",
+      "app_source": "app name, tagline, platforms",
+      "website_file": "src/config/site.ts",
+      "note": "Website says: Aftertaste, 'Your personal food memory', Android and iOS, private beta (still cooking). Not re-audited at ledger creation.",
+      "values": {
+        "name": "Aftertaste",
+        "tagline": "Your personal food memory",
+        "platforms": ["Android", "iOS"],
+        "status": "private beta"
+      }
+    }
+  }
+}
