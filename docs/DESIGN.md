@@ -1,6 +1,6 @@
 # Design
 
-The visual direction and the system behind it. Values are transcribed from the app's App UI v1.8.1 tokens and the locked brand pack; the code is the source of truth: [tokens.css](../src/styles/tokens.css), [base.css](../src/styles/base.css), [brand.css](../src/styles/brand.css). Related: [RULES](RULES.md), [ARCHITECTURE](ARCHITECTURE.md).
+The visual direction and the system behind it. Values are transcribed from the app's App UI v1.9 tokens and the locked brand pack; the code is the source of truth: [tokens.css](../src/styles/tokens.css), [base.css](../src/styles/base.css), [brand.css](../src/styles/brand.css). Related: [RULES](RULES.md), [ARCHITECTURE](ARCHITECTURE.md).
 
 ## Direction: tactile editorial
 
@@ -23,13 +23,13 @@ Each colour is one `light-dark(light, dark)` declaration. `:root` follows the sy
 | `--raised`                         | #FFFDF9                   | #29241E                   | Raised elements                             |
 | `--line` / `--line-strong`         | #E4DCCD / #CFC4B1         | #3A332B / #4D453B         | Hairlines                                   |
 | `--text`                           | #1F1B16                   | #F4EFE6                   | Body text                                   |
-| `--muted`                          | #6B6257                   | #B3A999                   | Secondary text                              |
-| `--faint`                          | #9A9083                   | #7D7468                   | Decoration only, **never text**             |
+| `--muted`                          | #665E53                   | #B3A999                   | Secondary text                              |
+| `--faint`                          | #746B60                   | #958C7E                   | Meta, placeholders and footnotes (v1.9)     |
 | `--primary`                        | #C2412D                   | #E0573D                   | Icons, meters, markers, large numerals      |
-| `--primary-ink`                    | #A8361F                   | #E0573D                   | Paprika as small text (kickers, numbers)    |
+| `--primary-ink`                    | #A8361F                   | #E5715A                   | Paprika as small text (kickers, numbers)    |
 | `--btn-bg` / `--btn-bg-hover`      | #C2412D / #A8361F         | #A8361F / #C2412D         | Primary button fill                         |
 | `--herb` / `--herb-ink`            | #5E7F3A / #4E6B2F         | #8DAA5E / #8DAA5E         | Herb accents; ink for small text            |
-| `--mustard`, `--brown`, `--danger` | #C99A2E, #8A5A3B, #B42318 | #E0B54E, #B98A63, #F0645A | Tones                                       |
+| `--mustard`, `--brown`, `--danger` | #C99A2E, #8A5A3B, #B42318 | #E0B54E, #B98A63, #F5786E | Tones                                       |
 | `--paper`, `--paper-ink`           | #FFFDF8, #1F1B16          | same                      | Receipt and stamp paper (a physical object) |
 
 ### Type
@@ -66,7 +66,9 @@ Some of the app's colour pairings fall below WCAG AA on the web. The site adds a
 | Herb on herbSoft chip (light)      | 3.73  | `--herb-ink` = the brand's olive stamp ink #4E6B2F   |
 | Paprika stamp ink on raised (dark) | 4.10  | `--stamp-paper` = `surface` in dark                  |
 
-`npm run check:contrast` (a gate) tests every text pair in both themes. The app could adopt the same roles ([TASKS](TASKS.md)).
+The app adopted these roles in its App UI v1.9 (`primaryInk`, `herbInk`, `stampPaper`, `primaryFill`) and the site re-aligned to the app's v1.9 values on 2026-11-14: `--muted` light #665E53, `--faint` #746B60 / #958C7E, `--primary-ink` dark #E5715A, `--primary-pressed` dark #A8361F, `--danger` dark #F5786E. **Where the site stays stricter:** `--btn-bg` is #A8361F in dark (the app's `primaryFill` is #C2412D in both themes, 4.88:1; the site's is about 7:1).
+
+`npm run check:contrast` (a gate) tests every text pair in both themes.
 
 ## Typography
 
