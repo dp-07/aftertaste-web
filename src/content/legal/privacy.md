@@ -2,8 +2,8 @@
 # Synced by `npm run sync:legal` from the app repo. Do not edit here: edit docs/legal/privacy-policy.md in the app repo and re-sync.
 title: "Aftertaste Privacy Policy"
 source: "docs/legal/privacy-policy.md"
-sourceCommit: "04039aab6096274797d22c5e7237d69cbd827b6a"
-sourceUpdated: "2026-11-13"
+sourceCommit: "ad07126fcc9181401eb64b90dd34cfa1e1817b5f"
+sourceUpdated: "2026-11-14"
 syncedAt: "2026-11-13"
 ---
 <!-- draft-notes
@@ -114,9 +114,9 @@ Aftertaste is not directed at children under 13, and Google sign-in is not avail
 
 Our service providers (Supabase, Google, and on store builds Google Play and RevenueCat) may process data in countries other than yours. Our main data is hosted in Australia (Sydney), so using Aftertaste means your data is transferred outside India and, depending on where you live, outside your country.
 
-## 13. Website beta list
+## 13. Website beta list {#beta-list}
 
-If you join the beta list on our website (https://theaftertaste.app), we collect your email address and, optionally, your city and how you heard about us. We use it only to send beta invites and launch updates. It is stored with Cloudflare, kept until 6 months after launch or until you ask to be removed, whichever is first, and is never sold or shared. To be removed, email hello@theaftertaste.app.
+If you join the beta list on our website (https://theaftertaste.app), we collect your email address and, optionally, your city and how you heard about us. We use it only to send beta invites and launch updates. It is stored with Cloudflare, kept until 6 months after launch or until you ask to be removed, whichever is first, and is never sold or shared. To be removed, email hello@theaftertaste.app. To prevent abuse, the form counts attempts using a short-lived, scrambled code derived from your network address; the address itself is never stored, and the code is discarded within the hour.
 
 ## 14. Changes
 

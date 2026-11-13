@@ -117,10 +117,10 @@ Durable lessons so future sessions do not repeat mistakes. Each entry: what happ
 - **What happened:** preview deployments (every branch but `main`) would have written test sign-ups into the real list.
 - **What to do:** `wrangler.toml` binds `BETA_DB` to `aftertaste-beta` at the top level (production) and to `aftertaste-beta-preview` under `[[env.preview.d1_databases]]`. Pages environments do not inherit bindings: change both blocks together. Both databases need the tables.
 
-## Links into the synced policy use numbered anchors
+## Links into the synced policy need stable anchors
 
-- **What happened:** the consent link points at the privacy policy's section 13, whose heading has no explicit `{#id}`, so its anchor is the slug `#13-website-beta-list`.
-- **What to do:** if the app repo renumbers or renames the section, the anchor changes; `check:links` fails on the dead fragment, so update `JoinBeta.astro`. Better: ask for a stable `{#beta-list}` id in the app repo's heading.
+- **What happened:** the consent link first pointed at section 13 by its slug (`#13-website-beta-list`), which breaks if the section is renumbered or renamed.
+- **What to do:** the app repo's heading now carries an explicit id (`## 13. Website beta list {#beta-list}`, synced @ `ad07126`), and the consent link uses `/privacy#beta-list`. Link only to ids the app repo sets explicitly (`#delete-your-data`, `#beta-list`); `check:links` fails on a dead fragment after a sync.
 
 ## Hiding the banner without a layout shift
 
