@@ -1,0 +1,54 @@
+---
+/**
+ * A store badge for one platform, rendered only once that store's listing URL
+ * is set in src/config/site.ts (`playStoreUrl`, `appStoreUrl`). During the
+ * private beta both are null and nothing renders. At launch, replace this
+ * text plate with the store's **official** badge artwork (Google's "Get it on
+ * Google Play", Apple's "Download on the App Store"), following each store's
+ * badge guidelines; never draw an imitation (docs/DEV-GUIDE.md "Add the
+ * store badges and listing URLs").
+ */
+import { site } from '../../config/site';
+
+interface Props {
+  store: 'play' | 'appStore';
+}
+
+const { store } = Astro.props;
+const href = store === 'play' ? site.playStoreUrl : site.appStoreUrl;
+const copy =
+  store === 'play' ? { small: 'Get it on', big: 'Google Play' } : { small: 'Download on the', big: 'App Store' };
+---
+
+{href && (
+  <a class="badge" href={href}>
+    <span class="badge-small">{copy.small}</span> <span class="badge-big">{copy.big}</span>
+  </a>
+)}
+
+<style>
+  .badge {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    min-block-size: var(--control-h);
+    padding: var(--s-4) var(--s-20);
+    border: 1px solid var(--text);
+    border-radius: var(--r-md);
+    background: var(--text);
+    color: var(--bg);
+    line-height: 1.1;
+    text-decoration: none;
+  }
+
+  .badge-small {
+    font-size: 0.6875rem;
+    letter-spacing: 0.04em;
+  }
+
+  .badge-big {
+    font-size: 1.125rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+</style>

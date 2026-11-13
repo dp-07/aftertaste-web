@@ -80,6 +80,23 @@ try {
   ]);
   if (after[0] !== 'dark' || after[1] !== 'true') problems.push(`theme not restored on reload: ${after}`);
   else console.log('theme restored on reload, toggle state announced');
+
+  // Keyboard: the diary strip scrolls with arrow keys; the beta banner dismisses.
+  await page.focus('#from-the-diary .strip');
+  await page.keyboard.press('ArrowRight');
+  await page.keyboard.press('ArrowRight');
+  await page.waitForTimeout(300);
+  const scrolled = await page.$eval('#from-the-diary .strip', (s) => s.scrollLeft);
+  if (!(scrolled > 0)) problems.push('diary strip: arrow keys do not scroll it');
+  else console.log(`diary strip via keyboard: scrolled ${scrolled}px`);
+  await page.focus('[data-banner-dismiss]');
+  await page.keyboard.press('Enter');
+  const banner = await page.evaluate(() => [
+    getComputedStyle(document.querySelector('.beta-banner')).display,
+    document.activeElement?.id,
+  ]);
+  if (banner[0] !== 'none' || banner[1] !== 'main') problems.push(`banner dismiss via keyboard failed: ${banner}`);
+  else console.log('beta banner dismissed via keyboard, focus moved to main');
   await page.close();
 } finally {
   await browser.close();

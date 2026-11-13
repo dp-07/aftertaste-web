@@ -13,6 +13,11 @@ const scriptSrc = csp.match(/script-src([^;]*)/)?.[1] ?? '';
 if (/unsafe-inline|unsafe-eval/.test(scriptSrc)) problems.push('script-src allows unsafe-inline/unsafe-eval');
 const styleSrc = csp.match(/style-src([^;]*)/)?.[1] ?? '';
 if (/unsafe-inline/.test(styleSrc)) problems.push('style-src allows unsafe-inline');
+// The beta form posts and fetches to this origin only.
+for (const directive of ['form-action', 'connect-src']) {
+  const value = csp.match(new RegExp(`${directive}([^;]*)`))?.[1]?.trim();
+  if (value !== "'self'") problems.push(`${directive} must be exactly 'self' (is ${value ?? 'missing'})`);
+}
 
 for (const file of htmlFiles()) {
   const html = read(file);
@@ -23,6 +28,10 @@ for (const file of htmlFiles()) {
     if (a.type === 'application/ld+json') continue; // data block, never executed
     const hash = `'sha256-${createHash('sha256').update(m[2]).digest('base64')}'`;
     if (!scriptSrc.includes(hash)) problems.push(`${path}: inline script not in CSP (${hash})`);
+  }
+  for (const m of html.matchAll(/<form\b[^>]*>/gi)) {
+    const action = attrs(m[0]).action ?? '';
+    if (!action.startsWith('/') || action.startsWith('//')) problems.push(`${path}: form posts off-site (${action})`);
   }
   if (/<style\b/i.test(html)) problems.push(`${path}: inline <style> element`);
   if (/\sstyle="/i.test(html)) problems.push(`${path}: inline style attribute`);

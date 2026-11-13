@@ -6,26 +6,29 @@ Target launch: **23 Nov 2026** (owner-stated).
 
 ## Open placeholders
 
-| Item                          | Owner                                            | Status                  | Notes                                                                                                                                           |
-| ----------------------------- | ------------------------------------------------ | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| Hero screenshot               | human supplies; Claude swaps in                  | open (placeholder)      | `src/assets/screenshots/home-placeholder.png` is rendered from tokens. Steps: [DEV-GUIDE](DEV-GUIDE.md#replace-the-hero-screenshot).            |
-| Play listing URL and badge    | human supplies URL; Claude implements            | blocked on live listing | Set `playStoreUrl`, add Google's official badge, update FAQ. Steps: [DEV-GUIDE](DEV-GUIDE.md#add-the-play-badge-and-listing-url).               |
-| `assetlinks.json` fingerprint | human supplies; Claude adds file and header rule | blocked                 | Needs the app's package name and the release-signing SHA-256 (Play Console → App integrity). Not needed for launch unless App Links are wanted. |
-| Legal TODOs                   | human (in the app repo); Claude re-syncs         | open: 8 visible         | See below.                                                                                                                                      |
+| Item                          | Owner                                            | Status                   | Notes                                                                                                                                                                                                              |
+| ----------------------------- | ------------------------------------------------ | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Hero screenshot               | human supplies; Claude swaps in                  | open (placeholder)       | `src/assets/screenshots/home-placeholder.png` is rendered from tokens. Steps: [DEV-GUIDE](DEV-GUIDE.md#replace-the-hero-screenshot).                                                                               |
+| D1 beta list setup            | human                                            | **done** (2026-11-14)    | `aftertaste-beta` (production) and `aftertaste-beta-preview` (preview) exist, IDs in `wrangler.toml`, tables created in the Console, `RATE_LIMIT_SALT` set.                                                        |
+| Diary entries and photos      | human supplies photos and logs; Claude wires in  | open (6 placeholders)    | `src/config/diary.ts` (`TODO(diary)`), photos in `src/assets/diary/` with alt text. Steps: [DEV-GUIDE](DEV-GUIDE.md#add-diary-photos).                                                                             |
+| Beta list in the app's policy | human (in the app repo); Claude re-syncs         | **done** (@ `04039aa`)   | Section 13 "Website beta list"; the site's temporary addendum is gone. Synced @ `2d33417`, with the rate-limiting sentence and the stable `#beta-list` anchor.                                                     |
+| Store listing URLs and badges | human supplies URLs; Claude implements           | blocked on live listings | Google Play and the App Store: set `playStoreUrl` / `appStoreUrl`, add each store's official badge, update the FAQ. Steps: [DEV-GUIDE](DEV-GUIDE.md#add-the-store-badges-and-listing-urls). iOS is parked for now. |
+| `assetlinks.json` fingerprint | human supplies; Claude adds file and header rule | blocked                  | Needs the app's package name and the release-signing SHA-256 (Play Console → App integrity). Not needed for launch unless App Links are wanted.                                                                    |
+| Legal TODOs                   | human (in the app repo); Claude re-syncs         | **done** (@ `04039aa`)   | 0 TODOs, no Draft banner. See below.                                                                                                                                                                               |
 
-### Legal TODOs (synced from the app repo @ `95d7fbb`)
+### Legal text
 
-Resolve in the app repo, then `npm run sync:legal`. The pages show a Draft banner until none remain.
-
-- **Privacy (6):** effective date; Google content sentence (section 4); backup retention period (8); legal bases and rights wording (10); AI section (13, intentionally blank, but still shown as a "To do" note); how changes are announced (14).
-- **Terms (2):** effective date; liability cap amount (9).
+Synced from the app repo @ `04039aa` (2026-11-13): **0 TODOs** in both documents, no Draft banner. The legal name appears only as "Paras D Prasad" (privacy "Who is responsible", terms intro); `check:no-name` reports no warnings. Section 13 of the privacy policy covers the website beta list.
 
 ## Launch checklist (23 Nov 2026)
 
 ### Before launch
 
 - [ ] Real hero screenshot in place (human, then Claude).
-- [ ] Legal TODOs resolved and legal re-synced; Draft banner gone (human, then Claude).
+- [x] D1 beta list set up (production and preview databases) and `wrangler.toml` filled in (human, 2026-11-14).
+- [ ] Real "From the diary" entries and photos, or a decision to keep the labelled samples for now (human).
+- [ ] Decide launch-day copy: the site stays in "still cooking" mode until the store URLs are set ([DEV-GUIDE](DEV-GUIDE.md#add-the-store-badges-and-listing-urls)).
+- [x] Legal TODOs resolved and legal re-synced; Draft banner gone (2026-11-14).
 - [ ] `npm run gates` passes on `work-branch` (Claude).
 - [ ] Human promotes `work-branch` → `main` (human only). Production deploys from `main`.
 
@@ -37,13 +40,14 @@ Resolve in the app repo, then `npm run sync:legal`. The pages show a Draft banne
 - [ ] Zone settings off: Email Address Obfuscation, Rocket Loader, automatic Web Analytics, JavaScript detections. "Always Use HTTPS" on.
 - [ ] Response headers on production include the CSP and HSTS (`curl -I https://theaftertaste.app`), and the browser console shows no CSP errors.
 - [ ] `https://theaftertaste.app/sitemap-index.xml` and `/robots.txt` load.
+- [ ] Beta form works on production with and without JS; the row appears in the D1 Console; **Settings → Bindings** shows `BETA_DB`; the `RATE_LIMIT_SALT` secret exists for Production and Preview.
 
 ### Email
 
 - [ ] Cloudflare Email Routing on, `hello@theaftertaste.app` forwards to a real inbox.
-- [ ] **Test:** send a mail to `hello@` from another account and confirm it arrives; then click "Get notified" on the site and confirm the mail app opens with the subject filled.
+- [ ] **Test:** send a mail to `hello@` from another account and confirm it arrives; then click the email link in the footer and confirm the mail app opens. Removal requests for the beta list arrive here.
 
-### Phone checks (human, real Android phone)
+### Phone checks (human, a real Android phone; an iPhone too when iOS resumes)
 
 - [ ] Landing in Chrome: light and dark, System follows the phone setting, theme toggle persists after reload.
 - [ ] Hero, "What should we eat?" demo and receipt animation work; with "Remove animations" on, everything is static and complete.
@@ -66,3 +70,6 @@ Resolve in the app repo, then `npm run sync:legal`. The pages show a Draft banne
 | Add `offers` to the `MobileApplication` JSON-LD when the listing is live                                                                                                                                        | Claude           | open, after Play URL        |
 | Re-run `npm run audit:a11y` and `npm run audit:lighthouse` after real screenshot and legal changes                                                                                                              | Claude           | open                        |
 | Verify the production Cloudflare setup end to end (not verifiable from this repo)                                                                                                                               | human            | open                        |
+| Delete the beta list six months after launch (`DELETE FROM beta_signups;`), as the privacy policy (section 13) promises                                                                                         | human            | after launch                |
+| Confirm both D1 databases (production and preview) have the tables: `SELECT name FROM sqlite_master WHERE type = 'table';` in each Console                                                                      | human            | open                        |
+| The taste report is teased as "coming later": the privacy policy must describe it (it has no AI section now) before it ships                                                                                    | human (app repo) | open, before the feature    |

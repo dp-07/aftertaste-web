@@ -9,3 +9,4 @@
 - **SEO/platform:** `BaseLayout.astro` (title, description, canonical, OG/Twitter, icons, manifest, JSON-LD slot); `@astrojs/sitemap` (404 excluded); `public/robots.txt`; OG PNGs in `public/og/` (`npm run og`); icons from `brand/app-icon-1024.png` and `public/favicon.svg` (`npm run icons`).
 - **Headers/redirects:** `public/_headers` (CSP, HSTS, security headers, caching), `public/_redirects` (trailing slashes, aliases). `www` → apex needs a Cloudflare Redirect Rule.
 - **Gates and audits:** `scripts/` (see README). `scripts/serve-dist.mjs` mimics Pages (clean URLs, `_headers`, `_redirects`, 404) for audits.
+- **Beta list (v2):** `functions/api/beta.ts` (Pages Function, `POST /api/beta`), D1 binding `BETA_DB` from `wrangler.toml`, schema in `migrations/`, `public/_routes.json` (`/api/*` only). Details: docs/ARCHITECTURE.md "Beta list: Pages Functions and D1".

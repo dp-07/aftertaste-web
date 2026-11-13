@@ -2,23 +2,23 @@
 # Synced by `npm run sync:legal` from the app repo. Do not edit here: edit docs/legal/privacy-policy.md in the app repo and re-sync.
 title: "Aftertaste Privacy Policy"
 source: "docs/legal/privacy-policy.md"
-sourceCommit: "95d7fbba3e62c42f4240cdd6dfb6e3ca95089ad6"
-sourceUpdated: "2026-11-12"
-syncedAt: "2026-11-12"
+sourceCommit: "2d334170d543f3cbdd261ca97454cb6cc54866ad"
+sourceUpdated: "2026-11-14"
+syncedAt: "2026-11-13"
 ---
 <!-- draft-notes
-DRAFT for the human to review. Not legal advice. Every "[TODO: ...]" must be resolved before publishing.
+DRAFT for the human to review. Not legal advice. Resolve any open placeholder before publishing.
 Facts below were taken from the code on work-branch (2026-11-11): see docs/google-content-review.md for the Google content that is stored today.
 If the review's recommendations are implemented (stop copying Google photos, coordinate TTL, stop storing addresses), update section 4 to match.
 /draft-notes -->
 
 # Aftertaste Privacy Policy
 
-**Effective date:** [TODO: set on publication]
+**Effective date:** 23 November 2026
 
 Aftertaste is a private food diary for iOS and Android. You keep a list of places you have eaten at, log visits and dishes with photos and ratings, and keep a private list of places you want to try. This policy explains what the app collects, why, who else handles it, and how to delete it. We have tried to keep it short and plain.
 
-**Who is responsible:** Paras Dev Prasad, an individual in India. Contact: [hello@theaftertaste.app](mailto:hello@theaftertaste.app).
+**Who is responsible:** Paras D Prasad, an individual in India. Contact: [hello@theaftertaste.app](mailto:hello@theaftertaste.app).
 
 ## 1. What we collect
 
@@ -54,7 +54,7 @@ Place search, place pages and maps use Google services. What this means for your
 
 - What you type into place search, and a place's identifier, are sent to our search service and on to Google.
 - The Google place page (rating, hours, phone, website, photos) is fetched from Google when you open it. It is kept only briefly in the app's memory and is not saved to your diary.
-- When you add a place from a Google result, the app saves the place's name, address, coordinates, category and (optionally) a cover photo with its author credit to your diary, so your diary still makes sense later. [TODO: update this sentence when the "Planned before Play" Google content change (stop copying Google photos, 30-day coordinate refresh; see docs/google-content-review.md) ships.]
+- Some place details (name, address, location and cover photo) come from Google Maps. We are reducing what we store, in line with Google's terms.
 - Maps are drawn by the Google Maps SDK, which exchanges data with Google (for example map requests and device information) under Google's terms.
 
 Google's own terms and privacy policy are linked from the app (Profile, Legal and attributions): [Google Maps Additional Terms](https://maps.google.com/help/terms_maps/), [Google Terms](https://policies.google.com/terms), [Google Privacy Policy](https://policies.google.com/privacy).
@@ -74,7 +74,7 @@ Your sign-in token and settings are kept in the phone's secure storage. A short-
 
 ## 7. Discoverable diaries: what other people can see
 
-By default your diary is visible only to you. In Profile you can switch on "share my diary". While it is on, other signed-in Aftertaste users, not only people you know, can find and see:
+Your diary belongs to your account only; nobody else can add to it. By default your diary is visible only to you. In Profile you can switch on "share my diary". While it is on, other signed-in Aftertaste users, not only people you know, can find and see:
 
 - your name and profile picture;
 - the places you added (name, category, city, address, position on the map, cover photo) and your "recommended" answer;
@@ -92,7 +92,8 @@ Your diary belongs to your account only; nobody else can add to it.
 We keep your data while your account exists. You can:
 
 - **Export it:** Profile, Settings, Export my data. The app builds a zip file (your data as JSON and HTML plus your photos) on your phone and opens the share sheet. We do not receive a copy.
-- **Delete it:** Profile, Settings, Delete account. The app shows how many places, visits and dishes will be deleted, then creates an export for you to save or share first (if the export fails you can retry, or choose to delete without it). Deleting removes your account, diary, wish list, photos and profile picture from our systems. It cannot be undone. [TODO: state the backup retention period of the hosting plan.]
+- **Delete it:** Profile, Settings, Delete account. The app shows how many places, visits and dishes will be deleted, then creates an export for you to save or share first (if the export fails you can retry, or choose to delete without it). Deleting removes your account, diary, wish list, photos and profile picture from our systems. It cannot be undone.
+- **Backups:** We don't currently keep separate backups. Your data is stored with our hosting provider, Supabase. If we start keeping backups, we'll update this policy.
 - **Ask us:** if you cannot use the app, email hello@theaftertaste.app from your sign-in address and we will delete the account.
 
 Our search service keeps a short-lived log of request counts per account (account ID and time only) to limit abuse. It contains no search text or location.
@@ -103,7 +104,7 @@ Everything travels over HTTPS. Photos are in a private bucket. The database enfo
 
 ## 10. Your choices and rights
 
-You can see, correct and export your data in the app, delete it as described above, turn discoverability off, and withdraw location or camera permission in your phone's settings. Depending on where you live (for example under India's Digital Personal Data Protection Act or the EU/UK GDPR) you may have further rights, including to complain to a data protection authority; contact us to use them. [TODO: confirm the legal bases and rights wording for your jurisdictions.]
+You can access, correct, export or delete your data at any time in the app (Profile → Settings), or by emailing hello@theaftertaste.app. We'll respond within 30 days. You can also turn discoverability off, and withdraw location or camera permission in your phone's settings. Depending on where you live (for example under India's Digital Personal Data Protection Act or the EU/UK GDPR) you may have further rights, including to complain to a data protection authority.
 
 ## 11. Children
 
@@ -113,13 +114,13 @@ Aftertaste is not directed at children under 13, and Google sign-in is not avail
 
 Our service providers (Supabase, Google, and on store builds Google Play and RevenueCat) may process data in countries other than yours. Our main data is hosted in Australia (Sydney), so using Aftertaste means your data is transferred outside India and, depending on where you live, outside your country.
 
-## 13. How we use AI
+## 13. Website beta list {#beta-list}
 
-[TODO: left blank on purpose. Aftertaste does not use AI today. If a "taste report" or any other AI feature ships, describe here which of your data is sent to which AI provider, whether it is stored or used for training, and how to turn it off. Do not send Google place information to an AI service; see docs/google-content-review.md.]
+If you join the beta list on our website (https://theaftertaste.app), we collect your email address and, optionally, your city and how you heard about us. We use it only to send beta invites and launch updates. It is stored with Cloudflare, kept until 6 months after launch or until you ask to be removed, whichever is first, and is never sold or shared. To be removed, email hello@theaftertaste.app. To prevent abuse, the form counts attempts using a scrambled code derived from your network address. The address itself is never stored; the code changes every hour, can't be traced back to you, and old codes are deleted automatically.
 
 ## 14. Changes
 
-If we change this policy in a way that matters we will update the date above and tell you in the app. [TODO: decide how.]
+We'll update the date at the top. For significant changes, we'll also show a notice in the app.
 
 ## 15. Contact
 

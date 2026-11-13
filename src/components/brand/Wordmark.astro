@@ -10,6 +10,11 @@
  * `animate` plays the hero assembly once on load (letters settle onto the
  * baseline, then the mushroom t and sprout r grow in). CSS only; with reduced
  * motion the wordmark is simply there.
+ *
+ * Accessible name: the drawn letters and glyphs are hidden from assistive tech
+ * (they would read as "afetat") and a visually hidden "Aftertaste" carries the
+ * real text, so screen readers and the page text both say the name once. The
+ * drawn letters are CSS content (data-c) so they are not in the text either.
  */
 import Glyph from './Glyph.astro';
 
@@ -17,7 +22,7 @@ interface Props {
   variant?: 'oneLine' | 'stacked';
   simple?: boolean;
   animate?: boolean;
-  /** Accessible name; pass an empty string when a visible name sits beside it. */
+  /** The name read by assistive tech and present in the page text; pass an empty string when a visible name sits beside it. */
   label?: string;
   class?: string;
 }
@@ -28,22 +33,21 @@ const decorative = label === '';
 
 <span
   class:list={['wordmark', `wordmark--${variant}`, { 'wordmark--animate': animate }, className]}
-  role={decorative ? undefined : 'img'}
-  aria-label={decorative ? undefined : label}
   aria-hidden={decorative ? 'true' : undefined}
 >
-  <span class="wm-line">
-    <span class="wm-c">a</span>
-    <span class="wm-c">f</span>
+  {!decorative && <span class="visually-hidden">{label}</span>}
+  <span class="wm-line wm-l1" aria-hidden="true">
+    <span class="wm-c" data-c="a"></span>
+    <span class="wm-c" data-c="f"></span>
     <Glyph letter="t" simple={simple} class="wm-c wm-grow" />
-    <span class="wm-c">e</span>
+    <span class="wm-c" data-c="e"></span>
     <Glyph letter="r" simple={simple} class="wm-c wm-grow" />
   </span>
-  <span class="wm-line">
-    <span class="wm-c">t</span>
-    <span class="wm-c">a</span>
+  <span class="wm-line wm-l2" aria-hidden="true">
+    <span class="wm-c" data-c="t"></span>
+    <span class="wm-c" data-c="a"></span>
     <Glyph letter="s" simple={simple} class="wm-c" />
-    <span class="wm-c">t</span>
+    <span class="wm-c" data-c="t"></span>
     <Glyph letter="e" simple={simple} class="wm-c" />
   </span>
 </span>
