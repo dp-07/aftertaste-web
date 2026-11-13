@@ -120,7 +120,7 @@ Durable lessons so future sessions do not repeat mistakes. Each entry: what happ
 ## Links into the synced policy need stable anchors
 
 - **What happened:** the consent link first pointed at section 13 by its slug (`#13-website-beta-list`), which breaks if the section is renumbered or renamed.
-- **What to do:** the app repo's heading now carries an explicit id (`## 13. Website beta list {#beta-list}`, synced @ `ad07126`), and the consent link uses `/privacy#beta-list`. Link only to ids the app repo sets explicitly (`#delete-your-data`, `#beta-list`); `check:links` fails on a dead fragment after a sync.
+- **What to do:** the app repo's heading now carries an explicit id (`## 13. Website beta list {#beta-list}`, synced from `ad07126` on), and the consent link uses `/privacy#beta-list`. Link only to ids the app repo sets explicitly (`#delete-your-data`, `#beta-list`); `check:links` fails on a dead fragment after a sync.
 
 ## Hiding the banner without a layout shift
 

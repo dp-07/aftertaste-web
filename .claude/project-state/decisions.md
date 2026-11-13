@@ -59,3 +59,7 @@
 ## 2026-11-14 — Legal re-sync @ ad07126
 
 - The app repo's section 13 now has the explicit id `{#beta-list}` and the rate-limiting sentence; the site re-synced and the consent link uses `/privacy#beta-list` (no longer the numbered slug).
+
+## 2026-11-14 — Legal re-sync @ 2d33417
+
+- Section 13 timing wording softened in the app repo (the code changes every hour and old codes are deleted automatically), matching the function, which clears finished hours on the next request. Site re-synced; `#beta-list` still resolves.

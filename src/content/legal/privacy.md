@@ -2,7 +2,7 @@
 # Synced by `npm run sync:legal` from the app repo. Do not edit here: edit docs/legal/privacy-policy.md in the app repo and re-sync.
 title: "Aftertaste Privacy Policy"
 source: "docs/legal/privacy-policy.md"
-sourceCommit: "ad07126fcc9181401eb64b90dd34cfa1e1817b5f"
+sourceCommit: "2d334170d543f3cbdd261ca97454cb6cc54866ad"
 sourceUpdated: "2026-11-14"
 syncedAt: "2026-11-13"
 ---
@@ -116,7 +116,7 @@ Our service providers (Supabase, Google, and on store builds Google Play and Rev
 
 ## 13. Website beta list {#beta-list}
 
-If you join the beta list on our website (https://theaftertaste.app), we collect your email address and, optionally, your city and how you heard about us. We use it only to send beta invites and launch updates. It is stored with Cloudflare, kept until 6 months after launch or until you ask to be removed, whichever is first, and is never sold or shared. To be removed, email hello@theaftertaste.app. To prevent abuse, the form counts attempts using a short-lived, scrambled code derived from your network address; the address itself is never stored, and the code is discarded within the hour.
+If you join the beta list on our website (https://theaftertaste.app), we collect your email address and, optionally, your city and how you heard about us. We use it only to send beta invites and launch updates. It is stored with Cloudflare, kept until 6 months after launch or until you ask to be removed, whichever is first, and is never sold or shared. To be removed, email hello@theaftertaste.app. To prevent abuse, the form counts attempts using a scrambled code derived from your network address. The address itself is never stored; the code changes every hour, can't be traced back to you, and old codes are deleted automatically.
 
 ## 14. Changes
 
