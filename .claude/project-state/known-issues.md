@@ -5,7 +5,6 @@
 - **Store badges:** hidden during the beta; each returns in the hero when `site.playStoreUrl` / `site.appStoreUrl` is set, with the store's official artwork.
 - **Both D1 databases need the tables**: confirm `aftertaste-beta-preview` was set up in its Console as well as production.
 - **No-JS sign-ups skip the minimum-time check** (by design; honeypot, rate limit and validation still apply).
-- **Privacy section 13** (beta list) does not mention the keyed, hourly hash of the network address used for rate limiting; the consent link depends on the section's numbered anchor (`#13-website-beta-list`).
 - **Diary entries are placeholders** (`src/config/diary.ts`, `sample: true`), labelled on the page.
 - **`www.theaftertaste.app` → apex** needs a Cloudflare Bulk Redirect plus a proxied `www` DNS record (`_redirects` cannot match hostnames); steps in README "Domain".
 - **`hello@theaftertaste.app` must receive mail** (e.g. Cloudflare Email Routing) before launch.

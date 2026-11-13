@@ -50,8 +50,12 @@
 - **Android and iOS.** Aftertaste is a native app for both platforms, both still cooking (iOS parked). The site never says "Android only"; JSON-LD `operatingSystem` is "Android, iOS"; the store-badge config covers both (`playStoreUrl`, `appStoreUrl`), hidden until launch URLs exist. `PlayBadge` became `StoreBadge` (`store="play" | "appStore"`).
 - **Separate preview database.** `aftertaste-beta-preview` is bound under `[env.preview]` so preview deployments never write to the real list.
 - **Console copy of the migration.** `migrations/console/0001_beta_list.sql` (no comments, one statement per line) because the D1 Console runs pasted SQL as one line. Kept at the owner's requested path although Wrangler then lists it as a migration too (idempotent, so harmless).
-- **The temporary `/privacy` addendum is removed**: the app repo's policy now has section 13 "Website beta list"; the consent link points at `#13-website-beta-list`.
+- **The temporary `/privacy` addendum is removed**: the app repo's policy now has section 13 "Website beta list"; the consent link points at `#beta-list`.
 
 ## 2026-11-14 — Console SQL moved out of Wrangler's way
 
 - `migrations/console/0001_beta_list.sql` (was `migrations/0001_beta_list.console.sql`): Wrangler applies every `.sql` directly in `migrations/`, not subfolders, so the console copy is no longer listed as a migration.
+
+## 2026-11-14 — Legal re-sync @ ad07126
+
+- The app repo's section 13 now has the explicit id `{#beta-list}` and the rate-limiting sentence; the site re-synced and the consent link uses `/privacy#beta-list` (no longer the numbered slug).
