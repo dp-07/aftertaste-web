@@ -1,0 +1,104 @@
+---
+/**
+ * The slim "still cooking" notice at the top of every page. The theme script
+ * (src/scripts/theme.js, inline in <head>) owns it: it adds html.banner-off
+ * before first paint when the banner was dismissed in this browser
+ * (localStorage `aftertaste-beta-banner`), so dismissing never shifts a later
+ * page, and it handles the dismiss click by delegation, so this component
+ * ships no JS. Without JS the banner simply stays and has no dismiss button.
+ */
+import { site } from '../config/site';
+import Icon from './ui/Icon.astro';
+---
+
+<aside class="beta-banner" aria-label="Beta notice">
+  <div class="wrap bar">
+    <p>
+      <span class="dot" aria-hidden="true"></span>
+      <span>
+        {site.name} is still cooking. We’re in private beta.{' '}
+        <a class="ink-link" href={site.betaAnchor}>
+          Join the list
+        </a>{' '}
+        and we’ll save you a seat.
+      </span>
+    </p>
+    <button type="button" class="dismiss" data-banner-dismiss>
+      <Icon name="x" size={18} />
+      <span class="visually-hidden">Dismiss the beta notice</span>
+    </button>
+  </div>
+</aside>
+
+<style>
+  .beta-banner {
+    border-block-end: 1px solid var(--line);
+    background: var(--surface);
+    font-size: var(--fs-body-sm);
+    line-height: var(--lh-body-sm);
+  }
+
+  :global(html.banner-off) .beta-banner {
+    display: none;
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-12);
+    min-block-size: var(--touch);
+  }
+
+  p {
+    display: flex;
+    align-items: baseline;
+    gap: var(--s-8);
+    padding-block: var(--s-8);
+    color: var(--muted);
+  }
+
+  p a {
+    color: var(--text);
+  }
+
+  /* A small simmering mark: paprika, steady (no animation). */
+  .dot {
+    flex: none;
+    inline-size: 8px;
+    block-size: 8px;
+    border-radius: var(--r-pill);
+    background: var(--primary);
+    transform: translateY(-1px);
+  }
+
+  .dismiss {
+    display: grid;
+    flex: none;
+    place-items: center;
+    inline-size: var(--touch);
+    block-size: var(--touch);
+    margin-inline-end: calc(-1 * var(--s-12));
+    padding: 0;
+    border: 0;
+    border-radius: var(--r-pill);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+  }
+
+  .dismiss:hover {
+    color: var(--text);
+    background: var(--raised);
+  }
+
+  :global(html:not(.js)) .dismiss {
+    display: none;
+  }
+
+  @media print {
+    .beta-banner {
+      display: none;
+    }
+  }
+</style>

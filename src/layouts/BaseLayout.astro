@@ -1,6 +1,6 @@
 ---
 /**
- * Every page: head (SEO, social cards, icons, theme), skip link, header,
+ * Every page: head (SEO, social cards, icons, theme), skip link, beta banner, header,
  * <main id="main">, footer. The only inline script is the theme script; its
  * SHA-256 is in public/_headers (CSP) and `npm run check:csp` verifies it.
  */
@@ -11,6 +11,7 @@ import '../styles/brand.css';
 import prataUrl from '../assets/fonts/prata-400.woff2?url';
 import dmSansUrl from '../assets/fonts/dm-sans-400.woff2?url';
 import themeScript from '../scripts/theme.js?raw';
+import BetaBanner from '../components/BetaBanner.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import { site } from '../config/site';
@@ -86,6 +87,7 @@ const ogAlt = `${site.name}: ${site.tagline}`;
     <a class="skip-link" href="#main">
       Skip to content
     </a>
+    <BetaBanner />
     <SiteHeader />
     <main id="main" tabindex="-1">
       <slot />

@@ -9,16 +9,16 @@ Context for Claude Code working in this repository. Keep it in sync: when you ch
 
 ## Overview
 
-The public website for **Aftertaste**, a private food diary for Android ("Your personal food memory"), at **https://theaftertaste.app** (apex is canonical; `www` redirects to it via a Cloudflare Bulk Redirect). Static Astro site deployed by Cloudflare Pages from `main`. Pages: `/`, `/privacy`, `/terms`, `/support`, and a branded `404`. Contact: `hello@theaftertaste.app`. The app lives in a separate repo (`DishDiary`, package `bitemarks`); this repo is public.
+The public website for **Aftertaste**, a private food diary, a native app for Android and iOS ("Your personal food memory"), at **https://theaftertaste.app** (apex is canonical; `www` redirects to it via a Cloudflare Bulk Redirect). Static Astro site deployed by Cloudflare Pages from `main`, plus one Pages Function (`functions/api/beta.ts`, the private-beta list in Cloudflare D1). The app is in private beta ("still cooking"): no download is offered. Pages: `/`, `/privacy`, `/terms`, `/support`, and a branded `404`. Contact: `hello@theaftertaste.app`. The app lives in a separate repo (`DishDiary`, package `bitemarks`); this repo is public.
 
 ## Non-negotiables (details in [RULES](docs/RULES.md))
 
 - Never write to the app repo; never copy app code, config, secrets or history into this one. Only brand assets, fonts, token values and legal markdown (via `npm run sync:legal`) may come from it.
-- No analytics, cookies, trackers or third-party requests. Strict CSP: no inline scripts except the hashed theme script, no inline styles.
+- No analytics, cookies, trackers or third-party requests; data collection is first-party only (our Pages Function + D1; no IPs stored). Strict CSP: no inline scripts except the hashed theme script, no inline styles, `form-action`/`connect-src 'self'`.
 - HTTPS only (`.app` is HSTS-preloaded); never write `http://` links.
 - Exact-version dependencies at least 14 days old (`npm install --before=<date>`).
 - Copy and design rules (banned words, no "AI slop", reduced-motion fallbacks) are in [RULES](docs/RULES.md#copy) and [DESIGN](docs/DESIGN.md#do-and-dont).
-- Every change passes `npm run gates`.
+- Every change passes `npm run gates` (and `npm run test:beta` for beta-list changes).
 - Git: `task/<name>` → `work-branch` (Claude, only after the human replies "approved") → `main` (human only; production deploy). Claude never commits to, merges into or pushes `main`; no force-push, no branch deletion, never discard uncommitted work; on a merge conflict stop and report. Commit messages are conventional and descriptive.
 
 ## Quick reference

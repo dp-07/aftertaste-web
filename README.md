@@ -1,8 +1,10 @@
 # theaftertaste.app
 
-The website for **Aftertaste**, a private food diary for Android: “Your personal food memory”.
+The website for **Aftertaste**, a private food diary, a native app for Android and iOS (both in private beta): “Your personal food memory”.
 
-A static [Astro](https://astro.build) site with plain CSS, deployed by Cloudflare Pages from `main`. No analytics, cookies or third-party requests: fonts and assets are self-hosted.
+A static [Astro](https://astro.build) site with plain CSS, deployed by Cloudflare Pages from `main`, plus one Pages Function for the private-beta list (stored in Cloudflare D1). No analytics, cookies or third-party requests: fonts and assets are self-hosted, and the beta form is first-party.
+
+The app is in **private beta** ("still cooking"): the site collects a beta list and does not offer a download yet.
 
 ## Run locally in 60 seconds
 
@@ -20,6 +22,7 @@ Full docs are in [docs/](docs/README.md): [rules](docs/RULES.md), [architecture]
 | `/`                  | `src/pages/index.astro` (sections in `src/components/landing/`)                                        |
 | `/privacy`, `/terms` | `src/pages/privacy.astro`, `terms.astro` → `src/components/LegalPage.astro` → `src/content/legal/*.md` |
 | `/support`           | `src/pages/support.astro`                                                                              |
+| `POST /api/beta`     | `functions/api/beta.ts` (Pages Function, D1 schema in `migrations/`, config in `wrangler.toml`)        |
 | 404                  | `src/pages/404.astro`                                                                                  |
 
 ## Local development
@@ -32,6 +35,7 @@ npm ci
 npm run dev        # http://localhost:4321
 npm run build      # → dist/
 npm run serve:dist # serve dist/ like Cloudflare Pages (clean URLs, _headers incl. CSP, 404)
+npm run dev:api    # dist/ + the beta Function + a local D1 (see docs/DEV-GUIDE.md "Beta list")
 ```
 
 ## Scripts
@@ -49,6 +53,9 @@ npm run serve:dist # serve dist/ like Cloudflare Pages (clean URLs, _headers inc
 | `npm run audit:screens`    | Screenshots at 375/768/1440 in light and dark into `reports/screens/` (`--pages=`, `--widths=`, `--themes=`, `--reduced`).                                                                                                                             |
 | `npm run audit:a11y`       | axe-core (WCAG 2.2 A/AA rules) on every page in both themes, plus keyboard checks of the demo and the theme toggle.                                                                                                                                    |
 | `npm run audit:lighthouse` | Lighthouse 13.6.0 (via `npx`, not a dependency), mobile and desktop, into `reports/lighthouse/`. Targets: ≥ 95 in every category, LCP < 2.0 s, CLS < 0.05.                                                                                             |
+| `npm run dev:api`          | `wrangler pages dev` (Wrangler 4.156.0 via `npx`, not a dependency): `dist/` plus the beta Function and a local D1.                                                                                                                                    |
+| `npm run db:migrate:*`     | Apply `migrations/` to the `local` D1 or, owner only, the `remote` one.                                                                                                                                                                                |
+| `npm run test:beta`        | End-to-end test of the beta list on a throwaway local D1 (API, stored rows, form with and without JS, banner).                                                                                                                                         |
 
 The audit scripts use the system Chrome at `/Applications/Google Chrome.app`; set `CHROME_PATH` elsewhere.
 
@@ -65,7 +72,7 @@ Connect the GitHub repo in Cloudflare Pages with:
 | Root directory         | `/`                                                              |
 | Environment variable   | `NODE_VERSION` = `22.23.4` (the build image also reads `.nvmrc`) |
 
-No secrets or other environment variables are needed. Preview deployments of other branches get public `*.pages.dev` URLs.
+Plus one **secret**, `RATE_LIMIT_SALT` (Production and Preview), and two D1 databases bound as `BETA_DB` through `wrangler.toml` (which also sets the compatibility date): `aftertaste-beta` for production and `aftertaste-beta-preview` for preview deployments. Setup, export and removal: [docs/DEV-GUIDE.md, "Beta list"](docs/DEV-GUIDE.md#beta-list). Preview deployments of other branches get public `*.pages.dev` URLs.
 
 **Domain.** `https://theaftertaste.app` is canonical (apex). `.app` is an HSTS-preloaded top-level domain, so browsers only ever reach it over HTTPS: the site never emits `http://` URLs (`npm run check:seo` fails on one), and everything in `src/config/site.ts`, `astro.config.mjs`, `robots.txt`, the sitemap, canonicals, Open Graph and JSON-LD derives from `https://theaftertaste.app`.
 
@@ -84,7 +91,7 @@ No secrets or other environment variables are needed. Preview deployments of oth
 
 ## Email
 
-The site's contact address is `hello@theaftertaste.app` (`src/config/site.ts` → `contactEmail`; used by “Get notified”, Support, the footer and the legal pages' draft banner). It must receive mail before launch: for example, turn on **Cloudflare Email Routing** for the zone (free; it adds the MX and SPF records) and forward `hello@` to a real inbox.
+The site's contact address is `hello@theaftertaste.app` (`src/config/site.ts` → `contactEmail`; used by Support, the footer, the beta form's error message, removal requests for the beta list (privacy policy section 13) and the legal pages' draft banner). It must receive mail before launch: for example, turn on **Cloudflare Email Routing** for the zone (free; it adds the MX and SPF records) and forward `hello@` to a real inbox.
 
 ## Updating the legal pages
 
@@ -109,13 +116,9 @@ While the source contains `[TODO: …]` markers, each one is shown on the page a
 
 `PhoneFrame` takes any `ImageMetadata`, so more screenshots can be added the same way.
 
-## Play badge
+## Store badges
 
-`src/config/site.ts` → `playStoreUrl` is `null`, so the hero shows a quiet, disabled-looking “Coming soon on Google Play” plate (not a link, no Google artwork) next to “Get notified” (a mailto to the contact email). When the listing is live:
-
-1. Set `playStoreUrl` to the listing URL (`https://play.google.com/store/apps/details?id=…`). The plate becomes a link.
-2. Replace the plate in `src/components/ui/PlayBadge.astro` with Google's official “Get it on Google Play” badge artwork, following Google's badge guidelines (download the badge, add it under `src/assets/`, render it with `astro:assets`). The site must not imitate the badge with its own drawing.
-3. Update the FAQ answer “When can I get it?” in `src/components/landing/Faq.astro`, and consider adding `offers` to the `MobileApplication` JSON-LD in `src/pages/index.astro`.
+During the private beta `src/config/site.ts` → `playStoreUrl` and `appStoreUrl` are `null` and the hero shows **no** store badge: the primary button is “Join the beta”. At launch, set each URL; that store's badge comes back in the hero (`src/components/ui/StoreBadge.astro`). Then use the store's official badge artwork (never an imitation) and retire the beta copy. Steps: [docs/DEV-GUIDE.md](docs/DEV-GUIDE.md#add-the-store-badges-and-listing-urls).
 
 ## Android App Links (not set up)
 

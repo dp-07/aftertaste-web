@@ -1,0 +1,154 @@
+---
+/**
+ * "Every meal counts": a ₹40 chai and a tasting menu, as two receipts of very
+ * different lengths on the same diary page. Both LOGGED stamps press as they
+ * scroll into view (the existing stamp motion; static with reduced motion or
+ * without JS). Prata has no ₹, so the headline's rupee is set in DM Sans.
+ */
+import Receipt from '../brand/Receipt.astro';
+---
+
+<section id="every-meal" class="every defer-render" aria-labelledby="every-title">
+  <div class="wrap">
+    <p class="running-head t-label">
+      <span class="num">07</span> Every meal counts
+    </p>
+    <div class="grid-12 body">
+      <div class="copy">
+        <h2 id="every-title" class="t-display">
+          A <span class="rupee">₹</span>40 cutting chai and a tasting menu get the same page.
+        </h2>
+        <p class="lead">Aftertaste doesn’t care what a meal cost.</p>
+        <p>
+          The chai you have every morning gets a photo, a rating and a note, just like the birthday dinner. Same paper,
+          same stamp.
+        </p>
+      </div>
+      <div class="page">
+        <Receipt
+          placeName="Clock Tower Tea Stall"
+          area="Dehradun"
+          date="5 Nov 2026"
+          dishes={[{ name: 'Cutting chai', rating: 5 }]}
+          notes="Half a glass. Exactly enough."
+          total="₹40"
+          overall={5}
+          pressStamp
+          class="slip slip--short"
+        />
+        <Receipt
+          placeName="Saffron & Salt"
+          area="Mussoorie"
+          date="8 Nov 2026"
+          dishes={[
+            { name: 'Pahadi tomato rasam', rating: 4 },
+            { name: 'Bhatt ki churkani', rating: 5 },
+            { name: 'Smoked trout, mustard', rating: 4 },
+            { name: 'Kafal sorbet', rating: 5 },
+            { name: 'Mandua roti, ghee', rating: 4 },
+            { name: 'Slow-cooked lamb', rating: 5 },
+            { name: 'Jhangora kheer', rating: 4 },
+            { name: 'Buransh petit four', rating: 3 },
+          ]}
+          notes="Book the window table."
+          total="₹6,500"
+          overall={4}
+          pressStamp
+          class="slip slip--long"
+        />
+        <p class="t-body-sm sample">Sample receipts.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .every {
+    padding-block-start: var(--space-section);
+  }
+
+  .body {
+    row-gap: var(--space-block);
+    margin-block-start: var(--space-block);
+    align-items: start;
+  }
+
+  .copy {
+    display: grid;
+    gap: var(--s-20);
+    max-inline-size: var(--measure);
+  }
+
+  .rupee {
+    font-family: var(--font-ui);
+    font-weight: 400;
+  }
+
+  .copy p {
+    color: var(--muted);
+  }
+
+  .copy .lead {
+    color: var(--text);
+    font-size: var(--fs-lede);
+    line-height: 1.45;
+  }
+
+  /* One diary page: ruled lines, a margin rule, both receipts on it. */
+  .page {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: var(--s-32);
+    padding: var(--s-32) var(--s-16) var(--s-24);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    background:
+      linear-gradient(
+        90deg,
+        transparent 2.25rem,
+        color-mix(in srgb, var(--primary) 40%, transparent) 2.25rem calc(2.25rem + 1px),
+        transparent calc(2.25rem + 1px)
+      ),
+      repeating-linear-gradient(transparent 0 1.75rem, var(--line) 1.75rem calc(1.75rem + 1px)), var(--surface);
+  }
+
+  .page :global(.slip--short) {
+    transform: rotate(-2deg);
+  }
+
+  .page :global(.slip--long) {
+    transform: rotate(1.5deg);
+  }
+
+  .sample {
+    justify-self: end;
+    color: var(--muted);
+  }
+
+  @media (width >= 48rem) {
+    .page {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: start;
+      column-gap: var(--s-24);
+      padding-inline: var(--s-24);
+    }
+    .page :global(.slip--short) {
+      margin-block-start: var(--s-40);
+    }
+    .sample {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (width >= 64rem) {
+    .copy {
+      grid-column: 1 / span 4;
+      position: sticky;
+      inset-block-start: var(--s-32);
+    }
+    .page {
+      grid-column: 6 / -1;
+    }
+  }
+</style>

@@ -1,0 +1,247 @@
+---
+/**
+ * "From the diary": a sideways strip of dishes from our own diary, each a
+ * stamped paper card (dish, place, taste, one line). Entries and photos live
+ * in src/config/diary.ts and src/assets/diary/; a card without a photo shows
+ * a food glyph.
+ *
+ * The strip is a native scroller with scroll-snap: a focusable, labelled
+ * region, so arrow keys scroll it; no JS. Reduced motion changes nothing
+ * here (no smooth scrolling is forced).
+ */
+import type { ImageMetadata } from 'astro';
+import { Picture } from 'astro:assets';
+import { diary } from '../../config/diary';
+import Thumb from '../app/Thumb.astro';
+import Stamp from '../brand/Stamp.astro';
+
+const photos = import.meta.glob<{ default: ImageMetadata }>('../../assets/diary/*.{jpg,jpeg,png,webp,avif}', {
+  eager: true,
+});
+const photoFor = (file: string) => {
+  const found = photos[`../../assets/diary/${file}`];
+  if (!found) throw new Error(`[diary] src/assets/diary/${file} not found (src/config/diary.ts)`);
+  return found.default;
+};
+for (const e of diary) {
+  if (e.photo && !e.alt) throw new Error(`[diary] "${e.dish}" has a photo but no alt text`);
+}
+const hasSamples = diary.some((e) => e.sample);
+---
+
+<section id="from-the-diary" class="diary defer-render" aria-labelledby="diary-title">
+  <div class="wrap">
+    <p class="running-head t-label">
+      <span class="num">08</span> From the diary
+    </p>
+    <div class="grid-12 head">
+      <h2 id="diary-title" class="t-display">
+        A few pages from our own diary.
+      </h2>
+      <p class="lead muted">
+        What we’ve been eating while we build Aftertaste, logged the way the app logs it.
+        {hasSamples && <span class="sample-note">Sample pages for now: our own are on the way.</span>}
+      </p>
+    </div>
+  </div>
+
+  <section class="strip" aria-label="Diary pages, scrolls sideways" tabindex="0">
+    <ul class="cards">
+      {diary.map((e, i) => (
+        <li class="card">
+          <div class="photo">
+            {e.photo ? (
+              <Picture
+                src={photoFor(e.photo)}
+                alt={e.alt ?? ''}
+                formats={['avif', 'webp']}
+                widths={[320, 640]}
+                sizes="17rem"
+                loading="lazy"
+                decoding="async"
+              />
+            ) : (
+              <Thumb kind={e.kind} class="glyph" />
+            )}
+          </div>
+          <div class="slip">
+            <p class="t-mono meta">
+              {e.date} · {e.city}
+            </p>
+            <h3 class="dish">{e.dish}</h3>
+            <p class="place">{e.place}</p>
+            <p class="taste">
+              <span class="t-mono meta">TASTE</span>{' '}
+              <span class="dots" aria-hidden="true">
+                {[1, 2, 3, 4, 5].map((n) => (
+                  <span class:list={['dot', { on: n <= e.rating }]} />
+                ))}
+              </span>
+              <span class="visually-hidden">{e.rating} out of 5</span>
+            </p>
+            <p class="note">{e.note}</p>
+          </div>
+          {e.stamp && <Stamp variant={e.stamp} size="sm" class:list={['card-stamp', { 'card-stamp--alt': i % 2 }]} />}
+        </li>
+      ))}
+    </ul>
+  </section>
+</section>
+
+<style>
+  .diary {
+    padding-block-start: var(--space-section);
+  }
+
+  .head {
+    row-gap: var(--s-16);
+    margin-block: var(--space-block) var(--s-32);
+    align-items: end;
+  }
+
+  .lead {
+    max-inline-size: 28rem;
+  }
+
+  .sample-note {
+    display: block;
+    margin-block-start: var(--s-8);
+    font-size: var(--fs-body-sm);
+  }
+
+  @media (width >= 64rem) {
+    .head h2 {
+      grid-column: 1 / span 7;
+    }
+    .head .lead {
+      grid-column: 9 / -1;
+    }
+  }
+
+  /* ── The strip: bleeds to the window edges, cards snap to the text column ── */
+  .strip {
+    --edge: max(var(--gutter), calc((100vw - var(--page-max)) / 2 + var(--gutter)));
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-snap-type: inline mandatory;
+    scroll-padding-inline: var(--edge);
+    scrollbar-width: thin;
+    scrollbar-color: var(--line-strong) transparent;
+  }
+
+  .strip:focus-visible {
+    outline-offset: -3px;
+  }
+
+  .cards {
+    display: flex;
+    gap: var(--s-20);
+    inline-size: max-content;
+    margin: 0;
+    padding: var(--s-24) var(--edge) var(--s-32);
+    list-style: none;
+  }
+
+  .card {
+    color-scheme: light;
+    position: relative;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    inline-size: 17rem;
+    scroll-snap-align: start;
+    border-radius: var(--r-sm);
+    background: var(--paper);
+    color: var(--paper-ink);
+    filter: drop-shadow(0 1px 1px rgb(31 27 22 / 0.08)) drop-shadow(0 8px 14px rgb(31 27 22 / 0.1));
+    transform: rotate(-0.8deg);
+  }
+
+  .card:nth-child(even) {
+    transform: rotate(0.9deg);
+  }
+
+  .photo {
+    aspect-ratio: 4 / 3;
+    margin: 10px 10px 0;
+    overflow: hidden;
+    border-radius: 4px;
+  }
+
+  .photo :global(img),
+  .photo :global(picture) {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+
+  .photo :global(.glyph) {
+    inline-size: 100%;
+    block-size: 100%;
+    border-radius: 0;
+  }
+
+  .slip {
+    display: grid;
+    align-content: start;
+    gap: 6px;
+    padding: 14px 18px 20px;
+    border-block-start: 1px dashed var(--paper-rule);
+    margin-block-start: 10px;
+  }
+
+  .meta {
+    color: var(--paper-meta);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .dish {
+    font-size: var(--fs-card-title);
+    line-height: var(--lh-card-title);
+  }
+
+  .place {
+    font-family: var(--font-mono);
+    font-size: var(--fs-mono);
+  }
+
+  .taste {
+    display: flex;
+    align-items: center;
+    gap: var(--s-8);
+  }
+
+  .dots {
+    display: inline-flex;
+    gap: 3px;
+  }
+
+  .dot {
+    inline-size: 7px;
+    block-size: 7px;
+    border: 1px solid var(--paper-ink);
+    border-radius: var(--r-pill);
+  }
+
+  .dot.on {
+    background: var(--paper-ink);
+  }
+
+  .note {
+    margin-block-start: var(--s-4);
+    font-size: var(--fs-body-sm);
+    line-height: var(--lh-body-sm);
+    color: var(--paper-meta);
+  }
+
+  .card :global(.card-stamp) {
+    position: absolute;
+    inset-block-start: 18px;
+    inset-inline-end: 16px;
+  }
+
+  .card :global(.card-stamp--alt) {
+    --rot: 5deg;
+  }
+</style>

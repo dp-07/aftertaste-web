@@ -1,8 +1,8 @@
 # Current state (2026-11-13)
 
-- **Site:** static Astro site for https://theaftertaste.app (contact `hello@theaftertaste.app`), deployed by Cloudflare Pages from `main`. Target launch 23 Nov 2026 (owner-stated). At 2026-11-13 `origin/main` and `origin/work-branch` both pointed at `7b20e7c` (v1 merged). Whether the Cloudflare project is connected is not verifiable from this repo: see the launch checklist in `docs/TASKS.md`.
-- **Branches:** `task/website-v1` is merged. `task/website-docs` (this docs task) is local, awaiting "approved".
+- **Site:** static Astro site for https://theaftertaste.app (contact `hello@theaftertaste.app`), deployed by Cloudflare Pages from `main`, plus one Pages Function (`functions/api/beta.ts`) for the private-beta list in Cloudflare D1. Aftertaste is a native app for Android and iOS, both in private beta (iOS parked); the site says "still cooking" and offers no download. Target launch 23 Nov 2026 (owner-stated).
+- **Branches:** `task/website-v2` approved by the owner on 2026-11-14 and merged into `work-branch` (see git log); `main` is promoted by the human only.
 - **Docs:** `docs/` (PRD, ARCHITECTURE, RULES, DESIGN, TASKS, MEMORY, DEV-GUIDE) is the source of truth for rules and architecture; this folder keeps live status and decisions.
-- **Gates:** `npm run gates` (12 gates; see docs/DEV-GUIDE.md). All pass. Audits: axe 0 violations; Lighthouse 100 in every category on mobile and desktop (404 SEO excluded: noindex).
-- **Legal:** synced from the app repo @ `95d7fbb` (2026-11-12): privacy 6 and terms 2 visible TODOs; contact `hello@theaftertaste.app`. Draft banner shows until resolved.
-- **Placeholders:** hero screenshot (rendered), Play badge ("Coming soon", `site.playStoreUrl` = null), no `assetlinks.json`.
+- **Gates:** `npm run gates` (12 gates) pass; `npm run test:beta` (28 end-to-end checks on a local D1) passes. Audits on v2: axe 0 violations (5 pages × 2 themes × 2 widths, plus the four form outcome states); Lighthouse 100 in every category on mobile and desktop (mobile LCP on `/` 1.81 s).
+- **Legal:** synced from the app repo @ `04039aa` (2026-11-13): 0 TODOs, no Draft banner; the name only as "Paras D Prasad" on `/privacy` and `/terms`. Privacy section 13 covers the beta list (the site's temporary addendum is removed).
+- **Placeholders:** hero screenshot (rendered), diary entries (6 samples, no photos), no `assetlinks.json`. Store badges hidden while `playStoreUrl` and `appStoreUrl` are null. D1 is set up: `aftertaste-beta` (production) and `aftertaste-beta-preview` (preview), both bound in `wrangler.toml`.
