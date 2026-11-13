@@ -89,6 +89,46 @@ Durable lessons so future sessions do not repeat mistakes. Each entry: what happ
 - **Why:** it looks for app identifiers (backend hosts and keys, app-framework imports, env-name prefixes, storage names).
 - **What to do:** describe app internals generically in docs (for example "backend keys"); never paste identifiers. Docs are also checked by Prettier and by the internal link check.
 
+## `_headers` does not apply to Pages Functions
+
+- **What happened:** (preventive, v2) the beta endpoint is a Pages Function.
+- **Why:** Cloudflare applies `public/_headers` to static assets only; Function responses get nothing from it.
+- **What to do:** every Function sets its own security headers (`functions/api/beta.ts` has a `HEADERS` constant: `no-store`, a `default-src 'none'` CSP, `nosniff`, HSTS). `public/_routes.json` keeps Functions on `/api/*` only.
+
+## `wrangler.toml` takes over the Pages bindings
+
+- **What happened:** adding `wrangler.toml` with `pages_build_output_dir` for the D1 binding.
+- **Why:** with that key, Pages treats the file as the source of truth for bindings and the compatibility date; the dashboard shows them read-only. A placeholder `database_id` makes the deploy fail.
+- **What to do:** keep bindings in the file, secrets in the dashboard. Fill in the real `database_id` (and the project `name`) before a branch with this file deploys. Local dev works with the placeholder.
+
+## Hiding the banner without a layout shift
+
+- **What happened:** a dismissible banner above the header would push the page down on every load if a module script hid it after paint.
+- **Why:** module scripts run after first paint, and other pages ship no script files at all.
+- **What to do:** the inline theme script reads `aftertaste-beta-banner` from `localStorage` and adds `html.banner-off` before paint; CSS hides the banner. Any edit to `theme.js` needs `npm run csp:hash`. `test:beta` measures CLS after a dismissed reload (0).
+
+## The timing field must not exist without JS
+
+- **What happened:** the minimum-time check reads `elapsed_ms`. If the HTML sent it empty, every no-JS sign-up would count as "too fast" and be dropped silently.
+- **What to do:** the hidden input is rendered `disabled` (disabled fields are not submitted) and the page script enables and fills it at submit. The script waits until 2.6 s have passed instead of sending early, so a quick human is never dropped. The server only checks the field when present.
+
+## axe can catch a stamp mid-press inside `content-visibility`
+
+- **What happened:** v2's audit flagged colour contrast on the COMING LATER stamp in dark at 1440 px only.
+- **Why:** the stamp's press animation was caught part-way (partial opacity): Chrome pauses work in offscreen `content-visibility: auto` sections, and the audit scrolls fast.
+- **What to do:** stamps that are labels rather than verdicts are static (no `press`). If a pressed stamp flags in the audit, check whether it is mid-animation before changing colours.
+
+## Local `CF-Connecting-IP` is client-controlled
+
+- **What happened:** `wrangler pages dev` accepts a `CF-Connecting-IP` header from the client.
+- **Why:** there is no Cloudflare edge locally; in production Cloudflare sets the header and clients cannot override it.
+- **What to do:** use it in tests to give each case its own network (as `test:beta` does). Never trust it as an identity locally.
+
+## Prata has no ₹
+
+- **What happened:** "A ₹40 cutting chai…" is a Prata headline; Prata and DM Mono lack U+20B9.
+- **What to do:** wrap the ₹ in a span set in DM Sans (`.rupee` in `EveryMeal.astro`). Mono text already falls back to DM Sans via the font stack.
+
 ## Smaller gotchas
 
 - **Scoped styles and child components:** a class passed to a child component needs `:global()` in the parent's scoped style.
@@ -98,4 +138,6 @@ Durable lessons so future sessions do not repeat mistakes. Each entry: what happ
 - **html-validate `valid-id` is relaxed:** Astro's heading slugs start with digits (`3-your-location`), valid in HTML5.
 - **Dependency dates:** install with `npm install --before=<date 14 days ago>`; a plain `npm install` can pull a transitive version younger than 14 days.
 - **Placeholder screenshot is light-only:** the phone shows the light theme in dark mode too.
+- **Playwright and `javaScriptEnabled: false`:** `page.evaluate` (and axe injection) hangs in such a context. Test no-JS flows with clicks and visibility checks only, as `test:beta` does.
+- **ESM ignores `NODE_PATH`:** an ad hoc script outside the repo cannot `import 'playwright-core'`; use `createRequire('<repo>/package.json')`.
 - **`main` is already promoted:** at 2026-11-13 `origin/main` and `work-branch` pointed at the same commit (`7b20e7c`), so the project-state note "main does not exist yet" is stale.

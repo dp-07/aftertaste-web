@@ -11,23 +11,27 @@ The hard rules for this repo. They are the source of truth; `CLAUDE.md` links he
 
 ## Privacy and third parties
 
-- **No personal name on the site, except the legal name in the legal documents where required** ("Paras D Prasad" on `/privacy` and `/terms`, synced from the app repo). Everywhere else (pages, footer, JSON-LD, OG images, meta) the responsible party is "Aftertaste" and copy says "we" and "us". `npm run check:no-name` fails if the owner's first name appears in `dist/` outside the legal pages, and warns on the legal pages if it is not in the exact legal form.
+- **No personal name on the site, except the legal name in the legal documents where required** ("Paras D Prasad" on `/privacy` and `/terms`, synced from the app repo). Everywhere else (pages, components, banner, footer, JSON-LD, OG images, meta, the beta-list addendum) the responsible party is "Aftertaste" and copy says "we" and "us". JSON-LD has an `Organization` "Aftertaste" and never a `Person`. `npm run check:no-name` fails if the owner's first name appears in `dist/` outside the legal pages, and warns on the legal pages if it is not in the exact legal form. Keep that gate as it is; do not make it stricter.
 
 - No analytics, cookies, trackers or third-party requests. Fonts and assets are self-hosted. Astro telemetry is off in the npm scripts.
+- **First-party only.** Anything that collects data runs on our own Cloudflare Pages Function and D1 database. No form services, no captcha or bot-check scripts, no email-marketing embeds. The beta form posts only to `/api/beta` (`form-action 'self'`, `connect-src 'self'`).
+- **Beta list data minimisation:** store only the form's fields and the sign-up time. Never store or log IP addresses, user agents or submitted values; rate limiting uses a keyed, hourly-rotating hash ([ARCHITECTURE](ARCHITECTURE.md#beta-list-pages-functions-and-d1)). Answer duplicates and bots like a success. Any change to what is collected must update the `/privacy` addendum first.
+- **No secrets in the repo.** `RATE_LIMIT_SALT` lives in the Cloudflare dashboard and in a git-ignored `.dev.vars`. The D1 `database_id` in `wrangler.toml` is an identifier, not a secret. Exported sign-ups are personal data: keep them out of the repo (`exports/` is git-ignored).
 - Cloudflare Web Analytics is off. Enabling it needs a deliberate decision plus CSP and privacy-copy changes (README "Analytics").
 - Keep these Cloudflare features **off** (they inject scripts or rewrite HTML and break the CSP): Email Address Obfuscation, Rocket Loader, automatic Web Analytics, "JavaScript detections".
 
 ## CSP
 
-- Strict policy in `public/_headers`: `default-src 'none'`, scripts `'self'` plus one hash, styles `'self'`.
+- Strict policy in `public/_headers`: `default-src 'none'`, scripts `'self'` plus one hash, styles `'self'`, `connect-src 'self'`, `form-action 'self'`. Forms must post to a same-origin path.
 - **No inline scripts except the theme script**, whose SHA-256 is in `_headers`. After editing `src/scripts/theme.js` run `npm run csp:hash`.
 - No inline `<style>`, no `style=` attributes, no `unsafe-inline`/`unsafe-eval`. The build is configured so Astro never inlines styles or scripts (`inlineStylesheets: 'never'`, `assetsInlineLimit: 0`).
 - JSON-LD blocks are data, not scripts, and are allowed.
-- `npm run check:csp` enforces all of this.
+- `npm run check:csp` enforces all of this, including `form-action`/`connect-src` and same-origin form actions.
+- Pages Function responses do not get `_headers`: a Function sets its own security headers.
 
 ## JS budget
 
-- Landing page: ≤ 30 KB gzipped JS (module scripts plus the inline theme script). It is ~1.5 KB today.
+- Landing page: ≤ 30 KB gzipped JS (module scripts plus the inline theme script). It is ~2.4 KB today.
 - `/privacy`, `/terms`, `/support`, `/404`: no script files at all (only the inline theme script).
 - No UI framework and no animation library. `npm run check:budget` enforces it.
 
@@ -36,7 +40,7 @@ The hard rules for this repo. They are the source of truth; `CLAUDE.md` links he
 - **Pin every dependency to an exact version** published at least **14 days** earlier (`.npmrc` sets `save-exact=true`).
 - Install with `npm install --before=<ISO date 14 days ago>` so the transitive tree is equally old. Record the choice in `.claude/project-state/decisions.md`.
 - Node is pinned in `.nvmrc` (22.23.4) and `engines`. A newer Node (for example 22.23.5) is adopted only once it is 14 days old.
-- Lighthouse runs through `npx` at a pinned version and is not a dependency.
+- Lighthouse and Wrangler (`wrangler@4.156.0`) run through `npx` at pinned versions and are not dependencies. Bump Wrangler only to a release at least 14 days old, in `package.json` scripts, `scripts/lib.mjs` and the docs together.
 
 ## URLs and hosts
 
@@ -50,7 +54,9 @@ The hard rules for this repo. They are the source of truth; `CLAUDE.md` links he
 - **Banned words:** unlock, elevate, seamless, revolutionize, delve, supercharge, game-changer, "in today's fast-paced world", effortlessly, all-in-one.
 - No emoji, no stock-photo language, no hype. Feature names are the app's own (Want to try, Tried, What should we eat?, Pick for me).
 - Demo places and friends are invented examples, and the demo says so.
-- Legal text is quoted from the app repo as written (no smart quotes, no edits). Fix wording in the app repo and re-sync.
+- Legal text is quoted from the app repo as written (no smart quotes, no edits). Fix wording in the app repo and re-sync. The only site-authored text on a legal page is the beta-list addendum on `/privacy` (`src/pages/privacy.astro`), until the app repo's policy covers the list.
+- Status copy is honest: while `site.playStoreUrl` is null, nothing may imply the app can be downloaded ("Private beta · still cooking", "Join the beta").
+- Sample content (demo places, diary placeholders, sample receipts, the taste report) is labelled as sample on the page.
 
 ## Design
 
@@ -74,4 +80,4 @@ Mirrors the app repo: `task/<name>` → `work-branch` → `main`.
 
 ## Quality gate
 
-**Every change must pass `npm run gates`** before commit (12 gates: build, `astro check`, ESLint, Prettier, html-validate, links, SEO, CSP, JS budget, contrast, no-app-code, no personal name). Details in [DEV-GUIDE](DEV-GUIDE.md#gates).
+**Every change must pass `npm run gates`** before commit; changes to the beta form or function must also pass `npm run test:beta` (12 gates: build, `astro check`, ESLint, Prettier, html-validate, links, SEO, CSP, JS budget, contrast, no-app-code, no personal name). Details in [DEV-GUIDE](DEV-GUIDE.md#gates).

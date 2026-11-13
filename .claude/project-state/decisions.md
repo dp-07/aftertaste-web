@@ -28,3 +28,19 @@
 - **Canonical URL `https://theaftertaste.app`, contact `hello@theaftertaste.app`** (human decision). `.app` is HSTS-preloaded, so HTTPS only; `check:seo` now fails on any `http://` URL (XML namespaces excepted) or any site host other than `theaftertaste.app` / `www.theaftertaste.app`.
 - **www → apex via Cloudflare Bulk Redirects**, per Cloudflare's Pages guide; `_redirects` cannot match hostnames.
 - **`sync:legal` rewrites links to the old domain** onto the canonical URL and records the count (`siteLinksRewritten`). It does not rewrite the legal contact email: that is policy wording and must change in the app repo.
+
+## 2026-11-13 — Website v2: private beta and the beta list
+
+- **"Still cooking" until launch.** No Play badge while `site.playStoreUrl` is null (the component and config stay for launch); every CTA points at the beta form.
+- **Banner state in the inline theme script.** Hiding a dismissed banner before first paint is the only way to avoid a layout shift, and non-landing pages ship no script files. Cost: the theme script's CSP hash changes with it.
+- **First-party beta list on Cloudflare Pages Functions + D1** (free tier), not a form service: no third-party requests, data stays in our account. `public/_routes.json` limits Function invocations to `/api/*`.
+- **Wrangler via `npx`, pinned to 4.156.0** (2026-10-29, the newest release at least 14 days old), not a dependency: like Lighthouse, it is a tool, and it is large. The Workers types used by the function are declared locally (no `@cloudflare/workers-types`).
+- **`wrangler.toml` holds the D1 binding** (Pages then reads bindings from it); the secret `RATE_LIMIT_SALT` stays in the dashboard. The `database_id` is not a secret.
+- **Rate limit: 10 attempts per network per hour**, counted in D1 under `HMAC-SHA256(salt, hour | IP)`. Generous because Indian mobile carriers put many users behind one IP (CGNAT). The raw IP is never stored; buckets rotate hourly; finished hours are deleted on the next request.
+- **Minimum time enforced only when JS ran.** Without JS there is no trustworthy timer (no cookies, no server-rendered token on a static page), so no-JS sign-ups rely on the honeypot, rate limit and validation. The page script waits rather than send early.
+- **Generic success for duplicates, honeypot hits and too-fast submissions**, so the endpoint never reveals who is on the list.
+- **No-JS outcomes via `:target`.** The function 303s to `/#joined` and `/#join-*`; CSS shows the message. No extra pages.
+- **Optimistic UI with confirmed stamp.** The ticket appears at once; the SEAT SAVED stamp lands only on confirmation, and the live region announces only "Saving…" and the real outcome.
+- **Privacy addendum on `/privacy`** (site-authored, clearly labelled) until the app repo's policy covers the beta list. Retention: until six months after launch or until removal is requested.
+- **One new motion moment:** the opener's place name fading on scroll (scroll-driven mask via `@property`). The COMING LATER stamp is static (a label, not a verdict).
+- **New sample place:** "Clock Tower Tea Stall" (invented, like the other demo places).

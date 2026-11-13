@@ -27,13 +27,14 @@ All scripts are in [package.json](../package.json). Astro telemetry is disabled 
 
 ### Run
 
-| Script               | What it does                                                                                                                                                                |
-| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `npm run dev`        | Astro dev server on `http://localhost:4321` (the next free port if that is taken). It runs in the background: stop it with `npx astro dev stop`.                            |
-| `npm run build`      | Static build into `dist/`. Logs `[legal-todo]` warnings for unresolved legal TODOs.                                                                                         |
-| `npm run preview`    | `astro preview` of `dist/` on `http://localhost:4321` (4322 if taken). Run `build` first. Stop it with `npx astro preview stop`. It does **not** send the `_headers` rules. |
-| `npm run serve:dist` | Serves `dist/` like Cloudflare Pages (clean URLs, `_headers` incl. CSP, `_redirects`, 404) on port 4321 by default; `node scripts/serve-dist.mjs 5000` picks a port.        |
-| `npm run format`     | Prettier write (all files, including these docs).                                                                                                                           |
+| Script               | What it does                                                                                                                                                                         |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `npm run dev`        | Astro dev server on `http://localhost:4321` (the next free port if that is taken). It runs in the background: stop it with `npx astro dev stop`.                                     |
+| `npm run build`      | Static build into `dist/`. Logs `[legal-todo]` warnings for unresolved legal TODOs.                                                                                                  |
+| `npm run preview`    | `astro preview` of `dist/` on `http://localhost:4321` (4322 if taken). Run `build` first. Stop it with `npx astro preview stop`. It does **not** send the `_headers` rules.          |
+| `npm run serve:dist` | Serves `dist/` like Cloudflare Pages (clean URLs, `_headers` incl. CSP, `_redirects`, 404) on port 4321 by default; `node scripts/serve-dist.mjs 5000` picks a port.                 |
+| `npm run format`     | Prettier write (all files, including these docs).                                                                                                                                    |
+| `npm run dev:api`    | `wrangler pages dev` on `dist/` plus `functions/` and the local D1, on `http://localhost:8788`: the only way to run the beta form locally. Build first. See [Beta list](#beta-list). |
 
 ### Gates
 
@@ -66,6 +67,16 @@ All scripts are in [package.json](../package.json). Astro telemetry is disabled 
 | `npm run fonts:subset` | Re-subsets the fonts from the app repo's font packages. Needs `APP_REPO_PATH` and `pip install fonttools==4.55.0 brotli==1.1.0`. Outputs are committed; rarely needed. |
 
 `scripts/.runtogether.mjs` (ad hoc) lists adjacent inline text with no space between, which reads as one word in the page text (`node scripts/.runtogether.mjs`, needs `dist/` and Chrome). `scripts/slice-screens.mjs` slices tall screenshots for reading (`node scripts/slice-screens.mjs <file.png>`). `scripts/.cls.mjs` and `scripts/.fontshift.mjs` are throwaway diagnostics for layout shift (see [MEMORY](MEMORY.md#font-loading-layout-shift)).
+
+### Beta list (Wrangler via `npx`, pinned to `wrangler@4.156.0`)
+
+| Script                      | What it does                                                                                                                                                 |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `npm run db:migrate:local`  | Applies `migrations/` to the local D1 in `.wrangler/` (git-ignored).                                                                                         |
+| `npm run db:migrate:remote` | Applies `migrations/` to the **production** D1. Needs `npx wrangler@4.156.0 login` and the real `database_id` in `wrangler.toml`. Owner only.                |
+| `npm run test:beta`         | End-to-end test on a throwaway local D1: API cases, stored rows, the form in Chrome with and without JS, the banner. Needs a build and Chrome. Never remote. |
+
+The first run downloads Wrangler (about 100 MB, cached by npx afterwards).
 
 ### Audits (need Chrome and a build)
 
@@ -120,10 +131,81 @@ Both start their own `serve-dist` server on a random port, so other servers do n
 
 ### Add the Play badge and listing URL
 
-1. In [src/config/site.ts](../src/config/site.ts) set `playStoreUrl` to `https://play.google.com/store/apps/details?id=…`. The "Coming soon" plate becomes a link.
+During the beta the hero shows no Play badge at all.
+
+1. In [src/config/site.ts](../src/config/site.ts) set `playStoreUrl` to `https://play.google.com/store/apps/details?id=…`. [Hero.astro](../src/components/landing/Hero.astro) then renders `PlayBadge` again, as a link.
 2. In [PlayBadge.astro](../src/components/ui/PlayBadge.astro) replace the plate with Google's **official** "Get it on Google Play" badge artwork (follow Google's badge guidelines; add under `src/assets/`, render with `astro:assets`). Do not draw an imitation.
-3. Update the FAQ answer "When can I get it?" in [Faq.astro](../src/components/landing/Faq.astro) and consider adding `offers` to the `MobileApplication` JSON-LD in [index.astro](../src/pages/index.astro).
+3. Retire the beta copy: hero eyebrow and buttons, [BetaBanner.astro](../src/components/BetaBanner.astro), the FAQ answers "Can I use it now?" and "When can I get it?" in [Faq.astro](../src/components/landing/Faq.astro), the footer colophon, and the taste-report "(still cooking)" if it has shipped. Consider adding `offers` to the `MobileApplication` JSON-LD in [index.astro](../src/pages/index.astro).
 4. `npm run gates`.
+
+### Add diary photos
+
+"From the diary" ([FromTheDiary.astro](../src/components/landing/FromTheDiary.astro)) reads its entries from [src/config/diary.ts](../src/config/diary.ts). They are placeholders (`sample: true`) until real ones go in.
+
+1. Put each photo in `src/assets/diary/`: JPEG, PNG, WebP or AVIF, landscape about 4:3 (cards crop to 4:3), at least 640 px wide. Only food: no faces, receipts with card numbers, or anything personal. Strip location metadata if your camera adds it (Astro re-encodes the image, which drops EXIF, but keep originals clean anyway).
+2. In `diary.ts`, edit an entry (dish, place, city, rating 1–5, a one-line note, a short date, an optional `stamp`) and set `photo: 'jhol-momo.jpg'` (the file name only) and `alt`: what is on the plate, in a sentence ("A steel bowl of jhol momos in a red sesame broth, with a spoon"). The build fails if `alt` is missing or the file does not exist.
+3. Remove `sample: true` from real entries. The "Sample pages for now" note disappears when no samples remain; remove the `TODO(diary)` comment then.
+4. `npm run gates`, then check the strip at 320 and 1440 px (`npm run audit:screens -- --pages=/ --widths=320,1440`). Astro emits AVIF and WebP at 320 and 640 px, lazily loaded.
+
+## Beta list
+
+How the backend works: [ARCHITECTURE](ARCHITECTURE.md#beta-list-pages-functions-and-d1). Rules: [RULES](RULES.md#privacy-and-third-parties).
+
+### Run the beta form locally
+
+`npm run dev` and `npm run serve:dist` do not run Functions: the form posts to a 404 there. Use Wrangler's Pages dev server with a local D1:
+
+```sh
+nvm use
+npm run build                      # the dev server serves dist/
+echo "RATE_LIMIT_SALT=$(openssl rand -hex 32)" > .dev.vars   # once; git-ignored
+npm run db:migrate:local           # once, and after each new migration
+npm run dev:api                    # http://localhost:8788 (form + /api/beta)
+```
+
+Rebuild (`npm run build`) after changing the site; Wrangler reloads `functions/` by itself. The local database lives in `.wrangler/` (git-ignored); delete that folder to start again. Look at it with:
+
+```sh
+npx --yes wrangler@4.156.0 d1 execute aftertaste-beta --local --command "SELECT * FROM beta_signups"
+```
+
+Locally you can send `CF-Connecting-IP` yourself to test the rate limit (in production Cloudflare sets it and it cannot be spoofed). `npm run test:beta` does all of this in a throwaway database.
+
+### Beta list: Cloudflare setup
+
+One-time steps for the owner. Nothing here is done by Claude. Do them before `work-branch` is pushed with this change, because a deploy with the placeholder `database_id` fails.
+
+1. **Create the database.** Cloudflare dashboard → **Storage & Databases → D1 SQL Database → Create database**. Name: `aftertaste-beta`. Location: pick the Asia-Pacific hint if offered (closest to most visitors). Create, then copy the **Database ID** from its page.
+2. **Point the config at it.** In [wrangler.toml](../wrangler.toml) replace the placeholder `database_id` with that ID, and check `name` equals your Pages project's name (**Workers & Pages** → the project). Or send both to Claude to commit. The ID is an identifier, not a secret.
+3. **Create the tables** (choose one):
+   - CLI: `npx --yes wrangler@4.156.0 login`, then `npm run db:migrate:remote`. Wrangler records the migration, so later migrations apply cleanly.
+   - Dashboard: D1 → `aftertaste-beta` → **Console**, paste the whole of [migrations/0001_beta_list.sql](../migrations/0001_beta_list.sql), run it. (It uses `IF NOT EXISTS`, so running it again, or later through the CLI, is harmless.)
+   - Check: `SELECT name FROM sqlite_master WHERE type = 'table';` lists `beta_signups` and `beta_rate_limits`.
+4. **Add the secret.** Pages project → **Settings → Variables and Secrets → Add**: type **Secret**, name `RATE_LIMIT_SALT`, value a long random string (`openssl rand -hex 32`). Add it for **Production** and **Preview**. Never commit it.
+5. **The binding.** Because `wrangler.toml` has `pages_build_output_dir`, Pages reads the D1 binding from it: after the next deploy, **Settings → Bindings** shows `BETA_DB` → `aftertaste-beta`, marked as managed by the Wrangler file. Nothing to add by hand. (Preview deployments share it; to keep test sign-ups apart, create a second database and add an `[env.preview]` block with its own `[[env.preview.d1_databases]]`.)
+6. **Check after the deploy.** On the preview URL (or production), submit the form with your own address: you see "You're on the list." Then in the D1 Console run `SELECT email, created_at FROM beta_signups;`. Also submit with JS disabled: the page jumps to the ticket. `curl -sI -X POST https://theaftertaste.app/api/beta` returns `415` with `cache-control: no-store`.
+
+### Export the beta list
+
+Exports are personal data: keep them out of the repo (`exports/` is git-ignored) and delete them when done.
+
+- **Dashboard:** D1 → `aftertaste-beta` → **Console**, run
+  `SELECT email, city, heard, created_at FROM beta_signups ORDER BY created_at;`
+  and copy the rows from the results. Counts: `SELECT heard, count(*) FROM beta_signups GROUP BY heard;`.
+- **CLI, as a file:**
+
+  ```sh
+  mkdir -p exports
+  npx --yes wrangler@4.156.0 d1 execute aftertaste-beta --remote --json \
+    --command "SELECT email, city, heard, created_at FROM beta_signups ORDER BY created_at" > exports/beta-signups.json
+  npx --yes wrangler@4.156.0 d1 export aftertaste-beta --remote --table beta_signups --output exports/beta-signups.sql
+  ```
+
+### Remove someone or clear the list
+
+- Someone asks to be removed (email to `hello@`): in the Console, `DELETE FROM beta_signups WHERE email = 'their@address.com';` (addresses are stored lower-cased). Reply to confirm.
+- Retention: six months after launch, delete the list: `DELETE FROM beta_signups;` (the task is in [TASKS](TASKS.md)).
+- Rate-limit rows clear themselves (rows from finished hours are deleted on the next request).
 
 ### Update the legal pages
 
@@ -171,3 +253,8 @@ Edit `src/scripts/theme.js`, run `npm run csp:hash`, then `npm run gates`.
 | `sync:legal`: "Set APP_REPO_PATH …"                           | Point it at the app repo root (it must contain `docs/legal/`).                                                                                                                                                                        |
 | Audit scripts cannot find Chrome                              | Install Google Chrome or set `CHROME_PATH` to the binary.                                                                                                                                                                             |
 | Prettier fails on a Markdown file                             | `npm run format`, then re-run the gates.                                                                                                                                                                                              |
+| The beta form 404s locally                                    | `npm run dev`, `preview` and `serve:dist` do not run Functions. Use `npm run dev:api` (after `npm run build`).                                                                                                                        |
+| The form says "Something went wrong on our side" (503)        | The `BETA_DB` binding is missing or the tables do not exist: run `npm run db:migrate:local` (or the remote setup above). The function logs `[beta] …` to the Wrangler output or the Pages Functions log.                              |
+| The form says "Lots of sign-ups from your network" (429)      | More than 10 attempts from one network this hour. Locally, wait, delete `.wrangler/`, or send a different `CF-Connecting-IP`.                                                                                                         |
+| Wrangler logs "RATE_LIMIT_SALT is not set"                    | Create `.dev.vars` locally, or add the secret in the dashboard (Production and Preview). Rate limiting is weaker until then.                                                                                                          |
+| A Pages deploy fails on the D1 binding                        | `wrangler.toml` still has the placeholder `database_id`, or `name` does not match the project. See [Beta list: Cloudflare setup](#beta-list-cloudflare-setup).                                                                        |

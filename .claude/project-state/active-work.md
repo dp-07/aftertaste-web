@@ -1,8 +1,26 @@
-# Active work: website v1 (`task/website-v1`) — complete, awaiting "approved"
+# Active work: website v2 (`task/website-v2`) — complete, awaiting "approved"
+
+Branched from `origin/work-branch` @ `fb4d0b4` (v1, docs and fixes-1 merged). Local checkpoint commits only; push and merge wait for the human's "approved".
+
+## Scope
+
+1. **Status "still cooking":** hero eyebrow "Private beta · still cooking", CTA "Join the beta" (→ `#join`), no Play badge while `playStoreUrl` is null (config kept), dismissible banner on every page (state in the inline theme script, no layout shift), FAQ "Can I use it now?" and a new "When can I get it?", footer "Made in India · Private beta · © 2026 Aftertaste".
+2. **Personal name:** unchanged rule and gate (legal name on `/privacy` and `/terms` only; Organization JSON-LD, no Person).
+3. **Beta list:** `JoinBeta.astro` + `functions/api/beta.ts` + D1 (`migrations/0001_beta_list.sql`, `wrangler.toml`, `public/_routes.json`). Progressive enhancement, honeypot, minimum time, HMAC-keyed hourly rate limit, size/type/origin limits, generic answers, no IPs. CSP `form-action 'self'`. `/privacy` addendum. `npm run test:beta`.
+4. **New sections:** Opener (camera roll, the one new motion: the name fades on scroll), 07 Every meal counts, 08 From the diary (placeholders), 09 Your taste report (still cooking).
+5. **Docs:** PRD, DESIGN, ARCHITECTURE, RULES, TASKS, MEMORY, DEV-GUIDE, README, CLAUDE.md, this folder.
+
+## Next
+
+On "approved": push `task/website-v2`, merge into `work-branch` with `--no-ff`, run `npm run gates`, push `work-branch`. **Before that push** the human must have created the D1 database and the `wrangler.toml` placeholders must be filled in, or the `work-branch` preview deploy fails (docs/DEV-GUIDE.md "Beta list: Cloudflare setup").
+
+## v1 (merged): recon, token mapping, phase log
+
+The app → CSS token mapping below is still referenced by `src/styles/tokens.css` and the README.
 
 Branch `task/website-v1` from `work-branch` (root commit `3fa6519`; the repo had no commits, so `main` does not exist yet and is created by the human when promoting `work-branch`). Local phase commits only; push/merge wait for the human's "approved".
 
-## Phase 0 recon: findings
+### Phase 0 recon: findings
 
 Read-only reads of the app repo (`DishDiary`, branch `work-branch`, legal docs at `f19f50e`):
 
@@ -16,7 +34,7 @@ Read-only reads of the app repo (`DishDiary`, branch `work-branch`, legal docs a
 - **Brand pack:** `design/aftertaste-v1/` (locked v1, v1.1 icon = stacked wordmark). Glyph SVGs (full / simple / dark), seal, stamps, loaders, favicon source, app icon PNGs.
 - **Not copied:** any app source (`src/**`), config, `.env*`, git history. Components are re-implemented for the web from the visual spec (SPEC.md, brand README), not translated from app code.
 
-## Token mapping (app → CSS custom properties, `src/styles/tokens.css`)
+### Token mapping (app → CSS custom properties, `src/styles/tokens.css`)
 
 Colours use `light-dark(<light>, <dark>)` so each token's two values sit side by side; `color-scheme` on `:root` picks the branch (system by default, forced by `data-theme`).
 
@@ -64,7 +82,7 @@ Colours use `light-dark(<light>, <dark>)` so each token's two values sit side by
 | reveal (DecisionCard): scale 1.08 → 1, rotate −3° → 0, fade, slow                           | `@keyframes reveal`                                                                                        |
 | food-cycle loader 3.2 s loop, ring 8 s                                                      | `@keyframes` on the 404 page and the demo's pick                                                           |
 
-## Plan
+### Plan
 
 1. **Foundation:** Astro 7 static, TS strict, tokens.css, self-hosted subset woff2 (+ metric-matched fallbacks to avoid CLS), theme system (inline hashed head script; Light/Dark/System toggle), layout primitives, CLAUDE.md + project-state, gate scripts.
 2. **Brand components:** Wordmark (static + assemble animation, inline SVG glyphs coloured by tokens), SealMark, Stamp (verdict + LOGGED), Receipt, PhoneFrame, Button, InkLink, ThemeToggle, Icon (Feather), Loader.
@@ -76,7 +94,7 @@ Colours use `light-dark(<light>, <dark>)` so each token's two values sit side by
 
 Decisions taken here are recorded in `decisions.md`.
 
-## Progress
+### Progress
 
 - Phase 0: done.
 - Phase 1: done. Gates: build, astro check, eslint, prettier, html-validate pass; links/seo fail only on pages and icons added in phases 4–5.
