@@ -39,19 +39,20 @@ All scripts are in [package.json](../package.json). Astro telemetry is disabled 
 
 `npm run gates` ([scripts/gates.mjs](../scripts/gates.mjs)) runs all of these in order and stops at the first failure. The build step also fails on any build warning other than `[legal-todo]`. Run it before every commit. Most checks read `dist/`, so they need a build; `gates` builds first, but when running a check alone run `npm run build` first.
 
-| Gate          | Script                      | Checks                                                                                            |
-| ------------- | --------------------------- | ------------------------------------------------------------------------------------------------- |
-| build         | `npx astro build`           | Builds, no unexpected warnings                                                                    |
-| astro check   | `npm run check:types`       | TypeScript and Astro diagnostics                                                                  |
-| eslint        | `npm run lint`              | ESLint, zero warnings                                                                             |
-| prettier      | `npm run format:check`      | Formatting of every file                                                                          |
-| html-validate | `npm run check:html`        | HTML of every built page                                                                          |
-| links         | `npm run check:links`       | Internal links, assets and `#fragments` in `dist/`; relative links and files in the Markdown docs |
-| seo           | `npm run check:seo`         | Sitemap, robots, titles, descriptions, canonicals, OG, HTTPS only, canonical host                 |
-| csp           | `npm run check:csp`         | Inline script hashes match `_headers`, no inline styles, no third parties                         |
-| js budget     | `npm run check:budget`      | Landing ≤ 30 KB gz JS; other pages ship no script files                                           |
-| contrast      | `npm run check:contrast`    | WCAG contrast of text token pairs in both themes                                                  |
-| no app code   | `npm run check:no-app-code` | No app identifiers or secrets; with `APP_REPO_PATH` also compares app env values                  |
+| Gate             | Script                      | Checks                                                                                            |
+| ---------------- | --------------------------- | ------------------------------------------------------------------------------------------------- |
+| build            | `npx astro build`           | Builds, no unexpected warnings                                                                    |
+| astro check      | `npm run check:types`       | TypeScript and Astro diagnostics                                                                  |
+| eslint           | `npm run lint`              | ESLint, zero warnings                                                                             |
+| prettier         | `npm run format:check`      | Formatting of every file                                                                          |
+| html-validate    | `npm run check:html`        | HTML of every built page                                                                          |
+| links            | `npm run check:links`       | Internal links, assets and `#fragments` in `dist/`; relative links and files in the Markdown docs |
+| seo              | `npm run check:seo`         | Sitemap, robots, titles, descriptions, canonicals, OG, HTTPS only, canonical host                 |
+| csp              | `npm run check:csp`         | Inline script hashes match `_headers`, no inline styles, no third parties                         |
+| js budget        | `npm run check:budget`      | Landing ≤ 30 KB gz JS; other pages ship no script files                                           |
+| contrast         | `npm run check:contrast`    | WCAG contrast of text token pairs in both themes                                                  |
+| no app code      | `npm run check:no-app-code` | No app identifiers or secrets; with `APP_REPO_PATH` also compares app env values                  |
+| no personal name | `npm run check:no-name`     | The owner's first name is not in `dist/` (legal pages exempt, with a warning, until re-synced)    |
 
 ### Sync and generators
 
@@ -64,7 +65,7 @@ All scripts are in [package.json](../package.json). Astro telemetry is disabled 
 | `npm run placeholders` | Re-renders the placeholder hero screenshot (needs Chrome).                                                                                                             |
 | `npm run fonts:subset` | Re-subsets the fonts from the app repo's font packages. Needs `APP_REPO_PATH` and `pip install fonttools==4.55.0 brotli==1.1.0`. Outputs are committed; rarely needed. |
 
-`scripts/slice-screens.mjs` slices tall screenshots for reading (`node scripts/slice-screens.mjs <file.png>`). `scripts/.cls.mjs` and `scripts/.fontshift.mjs` are throwaway diagnostics for layout shift (see [MEMORY](MEMORY.md#font-loading-layout-shift)).
+`scripts/.runtogether.mjs` (ad hoc) lists adjacent inline text with no space between, which reads as one word in the page text (`node scripts/.runtogether.mjs`, needs `dist/` and Chrome). `scripts/slice-screens.mjs` slices tall screenshots for reading (`node scripts/slice-screens.mjs <file.png>`). `scripts/.cls.mjs` and `scripts/.fontshift.mjs` are throwaway diagnostics for layout shift (see [MEMORY](MEMORY.md#font-loading-layout-shift)).
 
 ### Audits (need Chrome and a build)
 

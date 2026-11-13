@@ -26,7 +26,7 @@ src/
     landing/            Hero, HowItWorks, Spread, DecisionDemo, ReceiptFeature, Privacy, Faq
     app/                replicas of app UI rows/cards used as demos
     LegalPage.astro, SiteHeader.astro, SiteFooter.astro
-  config/site.ts        name, URL, contact email, owner, Play URL (null = "Coming soon")
+  config/site.ts        name, URL, contact email, Play URL (null = "Coming soon")
   content/legal/        synced legal markdown (never edit by hand)
   content.config.ts     `legal` collection schema
   layouts/BaseLayout.astro
@@ -99,4 +99,4 @@ Details and reduced-motion behaviour per effect are in [DESIGN](DESIGN.md#motion
 
 ## Quality tooling
 
-`scripts/` holds the 11 gates (run by `npm run gates`), the audits (screenshots, axe, Lighthouse) and the asset generators. See [DEV-GUIDE](DEV-GUIDE.md#scripts). Live status and decisions: `.claude/project-state/`.
+`scripts/` holds the 12 gates (run by `npm run gates`), the audits (screenshots, axe, Lighthouse) and the asset generators. See [DEV-GUIDE](DEV-GUIDE.md#scripts). Live status and decisions: `.claude/project-state/`.

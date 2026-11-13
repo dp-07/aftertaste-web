@@ -21,7 +21,6 @@ const jsonLd = [
     url: site.url,
     logo,
     email: site.contactEmail,
-    founder: { '@type': 'Person', name: site.owner },
   },
   {
     '@context': 'https://schema.org',
@@ -34,7 +33,7 @@ const jsonLd = [
     applicationCategory: 'LifestyleApplication',
     isAccessibleForFree: true,
     inLanguage: 'en-IN',
-    author: { '@type': 'Person', name: site.owner },
+    author: { '@type': 'Organization', name: site.name },
   },
 ];
 ---
