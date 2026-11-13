@@ -222,6 +222,10 @@ The script's `TODO` count includes the `[TODO: ...]` placeholder inside the hidd
 
 Never edit `src/content/legal/*.md` by hand. Check the `sourceCommit` in the frontmatter and the `[legal-todo]` count in the build log. Details: [ARCHITECTURE](ARCHITECTURE.md#legal-sync-pipeline).
 
+### How to sync with the app
+
+To check whether the site has drifted from the app (tokens, fonts, icons, brand assets, features, legal, support config, platform and status wording) and bring it back in line, ask Claude Code to "sync the website with the app" (the project skill [sync-with-app](../.claude/skills/sync-with-app/SKILL.md)). It needs `APP_REPO_PATH` set, with the app repo clean and on its work-branch. It reads the app repo only, writes a drift report, applies mechanical changes, stops for anything that needs a decision, and records the result in the ledger `.claude/project-state/app-sync.json`.
+
 ### Add a page
 
 1. Create `src/pages/<name>.astro` using `BaseLayout` with a unique `title`, a `description` of 50–170 characters and an `og` kind (`home`, `legal`, `support` or `default`).
