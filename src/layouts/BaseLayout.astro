@@ -26,9 +26,11 @@ interface Props {
   noindex?: boolean;
   /** Structured data objects, serialised as JSON-LD. */
   jsonLd?: object[];
+  /** Footer "Buy us a coffee" link. Off by default: /privacy, /terms and /support must never carry it. */
+  coffeeLink?: boolean;
 }
 
-const { title, description, og = 'default', noindex = false, jsonLd = [] } = Astro.props;
+const { title, description, og = 'default', noindex = false, jsonLd = [], coffeeLink = false } = Astro.props;
 const fullTitle = title ? `${title} · ${site.name}` : `${site.name}: ${site.tagline.toLowerCase()}`;
 const pathname = Astro.url.pathname.replace(/\.html$/, '').replace(/\/index$/, '/');
 const canonical = new URL(pathname === '/' ? '/' : pathname.replace(/\/$/, ''), site.url).href;
@@ -92,6 +94,6 @@ const ogAlt = `${site.name}: ${site.tagline}`;
     <main id="main" tabindex="-1">
       <slot />
     </main>
-    <SiteFooter />
+    <SiteFooter coffeeLink={coffeeLink} />
   </body>
 </html>

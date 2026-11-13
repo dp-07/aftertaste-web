@@ -2,6 +2,11 @@
 import { mailto, site } from '../config/site';
 import Wordmark from './brand/Wordmark.astro';
 
+interface Props {
+  coffeeLink?: boolean;
+}
+
+const { coffeeLink = false } = Astro.props;
 const year = new Date().getFullYear();
 ---
 
@@ -28,6 +33,13 @@ const year = new Date().getFullYear();
             Support
           </a>
         </li>
+        {coffeeLink && (
+          <li>
+            <a class="ink-link" href="/coffee">
+              Buy us a coffee
+            </a>
+          </li>
+        )}
         <li>
           <a class="ink-link" href={mailto()}>
             {site.contactEmail}
