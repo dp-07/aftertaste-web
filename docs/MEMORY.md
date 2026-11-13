@@ -89,6 +89,14 @@ Durable lessons so future sessions do not repeat mistakes. Each entry: what happ
 
 - **What to do:** after any edit to `src/scripts/theme.js` (even whitespace), run `npm run csp:hash`, then `npm run build && npm run check:csp`. Prettier formats the file; hash after formatting.
 
+## UPI: no payee name, and why the QR is generated
+
+- **Payee name:** the app's UPI link carries a `pn=` payee name, which is a personal name. The site's link has only `pa` (the ID), `cu` and `tn`: UPI apps show the bank-verified name anyway, and the no-name rule ([RULES](RULES.md#privacy-and-third-parties)) stays true. `check:payments` fails on `pn=` in any `upi://` link. Only the ID value was copied from the app repo.
+- **The name gate does not trip on the ID:** the owner's first name appears inside the ID, but followed by digits, so `\bparas\b` does not match. No allowance exists or is needed. If the ID ever changes to one where the name is a whole word, add a narrow allowance for that exact ID on `/coffee` only.
+- **Why the QR is generated:** the app's QR image may embed the payee name, and an image would drift from the link. `qrcode-generator` (devDependency, zero dependencies) runs at build and emits an inline SVG path, so no JS ships and the QR always encodes `upiUrl()`.
+- **Why the extra CSP hash:** the Copy button needs a tiny script; it is inline and hashed like the theme script (`npm run csp:hash` rewrites both). Without JS the ID is selectable text and the Copy button never appears.
+- **Why `/privacy`, `/terms`, `/support` never link here:** the app links to them and Google Play's payment policy; see [RULES](RULES.md#payments-coffee).
+
 ## Docs are scanned by the no-app-code gate
 
 - **What happened:** `check:no-app-code` scans every tracked or untracked non-ignored text file, Markdown included.

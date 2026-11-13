@@ -11,6 +11,7 @@ import FromTheDiary from '../components/landing/FromTheDiary.astro';
 import TasteReport from '../components/landing/TasteReport.astro';
 import Privacy from '../components/landing/Privacy.astro';
 import Faq from '../components/landing/Faq.astro';
+import CoffeeNote from '../components/landing/CoffeeNote.astro';
 import JoinBeta from '../components/landing/JoinBeta.astro';
 import WishlistRow from '../components/app/WishlistRow.astro';
 import PlaceList from '../components/app/PlaceList.astro';
@@ -43,7 +44,7 @@ const jsonLd = [
 ];
 ---
 
-<BaseLayout description={site.description} og="home" jsonLd={jsonLd}>
+<BaseLayout description={site.description} og="home" jsonLd={jsonLd} coffeeLink>
   <Hero />
   <Opener />
   <HowItWorks />
@@ -115,6 +116,7 @@ const jsonLd = [
   <TasteReport />
   <Privacy />
   <Faq />
+  <CoffeeNote />
   <JoinBeta />
 </BaseLayout>
 

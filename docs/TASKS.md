@@ -20,6 +20,13 @@ Target launch: **23 Nov 2026** (owner-stated).
 
 Synced from the app repo @ `04039aa` (2026-11-13): **0 TODOs** in both documents, no Draft banner. The legal name appears only as "Paras D Prasad" (privacy "Who is responsible", terms intro); `check:no-name` reports no warnings. Section 13 of the privacy policy covers the website beta list.
 
+## Coffee page
+
+| Item                                 | Owner  | Status                | Notes                                                                                                                |
+| ------------------------------------ | ------ | --------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `/coffee` with Buy Me a Coffee + UPI | Claude | **done** (2026-11-14) | Build-time QR (`qrcode-generator@2.0.4`), payment-link gate, footer variant. See [RULES](RULES.md#payments-coffee).  |
+| Prefer a business UPI ID             | human  | open                  | The ID in `site.upiId` is personal-looking; swapping to a business VPA is a one-line change in `src/config/site.ts`. |
+
 ## Launch checklist (23 Nov 2026)
 
 ### Before launch

@@ -108,6 +108,10 @@ Some of the app's colour pairings fall below WCAG AA on the web. The site adds a
 | 09 Your taste report (still cooking)  | A dashed-border card: kicker "Taste report · sample data", COMING LATER stamp, three paprika bars with values written beside them (one series, no legend), two figures, a "made-up numbers" line.                                          |
 | 12 Save your seat                     | Copy beside a surface card with the form (52 px fields on `raised`, labels above, "(optional)" in muted). Success is a paper ticket with SEAT SAVED; errors are a soft-paprika note with an icon.                                          |
 
+## Coffee page (`/coffee`)
+
+An editorial single column (44 rem): the `SealMark`, a kicker, a Prata headline and a warm lede, a ruled "What your coffee does" list, one pill button (Buy us a coffee, no Buy Me a Coffee logo or colours), a quiet "or pay with UPI" divider, then the UPI block. The QR is a **fixed light card with dark modules in both themes** (`#fff` and `#16130f`, the only literals, so it always scans), 224 px, 4-module quiet zone. Phone or desktop is decided with CSS: the UPI app button hides on `(hover: hover) and (pointer: fine)`, the QR hides on `(pointer: coarse) and (width < 48rem)`; both show when unsure. The UPI ID is mono, `user-select: all`; the Copy button appears only once the script confirms a clipboard, and a polite live region says "UPI ID copied". The landing page's entry is one hairline-ruled line after the FAQ, no number, no card.
+
 ## Motion inventory
 
 Every effect has a static, complete resting state under `prefers-reduced-motion`. `base.css` also has a catch-all that collapses durations to ~0.
