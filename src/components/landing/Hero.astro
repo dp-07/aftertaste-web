@@ -1,31 +1,36 @@
 ---
 import heroShot from '../../assets/screenshots/home-placeholder.png';
-import { notifyHref, site } from '../../config/site';
+import { site } from '../../config/site';
 import PhoneFrame from '../brand/PhoneFrame.astro';
 import SealMark from '../brand/SealMark.astro';
 import Wordmark from '../brand/Wordmark.astro';
 import Button from '../ui/Button.astro';
 import PlayBadge from '../ui/PlayBadge.astro';
+// The Play badge returns at launch: it renders only once site.playStoreUrl is set.
+const live = site.playStoreUrl !== null;
 // TODO(screenshots): home-placeholder.png is a rendered placeholder; replace it with a real Home screenshot (README "Screenshots").
 ---
 
 <section class="hero" aria-labelledby="hero-title">
   <div class="wrap grid-12 hero-grid">
     <div class="intro">
-      <p class="t-label kicker">A food diary for Android</p>
+      <p class="t-label kicker">Private beta · still cooking</p>
       <h1 id="hero-title">
         <Wordmark variant="stacked" animate class="hero-mark" />
         <span class="visually-hidden"> — </span>
         <span class="tagline">{site.tagline}</span>
       </h1>
       <p class="support">
-        Log the places you eat at and every dish you order, with a photo and a rating. Months later, you'll know exactly
-        what to order, and what to skip.
+        A food diary for Android. Log the places you eat at and every dish you order, with a photo and a rating. Months
+        later, you'll know exactly what to order, and what to skip.
       </p>
       <div class="actions">
-        <PlayBadge />
-        <Button href={notifyHref} variant="secondary" icon="bell">
-          Get notified
+        {live && <PlayBadge />}
+        <Button href="#join" icon="arrow-down" iconEnd={true}>
+          Join the beta
+        </Button>
+        <Button href="#how-it-works" variant="secondary">
+          See how it works
         </Button>
       </div>
       <p class="t-body-sm fine">Free. Private by default. No ads, no tracking.</p>

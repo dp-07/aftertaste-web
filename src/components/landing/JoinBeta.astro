@@ -1,0 +1,341 @@
+---
+/**
+ * "Save your seat": the beta list form. Posts to functions/api/beta.ts (same
+ * origin; the CSP's form-action and connect-src are 'self').
+ *
+ * - Without JS: a normal POST. The function answers with a 303 to one of the
+ *   fragments below (#joined, #join-invalid, #join-limited, #join-error) and
+ *   CSS :target shows that message (and hides the form after #joined).
+ * - With JS (src/scripts/landing.ts): the ticket appears at once, optimistic,
+ *   while the request runs; the SEAT SAVED stamp presses when the server
+ *   confirms, or the form comes back with the error. A polite live region
+ *   announces each step and focus follows.
+ *
+ * Anti-abuse fields: `website` is a honeypot people never see or reach;
+ * `elapsed_ms` is enabled and filled by the script (time since the page
+ * loaded). Nothing else is sent.
+ */
+import { mailto, site } from '../../config/site';
+import Stamp from '../brand/Stamp.astro';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import InkLink from '../ui/InkLink.astro';
+
+const heard = [
+  { value: 'friend', label: 'From a friend' },
+  { value: 'instagram', label: 'Instagram' },
+  { value: 'whatsapp', label: 'WhatsApp' },
+  { value: 'search', label: 'Search' },
+  { value: 'other', label: 'Somewhere else' },
+];
+---
+
+<section id="join" class="join defer-render" aria-labelledby="join-title">
+  <div class="wrap">
+    <p class="running-head t-label">
+      <span class="num">12</span> Save your seat
+    </p>
+    <div class="grid-12 layout">
+      <div class="intro">
+        <h2 id="join-title" class="t-display">
+          Save your seat.
+        </h2>
+        <p class="lead">
+          We’re letting people into the beta a few at a time. Leave your email and we’ll write when there’s room at the
+          table.
+        </p>
+        <p class="muted">Android only for now. We’ll only ever email you about the beta and the launch.</p>
+      </div>
+
+      <div class="card" data-join>
+        <div id="joined" class="outcome ticket" tabindex="-1" data-join-ticket>
+          <p class="t-label ticket-kicker">{site.name} · private beta</p>
+          <h3 class="t-title" data-join-title>
+            You’re on the list.
+          </h3>
+          <p class="ticket-body" data-join-body>
+            We’ll email you when there’s a seat for you.
+          </p>
+          <Stamp variant="seat" press="manual" class="ticket-stamp" />
+        </div>
+
+        <p id="join-invalid" class="outcome note" tabindex="-1">
+          <Icon name="alert-circle" size={20} class="note-icon" />
+          <span>That email address doesn’t look right. Please check it and try again.</span>
+        </p>
+        <p id="join-limited" class="outcome note" tabindex="-1">
+          <Icon name="clock" size={20} class="note-icon" />
+          <span>Lots of sign-ups from your network just now. Please try again in an hour.</span>
+        </p>
+        <p id="join-error" class="outcome note" tabindex="-1">
+          <Icon name="alert-circle" size={20} class="note-icon" />
+          <span>
+            Something went wrong on our side. Please try again, or write to{' '}
+            <InkLink href={mailto('Save my seat')}>{site.contactEmail}</InkLink>.
+          </span>
+        </p>
+
+        <form class="form" method="post" action={site.betaEndpoint} data-join-form>
+          <div class="field">
+            <label for="join-email">Email</label>
+            <input
+              id="join-email"
+              name="email"
+              type="email"
+              required
+              maxlength="254"
+              autocomplete="email"
+              inputmode="email"
+              spellcheck="false"
+            />
+          </div>
+          <div class="field">
+            <label for="join-city">
+              City <span class="optional">(optional)</span>
+            </label>
+            <input id="join-city" name="city" type="text" maxlength="80" autocomplete="address-level2" />
+          </div>
+          <div class="field">
+            <label for="join-heard">
+              How did you hear about us? <span class="optional">(optional)</span>
+            </label>
+            <span class="select">
+              <select id="join-heard" name="heard">
+                <option value="">Choose one</option>
+                {heard.map((h) => (
+                  <option value={h.value}>{h.label}</option>
+                ))}
+              </select>
+              <Icon name="chevron-down" size={18} class="select-icon" />
+            </span>
+          </div>
+          <div class="hp" aria-hidden="true">
+            <label for="join-website">Leave this empty</label>
+            <input id="join-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+          <input type="hidden" name="elapsed_ms" value="" disabled data-join-elapsed />
+          <p class="t-body-sm consent">
+            We’ll use your email only to invite you to the beta and to tell you when we launch. We keep it until six
+            months after launch, or until you ask us to remove you.{' '}
+            <InkLink href="/privacy#beta-list">How we handle the list</InkLink>.
+          </p>
+          <Button type="submit" icon="arrow-right" iconEnd={true} class="submit">
+            Save my seat
+          </Button>
+        </form>
+        <p class="visually-hidden" aria-live="polite" data-join-live></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .join {
+    padding-block-start: var(--space-section);
+    scroll-margin-block-start: var(--s-16);
+  }
+
+  .layout {
+    row-gap: var(--space-block);
+    margin-block-start: var(--space-block);
+    align-items: start;
+  }
+
+  .intro {
+    display: grid;
+    gap: var(--s-20);
+    max-inline-size: var(--measure);
+  }
+
+  .lead {
+    font-size: var(--fs-lede);
+    line-height: 1.45;
+  }
+
+  .card {
+    display: grid;
+    gap: var(--s-20);
+    max-inline-size: 34rem;
+    padding: clamp(1.25rem, 0.9rem + 1.6vw, 2rem);
+    border-radius: var(--r-lg);
+    background: var(--surface);
+    box-shadow: var(--elevation);
+  }
+
+  /* ── Form ── */
+  .form {
+    display: grid;
+    gap: var(--s-20);
+  }
+
+  .field {
+    display: grid;
+    gap: var(--s-8);
+  }
+
+  label {
+    font-weight: 500;
+    font-size: var(--fs-body-sm);
+  }
+
+  .optional {
+    font-weight: 400;
+    color: var(--muted);
+  }
+
+  input,
+  select {
+    inline-size: 100%;
+    min-block-size: var(--control-h);
+    padding-inline: var(--s-16);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r-md);
+    background: var(--raised);
+    color: var(--text);
+    font: inherit;
+    transition: border-color var(--dur-base) var(--ease-out);
+  }
+
+  input:hover,
+  select:hover {
+    border-color: var(--muted);
+  }
+
+  input:focus-visible,
+  select:focus-visible {
+    border-color: var(--primary);
+    outline-offset: 1px;
+  }
+
+  input[aria-invalid='true'] {
+    border-color: var(--danger);
+  }
+
+  .select {
+    position: relative;
+    display: block;
+  }
+
+  select {
+    appearance: none;
+    padding-inline-end: calc(var(--s-16) + 24px);
+    cursor: pointer;
+  }
+
+  .select :global(.select-icon) {
+    position: absolute;
+    inset-inline-end: var(--s-16);
+    inset-block-start: 50%;
+    color: var(--muted);
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
+  /* The honeypot: off-screen, unreachable by keyboard, hidden from assistive tech. */
+  .hp {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .consent {
+    color: var(--muted);
+  }
+
+  .form :global(.submit) {
+    justify-self: start;
+  }
+
+  /* ── Outcomes: hidden until targeted (no JS) or set by the script ── */
+  .outcome {
+    display: none;
+  }
+
+  .ticket:target,
+  .card[data-state='saving'] .ticket,
+  .card[data-state='saved'] .ticket {
+    display: block;
+  }
+
+  .note:target,
+  .card[data-state='invalid'] #join-invalid,
+  .card[data-state='limited'] #join-limited,
+  .card[data-state='error'] #join-error {
+    display: flex;
+  }
+
+  .card:has(.ticket:target) .form,
+  .card[data-state='saving'] .form,
+  .card[data-state='saved'] .form {
+    display: none;
+  }
+
+  .note {
+    gap: var(--s-12);
+    align-items: start;
+    padding: var(--s-12) var(--s-16);
+    border-radius: var(--r-md);
+    border-inline-start: 3px solid var(--primary);
+    background: var(--primary-soft);
+    color: var(--text);
+    font-size: var(--fs-body-sm);
+    line-height: var(--lh-body-sm);
+  }
+
+  .note :global(.note-icon) {
+    flex: none;
+    color: var(--primary-ink);
+  }
+
+  .note :global(a) {
+    overflow-wrap: anywhere;
+  }
+
+  /* ── The ticket: paper, like the receipt ── */
+  .ticket {
+    color-scheme: light;
+    position: relative;
+    padding: var(--s-24) var(--s-24) var(--s-32);
+    border: 1px dashed var(--paper-rule);
+    border-radius: var(--r-md);
+    background: var(--paper);
+    color: var(--paper-ink);
+  }
+
+  .ticket:focus-visible {
+    outline-offset: 4px;
+  }
+
+  .ticket-kicker {
+    margin-block-end: var(--s-12);
+    color: var(--paper-meta);
+  }
+
+  .ticket-body {
+    margin-block-start: var(--s-8);
+    max-inline-size: 22rem;
+    color: var(--paper-meta);
+    overflow-wrap: anywhere;
+  }
+
+  .ticket :global(.ticket-stamp) {
+    margin-block-start: var(--s-20);
+  }
+
+  /* Optimistic: the stamp waits for the server, with or without motion. */
+  .card[data-state='saving'] :global(.ticket-stamp) {
+    visibility: hidden;
+  }
+
+  @media (width >= 64rem) {
+    .intro {
+      grid-column: 1 / span 5;
+    }
+    .card {
+      grid-column: 7 / -1;
+    }
+  }
+</style>

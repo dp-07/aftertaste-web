@@ -1,0 +1,28 @@
+# Cloudflare Pages configuration (Pages Functions + the beta-list D1 binding).
+#
+# Because this file has `pages_build_output_dir`, Cloudflare Pages treats it as
+# the source of truth for the project's bindings and compatibility date: the
+# dashboard shows them read-only. Build command, output directory and
+# NODE_VERSION stay in the dashboard. Setup steps: docs/DEV-GUIDE.md
+# "Beta list: Cloudflare setup".
+#
+# Wrangler is not a dependency; run it pinned through npx (14-day rule):
+#   npx --yes wrangler@4.156.0 <command>
+
+# TODO(d1): must equal the Pages project's name in the Cloudflare dashboard.
+name = "aftertaste-web"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-10-01"
+
+[[d1_databases]]
+binding = "BETA_DB"
+database_name = "aftertaste-beta"
+# TODO(d1): paste the Database ID from the dashboard (D1 → aftertaste-beta).
+# An identifier, not a secret; access needs your Cloudflare account. Local
+# development works with this placeholder.
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "migrations"
+
+# RATE_LIMIT_SALT is a secret: set it in the dashboard (Settings → Variables
+# and Secrets, type Secret) for Production and Preview, and in .dev.vars
+# (git-ignored) for local development. Never put it in this file.

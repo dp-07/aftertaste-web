@@ -1,0 +1,237 @@
+---
+/**
+ * "Your taste report (still cooking)": a teaser for a feature that is not
+ * built yet, stamped COMING LATER, with obviously made-up numbers.
+ *
+ * The bars are one series in one hue (paprika), every value is written next
+ * to its bar in text colours, so there is no legend and no colour-only
+ * meaning. Bars are SVG rects with percentage widths: the CSP forbids style
+ * attributes, and attributes are not styles.
+ */
+import Stamp from '../brand/Stamp.astro';
+
+// Sample data: not from anyone's diary.
+const cuisines = [
+  { name: 'Momos and Tibetan', share: 34 },
+  { name: 'North Indian', share: 27 },
+  { name: 'Bakes and sweets', share: 18 },
+];
+const mustTry = 23;
+const favourite = { place: 'Hill Road Momos', visits: 7 };
+---
+
+<section id="taste-report" class="taste defer-render" aria-labelledby="taste-title">
+  <div class="wrap">
+    <p class="running-head t-label">
+      <span class="num">09</span> Your taste report
+    </p>
+    <div class="grid-12 body">
+      <div class="copy">
+        <h2 id="taste-title" class="t-display">
+          Your taste report <span class="cooking">(still cooking)</span>
+        </h2>
+        <p class="lead">One day, your diary will tell you what you actually like.</p>
+        <p>
+          We’re working on a short report, put together with AI from your own entries: the food you keep coming back to,
+          the dishes you rate highest, the places you can’t stay away from. It isn’t built yet. Before it ships, the
+          privacy policy will say exactly how it works.
+        </p>
+      </div>
+
+      <figure class="report" aria-labelledby="report-caption">
+        <figcaption id="report-caption" class="report-head">
+          <span class="t-label kicker">Taste report · sample data</span>
+          <span class="t-title">Your taste, so far</span>
+        </figcaption>
+        <Stamp variant="later" class="later-stamp" />
+
+        <div class="block">
+          <h3 class="t-label muted">Top cuisines, by share of dishes logged</h3>
+          <ol class="cuisines">
+            {cuisines.map((c) => (
+              <li>
+                <span class="c-name">{c.name}</span>
+                <span class="t-mono c-value">{c.share}%</span>
+                <svg class="bar" width="100%" height="8" aria-hidden="true" focusable="false">
+                  <rect class="track" width="100%" height="8" rx="4" />
+                  <rect class="fill" width={`${c.share}%`} height="8" rx="4" />
+                </svg>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <dl class="stats">
+          <div class="stat">
+            <dt class="t-label muted">Must-try dishes</dt>
+            <dd class="figure">{mustTry}</dd>
+          </div>
+          <div class="stat">
+            <dt class="t-label muted">Most returned to</dt>
+            <dd>
+              <span class="place">{favourite.place}</span> <span class="t-mono muted">{favourite.visits} visits</span>
+            </dd>
+          </div>
+        </dl>
+
+        <p class="t-body-sm fine">Made-up numbers to show the idea. Not a real diary.</p>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<style>
+  .taste {
+    padding-block-start: var(--space-section);
+  }
+
+  .body {
+    row-gap: var(--space-block);
+    margin-block-start: var(--space-block);
+    align-items: center;
+  }
+
+  .copy {
+    display: grid;
+    gap: var(--s-20);
+    max-inline-size: var(--measure);
+  }
+
+  .cooking {
+    color: var(--muted);
+  }
+
+  .copy p {
+    color: var(--muted);
+  }
+
+  .copy .lead {
+    color: var(--text);
+    font-size: var(--fs-lede);
+    line-height: 1.45;
+  }
+
+  .report {
+    position: relative;
+    display: grid;
+    gap: var(--s-24);
+    max-inline-size: 30rem;
+    margin: 0;
+    padding: clamp(1.25rem, 0.9rem + 1.6vw, 2rem);
+    border: 1px dashed var(--line-strong);
+    border-radius: var(--r-lg);
+    background: var(--surface);
+  }
+
+  .report-head {
+    display: grid;
+    gap: var(--s-8);
+    padding-inline-end: 7rem;
+  }
+
+  .kicker {
+    color: var(--primary-ink);
+  }
+
+  .report :global(.later-stamp) {
+    position: absolute;
+    inset-block-start: var(--s-20);
+    inset-inline-end: var(--s-16);
+    --rot: 6deg;
+  }
+
+  /* Narrow cards: the stamp sits above the heading instead of over it. */
+  @media (width < 40rem) {
+    .report-head {
+      padding-inline-end: 0;
+    }
+    .report :global(.later-stamp) {
+      position: static;
+      order: -1;
+      justify-self: start;
+      margin-block-end: calc(-1 * var(--s-8));
+    }
+  }
+
+  .block {
+    display: grid;
+    gap: var(--s-12);
+  }
+
+  .cuisines {
+    display: grid;
+    gap: var(--s-16);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .cuisines li {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    row-gap: 6px;
+  }
+
+  .c-value {
+    color: var(--text);
+  }
+
+  .bar {
+    grid-column: 1 / -1;
+    block-size: 8px;
+  }
+
+  .track {
+    fill: var(--line);
+  }
+
+  .fill {
+    fill: var(--primary);
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--s-24);
+    margin: 0;
+    padding-block-start: var(--s-20);
+    border-block-start: 1px solid var(--line);
+  }
+
+  .stat {
+    display: grid;
+    align-content: start;
+    gap: var(--s-8);
+  }
+
+  dd {
+    margin: 0;
+  }
+
+  .figure {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 2rem + 2vw, 3.5rem);
+    line-height: 1;
+    color: var(--primary-ink);
+  }
+
+  .place {
+    display: block;
+    font-family: var(--font-display);
+    font-size: var(--fs-card-title);
+    line-height: var(--lh-card-title);
+  }
+
+  .fine {
+    color: var(--muted);
+  }
+
+  @media (width >= 64rem) {
+    .copy {
+      grid-column: 1 / span 5;
+    }
+    .report {
+      grid-column: 7 / -1;
+    }
+  }
+</style>

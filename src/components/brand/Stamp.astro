@@ -5,6 +5,8 @@
  *   mustTry      MUST-TRY
  *   tried        TRIED (herb ink; a status mark, not a verdict)
  *   logged       LOGGED + date (the receipt stamp, −12°, 0.88 opacity)
+ *   seat         SEAT SAVED (the beta form's confirmation; site only)
+ *   later        COMING LATER (features that are not built yet; site only)
  *
  * Construction per SPEC: outer rule, inner rule, uppercase tracked DM Sans
  * Medium on an opaque paper fill, rotated −4°. Measured in em from the
@@ -13,13 +15,15 @@
  * `press` hides the stamp until the landing script adds `.is-pressed` as it
  * scrolls into view, then plays the brand stampPress (700 ms: 1.7 → 0.94 → 1,
  * ink ripple at 420 ms). Without JS or with reduced motion it simply shows.
+ * `press="manual"` hides it the same way, but only a script adds .is-pressed
+ * (the beta form presses SEAT SAVED when the server confirms).
  */
 interface Props {
-  variant: 'placeStrong' | 'mustTry' | 'tried' | 'logged';
+  variant: 'placeStrong' | 'mustTry' | 'tried' | 'logged' | 'seat' | 'later';
   size?: 'sm' | 'md' | 'lg';
   /** LOGGED stamp date, e.g. "12 Nov 2026". */
   date?: string;
-  press?: boolean;
+  press?: boolean | 'manual';
   class?: string;
 }
 
@@ -30,6 +34,8 @@ const copy = {
   mustTry: { lines: ['MUST-TRY'], label: 'Must-try' },
   tried: { lines: ['TRIED'], label: 'Tried' },
   logged: { lines: ['LOGGED'], label: `Logged ${date}`.trim() },
+  seat: { lines: ['SEAT SAVED'], label: 'Seat saved' },
+  later: { lines: ['COMING LATER'], label: 'Coming later' },
 }[variant];
 const lines = variant === 'placeStrong' && size !== 'sm' ? [copy.lines.join(' · ')] : copy.lines;
 ---
@@ -38,7 +44,7 @@ const lines = variant === 'placeStrong' && size !== 'sm' ? [copy.lines.join(' ·
   class:list={['stamp', `stamp--${variant}`, `stamp--${size}`, className]}
   role="img"
   aria-label={copy.label}
-  data-press={press ? '' : undefined}
+  data-press={press === 'manual' ? 'manual' : press ? '' : undefined}
 >
   <span class="stamp-inner" aria-hidden="true">
     {lines.map((l) => (

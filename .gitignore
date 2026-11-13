@@ -6,3 +6,5 @@ dist/
 .DS_Store
 reports/
 *.log
+.wrangler/
+.dev.vars

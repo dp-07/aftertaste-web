@@ -1,0 +1,316 @@
+---
+/**
+ * The opener, before How it works: an editorial spread on forgetting, beside
+ * a "camera roll" collage built from our own pieces (food glyph tiles and
+ * drawn screenshots; no photos). The collage is one image to assistive tech.
+ *
+ * Motion (the one moment added in v2): as the collage scrolls through the
+ * view, the place name under the selected photo fades away from the right,
+ * a scroll-driven CSS mask. Without scroll timelines, or with reduced
+ * motion, the name rests half-faded. Longhands only (MEMORY: the CSS
+ * minifier breaks the animation shorthand with animation-timeline).
+ */
+import Thumb from '../app/Thumb.astro';
+import Icon from '../ui/Icon.astro';
+---
+
+<section id="sound-familiar" class="opener defer-render" aria-labelledby="opener-title">
+  <div class="wrap">
+    <p class="running-head t-label">Sound familiar?</p>
+    <div class="grid-12 body">
+      <div class="copy">
+        <h2 id="opener-title" class="t-display">
+          You remember the momos. Not the place, not the price, not whether you’d go back.
+        </h2>
+        <p>The photo is in your camera roll somewhere, between forty screenshots and a blurry bill.</p>
+        <p>And the name of the place slipped away the week after, along with what you ordered.</p>
+      </div>
+
+      <div
+        class="roll"
+        role="img"
+        aria-label="A phone's camera roll: food photos mixed in with screenshots of chats, menus and maps. Under the selected photo of momos, the place name is fading away."
+      >
+        <div class="roll-head">
+          <span class="roll-title">Recents</span>
+          <span class="t-mono roll-count">2,431</span>
+        </div>
+        <div class="tiles">
+          <Thumb kind="noodle" class="tile" />
+          <span class="tile shot shot--chat">
+            <span class="bubble">where was that momo place??</span>
+            <span class="bubble bubble--me">near the clock tower? i think</span>
+          </span>
+          <Thumb kind="sprout" class="tile" />
+          <span class="tile shot shot--menu">
+            <span class="line"></span>
+            <span class="line line--short"></span>
+            <span class="line"></span>
+            <span class="line line--short"></span>
+            <span class="t-mono price">₹180</span>
+          </span>
+          <span class="tile shot shot--bill">
+            <span class="t-mono">TOTAL</span>
+            <span class="t-mono smudge">₹4?0</span>
+          </span>
+          <Thumb kind="cinnamon" class="tile" />
+          <span class="tile shot shot--map">
+            <Icon name="map-pin" size={22} class="pin" />
+          </span>
+          <Thumb kind="mushroom" class="tile selected" />
+          <span class="tile shot shot--paid">
+            <Icon name="check-circle" size={18} />
+            <span class="t-mono">Paid</span>
+          </span>
+          <Thumb kind="sprout" class="tile blurry" />
+          <span class="tile shot shot--note">
+            <span>try the jhol momo at</span>
+            <span class="blank"></span>
+          </span>
+          <Thumb kind="noodle" class="tile blurry" />
+        </div>
+        <div class="detail">
+          <span class="t-mono when">Tue, 12 Nov · 8:41 pm</span>
+          <span class="where">
+            <Icon name="map-pin" size={16} />
+            <span class="forgotten">Hill Road Momos</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .opener {
+    padding-block-start: var(--space-section);
+  }
+
+  .body {
+    row-gap: var(--space-block);
+    margin-block-start: var(--space-block);
+    align-items: center;
+  }
+
+  .copy {
+    display: grid;
+    gap: var(--s-20);
+    max-inline-size: 46rem;
+  }
+
+  .copy p {
+    max-inline-size: var(--measure);
+    color: var(--muted);
+    font-size: var(--fs-lede);
+    line-height: 1.45;
+  }
+
+  /* ── The camera roll ── */
+  .roll {
+    display: grid;
+    gap: var(--s-12);
+    inline-size: min(100%, 24rem);
+    justify-self: center;
+    padding: var(--s-16) var(--s-12) var(--s-12);
+    border-radius: var(--r-xl);
+    background: var(--raised);
+    box-shadow: var(--elevation);
+    transform: rotate(-2deg);
+  }
+
+  .roll-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding-inline: var(--s-4);
+  }
+
+  .roll-title {
+    font-family: var(--font-display);
+    font-size: var(--fs-card-title);
+  }
+
+  .roll-count {
+    color: var(--muted);
+  }
+
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 3px;
+    overflow: hidden;
+    border-radius: var(--r-md);
+  }
+
+  .tiles > :global(.tile) {
+    aspect-ratio: 1;
+    border-radius: 2px;
+  }
+
+  .tiles :global(.selected) {
+    outline: 3px solid var(--primary);
+    outline-offset: -3px;
+  }
+
+  .tiles :global(.blurry .food) {
+    filter: blur(3px);
+  }
+
+  /* Drawn screenshots: small, plain, a little worn. */
+  .shot {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    padding: 8px;
+    overflow: hidden;
+    background: var(--surface);
+    color: var(--muted);
+    font-size: 0.625rem;
+    line-height: 1.25;
+  }
+
+  .bubble {
+    align-self: start;
+    max-inline-size: 90%;
+    padding: 3px 6px;
+    border-radius: 8px;
+    background: var(--line);
+    color: var(--text);
+  }
+
+  .bubble--me {
+    align-self: end;
+    background: var(--primary-soft);
+  }
+
+  .line {
+    block-size: 4px;
+    border-radius: 2px;
+    background: var(--line-strong);
+  }
+
+  .line--short {
+    inline-size: 60%;
+  }
+
+  .price {
+    align-self: end;
+    font-size: 0.625rem;
+    color: var(--text);
+  }
+
+  .shot--bill {
+    align-items: center;
+    background: var(--paper);
+    color: var(--paper-ink);
+    color-scheme: light;
+  }
+
+  .shot--bill .t-mono {
+    font-size: 0.625rem;
+  }
+
+  .smudge {
+    filter: blur(0.8px);
+  }
+
+  .shot--map {
+    align-items: center;
+    background:
+      linear-gradient(var(--line) 1px, transparent 1px) 0 0 / 12px 12px,
+      linear-gradient(90deg, var(--line) 1px, transparent 1px) 0 0 / 12px 12px,
+      var(--herb-soft);
+    color: var(--primary);
+  }
+
+  .shot--paid {
+    align-items: center;
+    color: var(--herb-ink);
+  }
+
+  .shot--paid .t-mono {
+    font-size: 0.625rem;
+    color: var(--text);
+  }
+
+  .shot--note {
+    background: color-mix(in srgb, var(--mustard) 18%, var(--surface));
+    color: var(--text);
+  }
+
+  .blank {
+    block-size: 1px;
+    inline-size: 70%;
+    background: var(--muted);
+  }
+
+  .detail {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--s-4) var(--s-12);
+    padding: var(--s-4) var(--s-4) 0;
+  }
+
+  .when {
+    color: var(--muted);
+  }
+
+  .where {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-4);
+    color: var(--text);
+    font-weight: 500;
+    font-size: var(--fs-body-sm);
+  }
+
+  .where :global(.icon) {
+    color: var(--primary);
+  }
+
+  /* The name, slipping away: resting state (no timelines, reduced motion). */
+  @property --kept {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 45%;
+  }
+
+  .forgotten {
+    --kept: 45%;
+    mask-image: linear-gradient(90deg, #000 calc(var(--kept) - 30%), transparent var(--kept));
+  }
+
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .forgotten {
+        animation-name: slip-away;
+        animation-duration: auto;
+        animation-fill-mode: both;
+        animation-timing-function: linear;
+        animation-timeline: view();
+        animation-range: entry 100% cover 70%;
+      }
+    }
+  }
+
+  @keyframes slip-away {
+    from {
+      --kept: 140%;
+    }
+    to {
+      --kept: 45%;
+    }
+  }
+
+  @media (width >= 64rem) {
+    .copy {
+      grid-column: 1 / span 7;
+    }
+    .roll {
+      grid-column: 9 / -1;
+    }
+  }
+</style>

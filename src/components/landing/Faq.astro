@@ -1,5 +1,4 @@
 ---
-import { notifyHref } from '../../config/site';
 import Icon from '../ui/Icon.astro';
 import InkLink from '../ui/InkLink.astro';
 ---
@@ -7,7 +6,7 @@ import InkLink from '../ui/InkLink.astro';
 <section id="questions" class="faq defer-render" aria-labelledby="faq-title">
   <div class="wrap">
     <p class="running-head t-label">
-      <span class="num">08</span> Questions
+      <span class="num">11</span> Questions
     </p>
     <div class="grid-12 layout">
       <h2 id="faq-title" class="t-display">
@@ -16,10 +15,12 @@ import InkLink from '../ui/InkLink.astro';
       <div class="list">
         <details>
           <summary>
-            <span>Is Aftertaste free?</span>
+            <span>Can I use it now?</span>
             <Icon name="plus" size={20} class="mark" />
           </summary>
-          <p>Yes, it is free to use. The Play Store version will have an optional tip. It unlocks nothing.</p>
+          <p>
+            It’s in private beta. <InkLink href="#join">Join the list</InkLink> and we’ll invite you as we open up.
+          </p>
         </details>
         <details>
           <summary>
@@ -27,9 +28,16 @@ import InkLink from '../ui/InkLink.astro';
             <Icon name="plus" size={20} class="mark" />
           </summary>
           <p>
-            It is coming to Google Play soon. <InkLink href={notifyHref}>Email us</InkLink> and we’ll tell you when it
-            is live.
+            We’re letting people in a few at a time while we finish cooking, and we’ll put Aftertaste on Google Play
+            after that. <InkLink href="#join">Save your seat</InkLink> and we’ll tell you first.
           </p>
+        </details>
+        <details>
+          <summary>
+            <span>Is Aftertaste free?</span>
+            <Icon name="plus" size={20} class="mark" />
+          </summary>
+          <p>Yes, it is free to use. The Play Store version will have an optional tip. It unlocks nothing.</p>
         </details>
         <details>
           <summary>

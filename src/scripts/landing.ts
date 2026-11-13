@@ -3,9 +3,9 @@
 
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 
-/** Stamps marked data-press are pressed once, when half visible. */
+/** Stamps marked data-press are pressed once, when half visible (data-press="manual" ones are pressed by their owner). */
 function pressStamps() {
-  const stamps = document.querySelectorAll<HTMLElement>('[data-press]');
+  const stamps = document.querySelectorAll<HTMLElement>('[data-press]:not([data-press="manual"])');
   if (!('IntersectionObserver' in window)) {
     stamps.forEach((s) => s.classList.add('is-pressed'));
     return;
@@ -92,6 +92,91 @@ function decisionDemo() {
   });
 }
 
+type JoinOutcome = 'ok' | 'invalid' | 'limited' | 'error';
+
+/**
+ * "Save your seat": submits in the background and shows the ticket at once
+ * (optimistic); the stamp presses when the server confirms, otherwise the
+ * form returns with the message. Native validation runs first.
+ */
+function joinBeta() {
+  const card = document.querySelector<HTMLElement>('[data-join]');
+  const form = card?.querySelector<HTMLFormElement>('[data-join-form]');
+  const q = <T extends HTMLElement>(sel: string) => card?.querySelector<T>(sel) ?? null;
+  const ticket = q('[data-join-ticket]');
+  const title = q('[data-join-title]');
+  const body = q('[data-join-body]');
+  const live = q('[data-join-live]');
+  const elapsed = q<HTMLInputElement>('[data-join-elapsed]');
+  const email = q<HTMLInputElement>('#join-email');
+  const stamp = ticket?.querySelector<HTMLElement>('[data-press]');
+  if (!card || !form || !ticket || !title || !body || !live || !elapsed || !email || !stamp) return;
+
+  // The server ignores sign-ups sent faster than a person could (2.5 s after
+  // load); a quick human is held back instead of being dropped.
+  const started = performance.now();
+  const MIN_MS = 2600;
+
+  // Arrived from a no-JS submission (or a reload of one): the ticket is shown by :target.
+  if (location.hash === '#joined') stamp.classList.add('is-pressed');
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (card.dataset.state === 'saving') return;
+    const address = email.value.trim();
+    // Drop any #join-* fragment from a no-JS attempt so :target cannot contradict the state.
+    if (location.hash.startsWith('#join')) history.replaceState(null, '', location.pathname + location.search);
+
+    card.dataset.state = 'saving';
+    stamp.classList.remove('is-pressed');
+    title.textContent = 'Saving your seat…';
+    body.textContent = `Writing ${address} into the book.`;
+    ticket.focus();
+    live.textContent = 'Saving your seat…';
+
+    const wait = MIN_MS - (performance.now() - started);
+    if (wait > 0) await new Promise((r) => setTimeout(r, wait));
+    elapsed.disabled = false;
+    elapsed.value = String(Math.round(performance.now() - started));
+    const data = new URLSearchParams();
+    for (const [k, v] of new FormData(form)) if (typeof v === 'string') data.append(k, v);
+    elapsed.disabled = true;
+
+    let outcome: JoinOutcome = 'error';
+    try {
+      const res = await fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
+      const json = (await res.json()) as { ok?: boolean; error?: string };
+      if (json.ok) outcome = 'ok';
+      else if (json.error === 'invalid' || json.error === 'limited') outcome = json.error;
+    } catch {
+      // Offline or an unexpected response: the generic error.
+    }
+
+    if (outcome === 'ok') {
+      card.dataset.state = 'saved';
+      title.textContent = 'You’re on the list.';
+      body.textContent = `We’ll email ${address} when there’s a seat for you.`;
+      stamp.classList.add('is-pressed');
+      live.textContent = `You’re on the list. We’ll email ${address} when there’s a seat for you.`;
+      form.reset();
+      email.removeAttribute('aria-invalid');
+      return;
+    }
+
+    card.dataset.state = outcome;
+    const note = q(`#join-${outcome}`);
+    live.textContent = note?.textContent?.replace(/\s+/g, ' ').trim() ?? '';
+    if (outcome === 'invalid') {
+      email.setAttribute('aria-invalid', 'true');
+      email.setAttribute('aria-describedby', 'join-invalid');
+      email.focus();
+    } else {
+      note?.focus();
+    }
+  });
+}
+
 pressStamps();
 printReceipt();
 decisionDemo();
+joinBeta();

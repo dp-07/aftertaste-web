@@ -1,9 +1,57 @@
 ---
+/**
+ * The privacy policy (synced from the app repo) plus the website's own
+ * addendum for the beta list, which the app's policy does not cover yet.
+ * Keep the addendum in step with functions/api/beta.ts and
+ * migrations/0001_beta_list.sql. TODO(legal): fold it into the policy in the
+ * app repo (docs/TASKS.md), then remove it here.
+ */
 import LegalPage from '../components/LegalPage.astro';
+import { mailto, site } from '../config/site';
 ---
 
 <LegalPage
   id="privacy"
   title="Privacy policy"
   description="What the Aftertaste app collects, why, who else handles it, and how to export or delete your data. Short and plain."
-/>
+  addendumToc={[{ slug: 'beta-list', text: 'Website: the beta list' }]}
+>
+  <section slot="addendum" class="addendum" aria-labelledby="beta-list">
+    <p class="t-label addendum-kicker">Website addendum</p>
+    <h2 id="beta-list">Website: the beta list</h2>
+    <p>
+      This part covers the “Save your seat” form on {site.url.replace('https://', '')}, not the app. The same person is
+      responsible for it as for the app (see the top of this policy).
+    </p>
+    <ul>
+      <li>
+        <strong>What we collect.</strong> Your email address and, if you add them, your city and how you heard about us.
+        We also record the time you signed up. That is all: we do not store your IP address or browser details, and the
+        form sets no cookies.
+      </li>
+      <li>
+        <strong>Why.</strong> To invite you to the private beta and to tell you when Aftertaste launches. Your city and
+        how you heard about us help us decide where to open next. We send nothing else, and we never sell or share the
+        list. We rely on your consent, which you give by joining and can withdraw at any time.
+      </li>
+      <li>
+        <strong>Stopping abuse.</strong> To slow down automated sign-ups, the form counts attempts from each network.
+        For that it keeps a one-way, keyed hash of your network address that changes every hour; the address itself is
+        never stored, and the hash is deleted once its hour is over (with the next sign-up after that).
+      </li>
+      <li>
+        <strong>Who handles it.</strong> Cloudflare hosts this website and the database that holds the list, and
+        processes it for us.
+      </li>
+      <li>
+        <strong>How long we keep it.</strong> Until six months after Aftertaste launches, or until you ask us to remove
+        you, whichever comes first.
+      </li>
+      <li>
+        <strong>Leaving the list.</strong> Email{' '}
+        <a href={mailto('Remove me from the beta list')}>{site.contactEmail}</a> from the address you signed up with,
+        and we will delete your entry.
+      </li>
+    </ul>
+  </section>
+</LegalPage>
