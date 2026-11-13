@@ -12,7 +12,7 @@ Branched from `origin/work-branch` @ `fb4d0b4` (v1, docs and fixes-1 merged). Lo
 
 ## Next
 
-Done on 2026-11-14 after the owner set up D1 (production and preview databases, tables via the Console, `RATE_LIMIT_SALT`): `wrangler.toml` filled in, `migrations/0001_beta_list.console.sql` added, Android and iOS wording, legal re-synced @ `04039aa` (addendum removed), then pushed and merged with `--no-ff`. Next: the human promotes `work-branch` → `main`.
+Done on 2026-11-14 after the owner set up D1 (production and preview databases, tables via the Console, `RATE_LIMIT_SALT`): `wrangler.toml` filled in, `migrations/console/0001_beta_list.sql` added, Android and iOS wording, legal re-synced @ `04039aa` (addendum removed), then pushed and merged with `--no-ff`. Next: the human promotes `work-branch` → `main`.
 
 ## v1 (merged): recon, token mapping, phase log
 
