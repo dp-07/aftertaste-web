@@ -24,7 +24,7 @@ src/
   assets/               subset woff2 fonts, placeholder screenshot, diary/ (photos for "From the diary")
   components/
     brand/              Wordmark, Glyph, SealMark, Stamp, Receipt, PhoneFrame, Loader, FoodMark
-    ui/                 Button, InkLink, Icon, ThemeToggle, PlayBadge, Rating, DietaryMark
+    ui/                 Button, InkLink, Icon, ThemeToggle, StoreBadge, Rating, DietaryMark
     landing/            Hero, Opener, HowItWorks, Spread, DecisionDemo, ReceiptFeature, EveryMeal,
                         FromTheDiary, TasteReport, Privacy, Faq, JoinBeta
     app/                replicas of app UI rows/cards used as demos
@@ -45,7 +45,7 @@ wrangler.toml           Pages config: output dir, compatibility date, the D1 bin
 ## How pages, components, styles and tokens fit
 
 - Every page wraps its content in [BaseLayout.astro](../src/layouts/BaseLayout.astro): head (title, description, canonical, OG/Twitter, icons, manifest, theme script, font preloads, optional JSON-LD), skip link, beta banner, header, `<main id="main">`, footer.
-- Pages compose components. The landing page ([index.astro](../src/pages/index.astro)) is Hero → Opener → HowItWorks → `Spread` sections → ReceiptFeature → EveryMeal → FromTheDiary → TasteReport → Privacy → Faq → JoinBeta. `/privacy` and `/terms` are thin pages around `LegalPage.astro`; `/privacy` adds the beta-list addendum through its `addendum` slot.
+- Pages compose components. The landing page ([index.astro](../src/pages/index.astro)) is Hero → Opener → HowItWorks → `Spread` sections → ReceiptFeature → EveryMeal → FromTheDiary → TasteReport → Privacy → Faq → JoinBeta. `/privacy` and `/terms` are thin pages around `LegalPage.astro`. The privacy policy's section 13 covers the beta list.
 - **Styles:** global CSS is imported by the layout in this order: [fonts.css](../src/styles/fonts.css) (self-hosted faces and metric-matched fallbacks), [tokens.css](../src/styles/tokens.css) (every custom property), [base.css](../src/styles/base.css) (reset, type roles, links, focus, layout primitives, view transitions, print), [brand.css](../src/styles/brand.css) (glyph colours, wordmark, seal, loader). Everything else is an Astro **scoped** style inside its component. A class passed to a child component must be targeted with `:global()`.
 - **Tokens** are the app's values as CSS custom properties; colours use `light-dark()` so both themes sit side by side. Components use tokens, never literal colours. See [DESIGN](DESIGN.md#tokens).
 - **Config:** change site facts (email, Play URL, tagline) in [src/config/site.ts](../src/config/site.ts), not in components.
@@ -100,7 +100,7 @@ Details and reduced-motion behaviour per effect are in [DESIGN](DESIGN.md#motion
 The "Save your seat" form ([JoinBeta.astro](../src/components/landing/JoinBeta.astro)) posts to `POST /api/beta`, a Cloudflare Pages Function ([functions/api/beta.ts](../functions/api/beta.ts)) that writes to a Cloudflare D1 database (free tier). Everything is first-party: no form service, no captcha, no third-party script.
 
 - **Routing:** Pages compiles `functions/` at deploy. [public/\_routes.json](../public/_routes.json) limits Functions to `/api/*`, so static pages never invoke one. Only `onRequestPost` is exported; other methods fall through to the static 404.
-- **Config:** [wrangler.toml](../wrangler.toml) has `pages_build_output_dir = "dist"`, so Pages takes the bindings and compatibility date from it (the dashboard shows them read-only). The D1 binding is `BETA_DB` → database `aftertaste-beta`; `database_id` must be the real ID before deploying. The secret `RATE_LIMIT_SALT` is set in the dashboard, never in the file. Wrangler is not a dependency: it runs pinned through `npx` (`wrangler@4.156.0`, also `WRANGLER` in `scripts/lib.mjs`).
+- **Config:** [wrangler.toml](../wrangler.toml) has `pages_build_output_dir = "dist"`, so Pages takes the bindings and compatibility date from it (the dashboard shows them read-only). The D1 binding is `BETA_DB`: database `aftertaste-beta` for production, `aftertaste-beta-preview` for preview (`[env.preview]`; bindings are not inherited, so both blocks are kept in step). The secret `RATE_LIMIT_SALT` is set in the dashboard, never in the file. Wrangler is not a dependency: it runs pinned through `npx` (`wrangler@4.156.0`, also `WRANGLER` in `scripts/lib.mjs`).
 - **Schema:** [migrations/0001_beta_list.sql](../migrations/0001_beta_list.sql). `beta_signups(id, email UNIQUE, city ≤ 80, heard IN (…), created_at)` and `beta_rate_limits(bucket, window_start, hits)`. No IP, user agent or other request data is stored.
 - **Validation:** same origin only (`Origin` must match), `application/x-www-form-urlencoded` only, body ≤ 2 KB (`Content-Length` and the streamed body are both capped). Email is NFC-normalised, trimmed, lower-cased and checked (≤ 254, local part ≤ 64, a real-looking domain); city loses control characters and extra spaces and is cut to 80; `heard` must be one of the five values or becomes null. `INSERT … ON CONFLICT (email) DO NOTHING` dedupes.
 - **Abuse protection:** a honeypot (`website`, off-screen, `aria-hidden`, `tabindex="-1"`); a minimum time to submit (`elapsed_ms` ≥ 2.5 s, sent only by the page script, which waits rather than send early; absent without JS); a rate limit of 10 attempts per network per hour, counted in D1 under `HMAC-SHA256(RATE_LIMIT_SALT, hour | CF-Connecting-IP)` so the IP is never stored and buckets change hourly; rows from finished hours are deleted after each request (`waitUntil`). Without the secret the limiter falls back to a random per-isolate salt and logs a warning.
@@ -114,7 +114,7 @@ The "Save your seat" form ([JoinBeta.astro](../src/components/landing/JoinBeta.a
 
 - Production branch **`main`**; every other branch gets a preview deployment at a `*.pages.dev` URL.
 - Build command `npm run build`, output `dist`, root `/`, env var `NODE_VERSION=22.23.4`. One secret: `RATE_LIMIT_SALT` (Production and Preview). Bindings and compatibility date come from `wrangler.toml`.
-- Preview deployments use the same D1 binding as production unless a `[env.preview]` block with its own database is added to `wrangler.toml`.
+- Production uses the D1 database `aftertaste-beta`; preview deployments use `aftertaste-beta-preview` (`[[env.preview.d1_databases]]` in `wrangler.toml`), so test sign-ups never reach the real list.
 - Custom domain `theaftertaste.app` (apex, canonical).
 - **`www` → apex** is a Cloudflare **Bulk Redirect** (list entry `www.theaftertaste.app` → `https://theaftertaste.app`, 301, with query string, subpath matching, path suffix and subdomains preserved, plus a proxied `A www → 192.0.2.1` DNS record). Full steps and the `curl` check are in the README "Domain" section.
 - Zone settings that must stay off are listed in [RULES](RULES.md#privacy-and-third-parties).

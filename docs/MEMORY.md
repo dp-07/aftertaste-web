@@ -14,6 +14,12 @@ Durable lessons so future sessions do not repeat mistakes. Each entry: what happ
 - **Why:** with `'DM Sans'` second in the mono stack, the already-preloaded DM Sans stood in for DM Mono while it loaded, and its metrics differ.
 - **What to do:** keep the stack order `'DM Mono', 'DM Mono fallback', 'DM Sans'` (the metric-matched fallback before DM Sans; DM Sans stays only for ₹). Keep the `size-adjust` and ascent/descent overrides in `fonts.css`. Preload only Prata 400 and DM Sans 400. The ad hoc scripts `scripts/.cls.mjs` and `scripts/.fontshift.mjs` measure shifts (needs `dist/` and Chrome).
 
+## A wrapping label can shift the hero
+
+- **What happened:** (2026-11-14) the longer eyebrow "Private beta · Android and iOS · still cooking" made mobile CLS on `/` flaky (0.016, once 0.19); Lighthouse blamed the hero `h1`, then the eyebrow's own segment.
+- **Why:** the label weight (DM Sans 500) is not preloaded. The eyebrow first renders in the metric-matched fallback, which is wider for this weight (259 vs 236 px), so it can wrap at a different place than DM Sans and the line count or positions change on swap. Whether it shows depends on font timing.
+- **What to do:** the eyebrow is three `white-space: nowrap` segments separated by `{' '}`, and below 40rem the last one ("still cooking") is `display: block`, so it is always exactly two lines there, in either font. Keep the explicit spaces: without them the text runs together and cannot wrap (the page overflowed to 352 px at 320). After changing hero copy, run `npm run audit:lighthouse -- --pages=/` more than once.
+
 ## Layout at 320 px
 
 - **What happened:** the phase 6 quality pass fixed horizontal overflow at 320 px and moved the hero seal to wide layouts only, because on phones and tablets it covered the app's own content in the screenshot.
@@ -99,7 +105,22 @@ Durable lessons so future sessions do not repeat mistakes. Each entry: what happ
 
 - **What happened:** adding `wrangler.toml` with `pages_build_output_dir` for the D1 binding.
 - **Why:** with that key, Pages treats the file as the source of truth for bindings and the compatibility date; the dashboard shows them read-only. A placeholder `database_id` makes the deploy fail.
-- **What to do:** keep bindings in the file, secrets in the dashboard. Fill in the real `database_id` (and the project `name`) before a branch with this file deploys. Local dev works with the placeholder.
+- **What to do:** keep bindings in the file, secrets in the dashboard. Every `database_id` must exist in the account and `name` must match the project, or the deploy fails.
+
+## The D1 Console runs pasted SQL as one line
+
+- **What happened:** (2026-11-14) pasting `migrations/0001_beta_list.sql` into the D1 dashboard Console failed: the Console joins pasted SQL into one line, so the first `--` comment swallowed everything after it.
+- **What to do:** paste [migrations/0001_beta_list.console.sql](../migrations/0001_beta_list.console.sql) instead (the same statements, no comments, one per line). Keep the two files in step. Note that Wrangler treats every `.sql` file in `migrations/` as a migration, so it lists and applies both: harmless, because every statement is `IF NOT EXISTS` and they are identical. Any future migration needs a matching `.console.sql` with the same care (idempotent statements).
+
+## Preview deployments have their own D1 database
+
+- **What happened:** preview deployments (every branch but `main`) would have written test sign-ups into the real list.
+- **What to do:** `wrangler.toml` binds `BETA_DB` to `aftertaste-beta` at the top level (production) and to `aftertaste-beta-preview` under `[[env.preview.d1_databases]]`. Pages environments do not inherit bindings: change both blocks together. Both databases need the tables.
+
+## Links into the synced policy use numbered anchors
+
+- **What happened:** the consent link points at the privacy policy's section 13, whose heading has no explicit `{#id}`, so its anchor is the slug `#13-website-beta-list`.
+- **What to do:** if the app repo renumbers or renames the section, the anchor changes; `check:links` fails on the dead fragment, so update `JoinBeta.astro`. Better: ask for a stable `{#beta-list}` id in the app repo's heading.
 
 ## Hiding the banner without a layout shift
 

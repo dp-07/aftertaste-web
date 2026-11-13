@@ -9,18 +9,26 @@
 # Wrangler is not a dependency; run it pinned through npx (14-day rule):
 #   npx --yes wrangler@4.156.0 <command>
 
-# TODO(d1): must equal the Pages project's name in the Cloudflare dashboard.
+# The Pages project's name in the Cloudflare dashboard.
 name = "aftertaste-web"
 pages_build_output_dir = "dist"
 compatibility_date = "2026-10-01"
 
+# Production deployments (main): the real beta list. Identifiers, not
+# secrets; access needs the Cloudflare account.
 [[d1_databases]]
 binding = "BETA_DB"
 database_name = "aftertaste-beta"
-# TODO(d1): paste the Database ID from the dashboard (D1 → aftertaste-beta).
-# An identifier, not a secret; access needs your Cloudflare account. Local
-# development works with this placeholder.
-database_id = "00000000-0000-0000-0000-000000000000"
+database_id = "5dd677c1-47a1-4153-9b27-70db0b4ec9da"
+migrations_dir = "migrations"
+
+# Preview deployments (every other branch, *.pages.dev) write to their own
+# database, so test sign-ups never reach the real list. Bindings are not
+# inherited by environments: keep both blocks in step.
+[[env.preview.d1_databases]]
+binding = "BETA_DB"
+database_name = "aftertaste-beta-preview"
+database_id = "9acab5e9-7bd9-4060-b622-2329ff13b676"
 migrations_dir = "migrations"
 
 # RATE_LIMIT_SALT is a secret: set it in the dashboard (Settings → Variables

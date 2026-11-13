@@ -1,6 +1,6 @@
 # theaftertaste.app
 
-The website for **Aftertaste**, a private food diary for Android: “Your personal food memory”.
+The website for **Aftertaste**, a private food diary, a native app for Android and iOS (both in private beta): “Your personal food memory”.
 
 A static [Astro](https://astro.build) site with plain CSS, deployed by Cloudflare Pages from `main`, plus one Pages Function for the private-beta list (stored in Cloudflare D1). No analytics, cookies or third-party requests: fonts and assets are self-hosted, and the beta form is first-party.
 
@@ -72,7 +72,7 @@ Connect the GitHub repo in Cloudflare Pages with:
 | Root directory         | `/`                                                              |
 | Environment variable   | `NODE_VERSION` = `22.23.4` (the build image also reads `.nvmrc`) |
 
-Plus one **secret**, `RATE_LIMIT_SALT` (Production and Preview), and the D1 database `aftertaste-beta`, bound as `BETA_DB` through `wrangler.toml` (which also sets the compatibility date). One-time setup, export and removal: [docs/DEV-GUIDE.md, "Beta list"](docs/DEV-GUIDE.md#beta-list). Preview deployments of other branches get public `*.pages.dev` URLs and share the same database unless a preview database is configured.
+Plus one **secret**, `RATE_LIMIT_SALT` (Production and Preview), and two D1 databases bound as `BETA_DB` through `wrangler.toml` (which also sets the compatibility date): `aftertaste-beta` for production and `aftertaste-beta-preview` for preview deployments. Setup, export and removal: [docs/DEV-GUIDE.md, "Beta list"](docs/DEV-GUIDE.md#beta-list). Preview deployments of other branches get public `*.pages.dev` URLs.
 
 **Domain.** `https://theaftertaste.app` is canonical (apex). `.app` is an HSTS-preloaded top-level domain, so browsers only ever reach it over HTTPS: the site never emits `http://` URLs (`npm run check:seo` fails on one), and everything in `src/config/site.ts`, `astro.config.mjs`, `robots.txt`, the sitemap, canonicals, Open Graph and JSON-LD derives from `https://theaftertaste.app`.
 
@@ -91,7 +91,7 @@ Plus one **secret**, `RATE_LIMIT_SALT` (Production and Preview), and the D1 data
 
 ## Email
 
-The site's contact address is `hello@theaftertaste.app` (`src/config/site.ts` → `contactEmail`; used by Support, the footer, the beta form's error message, the beta-list addendum on `/privacy` (removal requests) and the legal pages' draft banner). It must receive mail before launch: for example, turn on **Cloudflare Email Routing** for the zone (free; it adds the MX and SPF records) and forward `hello@` to a real inbox.
+The site's contact address is `hello@theaftertaste.app` (`src/config/site.ts` → `contactEmail`; used by Support, the footer, the beta form's error message, removal requests for the beta list (privacy policy section 13) and the legal pages' draft banner). It must receive mail before launch: for example, turn on **Cloudflare Email Routing** for the zone (free; it adds the MX and SPF records) and forward `hello@` to a real inbox.
 
 ## Updating the legal pages
 
@@ -116,9 +116,9 @@ While the source contains `[TODO: …]` markers, each one is shown on the page a
 
 `PhoneFrame` takes any `ImageMetadata`, so more screenshots can be added the same way.
 
-## Play badge
+## Store badges
 
-During the private beta `src/config/site.ts` → `playStoreUrl` is `null` and the hero shows **no** Play badge: the primary button is “Join the beta”. At launch, set the URL; the badge comes back in the hero. Then use Google's official badge artwork in `src/components/ui/PlayBadge.astro` (never an imitation) and retire the beta copy. Steps: [docs/DEV-GUIDE.md](docs/DEV-GUIDE.md#add-the-play-badge-and-listing-url).
+During the private beta `src/config/site.ts` → `playStoreUrl` and `appStoreUrl` are `null` and the hero shows **no** store badge: the primary button is “Join the beta”. At launch, set each URL; that store's badge comes back in the hero (`src/components/ui/StoreBadge.astro`). Then use the store's official badge artwork (never an imitation) and retire the beta copy. Steps: [docs/DEV-GUIDE.md](docs/DEV-GUIDE.md#add-the-store-badges-and-listing-urls).
 
 ## Android App Links (not set up)
 

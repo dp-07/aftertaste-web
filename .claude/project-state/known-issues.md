@@ -1,12 +1,11 @@
 # Known issues and open items
 
-- **Legal TODOs (from the app repo; synced @ `95d7fbb`):** privacy: effective date; Google content sentence (section 4); backup retention period (section 8); legal bases and rights wording (section 10); AI section (13, intentionally blank); how changes are announced (14). Terms: effective date; liability cap amount (section 9). Resolve in the app repo, then `npm run sync:legal`.
+- **Legal:** synced @ `04039aa`, 0 TODOs.
 - **Hero screenshot is a placeholder** rendered from tokens (`src/assets/screenshots/home-placeholder.png`). The phone shows the light-theme screen in dark mode too.
-- **Play badge:** hidden during the beta; returns in the hero when `site.playStoreUrl` is set, with Google's official badge artwork.
-- **D1 not set up yet:** `wrangler.toml` has a placeholder `database_id` (and an assumed project `name`, `aftertaste-web`). A deploy with the placeholder fails; the owner must create the database first (docs/DEV-GUIDE.md "Beta list: Cloudflare setup").
-- **Preview deploys share the production beta list** unless a preview database is configured.
+- **Store badges:** hidden during the beta; each returns in the hero when `site.playStoreUrl` / `site.appStoreUrl` is set, with the store's official artwork.
+- **Both D1 databases need the tables**: confirm `aftertaste-beta-preview` was set up in its Console as well as production.
 - **No-JS sign-ups skip the minimum-time check** (by design; honeypot, rate limit and validation still apply).
-- **Beta-list addendum on `/privacy` is site-authored**; fold it into the app repo's policy. Note also that the synced policy's intro says "for iOS and Android" while the site says Android only (app repo wording).
+- **Privacy section 13** (beta list) does not mention the keyed, hourly hash of the network address used for rate limiting; the consent link depends on the section's numbered anchor (`#13-website-beta-list`).
 - **Diary entries are placeholders** (`src/config/diary.ts`, `sample: true`), labelled on the page.
 - **`www.theaftertaste.app` → apex** needs a Cloudflare Bulk Redirect plus a proxied `www` DNS record (`_redirects` cannot match hostnames); steps in README "Domain".
 - **`hello@theaftertaste.app` must receive mail** (e.g. Cloudflare Email Routing) before launch.

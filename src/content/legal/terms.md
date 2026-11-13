@@ -2,19 +2,19 @@
 # Synced by `npm run sync:legal` from the app repo. Do not edit here: edit docs/legal/terms.md in the app repo and re-sync.
 title: "Aftertaste Terms of Use"
 source: "docs/legal/terms.md"
-sourceCommit: "95d7fbba3e62c42f4240cdd6dfb6e3ca95089ad6"
-sourceUpdated: "2026-11-12"
-syncedAt: "2026-11-12"
+sourceCommit: "04039aab6096274797d22c5e7237d69cbd827b6a"
+sourceUpdated: "2026-11-13"
+syncedAt: "2026-11-13"
 ---
 <!-- draft-notes
-DRAFT for the human to review. Not legal advice. Resolve every "[TODO: ...]" before publishing.
+DRAFT for the human to review. Not legal advice. Resolve any open placeholder before publishing.
 /draft-notes -->
 
 # Aftertaste Terms of Use
 
-**Effective date:** [TODO: set on publication]
+**Effective date:** 23 November 2026
 
-These terms are between you and Paras Dev Prasad, an individual in India ("we", "us") for the Aftertaste app. By signing in and using Aftertaste you agree to them. If you do not agree, please do not use the app. Our [Privacy Policy](https://theaftertaste.app/privacy) explains how we handle your data.
+These terms are between you and Paras D Prasad, an individual in India ("we", "us") for the Aftertaste app. By signing in and using Aftertaste you agree to them. If you do not agree, please do not use the app. Our [Privacy Policy](https://theaftertaste.app/privacy) explains how we handle your data.
 
 ## 1. What Aftertaste is
 
@@ -52,7 +52,7 @@ You can stop using the app and delete your account at any time. We may suspend o
 
 ## 9. No warranty and limits on our liability
 
-Aftertaste is provided "as is" and "as available". To the extent the law allows, we do not promise that it will be uninterrupted, error-free or that your data will never be lost (keep your own backup with Export my data), and we are not liable for indirect or consequential loss, or for more than [TODO: amount, e.g. the greater of what you paid us in the last 12 months or a small fixed sum]. Nothing here limits rights you have by law that cannot be limited.
+Aftertaste is provided "as is" and "as available". To the extent the law allows, we do not promise that it will be uninterrupted, error-free or that your data will never be lost (keep your own backup with Export my data), and we are not liable for indirect or consequential loss. To the maximum extent permitted by law, our total liability to you is limited to ₹1,000 or the amount you paid us in the 12 months before the claim, whichever is greater. Nothing here limits rights you have by law that cannot be limited.
 
 ## 10. Changes to these terms
 

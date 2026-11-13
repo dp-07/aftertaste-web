@@ -1,6 +1,9 @@
 -- Beta list for theaftertaste.app (Cloudflare D1, SQLite).
 -- Apply with: npx --yes wrangler@4.156.0 d1 migrations apply aftertaste-beta --remote
 -- (and --local for the local copy used by `wrangler pages dev`). See docs/DEV-GUIDE.md.
+-- In the D1 dashboard Console, paste 0001_beta_list.console.sql instead: the same
+-- statements without comments (the Console runs pasted SQL as one line, so "--"
+-- comments swallow everything after them). Keep the two files in step.
 --
 -- Only what the form collects, plus the time of sign-up. No IP address, user
 -- agent or any other request data is stored here.

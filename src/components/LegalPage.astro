@@ -4,10 +4,6 @@
  * source file's last commit in the app repo), a table of contents from the
  * H2s, the text in editorial prose, and print styles. Unresolved [TODO: …]
  * markers are highlighted by src/lib/remark-legal.mjs and flagged here.
- *
- * The `addendum` slot is the one place for site-authored text on a legal
- * page (the beta list on /privacy): it renders after the synced document,
- * under its own heading, and `addendumToc` adds it to the contents.
  */
 import { getEntry, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -17,14 +13,13 @@ interface Props {
   id: 'privacy' | 'terms';
   title: string;
   description: string;
-  addendumToc?: { slug: string; text: string }[];
 }
 
-const { id, title, description, addendumToc = [] } = Astro.props;
+const { id, title, description } = Astro.props;
 const entry = await getEntry('legal', id);
 if (!entry) throw new Error(`[legal] src/content/legal/${id}.md is missing: run npm run sync:legal`);
 const { Content, headings } = await render(entry);
-const toc = [...headings.filter((h) => h.depth === 2), ...addendumToc];
+const toc = headings.filter((h) => h.depth === 2);
 // Count what readers see: the draft-notes comment is stripped from the page.
 const visibleBody = (entry.body ?? '').replace(/<!--[\s\S]*?-->/g, '');
 const todoCount = (visibleBody.match(/\[TODO:/g) ?? []).length;
@@ -72,7 +67,6 @@ const other =
       </nav>
       <div class="prose">
         <Content />
-        <slot name="addendum" />
         <p class="also">
           See also: <a href={other.href}>{other.label}</a>
         </p>
@@ -224,21 +218,6 @@ const other =
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--todo-ink);
-  }
-
-  .prose :global(.addendum) {
-    margin-block-start: var(--space-block);
-    padding-block-start: var(--s-24);
-    border-block-start: 1px solid var(--line-strong);
-  }
-
-  .prose :global(.addendum-kicker) {
-    margin-block-end: var(--s-12);
-    color: var(--primary-ink);
-  }
-
-  .prose :global(.addendum h2) {
-    margin-block-start: 0;
   }
 
   .also {

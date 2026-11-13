@@ -1,4 +1,4 @@
-# Active work: website v2 (`task/website-v2`) — complete, awaiting "approved"
+# Active work: website v2 (`task/website-v2`) — approved 2026-11-14, merged into `work-branch`
 
 Branched from `origin/work-branch` @ `fb4d0b4` (v1, docs and fixes-1 merged). Local checkpoint commits only; push and merge wait for the human's "approved".
 
@@ -12,7 +12,7 @@ Branched from `origin/work-branch` @ `fb4d0b4` (v1, docs and fixes-1 merged). Lo
 
 ## Next
 
-On "approved": push `task/website-v2`, merge into `work-branch` with `--no-ff`, run `npm run gates`, push `work-branch`. **Before that push** the human must have created the D1 database and the `wrangler.toml` placeholders must be filled in, or the `work-branch` preview deploy fails (docs/DEV-GUIDE.md "Beta list: Cloudflare setup").
+Done on 2026-11-14 after the owner set up D1 (production and preview databases, tables via the Console, `RATE_LIMIT_SALT`): `wrangler.toml` filled in, `migrations/0001_beta_list.console.sql` added, Android and iOS wording, legal re-synced @ `04039aa` (addendum removed), then pushed and merged with `--no-ff`. Next: the human promotes `work-branch` → `main`.
 
 ## v1 (merged): recon, token mapping, phase log
 
@@ -24,7 +24,7 @@ Branch `task/website-v1` from `work-branch` (root commit `3fa6519`; the repo had
 
 Read-only reads of the app repo (`DishDiary`, branch `work-branch`, legal docs at `f19f50e`):
 
-- **Product:** Aftertaste (display name; package identifiers stay `bitemarks`). Private food diary, Android only (no iOS app). Not yet on Google Play.
+- **Product:** Aftertaste (display name; package identifiers stay `bitemarks`). Private food diary. At v1 the site said Android only; since 2026-11-14 it is a native app for Android and iOS, both still cooking. Not yet on Google Play or the App Store.
 - **Owner / contact:** an individual in India (named in the earlier legal drafts; the site publishes no personal name). Governing law: India, courts at Dehradun.
 - **Tagline:** "Your personal food memory" (LoginScreen). Store taglines: "Remember every good bite." Store short description: "Your private food diary: places, dishes, photos and what to eat next."
 - **Feature names (app copy):** Want to try, Tried, What should we eat?, Pick for me, Another, From your Want to try, One of your favourites, Loved by {name}, Near you, From friends, Visit logged, LOGGED stamp, RECOMMENDED · WOULD RETURN, MUST-TRY, TRIED, Export my data, Delete account, share my diary (discoverable).

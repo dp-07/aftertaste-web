@@ -1,6 +1,6 @@
 # Product requirements: theaftertaste.app
 
-The public website for **Aftertaste**, a private food diary for Android ("Your personal food memory"). Live at <https://theaftertaste.app>. Related: [ARCHITECTURE](ARCHITECTURE.md), [RULES](RULES.md), [DESIGN](DESIGN.md), [TASKS](TASKS.md).
+The public website for **Aftertaste**, a private food diary, a native app for Android and iOS ("Your personal food memory"). Live at <https://theaftertaste.app>. Related: [ARCHITECTURE](ARCHITECTURE.md), [RULES](RULES.md), [DESIGN](DESIGN.md), [TASKS](TASKS.md).
 
 ## Purpose
 
@@ -12,7 +12,7 @@ The app lives in a separate repo. This site only reads brand assets, fonts, toke
 
 ## Audience
 
-- People who hear about Aftertaste from a friend and want to know what it is (mostly on a phone, mostly Android, mostly India: the site is `en-IN`).
+- People who hear about Aftertaste from a friend and want to know what it is (mostly on a phone, Android or iPhone, mostly India: the site is `en-IN`).
 - Google Play reviewers and users who need the privacy policy, terms, support contact or deletion instructions.
 - Friends who share diaries (the app is private and social only through shared diaries).
 
@@ -29,18 +29,18 @@ The app lives in a separate repo. This site only reads brand assets, fonts, toke
 - **No app code, config, secrets or git history** from the app repo.
 - No accounts or CMS. The one form is the beta list, posted to our own Cloudflare Pages Function and stored in our own Cloudflare D1 database: no form services, no captcha, no third-party scripts ([ARCHITECTURE](ARCHITECTURE.md#beta-list-pages-functions-and-d1)).
 - No implication that the app can be downloaded before launch.
-- No iOS or web app promises: Android only.
+- No web app promises. Aftertaste is a native app for **Android and iOS**; both are still cooking (iOS is parked for now), so the site names both platforms and promises neither a date.
 - No blog, pricing, testimonials or stock photography.
 
 ## Pages and sections
 
-| Route      | Source                                              | Intent                                                                                                                                                                                                                                                                                                                                                                                                      |
-| ---------- | --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `/`        | `src/pages/index.astro` + `src/components/landing/` | Landing. Hero (wordmark, "Private beta · still cooking", CTAs, phone frame) → Opener ("Sound familiar?", camera-roll collage) → 01 How it works → 02 Want to try → 03 What should we eat? (interactive demo) → 04 Near you → 05 From friends → 06 The receipt → 07 Every meal counts → 08 From the diary → 09 Your taste report (still cooking) → 10 Privacy → 11 Questions → 12 Save your seat (beta form) |
-| `/privacy` | `src/content/legal/privacy.md`                      | Privacy policy, synced from the app repo, plus the site-authored "Website: the beta list" addendum (`#beta-list`, in `src/pages/privacy.astro`). `#delete-your-data` is the stable account-deletion anchor for Google Play.                                                                                                                                                                                 |
-| `/terms`   | `src/content/legal/terms.md`                        | Terms of use, synced from the app repo.                                                                                                                                                                                                                                                                                                                                                                     |
-| `/support` | `src/pages/support.astro`                           | Contact email and the four common questions (delete account, what friends see, location, export). `#delete-account` is also a Play deletion URL.                                                                                                                                                                                                                                                            |
-| `/404`     | `src/pages/404.astro`                               | Branded not-found page (`noindex`, not in the sitemap).                                                                                                                                                                                                                                                                                                                                                     |
+| Route      | Source                                              | Intent                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| ---------- | --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/`        | `src/pages/index.astro` + `src/components/landing/` | Landing. Hero (wordmark, "Private beta · Android and iOS · still cooking", CTAs, phone frame) → Opener ("Sound familiar?", camera-roll collage) → 01 How it works → 02 Want to try → 03 What should we eat? (interactive demo) → 04 Near you → 05 From friends → 06 The receipt → 07 Every meal counts → 08 From the diary → 09 Your taste report (still cooking) → 10 Privacy → 11 Questions → 12 Save your seat (beta form) |
+| `/privacy` | `src/content/legal/privacy.md`                      | Privacy policy, synced from the app repo; section 13 covers the website beta list (`#13-website-beta-list`). `#delete-your-data` is the stable account-deletion anchor for Google Play.                                                                                                                                                                                                                                       |
+| `/terms`   | `src/content/legal/terms.md`                        | Terms of use, synced from the app repo.                                                                                                                                                                                                                                                                                                                                                                                       |
+| `/support` | `src/pages/support.astro`                           | Contact email and the four common questions (delete account, what friends see, location, export). `#delete-account` is also a Play deletion URL.                                                                                                                                                                                                                                                                              |
+| `/404`     | `src/pages/404.astro`                               | Branded not-found page (`noindex`, not in the sitemap).                                                                                                                                                                                                                                                                                                                                                                       |
 
 Every page carries a slim, dismissible beta banner ("Aftertaste is still cooking…"). `POST /api/beta` is the beta list endpoint (`functions/api/beta.ts`).
 
@@ -48,12 +48,12 @@ Redirect aliases (`/privacy-policy`, `/terms-of-use`, `/contact`, `/help`, `/del
 
 ## Calls to action
 
-| CTA                      | Behaviour                                                                                                                                                                                                                                                                   |
-| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Join the beta** (hero) | Scrolls to "Save your seat" (`#join`). The banner's "Join the list" and the FAQ link there too (`/#join` from other pages).                                                                                                                                                 |
-| **Save my seat** (form)  | Email (required), city and "How did you hear about us?" (optional), a consent line linking to `/privacy#beta-list`. Works without JS; with JS it is optimistic with live-region announcements. Backend in [ARCHITECTURE](ARCHITECTURE.md#beta-list-pages-functions-and-d1). |
-| **See how it works**     | Secondary hero button to `#how-it-works`.                                                                                                                                                                                                                                   |
-| Google Play badge        | Not shown during the beta. It returns in the hero when `site.playStoreUrl` is set (`src/config/site.ts`); then use Google's official badge artwork.                                                                                                                         |
+| CTA                      | Behaviour                                                                                                                                                                                                                                                                              |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Join the beta** (hero) | Scrolls to "Save your seat" (`#join`). The banner's "Join the list" and the FAQ link there too (`/#join` from other pages).                                                                                                                                                            |
+| **Save my seat** (form)  | Email (required), city and "How did you hear about us?" (optional), a consent line linking to `/privacy#13-website-beta-list`. Works without JS; with JS it is optimistic with live-region announcements. Backend in [ARCHITECTURE](ARCHITECTURE.md#beta-list-pages-functions-and-d1). |
+| **See how it works**     | Secondary hero button to `#how-it-works`.                                                                                                                                                                                                                                              |
+| Store badges             | Not shown during the beta. Each returns in the hero when its URL is set (`site.playStoreUrl`, `site.appStoreUrl` in `src/config/site.ts`); then use that store's official badge artwork.                                                                                               |
 
 ## Success criteria
 
@@ -79,11 +79,11 @@ Every change must pass `npm run gates`. Changes to the beta list must also pass 
 
 - **Target launch date: 23 Nov 2026** (stated by the owner; not recorded elsewhere in the repo).
 - Launch blockers and the checklist are in [TASKS](TASKS.md): real screenshot, resolved legal TODOs, working `hello@` mailbox, `www` redirect, the D1 beta list set up, Play listing URL.
-- The site stays in "still cooking" mode until launch. At launch: set `playStoreUrl`, change the hero eyebrow, banner, FAQ and footer copy, and keep the beta list until its retention ends.
+- The site stays in "still cooking" mode until launch. At launch: set `playStoreUrl` and `appStoreUrl` as each store goes live, change the hero eyebrow, banner, FAQ and footer copy, and keep the beta list until its retention ends.
 
 ## Future items
 
-- **Play badge + listing URL:** set `playStoreUrl`, add Google's official badge artwork, update the FAQ answer and consider `offers` in the JSON-LD (steps in [DEV-GUIDE](DEV-GUIDE.md#add-the-play-badge-and-listing-url)).
+- **Store badges + listing URLs (Google Play and the App Store):** set `playStoreUrl` / `appStoreUrl`, add each store's official badge artwork, update the FAQ answers and consider `offers` in the JSON-LD (steps in [DEV-GUIDE](DEV-GUIDE.md#add-the-store-badges-and-listing-urls)).
 - **Android App Links:** `public/.well-known/assetlinks.json` once the release-signing SHA-256 fingerprint exists.
 - Real app screenshots (more than one, light and dark).
 - Real "From the diary" entries and photos (placeholders now; [TASKS](TASKS.md)).

@@ -73,7 +73,7 @@ All scripts are in [package.json](../package.json). Astro telemetry is disabled 
 | Script                      | What it does                                                                                                                                                 |
 | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `npm run db:migrate:local`  | Applies `migrations/` to the local D1 in `.wrangler/` (git-ignored).                                                                                         |
-| `npm run db:migrate:remote` | Applies `migrations/` to the **production** D1. Needs `npx wrangler@4.156.0 login` and the real `database_id` in `wrangler.toml`. Owner only.                |
+| `npm run db:migrate:remote` | Applies `migrations/` to the **production** D1. Needs `npx wrangler@4.156.0 login`. Owner only. For the preview database, use its Console (setup step 3).    |
 | `npm run test:beta`         | End-to-end test on a throwaway local D1: API cases, stored rows, the form in Chrome with and without JS, the banner. Needs a build and Chrome. Never remote. |
 
 The first run downloads Wrangler (about 100 MB, cached by npx afterwards).
@@ -129,13 +129,13 @@ Both start their own `serve-dist` server on a random port, so other servers do n
 3. `npm run build`. Astro makes AVIF and WebP at several widths with a PNG fallback and sets width and height. A different aspect ratio needs the `.screen` `aspect-ratio` in [PhoneFrame.astro](../src/components/brand/PhoneFrame.astro) changed.
 4. Remove the `TODO(screenshots)` comment in Hero.astro, run `npm run gates`, and check the page at 320 and 1440 px.
 
-### Add the Play badge and listing URL
+### Add the store badges and listing URLs
 
-During the beta the hero shows no Play badge at all.
+Aftertaste is a native app for Android and iOS. During the beta the hero shows no store badge at all.
 
-1. In [src/config/site.ts](../src/config/site.ts) set `playStoreUrl` to `https://play.google.com/store/apps/details?id=…`. [Hero.astro](../src/components/landing/Hero.astro) then renders `PlayBadge` again, as a link.
-2. In [PlayBadge.astro](../src/components/ui/PlayBadge.astro) replace the plate with Google's **official** "Get it on Google Play" badge artwork (follow Google's badge guidelines; add under `src/assets/`, render with `astro:assets`). Do not draw an imitation.
-3. Retire the beta copy: hero eyebrow and buttons, [BetaBanner.astro](../src/components/BetaBanner.astro), the FAQ answers "Can I use it now?" and "When can I get it?" in [Faq.astro](../src/components/landing/Faq.astro), the footer colophon, and the taste-report "(still cooking)" if it has shipped. Consider adding `offers` to the `MobileApplication` JSON-LD in [index.astro](../src/pages/index.astro).
+1. In [src/config/site.ts](../src/config/site.ts) set `playStoreUrl` (`https://play.google.com/store/apps/details?id=…`) and/or `appStoreUrl` (`https://apps.apple.com/app/…`) as each store goes live. [Hero.astro](../src/components/landing/Hero.astro) renders a [StoreBadge](../src/components/ui/StoreBadge.astro) for each URL that is set.
+2. Replace the text plate in `StoreBadge.astro` with each store's **official** artwork (Google's "Get it on Google Play", Apple's "Download on the App Store"), following their badge guidelines; add under `src/assets/`, render with `astro:assets`. Do not draw imitations.
+3. Retire the beta copy: hero eyebrow and buttons, [BetaBanner.astro](../src/components/BetaBanner.astro), the FAQ answers "Can I use it now?", "When can I get it?" and "Is there an iPhone app?" in [Faq.astro](../src/components/landing/Faq.astro), the footer colophon, and the taste-report "(still cooking)" if it has shipped. Consider adding `offers` to the `MobileApplication` JSON-LD in [index.astro](../src/pages/index.astro) (its `operatingSystem` is already "Android, iOS").
 4. `npm run gates`.
 
 ### Add diary photos
@@ -173,17 +173,19 @@ Locally you can send `CF-Connecting-IP` yourself to test the rate limit (in prod
 
 ### Beta list: Cloudflare setup
 
-One-time steps for the owner. Nothing here is done by Claude. Do them before `work-branch` is pushed with this change, because a deploy with the placeholder `database_id` fails.
+One-time steps for the owner; nothing here is done by Claude. **Done on 2026-11-14** for both databases. Kept for rebuilding or a new environment.
 
-1. **Create the database.** Cloudflare dashboard → **Storage & Databases → D1 SQL Database → Create database**. Name: `aftertaste-beta`. Location: pick the Asia-Pacific hint if offered (closest to most visitors). Create, then copy the **Database ID** from its page.
-2. **Point the config at it.** In [wrangler.toml](../wrangler.toml) replace the placeholder `database_id` with that ID, and check `name` equals your Pages project's name (**Workers & Pages** → the project). Or send both to Claude to commit. The ID is an identifier, not a secret.
-3. **Create the tables** (choose one):
-   - CLI: `npx --yes wrangler@4.156.0 login`, then `npm run db:migrate:remote`. Wrangler records the migration, so later migrations apply cleanly.
-   - Dashboard: D1 → `aftertaste-beta` → **Console**, paste the whole of [migrations/0001_beta_list.sql](../migrations/0001_beta_list.sql), run it. (It uses `IF NOT EXISTS`, so running it again, or later through the CLI, is harmless.)
-   - Check: `SELECT name FROM sqlite_master WHERE type = 'table';` lists `beta_signups` and `beta_rate_limits`.
-4. **Add the secret.** Pages project → **Settings → Variables and Secrets → Add**: type **Secret**, name `RATE_LIMIT_SALT`, value a long random string (`openssl rand -hex 32`). Add it for **Production** and **Preview**. Never commit it.
-5. **The binding.** Because `wrangler.toml` has `pages_build_output_dir`, Pages reads the D1 binding from it: after the next deploy, **Settings → Bindings** shows `BETA_DB` → `aftertaste-beta`, marked as managed by the Wrangler file. Nothing to add by hand. (Preview deployments share it; to keep test sign-ups apart, create a second database and add an `[env.preview]` block with its own `[[env.preview.d1_databases]]`.)
-6. **Check after the deploy.** On the preview URL (or production), submit the form with your own address: you see "You're on the list." Then in the D1 Console run `SELECT email, created_at FROM beta_signups;`. Also submit with JS disabled: the page jumps to the ticket. `curl -sI -X POST https://theaftertaste.app/api/beta` returns `415` with `cache-control: no-store`.
+1. **Create the databases.** Cloudflare dashboard → **Storage & Databases → D1 SQL Database → Create database**: `aftertaste-beta` (production) and `aftertaste-beta-preview` (preview deployments). Pick the Asia-Pacific location hint if offered. Copy each **Database ID**.
+2. **Point the config at them.** [wrangler.toml](../wrangler.toml): the top-level `[[d1_databases]]` holds the production ID, `[[env.preview.d1_databases]]` the preview ID; `name` must equal the Pages project's name (`aftertaste-web`). The IDs are identifiers, not secrets.
+3. **Create the tables in each database** (choose one):
+   - Dashboard: D1 → the database → **Console**, paste the whole of [migrations/0001_beta_list.console.sql](../migrations/0001_beta_list.console.sql) and run it. Use this file, not `0001_beta_list.sql`: the Console runs pasted SQL as one line, so the `--` comments in the commented file swallow everything after them ([MEMORY](MEMORY.md#the-d1-console-runs-pasted-sql-as-one-line)).
+   - CLI (production): `npx --yes wrangler@4.156.0 login`, then `npm run db:migrate:remote`.
+   - Check, in each Console: `SELECT name FROM sqlite_master WHERE type = 'table';` lists `beta_signups` and `beta_rate_limits`.
+4. **Add the secret.** Pages project → **Settings → Variables and Secrets → Add**: type **Secret**, name `RATE_LIMIT_SALT`, value a long random string (`openssl rand -hex 32`), for **Production** and **Preview**. Never commit it.
+5. **The binding.** Because `wrangler.toml` has `pages_build_output_dir`, Pages reads the D1 bindings from it: after the next deploy, **Settings → Bindings** shows `BETA_DB` (production → `aftertaste-beta`, preview → `aftertaste-beta-preview`), marked as managed by the Wrangler file. Nothing to add by hand.
+6. **Check after the deploy.** On a preview URL, submit the form with your own address: "You're on the list." appears, and the row is in `aftertaste-beta-preview`, not in production. Also submit with JS disabled: the page jumps to the ticket. `curl -sI -X POST https://theaftertaste.app/api/beta` returns `415` with `cache-control: no-store`.
+
+If the tables were created in the Console, Wrangler has no record of the migration: a later `npm run db:migrate:remote` re-runs `0001` (and the console copy), which is harmless because every statement is `IF NOT EXISTS`.
 
 ### Export the beta list
 
@@ -257,4 +259,4 @@ Edit `src/scripts/theme.js`, run `npm run csp:hash`, then `npm run gates`.
 | The form says "Something went wrong on our side" (503)        | The `BETA_DB` binding is missing or the tables do not exist: run `npm run db:migrate:local` (or the remote setup above). The function logs `[beta] …` to the Wrangler output or the Pages Functions log.                              |
 | The form says "Lots of sign-ups from your network" (429)      | More than 10 attempts from one network this hour. Locally, wait, delete `.wrangler/`, or send a different `CF-Connecting-IP`.                                                                                                         |
 | Wrangler logs "RATE_LIMIT_SALT is not set"                    | Create `.dev.vars` locally, or add the secret in the dashboard (Production and Preview). Rate limiting is weaker until then.                                                                                                          |
-| A Pages deploy fails on the D1 binding                        | `wrangler.toml` still has the placeholder `database_id`, or `name` does not match the project. See [Beta list: Cloudflare setup](#beta-list-cloudflare-setup).                                                                        |
+| A Pages deploy fails on the D1 binding                        | A `database_id` in `wrangler.toml` does not exist in the account, or `name` does not match the project. See [Beta list: Cloudflare setup](#beta-list-cloudflare-setup).                                                               |

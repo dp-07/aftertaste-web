@@ -44,3 +44,10 @@
 - **Privacy addendum on `/privacy`** (site-authored, clearly labelled) until the app repo's policy covers the beta list. Retention: until six months after launch or until removal is requested.
 - **One new motion moment:** the opener's place name fading on scroll (scroll-driven mask via `@property`). The COMING LATER stamp is static (a label, not a verdict).
 - **New sample place:** "Clock Tower Tea Stall" (invented, like the other demo places).
+
+## 2026-11-14 — v2 approval round
+
+- **Android and iOS.** Aftertaste is a native app for both platforms, both still cooking (iOS parked). The site never says "Android only"; JSON-LD `operatingSystem` is "Android, iOS"; the store-badge config covers both (`playStoreUrl`, `appStoreUrl`), hidden until launch URLs exist. `PlayBadge` became `StoreBadge` (`store="play" | "appStore"`).
+- **Separate preview database.** `aftertaste-beta-preview` is bound under `[env.preview]` so preview deployments never write to the real list.
+- **Console copy of the migration.** `migrations/0001_beta_list.console.sql` (no comments, one statement per line) because the D1 Console runs pasted SQL as one line. Kept at the owner's requested path although Wrangler then lists it as a migration too (idempotent, so harmless).
+- **The temporary `/privacy` addendum is removed**: the app repo's policy now has section 13 "Website beta list"; the consent link points at `#13-website-beta-list`.
