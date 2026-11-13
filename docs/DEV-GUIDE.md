@@ -178,14 +178,14 @@ One-time steps for the owner; nothing here is done by Claude. **Done on 2026-11-
 1. **Create the databases.** Cloudflare dashboard → **Storage & Databases → D1 SQL Database → Create database**: `aftertaste-beta` (production) and `aftertaste-beta-preview` (preview deployments). Pick the Asia-Pacific location hint if offered. Copy each **Database ID**.
 2. **Point the config at them.** [wrangler.toml](../wrangler.toml): the top-level `[[d1_databases]]` holds the production ID, `[[env.preview.d1_databases]]` the preview ID; `name` must equal the Pages project's name (`aftertaste-web`). The IDs are identifiers, not secrets.
 3. **Create the tables in each database** (choose one):
-   - Dashboard: D1 → the database → **Console**, paste the whole of [migrations/0001_beta_list.console.sql](../migrations/0001_beta_list.console.sql) and run it. Use this file, not `0001_beta_list.sql`: the Console runs pasted SQL as one line, so the `--` comments in the commented file swallow everything after them ([MEMORY](MEMORY.md#the-d1-console-runs-pasted-sql-as-one-line)).
+   - Dashboard: D1 → the database → **Console**, paste the whole of [migrations/console/0001_beta_list.sql](../migrations/console/0001_beta_list.sql) and run it. Use this file, not `0001_beta_list.sql`: the Console runs pasted SQL as one line, so the `--` comments in the commented file swallow everything after them ([MEMORY](MEMORY.md#the-d1-console-runs-pasted-sql-as-one-line)).
    - CLI (production): `npx --yes wrangler@4.156.0 login`, then `npm run db:migrate:remote`.
    - Check, in each Console: `SELECT name FROM sqlite_master WHERE type = 'table';` lists `beta_signups` and `beta_rate_limits`.
 4. **Add the secret.** Pages project → **Settings → Variables and Secrets → Add**: type **Secret**, name `RATE_LIMIT_SALT`, value a long random string (`openssl rand -hex 32`), for **Production** and **Preview**. Never commit it.
 5. **The binding.** Because `wrangler.toml` has `pages_build_output_dir`, Pages reads the D1 bindings from it: after the next deploy, **Settings → Bindings** shows `BETA_DB` (production → `aftertaste-beta`, preview → `aftertaste-beta-preview`), marked as managed by the Wrangler file. Nothing to add by hand.
 6. **Check after the deploy.** On a preview URL, submit the form with your own address: "You're on the list." appears, and the row is in `aftertaste-beta-preview`, not in production. Also submit with JS disabled: the page jumps to the ticket. `curl -sI -X POST https://theaftertaste.app/api/beta` returns `415` with `cache-control: no-store`.
 
-If the tables were created in the Console, Wrangler has no record of the migration: a later `npm run db:migrate:remote` re-runs `0001` (and the console copy), which is harmless because every statement is `IF NOT EXISTS`.
+If the tables were created in the Console, Wrangler has no record of the migration: a later `npm run db:migrate:remote` runs `0001` itself, which is harmless because every statement is `IF NOT EXISTS`.
 
 ### Export the beta list
 

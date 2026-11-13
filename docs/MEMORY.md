@@ -110,7 +110,7 @@ Durable lessons so future sessions do not repeat mistakes. Each entry: what happ
 ## The D1 Console runs pasted SQL as one line
 
 - **What happened:** (2026-11-14) pasting `migrations/0001_beta_list.sql` into the D1 dashboard Console failed: the Console joins pasted SQL into one line, so the first `--` comment swallowed everything after it.
-- **What to do:** paste [migrations/0001_beta_list.console.sql](../migrations/0001_beta_list.console.sql) instead (the same statements, no comments, one per line). Keep the two files in step. Note that Wrangler treats every `.sql` file in `migrations/` as a migration, so it lists and applies both: harmless, because every statement is `IF NOT EXISTS` and they are identical. Any future migration needs a matching `.console.sql` with the same care (idempotent statements).
+- **What to do:** paste [migrations/console/0001_beta_list.sql](../migrations/console/0001_beta_list.sql) instead (the same statements, no comments, one per line). Keep the two files in step. The console copies live in `migrations/console/` because Wrangler treats every `.sql` file directly in `migrations/` as a migration (it does not look in subfolders), and it must not apply the copy. Any future migration needs a matching copy in `migrations/console/` with the same care (idempotent statements).
 
 ## Preview deployments have their own D1 database
 
