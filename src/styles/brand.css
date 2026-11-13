@@ -90,6 +90,11 @@
   display: inline-block;
 }
 
+/* The drawn letters are generated content: not page text, never read as "afetat". */
+.wm-c[data-c]::before {
+  content: attr(data-c);
+}
+
 /* Glyph box bottom on the text baseline (brand.json wordmark.baseline). */
 .glyph {
   display: inline-block;
@@ -117,25 +122,25 @@
     animation-delay: calc(80ms + var(--i, 0) * var(--stagger));
   }
 
-  .wordmark--animate .wm-line:first-child > :nth-child(2) {
+  .wordmark--animate .wm-l1 > :nth-child(2) {
     --i: 1;
   }
-  .wordmark--animate .wm-line:first-child > :nth-child(4) {
+  .wordmark--animate .wm-l1 > :nth-child(4) {
     --i: 2;
   }
-  .wordmark--animate .wm-line:last-child > :nth-child(1) {
+  .wordmark--animate .wm-l2 > :nth-child(1) {
     --i: 3;
   }
-  .wordmark--animate .wm-line:last-child > :nth-child(2) {
+  .wordmark--animate .wm-l2 > :nth-child(2) {
     --i: 4;
   }
-  .wordmark--animate .wm-line:last-child > :nth-child(3) {
+  .wordmark--animate .wm-l2 > :nth-child(3) {
     --i: 5;
   }
-  .wordmark--animate .wm-line:last-child > :nth-child(4) {
+  .wordmark--animate .wm-l2 > :nth-child(4) {
     --i: 6;
   }
-  .wordmark--animate .wm-line:last-child > :nth-child(5) {
+  .wordmark--animate .wm-l2 > :nth-child(5) {
     --i: 7;
   }
 

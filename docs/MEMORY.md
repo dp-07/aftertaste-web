@@ -44,6 +44,29 @@ Durable lessons so future sessions do not repeat mistakes. Each entry: what happ
 - **Why:** Email Address Obfuscation, Rocket Loader, automatic Web Analytics and "JavaScript detections" add scripts the strict CSP blocks; they also break the no-third-party promise.
 - **What to do:** keep them off. If analytics is ever wanted, use the manual snippet and extend the CSP deliberately (README "Analytics"). Verify production headers and the console after any zone change.
 
+## Email links and Cloudflare Email Address Obfuscation
+
+- **What happened:** Cloudflare's Email Address Obfuscation (Scrape Shield) can rewrite `mailto:` links and addresses into `/cdn-cgi/l/email-protection` links and inject an inline decoder script.
+- **Why it matters:** the inline script is blocked by the strict CSP (no hash for it), so the links break and the console shows CSP errors.
+- **What to do:** keep the setting **off** (the owner turns it off in the zone). The site does not depend on it: every email is a plain `<a href="mailto:hello@theaftertaste.app">` (the "Get notified" one adds a subject) and the address is plain text, with no JS involved. After any zone change check `curl -s https://theaftertaste.app | grep -c email-protection` is `0` and click a mail link.
+
+## The wordmark must have real text
+
+- **What happened:** the wordmark is drawn from letters plus food glyphs; screen readers and the page text read it as "afetat" (the glyphs have no text).
+- **Why:** the visible letters were text nodes and the glyphs SVGs without names.
+- **What to do:** `Wordmark.astro` renders a visually hidden "Aftertaste" and hides the drawn parts with `aria-hidden`; the drawn letters are CSS `::before` content (`data-c`), so they are also not in `textContent`. Never put the drawn letters back as text. The hero `h1` adds a hidden " — " so it reads "Aftertaste — Your personal food memory". Check with `locator.ariaSnapshot()` in Playwright and `npm run audit:a11y`.
+
+## Run-together text
+
+- **What happened:** adjacent inline elements with no whitespace between them read as one word in `textContent` and to some assistive tech ("Coming soon onGoogle Play", "Rated 4.6 out of 53 visits", "01How it works").
+- **Why:** Astro drops whitespace between elements, and flex/grid containers hide it visually, so nothing looked wrong.
+- **What to do:** put `{' '}` between such elements (flex/grid ignore it, so layout is unchanged) or a visually hidden separator (`<span class="visually-hidden"> · </span>`). Run `node scripts/.runtogether.mjs` after building to list remaining cases.
+
+## No personal name on the site (legal name excepted)
+
+- **What happened:** the owner's name was in the footer, JSON-LD, support copy and the synced legal text.
+- **What to do:** the responsible party is "Aftertaste"; copy says "we". The one allowed exception is the legal name "Paras D Prasad" in the legal documents, which come from the app repo (never hand-edit the synced files; fix the source and re-run `sync:legal`). `npm run check:no-name` (a gate) fails on the name anywhere else in `dist/` and warns if the legal pages use a different form. The sync script needs no change: it never inspects the policy wording.
+
 ## The legal sync link rewrite
 
 - **What happened:** the app repo's legal drafts linked to the old domain.

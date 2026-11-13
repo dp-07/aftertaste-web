@@ -14,7 +14,7 @@ The app lives in a separate repo. This site only reads brand assets, fonts, toke
 
 - People who hear about Aftertaste from a friend and want to know what it is (mostly on a phone, mostly Android, mostly India: the site is `en-IN`).
 - Google Play reviewers and users who need the privacy policy, terms, support contact or deletion instructions.
-- The owner and friends of the diary (the app is private and social only through shared diaries).
+- Friends who share diaries (the app is private and social only through shared diaries).
 
 ## Goals
 

@@ -7,7 +7,7 @@ Branch `task/website-v1` from `work-branch` (root commit `3fa6519`; the repo had
 Read-only reads of the app repo (`DishDiary`, branch `work-branch`, legal docs at `f19f50e`):
 
 - **Product:** Aftertaste (display name; package identifiers stay `bitemarks`). Private food diary, Android only (no iOS app). Not yet on Google Play.
-- **Owner / contact:** Paras Dev Prasad, an individual in India; `w17.paras@gmail.com` (privacy policy and terms). Governing law: India, courts at Dehradun.
+- **Owner / contact:** an individual in India (named in the earlier legal drafts; the site publishes no personal name). Governing law: India, courts at Dehradun.
 - **Tagline:** "Your personal food memory" (LoginScreen). Store taglines: "Remember every good bite." Store short description: "Your private food diary: places, dishes, photos and what to eat next."
 - **Feature names (app copy):** Want to try, Tried, What should we eat?, Pick for me, Another, From your Want to try, One of your favourites, Loved by {name}, Near you, From friends, Visit logged, LOGGED stamp, RECOMMENDED · WOULD RETURN, MUST-TRY, TRIED, Export my data, Delete account, share my diary (discoverable).
 - **Icons:** Feather is the app icon set; Ionicons only for star/heart glyphs. No emoji as icons. Website uses `feather-icons` SVGs (MIT) inlined at build time.

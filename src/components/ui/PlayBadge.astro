@@ -12,13 +12,11 @@ const live = site.playStoreUrl !== null;
 
 {live ? (
   <a class="play play--live" href={site.playStoreUrl}>
-    <span class="play-small">Get it on</span>
-    <span class="play-big">Google Play</span>
+    <span class="play-small">Get it on</span> <span class="play-big">Google Play</span>
   </a>
 ) : (
   <p class="play" aria-disabled="true">
-    <span class="play-small">Coming soon on</span>
-    <span class="play-big">Google Play</span>
+    <span class="play-small">Coming soon on</span> <span class="play-big">Google Play</span>
   </p>
 )}
 

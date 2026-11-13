@@ -55,7 +55,7 @@ const pages = {
     <div class="frame"></div>
     <div style="position:absolute;left:96px;top:92px;font-size:44px">${oneLine}</div>
     <div style="position:absolute;left:96px;top:226px" class="label">Support</div>
-    <div style="position:absolute;left:92px;top:262px;font:104px/1.05 Prata">How can I help?</div>
+    <div style="position:absolute;left:92px;top:262px;font:104px/1.05 Prata">How can we help?</div>
     <div style="position:absolute;left:96px;bottom:92px;font:30px 'DM Sans';color:#6B6257">Account deletion, sharing, location and exports.</div>
     <div style="position:absolute;right:96px;top:104px" class="mono">theaftertaste.app</div>`,
 };

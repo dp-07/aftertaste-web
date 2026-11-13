@@ -10,8 +10,6 @@ export const site = {
   tagline: 'Your personal food memory',
   description:
     'Aftertaste is a private food diary for Android. Log the places you eat at and every dish you order, with a photo and a rating, and know what to order next time.',
-  owner: 'Paras Dev Prasad',
-  ownerFirstName: 'Paras',
   contactEmail: 'hello@theaftertaste.app',
   /**
    * Google Play listing URL. While null, the site shows a "Coming soon on
@@ -19,7 +17,7 @@ export const site = {
    * live (and add Google's official badge, see README "Play badge").
    */
   playStoreUrl: null as string | null,
-  notifySubject: 'Tell me when Aftertaste is on Google Play',
+  notifySubject: 'Tell us when Aftertaste is on Google Play',
   themeColor: { light: '#F4EFE6', dark: '#16130F' },
 } as const;
 

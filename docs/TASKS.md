@@ -13,6 +13,10 @@ Target launch: **23 Nov 2026** (owner-stated).
 | `assetlinks.json` fingerprint | human supplies; Claude adds file and header rule | blocked                 | Needs the app's package name and the release-signing SHA-256 (Play Console → App integrity). Not needed for launch unless App Links are wanted. |
 | Legal TODOs                   | human (in the app repo); Claude re-syncs         | open: 8 visible         | See below.                                                                                                                                      |
 
+### Legal name in the legal text
+
+Decision (owner): the legal name **Paras D Prasad** appears only in the legal documents, where required (privacy "Who is responsible", terms intro). The app repo's drafts still say "Paras Dev Prasad". Owner: change both to "Paras D Prasad" in the app repo; then Claude runs `npm run sync:legal`. Until then `check:no-name` warns on `/privacy` and `/terms`. Everywhere else the name is banned by the same gate.
+
 ### Legal TODOs (synced from the app repo @ `95d7fbb`)
 
 Resolve in the app repo, then `npm run sync:legal`. The pages show a Draft banner until none remain.

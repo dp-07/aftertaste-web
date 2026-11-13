@@ -11,6 +11,8 @@ The hard rules for this repo. They are the source of truth; `CLAUDE.md` links he
 
 ## Privacy and third parties
 
+- **No personal name on the site, except the legal name in the legal documents where required** ("Paras D Prasad" on `/privacy` and `/terms`, synced from the app repo). Everywhere else (pages, footer, JSON-LD, OG images, meta) the responsible party is "Aftertaste" and copy says "we" and "us". `npm run check:no-name` fails if the owner's first name appears in `dist/` outside the legal pages, and warns on the legal pages if it is not in the exact legal form.
+
 - No analytics, cookies, trackers or third-party requests. Fonts and assets are self-hosted. Astro telemetry is off in the npm scripts.
 - Cloudflare Web Analytics is off. Enabling it needs a deliberate decision plus CSP and privacy-copy changes (README "Analytics").
 - Keep these Cloudflare features **off** (they inject scripts or rewrite HTML and break the CSP): Email Address Obfuscation, Rocket Loader, automatic Web Analytics, "JavaScript detections".
@@ -44,7 +46,7 @@ The hard rules for this repo. They are the source of truth; `CLAUDE.md` links he
 
 ## Copy
 
-- Warm, short, specific, sentence case. Write as one person talking to another ("Aftertaste is made by one person").
+- Warm, short, specific, sentence case. Write as people talking to a person, in "we" and "us" (never first person singular, never a personal name).
 - **Banned words:** unlock, elevate, seamless, revolutionize, delve, supercharge, game-changer, "in today's fast-paced world", effortlessly, all-in-one.
 - No emoji, no stock-photo language, no hype. Feature names are the app's own (Want to try, Tried, What should we eat?, Pick for me).
 - Demo places and friends are invented examples, and the demo says so.
@@ -72,4 +74,4 @@ Mirrors the app repo: `task/<name>` → `work-branch` → `main`.
 
 ## Quality gate
 
-**Every change must pass `npm run gates`** before commit (11 gates: build, `astro check`, ESLint, Prettier, html-validate, links, SEO, CSP, JS budget, contrast, no-app-code). Details in [DEV-GUIDE](DEV-GUIDE.md#gates).
+**Every change must pass `npm run gates`** before commit (12 gates: build, `astro check`, ESLint, Prettier, html-validate, links, SEO, CSP, JS budget, contrast, no-app-code, no personal name). Details in [DEV-GUIDE](DEV-GUIDE.md#gates).

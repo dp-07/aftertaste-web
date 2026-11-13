@@ -41,8 +41,7 @@ const other =
       <p class="t-label kicker">Aftertaste · Legal</p>
       <h1 class="t-display">{title}</h1>
       <p class="t-mono muted meta">
-        Last updated <time datetime={entry.data.sourceUpdated}>{updated}</time>
-        <span aria-hidden="true">·</span>
+        Last updated <time datetime={entry.data.sourceUpdated}>{updated}</time> <span aria-hidden="true">·</span>{' '}
         <span>Version {entry.data.sourceCommit.slice(0, 7)}</span>
       </p>
       {todoCount > 0 && (

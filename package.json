@@ -21,6 +21,7 @@
     "check:csp": "node scripts/check-csp.mjs",
     "check:budget": "node scripts/check-budget.mjs",
     "check:no-app-code": "node scripts/check-no-app-code.mjs",
+    "check:no-name": "node scripts/check-no-name.mjs",
     "gates": "node scripts/gates.mjs",
     "sync:legal": "node scripts/sync-legal.mjs",
     "fonts:subset": "bash scripts/subset-fonts.sh",

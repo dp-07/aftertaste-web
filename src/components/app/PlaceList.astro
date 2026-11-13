@@ -36,9 +36,8 @@ const { items, query, heading, label } = Astro.props;
           <Icon name="map-pin" size={18} />
         </span>
         <span class="text">
-          <span class="t-card-title name">{it.name}</span>
-          <span class="t-mono muted">{it.meta}</span>
-        </span>
+          <span class="t-card-title name">{it.name}</span> <span class="t-mono muted">{it.meta}</span>
+        </span>{' '}
         {it.chip && <span class="chip t-label">{it.chip}</span>}
       </li>
     ))}
