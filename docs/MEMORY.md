@@ -62,10 +62,10 @@ Durable lessons so future sessions do not repeat mistakes. Each entry: what happ
 - **Why:** Astro drops whitespace between elements, and flex/grid containers hide it visually, so nothing looked wrong.
 - **What to do:** put `{' '}` between such elements (flex/grid ignore it, so layout is unchanged) or a visually hidden separator (`<span class="visually-hidden"> · </span>`). Run `node scripts/.runtogether.mjs` after building to list remaining cases.
 
-## No personal name on the site
+## No personal name on the site (legal name excepted)
 
 - **What happened:** the owner's name was in the footer, JSON-LD, support copy and the synced legal text.
-- **What to do:** the responsible party is "Aftertaste"; copy says "we". `npm run check:no-name` (a gate) fails if the name appears in `dist/`. The legal pages are exempt, with a printed warning, until the app repo's legal text changes and `sync:legal` is re-run; then delete `PENDING_LEGAL_RESYNC` in `scripts/check-no-name.mjs`. The sync script needs no change: it never inspects the policy wording.
+- **What to do:** the responsible party is "Aftertaste"; copy says "we". The one allowed exception is the legal name "Paras D Prasad" in the legal documents, which come from the app repo (never hand-edit the synced files; fix the source and re-run `sync:legal`). `npm run check:no-name` (a gate) fails on the name anywhere else in `dist/` and warns if the legal pages use a different form. The sync script needs no change: it never inspects the policy wording.
 
 ## The legal sync link rewrite
 

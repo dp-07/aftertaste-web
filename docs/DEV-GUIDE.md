@@ -52,7 +52,7 @@ All scripts are in [package.json](../package.json). Astro telemetry is disabled 
 | js budget        | `npm run check:budget`      | Landing ≤ 30 KB gz JS; other pages ship no script files                                           |
 | contrast         | `npm run check:contrast`    | WCAG contrast of text token pairs in both themes                                                  |
 | no app code      | `npm run check:no-app-code` | No app identifiers or secrets; with `APP_REPO_PATH` also compares app env values                  |
-| no personal name | `npm run check:no-name`     | The owner's first name is not in `dist/` (legal pages exempt, with a warning, until re-synced)    |
+| no personal name | `npm run check:no-name`     | The owner's first name is not in `dist/` (legal name allowed on the legal pages only)             |
 
 ### Sync and generators
 
