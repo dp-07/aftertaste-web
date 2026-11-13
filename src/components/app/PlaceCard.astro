@@ -31,6 +31,7 @@ const { name, meta, rating, visits, kind = 'mushroom', pressStamp = false } = As
     </div>
     <div class="side">
       <Rating value={rating} />
+      <span class="visually-hidden"> · </span>
       <span class="t-mono muted">
         {visits} {visits === 1 ? 'visit' : 'visits'}
       </span>

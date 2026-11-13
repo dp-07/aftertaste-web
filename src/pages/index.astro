@@ -1,12 +1,17 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/landing/Hero.astro';
+import Opener from '../components/landing/Opener.astro';
 import HowItWorks from '../components/landing/HowItWorks.astro';
 import Spread from '../components/landing/Spread.astro';
 import DecisionDemo from '../components/landing/DecisionDemo.astro';
 import ReceiptFeature from '../components/landing/ReceiptFeature.astro';
+import EveryMeal from '../components/landing/EveryMeal.astro';
+import FromTheDiary from '../components/landing/FromTheDiary.astro';
+import TasteReport from '../components/landing/TasteReport.astro';
 import Privacy from '../components/landing/Privacy.astro';
 import Faq from '../components/landing/Faq.astro';
+import JoinBeta from '../components/landing/JoinBeta.astro';
 import WishlistRow from '../components/app/WishlistRow.astro';
 import PlaceList from '../components/app/PlaceList.astro';
 import FriendRow from '../components/app/FriendRow.astro';
@@ -21,7 +26,6 @@ const jsonLd = [
     url: site.url,
     logo,
     email: site.contactEmail,
-    founder: { '@type': 'Person', name: site.owner },
   },
   {
     '@context': 'https://schema.org',
@@ -30,17 +34,18 @@ const jsonLd = [
     description: site.description,
     url: site.url,
     image: logo,
-    operatingSystem: 'Android',
+    operatingSystem: 'Android, iOS',
     applicationCategory: 'LifestyleApplication',
     isAccessibleForFree: true,
     inLanguage: 'en-IN',
-    author: { '@type': 'Person', name: site.owner },
+    author: { '@type': 'Organization', name: site.name },
   },
 ];
 ---
 
 <BaseLayout description={site.description} og="home" jsonLd={jsonLd}>
   <Hero />
+  <Opener />
   <HowItWorks />
 
   <Spread id="want-to-try" num="02" label="Want to try" title="A list for the places you keep hearing about." flip>
@@ -105,8 +110,12 @@ const jsonLd = [
   </Spread>
 
   <ReceiptFeature />
+  <EveryMeal />
+  <FromTheDiary />
+  <TasteReport />
   <Privacy />
   <Faq />
+  <JoinBeta />
 </BaseLayout>
 
 <script>

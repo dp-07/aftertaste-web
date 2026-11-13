@@ -40,4 +40,5 @@ gate('csp', 'node scripts/check-csp.mjs');
 gate('js budget', 'node scripts/check-budget.mjs');
 gate('contrast', 'node scripts/check-contrast.mjs');
 gate('no app code', 'node scripts/check-no-app-code.mjs');
+gate('no personal name', 'node scripts/check-no-name.mjs');
 console.log('All gates passed.');

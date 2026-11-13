@@ -11,6 +11,7 @@
     "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
     "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
+    "dev:api": "npx --yes wrangler@4.156.0 pages dev --port 8788",
     "check:types": "ASTRO_TELEMETRY_DISABLED=1 astro check",
     "lint": "eslint . --max-warnings 0",
     "format": "prettier --write .",
@@ -21,6 +22,7 @@
     "check:csp": "node scripts/check-csp.mjs",
     "check:budget": "node scripts/check-budget.mjs",
     "check:no-app-code": "node scripts/check-no-app-code.mjs",
+    "check:no-name": "node scripts/check-no-name.mjs",
     "gates": "node scripts/gates.mjs",
     "sync:legal": "node scripts/sync-legal.mjs",
     "fonts:subset": "bash scripts/subset-fonts.sh",
@@ -32,7 +34,10 @@
     "audit:screens": "node scripts/audit-screens.mjs",
     "check:contrast": "node scripts/check-contrast.mjs",
     "audit:a11y": "node scripts/audit-a11y.mjs",
-    "audit:lighthouse": "node scripts/audit-lighthouse.mjs"
+    "audit:lighthouse": "node scripts/audit-lighthouse.mjs",
+    "db:migrate:local": "npx --yes wrangler@4.156.0 d1 migrations apply aftertaste-beta --local",
+    "db:migrate:remote": "npx --yes wrangler@4.156.0 d1 migrations apply aftertaste-beta --remote",
+    "test:beta": "node scripts/test-beta.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "7.3.5",

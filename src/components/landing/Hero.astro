@@ -1,30 +1,41 @@
 ---
 import heroShot from '../../assets/screenshots/home-placeholder.png';
-import { notifyHref, site } from '../../config/site';
+import { site } from '../../config/site';
 import PhoneFrame from '../brand/PhoneFrame.astro';
 import SealMark from '../brand/SealMark.astro';
 import Wordmark from '../brand/Wordmark.astro';
 import Button from '../ui/Button.astro';
-import PlayBadge from '../ui/PlayBadge.astro';
+import StoreBadge from '../ui/StoreBadge.astro';
 // TODO(screenshots): home-placeholder.png is a rendered placeholder; replace it with a real Home screenshot (README "Screenshots").
 ---
 
 <section class="hero" aria-labelledby="hero-title">
   <div class="wrap grid-12 hero-grid">
     <div class="intro">
-      <p class="t-label kicker">A food diary for Android</p>
+      <p class="t-label kicker">
+        <span class="seg">Private beta ·</span>{' '}
+        <span class="seg">
+          Android and <span class="ios">iOS</span> ·
+        </span>{' '}
+        <span class="seg">still cooking</span>
+      </p>
       <h1 id="hero-title">
         <Wordmark variant="stacked" animate class="hero-mark" />
+        <span class="visually-hidden"> — </span>
         <span class="tagline">{site.tagline}</span>
       </h1>
       <p class="support">
-        Log the places you eat at and every dish you order, with a photo and a rating. Months later, you'll know exactly
-        what to order, and what to skip.
+        A food diary for Android and iOS. Log the places you eat at and every dish you order, with a photo and a rating.
+        Months later, you'll know exactly what to order, and what to skip.
       </p>
       <div class="actions">
-        <PlayBadge />
-        <Button href={notifyHref} variant="secondary" icon="bell">
-          Get notified
+        <StoreBadge store="play" />
+        <StoreBadge store="appStore" />
+        <Button href="#join" icon="arrow-down" iconEnd={true}>
+          Join the beta
+        </Button>
+        <Button href="#how-it-works" variant="secondary">
+          See how it works
         </Button>
       </div>
       <p class="t-body-sm fine">Free. Private by default. No ads, no tracking.</p>
@@ -59,6 +70,25 @@ import PlayBadge from '../ui/PlayBadge.astro';
 
   .kicker {
     color: var(--primary-ink);
+  }
+
+  /* The label role is upper case; the platform's name keeps its own case. */
+  .ios {
+    text-transform: none;
+  }
+
+  /* The eyebrow must not rewrap when DM Sans 500 replaces its fallback (not
+     preloaded), or the hero shifts. Segments never break inside, and on
+     narrow screens "still cooking" always takes the second line: the first
+     line fits at 320 px in both fonts (236 and 259 of 280 px). */
+  .seg {
+    white-space: nowrap;
+  }
+
+  @media (width < 40rem) {
+    .seg:last-child {
+      display: block;
+    }
   }
 
   h1 {

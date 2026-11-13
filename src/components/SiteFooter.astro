@@ -36,9 +36,9 @@ const year = new Date().getFullYear();
       </ul>
     </nav>
     <p class="colophon t-mono">
-      <span>Made in India by {site.ownerFirstName}</span>
-      <span>
-        © {year} {site.owner}
+      Made in India · Private beta ·{' '}
+      <span class="nowrap">
+        © {year} {site.name}
       </span>
     </p>
   </div>
@@ -80,11 +80,11 @@ const year = new Date().getFullYear();
     overflow-wrap: anywhere;
   }
 
+  .nowrap {
+    white-space: nowrap;
+  }
+
   .colophon {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: var(--s-8) var(--s-24);
     padding-block-start: var(--s-20);
     border-block-start: 1px solid var(--line);
     color: var(--muted);

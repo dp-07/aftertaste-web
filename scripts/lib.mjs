@@ -52,3 +52,6 @@ export function report(name, problems) {
   }
   console.log(`✓ ${name}`);
 }
+
+/** Wrangler is run through npx at this pinned version (14-day rule); not a dependency. */
+export const WRANGLER = 'wrangler@4.156.0';

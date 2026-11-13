@@ -1,5 +1,4 @@
 ---
-import { notifyHref } from '../../config/site';
 import Icon from '../ui/Icon.astro';
 import InkLink from '../ui/InkLink.astro';
 ---
@@ -7,13 +6,32 @@ import InkLink from '../ui/InkLink.astro';
 <section id="questions" class="faq defer-render" aria-labelledby="faq-title">
   <div class="wrap">
     <p class="running-head t-label">
-      <span class="num">08</span>Questions
+      <span class="num">11</span> Questions
     </p>
     <div class="grid-12 layout">
       <h2 id="faq-title" class="t-display">
         Good to know.
       </h2>
       <div class="list">
+        <details>
+          <summary>
+            <span>Can I use it now?</span>
+            <Icon name="plus" size={20} class="mark" />
+          </summary>
+          <p>
+            It’s in private beta. <InkLink href="#join">Join the list</InkLink> and we’ll invite you as we open up.
+          </p>
+        </details>
+        <details>
+          <summary>
+            <span>When can I get it?</span>
+            <Icon name="plus" size={20} class="mark" />
+          </summary>
+          <p>
+            We’re letting people in a few at a time while we finish cooking, and we’ll put Aftertaste on Google Play and
+            the App Store after that. <InkLink href="#join">Save your seat</InkLink> and we’ll tell you first.
+          </p>
+        </details>
         <details>
           <summary>
             <span>Is Aftertaste free?</span>
@@ -23,20 +41,10 @@ import InkLink from '../ui/InkLink.astro';
         </details>
         <details>
           <summary>
-            <span>When can I get it?</span>
-            <Icon name="plus" size={20} class="mark" />
-          </summary>
-          <p>
-            It is coming to Google Play soon. <InkLink href={notifyHref}>Email me</InkLink> and I will tell you when it
-            is live.
-          </p>
-        </details>
-        <details>
-          <summary>
             <span>Is there an iPhone app?</span>
             <Icon name="plus" size={20} class="mark" />
           </summary>
-          <p>No. Aftertaste is for Android only.</p>
+          <p>Yes. Aftertaste is coming to both Android and iOS; both are still cooking.</p>
         </details>
         <details>
           <summary>
