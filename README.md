@@ -135,7 +135,7 @@ The site has no analytics, and the landing page says so (“not on this website 
 ## Fonts and brand assets
 
 - Prata, DM Sans and DM Mono (SIL OFL 1.1), subset to Latin + ₹ in `src/assets/fonts/`, licences in `public/fonts/`. The two above-the-fold faces (Prata 400, DM Sans 400) are preloaded; metric-matched local fallbacks prevent layout shift.
-- Brand values come from the app repo's locked brand pack (`design/aftertaste-v1/`) and App UI v1.8.1 tokens (`design/app-ui-v1/SPEC.md`). `src/styles/tokens.css` holds them as custom properties; `.claude/project-state/active-work.md` has the mapping. `brand/` holds the copied app icon source.
+- Brand values come from the app repo's locked brand pack (`design/aftertaste-v1/`) and App UI v1.9 tokens (`design/app-ui-v1/SPEC.md`). `src/styles/tokens.css` holds them as custom properties; `.claude/project-state/active-work.md` has the mapping. `brand/` holds the copied app icon source.
 
 ## Rules
 

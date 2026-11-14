@@ -1,6 +1,6 @@
 # Design
 
-The visual direction and the system behind it. Values are transcribed from the app's App UI v1.8.1 tokens and the locked brand pack; the code is the source of truth: [tokens.css](../src/styles/tokens.css), [base.css](../src/styles/base.css), [brand.css](../src/styles/brand.css). Related: [RULES](RULES.md), [ARCHITECTURE](ARCHITECTURE.md).
+The visual direction and the system behind it. Values are transcribed from the app's App UI v1.9 tokens and the locked brand pack; the code is the source of truth: [tokens.css](../src/styles/tokens.css), [base.css](../src/styles/base.css), [brand.css](../src/styles/brand.css). Related: [RULES](RULES.md), [ARCHITECTURE](ARCHITECTURE.md).
 
 ## Direction: tactile editorial
 
@@ -23,13 +23,13 @@ Each colour is one `light-dark(light, dark)` declaration. `:root` follows the sy
 | `--raised`                         | #FFFDF9                   | #29241E                   | Raised elements                             |
 | `--line` / `--line-strong`         | #E4DCCD / #CFC4B1         | #3A332B / #4D453B         | Hairlines                                   |
 | `--text`                           | #1F1B16                   | #F4EFE6                   | Body text                                   |
-| `--muted`                          | #6B6257                   | #B3A999                   | Secondary text                              |
-| `--faint`                          | #9A9083                   | #7D7468                   | Decoration only, **never text**             |
+| `--muted`                          | #665E53                   | #B3A999                   | Secondary text                              |
+| `--faint`                          | #746B60                   | #958C7E                   | Meta, placeholders and footnotes (v1.9)     |
 | `--primary`                        | #C2412D                   | #E0573D                   | Icons, meters, markers, large numerals      |
-| `--primary-ink`                    | #A8361F                   | #E0573D                   | Paprika as small text (kickers, numbers)    |
+| `--primary-ink`                    | #A8361F                   | #E5715A                   | Paprika as small text (kickers, numbers)    |
 | `--btn-bg` / `--btn-bg-hover`      | #C2412D / #A8361F         | #A8361F / #C2412D         | Primary button fill                         |
 | `--herb` / `--herb-ink`            | #5E7F3A / #4E6B2F         | #8DAA5E / #8DAA5E         | Herb accents; ink for small text            |
-| `--mustard`, `--brown`, `--danger` | #C99A2E, #8A5A3B, #B42318 | #E0B54E, #B98A63, #F0645A | Tones                                       |
+| `--mustard`, `--brown`, `--danger` | #C99A2E, #8A5A3B, #B42318 | #E0B54E, #B98A63, #F5786E | Tones                                       |
 | `--paper`, `--paper-ink`           | #FFFDF8, #1F1B16          | same                      | Receipt and stamp paper (a physical object) |
 
 ### Type
@@ -66,7 +66,9 @@ Some of the app's colour pairings fall below WCAG AA on the web. The site adds a
 | Herb on herbSoft chip (light)      | 3.73  | `--herb-ink` = the brand's olive stamp ink #4E6B2F   |
 | Paprika stamp ink on raised (dark) | 4.10  | `--stamp-paper` = `surface` in dark                  |
 
-`npm run check:contrast` (a gate) tests every text pair in both themes. The app could adopt the same roles ([TASKS](TASKS.md)).
+The app adopted these roles in its App UI v1.9 (`primaryInk`, `herbInk`, `stampPaper`, `primaryFill`) and the site re-aligned to the app's v1.9 values on 2026-11-14: `--muted` light #665E53, `--faint` #746B60 / #958C7E, `--primary-ink` dark #E5715A, `--primary-pressed` dark #A8361F, `--danger` dark #F5786E. **Where the site stays stricter:** `--btn-bg` is #A8361F in dark (the app's `primaryFill` is #C2412D in both themes, 4.88:1; the site's is about 7:1).
+
+`npm run check:contrast` (a gate) tests every text pair in both themes.
 
 ## Typography
 
@@ -107,6 +109,10 @@ Some of the app's colour pairings fall below WCAG AA on the web. The site adds a
 | 08 From the diary                     | A sideways strip that bleeds to the window edges: paper cards (photo or glyph, dashed tear line, mono date and city, Prata dish, mono place, five taste dots, one line, a stamp). Scroll-snap, focusable region.                           |
 | 09 Your taste report (still cooking)  | A dashed-border card: kicker "Taste report · sample data", COMING LATER stamp, three paprika bars with values written beside them (one series, no legend), two figures, a "made-up numbers" line.                                          |
 | 12 Save your seat                     | Copy beside a surface card with the form (52 px fields on `raised`, labels above, "(optional)" in muted). Success is a paper ticket with SEAT SAVED; errors are a soft-paprika note with an icon.                                          |
+
+## Coffee page (`/coffee`)
+
+An editorial single column (44 rem): the `SealMark`, a kicker, a Prata headline and a warm lede, a ruled "What your coffee does" list, one pill button (Buy us a coffee, no Buy Me a Coffee logo or colours), a quiet "or pay with UPI" divider, then the UPI block. The QR is a **fixed light card with dark modules in both themes** (`#fff` and `#16130f`, the only literals, so it always scans), 224 px, 4-module quiet zone. Phone or desktop is decided with CSS: the UPI app button hides on `(hover: hover) and (pointer: fine)`, the QR hides on `(pointer: coarse) and (width < 48rem)`; both show when unsure. The UPI ID is mono, `user-select: all`; the Copy button appears only once the script confirms a clipboard, and a polite live region says "UPI ID copied". The landing page's entry is one hairline-ruled line after the FAQ, no number, no card.
 
 ## Motion inventory
 

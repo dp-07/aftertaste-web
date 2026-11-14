@@ -222,6 +222,19 @@ The script's `TODO` count includes the `[TODO: ...]` placeholder inside the hidd
 
 Never edit `src/content/legal/*.md` by hand. Check the `sourceCommit` in the frontmatter and the `[legal-todo]` count in the build log. Details: [ARCHITECTURE](ARCHITECTURE.md#legal-sync-pipeline).
 
+### How to sync with the app
+
+For any app change, from a single colour to many new features, ask Claude Code to "sync the website with the app" (the project skill [sync-with-app](../.claude/skills/sync-with-app/SKILL.md)). It needs `APP_REPO_PATH` set, with the app repo clean and on its work-branch, and it reads the app repo only.
+
+What it does:
+
+1. Compares tokens, fonts, icons, brand assets, features, legal, support config and app metadata with the app, and writes a drift report to `.claude/project-state/app-sync-report-<date>.md`.
+2. Applies mechanical changes (AUTO) and judged site changes (BUILD, including new sections or pages for features that are done and merged in the app) on `task/sync-app-<date>`, then verifies (gates, Lighthouse, axe, screenshots) and merges into `work-branch` when everything passes.
+3. Stops and reports (STOP) for legal meaning, payments, privacy claims, names, unreleased features and brand identity changes; a brand change goes to a proposal branch that is not merged.
+4. Records the result in the ledger [.claude/project-state/app-sync.json](../.claude/project-state/app-sync.json) and keeps [sync/feature-map.json](../sync/feature-map.json) (each website section and FAQ entry ↔ the app feature and source file behind it) up to date.
+
+You then review the Cloudflare preview of `work-branch` and promote to `main` through a PR.
+
 ### Add a page
 
 1. Create `src/pages/<name>.astro` using `BaseLayout` with a unique `title`, a `description` of 50–170 characters and an `og` kind (`home`, `legal`, `support` or `default`).

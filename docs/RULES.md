@@ -20,10 +20,17 @@ The hard rules for this repo. They are the source of truth; `CLAUDE.md` links he
 - Cloudflare Web Analytics is off. Enabling it needs a deliberate decision plus CSP and privacy-copy changes (README "Analytics").
 - Keep these Cloudflare features **off** (they inject scripts or rewrite HTML and break the CSP): Email Address Obfuscation, Rocket Loader, automatic Web Analytics, "JavaScript detections".
 
+## Payments (`/coffee`)
+
+- The support page `/coffee` (Buy Me a Coffee plus UPI) is **never linked from `/privacy`, `/terms` or `/support`**, and those three pages (footer included) contain no `buymeacoffee.com` link and no `upi://` link. The app links to these pages, and Google Play's payment policy must not see off-store payment prompts there. They use the footer variant without the "Buy us a coffee" link (`BaseLayout` `coffeeLink` is off by default; only the landing page, 404 and the footer's other users opt in). `npm run check:payments` (a gate) fails otherwise.
+- UPI links never carry a payee name (`pn=`) or an amount: the UPI app shows the bank-verified name and asks for the amount. The gate fails on `pn=` in any `upi://` link in `dist/`. Only the UPI ID value is copied from the app repo (into `site.upiId`), never the payee name.
+- The UPI QR is generated at build time (inline SVG); never use or copy the app's QR image.
+- No third-party scripts or embeds: Buy Me a Coffee is a plain external link (`rel="noopener"`, no logo or brand colours).
+
 ## CSP
 
 - Strict policy in `public/_headers`: `default-src 'none'`, scripts `'self'` plus one hash, styles `'self'`, `connect-src 'self'`, `form-action 'self'`. Forms must post to a same-origin path.
-- **No inline scripts except the theme script**, whose SHA-256 is in `_headers`. After editing `src/scripts/theme.js` run `npm run csp:hash`.
+- **No inline scripts except the theme script and the `/coffee` copy-button script**, whose SHA-256 hashes are in `_headers`. After editing `src/scripts/theme.js` or `src/scripts/coffee-copy.js` run `npm run csp:hash`.
 - No inline `<style>`, no `style=` attributes, no `unsafe-inline`/`unsafe-eval`. The build is configured so Astro never inlines styles or scripts (`inlineStylesheets: 'never'`, `assetsInlineLimit: 0`).
 - JSON-LD blocks are data, not scripts, and are allowed.
 - `npm run check:csp` enforces all of this, including `form-action`/`connect-src` and same-origin form actions.
@@ -80,4 +87,4 @@ Mirrors the app repo: `task/<name>` → `work-branch` → `main`.
 
 ## Quality gate
 
-**Every change must pass `npm run gates`** before commit; changes to the beta form or function must also pass `npm run test:beta` (12 gates: build, `astro check`, ESLint, Prettier, html-validate, links, SEO, CSP, JS budget, contrast, no-app-code, no personal name). Details in [DEV-GUIDE](DEV-GUIDE.md#gates).
+**Every change must pass `npm run gates`** before commit; changes to the beta form or function must also pass `npm run test:beta` (13 gates: build, `astro check`, ESLint, Prettier, html-validate, links, SEO, CSP, JS budget, contrast, payment links, no-app-code, no personal name). Details in [DEV-GUIDE](DEV-GUIDE.md#gates).

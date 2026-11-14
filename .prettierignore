@@ -7,3 +7,4 @@ public/fonts/
 src/content/legal/
 *.svg
 .wrangler/
+.claude/skills/
