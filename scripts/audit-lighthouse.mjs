@@ -14,9 +14,9 @@ if (!existsSync(CHROME)) {
   console.error(`Google Chrome not found at ${CHROME}; set CHROME_PATH.`);
   process.exit(1);
 }
-const PAGES = (process.argv.find((a) => a.startsWith('--pages='))?.split('=')[1] ?? '/,/privacy,/terms,/support').split(
-  ',',
-);
+const PAGES = (
+  process.argv.find((a) => a.startsWith('--pages='))?.split('=')[1] ?? '/,/privacy,/terms,/support,/coffee'
+).split(',');
 const OUT = join(ROOT, 'reports/lighthouse');
 mkdirSync(OUT, { recursive: true });
 const PORT = 4800 + Math.floor(Math.random() * 100);

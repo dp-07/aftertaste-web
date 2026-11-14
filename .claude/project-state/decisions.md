@@ -63,3 +63,16 @@
 ## 2026-11-14 — Legal re-sync @ 2d33417
 
 - Section 13 timing wording softened in the app repo (the code changes every hour and old codes are deleted automatically), matching the function, which clears finished hours on the next request. Site re-synced; `#beta-list` still resolves.
+
+## 2026-11-14 — Coffee page (`/coffee`)
+
+- **Buy Me a Coffee and UPI on one page,** out of the nav, in the sitemap. Linked from the landing page (after the FAQ) and the footer, never from `/privacy`, `/terms`, `/support` (Play payment policy; enforced by `check:payments`).
+- **UPI link has no `pn` and no amount.** Only the ID value comes from the app repo.
+- **QR generated at build** with `qrcode-generator@2.0.4` (devDependency, published 2025-08-07, zero dependencies, installed with `--before=2026-10-31`).
+- **Second inline-script hash** for the Copy button; `csp:hash` rewrites both hashes.
+- **Colours:** the QR card uses the literals `#fff` and `#16130f` in both themes (must stay scannable); no other new colours.
+
+## 2026-11-14 — Tokens aligned to App UI v1.9
+
+- Adopted the app's v1.9 values for roles the site shares: `--muted` (light), `--faint` (both), `--primary-ink` (dark), `--primary-pressed` (dark), `--danger` (dark). `--herb-ink` and `--stamp-paper` already matched.
+- Kept stricter: `--btn-bg` dark #A8361F (app `primaryFill` #C2412D in dark). No new colours were introduced.

@@ -1,0 +1,43 @@
+---
+import Icon from '../ui/Icon.astro';
+---
+
+<section class="coffee-note defer-render" aria-label="Support Aftertaste">
+  <div class="wrap">
+    <p class="line">
+      <span>Enjoying the beta?</span>
+      <a class="ink-link" href="/coffee">
+        Keep it brewing <Icon name="arrow-right" size={16} />
+      </a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .coffee-note {
+    padding-block-start: var(--space-block);
+  }
+
+  .line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--s-8) var(--s-12);
+    margin: 0;
+    padding-block: var(--s-20);
+    border-block: 1px solid var(--line);
+    color: var(--muted);
+  }
+
+  .line a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-4);
+    min-block-size: var(--touch);
+    color: var(--text);
+  }
+
+  .line a :global(.icon) {
+    color: var(--primary);
+  }
+</style>

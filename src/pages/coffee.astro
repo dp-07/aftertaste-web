@@ -1,0 +1,299 @@
+---
+/**
+ * Keep Aftertaste brewing: Buy Me a Coffee and UPI (India). Not in the nav and
+ * never linked from /privacy, /terms or /support (see RULES, "Payments").
+ *
+ * - The UPI link has no payee name and no amount, so the UPI app shows the
+ *   bank-verified name and its own enter-amount screen.
+ * - The QR is generated at build time (qrcode-generator, a devDependency) as
+ *   inline SVG: no JS ships, nothing third-party, and no name can be embedded.
+ * - Phone or desktop is decided with CSS (pointer, width); both show if unsure.
+ * - The one inline script (src/scripts/coffee-copy.js) is hashed in the CSP.
+ *   Without JS the UPI ID is plain selectable text.
+ */
+import qrcode from 'qrcode-generator';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SealMark from '../components/brand/SealMark.astro';
+import Button from '../components/ui/Button.astro';
+import coffeeCopyScript from '../scripts/coffee-copy.js?raw';
+import { site, upiUrl } from '../config/site';
+
+const qr = qrcode(0, 'M');
+qr.addData(upiUrl());
+qr.make();
+const count = qr.getModuleCount();
+const QUIET = 4;
+let d = '';
+for (let r = 0; r < count; r++) {
+  for (let c = 0; c < count; c++) {
+    if (!qr.isDark(r, c)) continue;
+    let end = c;
+    while (end + 1 < count && qr.isDark(r, end + 1)) end++;
+    d += `M${c + QUIET} ${r + QUIET}h${end - c + 1}v1h-${end - c + 1}z`;
+    c = end;
+  }
+}
+const size = count + QUIET * 2;
+
+const does = [
+  ['Keeps the servers running', 'So your diary is there when you open the app.'],
+  ['Pays for place search and maps', 'Finding a place and putting it on the map costs us every time.'],
+  ['Funds new features', 'The taste report, and whatever you tell us you want next.'],
+];
+---
+
+<BaseLayout
+  title="Keep Aftertaste brewing"
+  description="Aftertaste is free and has no ads. If you enjoy it, buy us a coffee with Buy Me a Coffee or UPI."
+>
+  <div class="wrap coffee">
+    <header class="head">
+      <SealMark />
+      <p class="t-label kicker">Support Aftertaste</p>
+      <h1 class="t-display">Keep Aftertaste brewing</h1>
+      <p class="t-lede muted">
+        Aftertaste is made by a tiny team. It is free, and it has no ads and never will. If it has earned a place on
+        your phone, a coffee helps us keep it that way.
+      </p>
+    </header>
+
+    <section class="does" aria-labelledby="does-title">
+      <h2 id="does-title" class="t-title">
+        What your coffee does
+      </h2>
+      <ul>
+        {does.map(([title, text]) => (
+          <li>
+            <strong>{title}</strong>
+            <span class="muted">{text}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="bmc" aria-labelledby="bmc-title">
+      <h2 id="bmc-title" class="visually-hidden">
+        Buy Me a Coffee
+      </h2>
+      <a class="btn-link" href={site.buyMeACoffeeUrl} target="_blank" rel="noopener">
+        Buy us a coffee
+        <span class="visually-hidden"> (opens Buy Me a Coffee in a new tab)</span>
+      </a>
+    </section>
+
+    <p class="divider t-label muted">
+      <span>or pay with UPI</span>
+    </p>
+
+    <section class="upi" aria-labelledby="upi-title">
+      <h2 id="upi-title" class="visually-hidden">
+        Pay with UPI
+      </h2>
+
+      <div class="upi-app">
+        <Button href={upiUrl()} icon="smartphone">
+          Pay with UPI app
+        </Button>
+      </div>
+
+      <div class="upi-qr">
+        <svg
+          class="qr"
+          viewBox={`0 0 ${size} ${size}`}
+          width="224"
+          height="224"
+          role="img"
+          aria-label="UPI QR code for Aftertaste"
+          shape-rendering="crispEdges"
+        >
+          <rect class="qr-bg" width={size} height={size}></rect>
+          <path class="qr-fg" d={d}></path>
+        </svg>
+        <p class="t-body-sm muted">Scan with any UPI app.</p>
+      </div>
+
+      <div class="id">
+        <p class="t-label muted">UPI ID</p>
+        <div class="id-row">
+          <code class="t-mono id-value" data-upi-id>
+            {site.upiId}
+          </code>
+          <span class="copy-wrap" data-copy-wrap>
+            <Button variant="secondary" icon="copy" data-copy-upi>
+              Copy
+            </Button>
+          </span>
+        </div>
+        <p class="status t-body-sm" role="status" aria-live="polite" data-copy-status></p>
+      </div>
+
+      <p class="t-body-sm muted">Your UPI app will show the bank-verified name of the account you’re paying.</p>
+    </section>
+
+    <p class="foot t-body-sm muted">
+      Payments are handled by Buy Me a Coffee or your own UPI app. Aftertaste never sees your payment details.
+    </p>
+  </div>
+
+  <script is:inline set:html={coffeeCopyScript} />
+</BaseLayout>
+
+<style>
+  .coffee {
+    display: grid;
+    gap: var(--space-block);
+    max-inline-size: 44rem;
+    margin-inline: auto;
+    padding-block-start: clamp(2rem, 1rem + 4vw, 4.5rem);
+  }
+
+  .head {
+    display: grid;
+    justify-items: start;
+    gap: var(--s-16);
+  }
+
+  .head :global(.seal) {
+    inline-size: 88px;
+    block-size: 88px;
+  }
+
+  .kicker {
+    color: var(--primary-ink);
+  }
+
+  .does {
+    display: grid;
+    gap: var(--s-16);
+  }
+
+  .does ul {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-block-start: 1px solid var(--line);
+  }
+
+  .does li {
+    display: grid;
+    gap: var(--s-4);
+    padding-block: var(--s-16);
+    border-block-end: 1px solid var(--line);
+  }
+
+  .does strong {
+    font-weight: 600;
+  }
+
+  .btn-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-block-size: var(--control-h);
+    padding-inline: var(--s-32);
+    border-radius: var(--r-pill);
+    background: var(--btn-bg);
+    color: var(--on-primary);
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: var(--fs-button);
+    text-decoration: none;
+    transition: background-color var(--dur-base) var(--ease-out);
+  }
+
+  .btn-link:hover {
+    background: var(--btn-bg-hover);
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: var(--s-16);
+    margin: 0;
+  }
+
+  .divider::before,
+  .divider::after {
+    content: '';
+    flex: 1;
+    border-block-start: 1px solid var(--line-strong);
+  }
+
+  .upi {
+    display: grid;
+    justify-items: start;
+    gap: var(--s-24);
+  }
+
+  .upi-qr {
+    display: grid;
+    justify-items: start;
+    gap: var(--s-8);
+  }
+
+  /* A fixed light card with dark modules in both themes, so it always scans. */
+  .qr {
+    inline-size: 224px;
+    block-size: 224px;
+    border-radius: var(--r-md);
+    box-shadow: var(--elevation);
+  }
+
+  .qr-bg {
+    fill: #fff;
+  }
+
+  .qr-fg {
+    fill: #16130f;
+  }
+
+  /* Mouse and keyboard devices cannot open a UPI app: show the QR. */
+  @media (hover: hover) and (pointer: fine) {
+    .upi-app {
+      display: none;
+    }
+  }
+
+  /* Phones: the button replaces the QR. Tablets and desktops keep the QR. */
+  @media (pointer: coarse) and (width < 48rem) {
+    .upi-qr {
+      display: none;
+    }
+  }
+
+  .id {
+    display: grid;
+    gap: var(--s-8);
+  }
+
+  .id-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--s-12);
+  }
+
+  .id-value {
+    padding: var(--s-8) var(--s-12);
+    border-radius: var(--r-sm);
+    background: var(--surface);
+    overflow-wrap: anywhere;
+    user-select: all;
+  }
+
+  .copy-wrap:not(.ready) {
+    display: none;
+  }
+
+  .status {
+    min-block-size: 1.5em;
+    margin: 0;
+    color: var(--primary-ink);
+  }
+
+  .foot {
+    padding-block-start: var(--s-20);
+    border-block-start: 1px solid var(--line);
+  }
+</style>

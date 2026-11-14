@@ -44,11 +44,11 @@ Colours use `light-dark(<light>, <dark>)` so each token's two values sit side by
 | surface                                         | `--surface`                                           | #FBF8F2                         | #1F1B16                                 |
 | raised                                          | `--raised`                                            | #FFFDF9                         | #29241E                                 |
 | line / lineStrong                               | `--line` / `--line-strong`                            | #E4DCCD / #CFC4B1               | #3A332B / #4D453B                       |
-| text / muted / faint                            | `--text` / `--muted` / `--faint`                      | #1F1B16 / #6B6257 / #9A9083     | #F4EFE6 / #B3A999 / #7D7468             |
-| primary / primaryPressed                        | `--primary` / `--primary-pressed`                     | #C2412D / #A8361F               | #E0573D / #C94A31                       |
+| text / muted / faint                            | `--text` / `--muted` / `--faint`                      | #1F1B16 / #665E53 / #746B60     | #F4EFE6 / #B3A999 / #958C7E             |
+| primary / primaryPressed                        | `--primary` / `--primary-pressed`                     | #C2412D / #A8361F               | #E0573D / #A8361F                       |
 | onPrimary / primarySoft                         | `--on-primary` / `--primary-soft`                     | #FFF8F0 / #F3DED6               | #FFF8F0 / #3A2219                       |
 | herb / herbSoft                                 | `--herb` / `--herb-soft`                              | #5E7F3A / #E4EAD6               | #8DAA5E / #26301C                       |
-| mustard / danger / brown                        | `--mustard` / `--danger` / `--brown`                  | #C99A2E / #B42318 / #8A5A3B     | #E0B54E / #F0645A / #B98A63             |
+| mustard / danger / brown                        | `--mustard` / `--danger` / `--brown`                  | #C99A2E / #B42318 / #8A5A3B     | #E0B54E / #F5786E / #B98A63             |
 | scrim                                           | `--scrim`                                             | rgba(31,27,22,.45)              | rgba(0,0,0,.6)                          |
 | brand receipt paper/text/meta/rule (brand.json) | `--paper` `--paper-ink` `--paper-meta` `--paper-rule` | #FFFDF8 #1F1B16 #5E5548 #B9AE9F | same (a physical object, as in the app) |
 | stamp.logged                                    | `--stamp-logged`                                      | #C2412D                         | #C2412D (on paper)                      |
