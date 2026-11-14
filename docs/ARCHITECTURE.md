@@ -20,6 +20,7 @@ functions/api/beta.ts   the beta list endpoint (Cloudflare Pages Function)
 migrations/             D1 schema migrations (the beta list)
 public/                 _headers, _redirects, _routes.json, robots.txt, icons, OG images, manifest, font licences
 scripts/                gates, sync, font subsetting, OG/icon rendering, local server, audits
+sync/                   feature-map.json: website section/FAQ ↔ app feature (used by the sync-with-app skill)
 src/
   assets/               subset woff2 fonts, placeholder screenshot, diary/ (photos for "From the diary")
   components/

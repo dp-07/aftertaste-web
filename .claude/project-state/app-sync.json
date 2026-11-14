@@ -1,6 +1,6 @@
 {
-  "schema": 1,
-  "about": "Sync ledger for the sync-with-app skill (.claude/skills/sync-with-app/SKILL.md). Records which app commit each website area was last synced to, plus checksums. Updated by the skill in Step 5. 'basis' says how an area was verified when the ledger was created: 'audited' = a recorded sync or a value-for-value comparison; 'baseline' = the area's last-changed app commit, not independently re-audited (the first skill run assesses it).",
+  "schema": 2,
+  "about": "Sync ledger for the sync-with-app skill (.claude/skills/sync-with-app/SKILL.md). Records which app commit each website area was last synced to, plus checksums. The skill reads it in Step 1 and updates it in Step 6. 'basis' says how an area was verified: 'audited' = a recorded sync or a value-for-value comparison; 'baseline' = the area's last-changed app commit, not independently re-audited. Feature-level mapping lives in sync/feature-map.json. Schema 2 adds feature_map, proposal_branch and history.",
   "app": {
     "repo_path_env": "APP_REPO_PATH",
     "baseline_checkout_branch": "task/about-website",
@@ -13,6 +13,8 @@
   "last_synced_date": "2026-11-14",
   "spec_version": "1.9",
   "last_report": null,
+  "feature_map": "sync/feature-map.json",
+  "proposal_branch": null,
   "areas": {
     "tokens": {
       "synced_commit": "9ff6462da33b9d145f1f2e3a245ab73dbb7f658f",
@@ -69,8 +71,8 @@
       "synced_commit": "9ff6462da33b9d145f1f2e3a245ab73dbb7f658f",
       "basis": "baseline",
       "app_source": ".claude/project-state/feature-status.md, current-state.md",
-      "website_file": "src/components/landing/*, FAQ, docs/PRD.md",
-      "note": "Not re-audited when the ledger was created. The first skill run assesses it in full."
+      "website_file": "src/pages/index.astro, src/components/landing/*, src/pages/support.astro; map: sync/feature-map.json",
+      "note": "Mapped section by section in sync/feature-map.json (seeded 2026-11-14 against the app's work-branch). Claims are mapped, not yet re-verified; the first skill run assesses them in full."
     },
     "legal": {
       "synced_commit": "2d334170d543f3cbdd261ca97454cb6cc54866ad",
@@ -112,5 +114,21 @@
         "status": "private beta"
       }
     }
-  }
+  },
+  "history": [
+    {
+      "date": "2026-11-14",
+      "kind": "ledger created",
+      "task_branch": "task/skill-sync-with-app",
+      "app_commit": "9ff6462da33b9d145f1f2e3a245ab73dbb7f658f",
+      "report": null
+    },
+    {
+      "date": "2026-11-14",
+      "kind": "feature map seeded; ledger schema 2",
+      "task_branch": "task/skill-sync-v2",
+      "app_commit": "9ff6462da33b9d145f1f2e3a245ab73dbb7f658f",
+      "report": null
+    }
+  ]
 }
