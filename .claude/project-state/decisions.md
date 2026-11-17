@@ -76,3 +76,47 @@
 
 - Adopted the app's v1.9 values for roles the site shares: `--muted` (light), `--faint` (both), `--primary-ink` (dark), `--primary-pressed` (dark), `--danger` (dark). `--herb-ink` and `--stamp-paper` already matched.
 - Kept stricter: `--btn-bg` dark #A8361F (app `primaryFill` #C2412D in dark). No new colours were introduced.
+
+## 2026-11-17 — App sync: suggestions batch 1 (app @ 57cb5cb, App UI v1.10)
+
+- **Two new spreads:** 04 Today’s pick (a token-built replica of the app’s card) and 07 Gallery (On this day strip, month section, mosaic). Smaller features go into a new **10 More in Aftertaste** index (menu and booking, Tried, search a place or a craving). Sections re-numbered 01–15.
+- **Booking privacy stated wherever booking appears** (index line and a new FAQ), per the human’s instruction; checked against the app’s owner-only table and storage policies. Menu-photo visibility is not mentioned until the privacy policy covers it.
+- **Paper pattern adopted only inside the Today’s pick card**, not page-wide: the editorial frame stays flat oat with hairlines, and LCP/CLS are untouched. New token `--pattern-opacity: 0.1` (the app’s `balanced` preset); no new colours.
+- **New stamp variant** `todaysPick` (TODAY’S PICK), as in the app’s v1.10.
+- **Web deviation:** the Gallery replica puts “1 year ago” under each photo, not on the scrim (cream on the scrim is below AA).
+- **Legal held back (STOP):** the policy does not yet cover menu photos, booking details or the fuller export; proposals in `app-sync-report-20261117.md`.
+
+## 2026-11-17 — /coffee tweaks and a page-wide doodle background
+
+- **UPI ID hidden, copy-only.** `/coffee` shows a "Copy UPI ID" button instead of the ID; the value lives in a `data-upi-id` attribute and `coffee-copy.js` reads it (CSP hash re-generated). The ID is still in the `upi://` link and the QR, as before.
+- **QR behind a toggle.** A native `<details>` styled as a secondary button, so it works without JS and needs no new script.
+- **Page-wide doodle layer (owner request), a deliberate exception to "no page-wide pattern".** `body::before` masks `src/assets/doodle-tile.svg` in `--muted` at `--doodle-opacity` 0.14 (new tokens `--doodle-opacity`, `--doodle-size`; no new colour). 0.14 is the highest opacity at which `text`, `muted` and `primary-ink` pass AA on the composite; 0.16 failed, so `check:contrast` now carries three `bgDoodle` pairs. "Web themed" was read as themed to the Aftertaste food diary, not generic web or tech art; the tile reuses the brand cap and adds simple food and diary line art.
+- **Footer sentence:** "Buy Me a Coffee" is now an external ink link (`rel="noopener"`, opens in a new tab), the same plain-link treatment as the main button.
+
+## 2026-11-17 — Quieter doodle in light mode, sticky header
+
+- **Doodle ink is per theme** (`--doodle-ink` via `light-dark(color-mix(...))`, replacing `--doodle-opacity`): 8% `--muted` in light, 14% in dark. At 14% the light version distracted from small text; dark was right. `check:contrast` carries per-theme composites.
+- **The site header is sticky** (`position: sticky`, opaque `--bg`, hairline below, fixed height `--header-h` 3.75rem (60 px, tightened from 4.75rem; wordmark 32 px), z-index 50 under the skip link). The beta banner above it still scrolls away. In-page sticky blocks (legal and support contents, landing "Privacy" and "Every meal" copy, the receipt section) and `scroll-padding-top` are offset by `--header-h`.
+
+## 2026-11-17 — Header styling
+
+- **Cream paper strip with a double ledger rule.** `SiteHeader` uses `--surface` (not `--bg`) and a `3px double --line-strong` bottom border, echoing the app's cards. Hover and current-page links get a `--primary-soft` pill (`--text` on it is already a gated pair); the current page also gets a small `--primary` dot instead of the underline.
+- **"Join the beta" pill in the header** (`--btn-bg`, links to `site.betaAnchor`), shown only when the header is at least 52rem wide so it never crowds the wordmark, links and theme toggle. Narrow screens keep the beta banner's link. No new colours.
+
+## 2026-11-17 — Shorter landing copy with light slang
+
+- **Owner asked for less text and a Gen Z / Gen Alpha flavour.** The hero blurb and the body text under every landing section heading (02-14, plus Save your seat) were cut to one short lead and one short line each, with a few slang touches ("Lowkey tragic", "Free recs, basically", "Come with receipts", "Main character energy", "nothing sus"). Headings, FAQ answers, the form's consent and error text, and the app-feature names are unchanged. Privacy promises were shortened without changing what they claim (each still matches its policy section). Recorded as a voice rule in RULES "Copy".
+
+## 2026-11-17 — The hero screenshot follows the site theme
+
+- **Two screenshots, one frame.** `PhoneFrame` takes `src` (light) and `srcDark`. System theme: one `<picture>` whose dark `<source>` carries `media="(prefers-color-scheme: dark)"`, so only the matching image is fetched and it keeps the hero's high priority. A manual toggle against the system theme swaps in a lazy second `<picture>` with CSS (`:root[data-theme]` inside a `prefers-color-scheme` query), downloaded only if shown. No JS added, so the CSP hashes and JS budget are untouched.
+- **`npm run placeholders` renders both** from the app's light and dark tokens and the brand's light and `-dark` glyph colours. Real screenshots replace both files (README "Screenshots").
+
+## 2026-11-17 — More doodles
+
+- **Doodle tile grows to 520 px** (`--doodle-size` clamp(340px, 42vw, 520px), so each doodle keeps its on-screen size) and holds 22 objects instead of 14: added burger, churros, takeaway noodle box, momo, chai glass, cinnamon roll (the brand's "e"), verdict stamp, bookmark, camera, dice and a dashed route. Food from the site's own sample copy and the app's own motifs; no lettering, one ink. Density stays close to before so light mode does not get louder.
+
+## 2026-11-17 — Back-to-top button
+
+- **A fixed bottom-right button on every page**, shown after scrolling about 60% of a screen. The button is the brand seal (the owner chose it over a paprika disc with an up-pointing mushroom) bare (no background disc or shadow), with a "Back to top" label on hover and focus; it sits inset from the corner (gutter from the right, 2.5 rem from the bottom). No new colours: `--text`, `--bg` (label).
+- **Small inline script, hashed.** `src/scripts/to-top.js` joins the theme and /coffee scripts in `public/_headers` (`npm run csp:hash` hashes all three). No script file ships, so the no-JS budget for legal, support and 404 is unchanged. Without JS the button stays hidden.

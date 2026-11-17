@@ -4,6 +4,7 @@
  *   placeStrong  RECOMMENDED · WOULD RETURN (VerdictStamp; stacks at `sm`)
  *   mustTry      MUST-TRY
  *   tried        TRIED (herb ink; a status mark, not a verdict)
+ *   todaysPick   TODAY'S PICK (the app-open card, v1.10)
  *   logged       LOGGED + date (the receipt stamp, −12°, 0.88 opacity)
  *   seat         SEAT SAVED (the beta form's confirmation; site only)
  *   later        COMING LATER (features that are not built yet; site only)
@@ -19,7 +20,7 @@
  * (the beta form presses SEAT SAVED when the server confirms).
  */
 interface Props {
-  variant: 'placeStrong' | 'mustTry' | 'tried' | 'logged' | 'seat' | 'later';
+  variant: 'placeStrong' | 'mustTry' | 'tried' | 'todaysPick' | 'logged' | 'seat' | 'later';
   size?: 'sm' | 'md' | 'lg';
   /** LOGGED stamp date, e.g. "12 Nov 2026". */
   date?: string;
@@ -33,6 +34,7 @@ const copy = {
   placeStrong: { lines: ['RECOMMENDED', 'WOULD RETURN'], label: 'Recommended, would return' },
   mustTry: { lines: ['MUST-TRY'], label: 'Must-try' },
   tried: { lines: ['TRIED'], label: 'Tried' },
+  todaysPick: { lines: ['TODAY’S PICK'], label: 'Today’s pick' },
   logged: { lines: ['LOGGED'], label: `Logged ${date}`.trim() },
   seat: { lines: ['SEAT SAVED'], label: 'Seat saved' },
   later: { lines: ['COMING LATER'], label: 'Coming later' },

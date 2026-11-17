@@ -10,32 +10,32 @@ const promises = [
   {
     icon: 'lock',
     title: 'Your diary belongs to your account.',
-    body: 'Nobody else can add to it, and the database will not let one account read another’s private data.', // §7, §9
+    body: 'Nobody else can add to it, and no account can read another’s private data.', // §7, §9
   },
   {
     icon: 'eye-off',
     title: 'Notes are never shared.',
-    body: 'Visit and dish notes stay private, even if you make your diary discoverable.', // §7
+    body: 'Visit and dish notes stay private, even when your diary is discoverable.', // §7
   },
   {
     icon: 'map-pin',
     title: 'Location is never stored.',
-    body: 'It is used only while you search, only if you allow it, and is not saved to our database or written to our logs.', // §3
+    body: 'Used only while you search, only if you allow it, and never saved to our database or logs.', // §3
   },
   {
     icon: 'users',
     title: 'Discoverable is your choice.',
-    body: 'Your diary is visible only to you until you switch on sharing in Profile. Switch it off any time.', // §7
+    body: 'Your diary is just for you until you turn on sharing in Profile. Turn it off any time.', // §7
   },
   {
     icon: 'shield',
     title: 'No ads, no analytics, no tracking.',
-    body: 'Not in the app, and not on this website either: no cookies, no trackers. The beta list keeps only what you type into the form.', // §1; beta list: /privacy#beta-list
+    body: 'Not in the app, not on this site: no cookies, no trackers. The beta list keeps only what you type in the form.', // §1; beta list: /privacy#beta-list
   },
   {
     icon: 'download',
     title: 'Take it with you.',
-    body: 'Export everything (data and photos) as a zip, or delete your account, from inside the app.', // §8
+    body: 'Export everything (data and photos) as a zip, or delete your account, right in the app.', // §8
   },
 ];
 ---
@@ -43,14 +43,14 @@ const promises = [
 <section id="privacy" class="privacy defer-render" aria-labelledby="privacy-title">
   <div class="wrap">
     <p class="running-head t-label">
-      <span class="num">10</span> Privacy
+      <span class="num">13</span> Privacy
     </p>
     <div class="grid-12 layout">
       <div class="intro">
         <h2 id="privacy-title" class="t-display">
           Private by default.
         </h2>
-        <p class="muted">Plain statements, each one backed by the privacy policy.</p>
+        <p class="muted">No fine print, nothing sus. Every line is backed by the privacy policy.</p>
         <p>
           <InkLink href="/privacy">Read the privacy policy</InkLink>
         </p>
@@ -127,7 +127,7 @@ const promises = [
     .intro {
       grid-column: 1 / span 4;
       position: sticky;
-      inset-block-start: var(--s-32);
+      inset-block-start: calc(var(--header-h) + var(--s-32));
       align-self: start;
     }
     .promises {

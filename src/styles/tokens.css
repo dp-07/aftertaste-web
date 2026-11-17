@@ -1,7 +1,7 @@
 /*
  * Aftertaste design tokens for the web.
  *
- * Values are transcribed from the app's App UI v1.9 tokens
+ * Values are transcribed from the app's App UI v1.10 tokens
  * (design/app-ui-v1/SPEC.md §1) and the locked brand pack
  * (design/aftertaste-v1/tokens/brand.json). The mapping table lives in
  * .claude/project-state/active-work.md. Do not invent new colours here:
@@ -129,6 +129,20 @@
   --touch: 44px;
   --chip-h: 40px;
   --icon-tile: 36px;
+
+  /* Paper pattern ink opacity: the app's patternOpacity `balanced` preset (v1.10). */
+  --pattern-opacity: 0.1;
+
+  /* Page-wide doodle layer (body::before in base.css): --muted ink at 8% on oat, 14% on dark (oat's dark
+     ink reads louder than dark's light ink, so light is gentler). Keep in step with check-contrast.mjs. */
+  --doodle-ink: light-dark(
+    color-mix(in srgb, var(--muted) 8%, transparent),
+    color-mix(in srgb, var(--muted) 14%, transparent)
+  );
+  --doodle-size: clamp(340px, 42vw, 520px);
+
+  /* Sticky site header: its fixed height, also the offset for in-page sticky blocks and anchors. */
+  --header-h: 3.75rem;
 
   /* Light: one soft shadow. Dark: no shadow, a 1 px line border instead. */
   --elevation: 0 2px 8px light-dark(rgb(31 27 22 / 0.1), transparent), 0 0 0 1px light-dark(transparent, #3a332b);

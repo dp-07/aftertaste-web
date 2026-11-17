@@ -18,7 +18,7 @@ import Receipt from '../brand/Receipt.astro';
   <div class="sticky">
     <div class="wrap">
       <p class="running-head t-label">
-        <span class="num">06</span> The receipt
+        <span class="num">08</span> The receipt
       </p>
       <div class="grid-12 body">
         <div class="copy">
@@ -27,8 +27,8 @@ import Receipt from '../brand/Receipt.astro';
           </h2>
           <p class="lead">Turn any visit into a receipt and share it as an image.</p>
           <p>
-            Dishes and ratings, the total, the overall verdict and a LOGGED stamp. Send it to the friend who asked where
-            you ate last night.
+            Dishes, ratings, the total, a verdict and a LOGGED stamp. Come with receipts when a friend asks where you
+            ate.
           </p>
         </div>
         <div class="printer" data-printer>
@@ -129,10 +129,10 @@ import Receipt from '../brand/Receipt.astro';
 
       .sticky {
         position: sticky;
-        inset-block-start: 0;
+        inset-block-start: var(--header-h);
         display: grid;
         align-content: center;
-        min-block-size: 100vh;
+        min-block-size: calc(100vh - var(--header-h));
         padding-block: var(--s-24);
       }
 
