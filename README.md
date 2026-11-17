@@ -47,7 +47,7 @@ npm run dev:api    # dist/ + the beta Function + a local D1 (see docs/DEV-GUIDE.
 | `npm run sync:legal`       | Copies the legal markdown from the app repo (see below).                                                                                                                                                                                               |
 | `npm run og`               | Renders the Open Graph images into `public/og/` (needs Chrome).                                                                                                                                                                                        |
 | `npm run icons`            | Builds `favicon.ico`, the apple-touch and manifest icons from `public/favicon.svg` and `brand/app-icon-1024.png`.                                                                                                                                      |
-| `npm run placeholders`     | Re-renders the placeholder app screenshot (needs Chrome).                                                                                                                                                                                              |
+| `npm run placeholders`     | Re-renders the placeholder app screenshots, light and dark (needs Chrome).                                                                                                                                                                             |
 | `npm run csp:hash`         | Updates the theme script's hash in `public/_headers` after editing `src/scripts/theme.js`.                                                                                                                                                             |
 | `npm run fonts:subset`     | Re-subsets the fonts (needs `APP_REPO_PATH` and `pip install fonttools==4.55.0 brotli==1.1.0`).                                                                                                                                                        |
 | `npm run audit:screens`    | Screenshots at 375/768/1440 in light and dark into `reports/screens/` (`--pages=`, `--widths=`, `--themes=`, `--reduced`).                                                                                                                             |
@@ -110,8 +110,8 @@ While the source contains `[TODO: …]` markers, each one is shown on the page a
 
 `src/assets/screenshots/home-placeholder.png` is a **placeholder**: a rendering of the app's Home screen from its tokens and copy (`npm run placeholders`). Replace it with a real screenshot:
 
-1. Take a portrait screenshot of the app's Home screen (ideally 1080 × 2340, light theme, no personal data).
-2. Save it over `src/assets/screenshots/home-placeholder.png`, or add a new file and change the import in `src/components/landing/Hero.astro`. Update the `alt` text there if the screen shows something different.
+1. Take a portrait screenshot of the app's Home screen (ideally 1080 × 2340, no personal data), once in the light theme and once in the dark theme.
+2. Save them over `src/assets/screenshots/home-placeholder.png` (light) and `home-placeholder-dark.png` (dark), or add new files and change the imports in `src/components/landing/Hero.astro` (`src` and `srcDark`). The phone frame shows the one that matches the site theme. Update the `alt` text there if the screen shows something different.
 3. `npm run build`. Astro makes AVIF and WebP at five widths with a PNG fallback and sets width and height, so nothing shifts. A different aspect ratio needs the `.screen` `aspect-ratio` in `src/components/brand/PhoneFrame.astro` changed to match.
 
 `PhoneFrame` takes any `ImageMetadata`, so more screenshots can be added the same way.
