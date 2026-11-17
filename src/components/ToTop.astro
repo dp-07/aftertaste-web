@@ -1,7 +1,7 @@
 ---
 /**
- * Back-to-top button: the brand's diary seal (the mushroom in its double ring) on a
- * paper disc, fixed near the bottom right and shown once the page has scrolled about
+ * Back-to-top button: the brand's diary seal (the mushroom in its double ring), bare
+ * with no disc behind it, fixed near the bottom right and shown once the page has scrolled about
  * 60% of a screen. A small "Back to top" label slides out on hover and keyboard focus.
  * Logic: src/scripts/to-top.js (inline, hashed in public/_headers). Without JS the
  * button stays hidden and the page works as before.
@@ -27,11 +27,10 @@ import SealMark from './brand/SealMark.astro';
     place-items: center;
     inline-size: 3.75rem;
     block-size: 3.75rem;
-    padding: 0.25rem;
+    padding: 0;
     border: 0;
     border-radius: var(--r-pill);
-    background: var(--stamp-paper);
-    box-shadow: var(--elevation);
+    background: none;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     /* Hidden until the script marks the page as scrolled. */

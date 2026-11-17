@@ -112,7 +112,7 @@ The owner asked for a visible background doodle on every page, which supersedes 
 
 ### Back-to-top button (every page, 2026-11-17)
 
-`ToTop.astro`, in `BaseLayout`: the brand's diary seal (`SealMark`, the mushroom in its double ring) on a 60 px paper disc (`--stamp-paper`, `--elevation`), fixed at the bottom right, inset by the page gutter and 2.5 rem from the bottom so it floats clear of the corner. It fades and rises in once the page has scrolled about 60% of a screen and hides again at the top. On hover or keyboard focus a "Back to top" label (`--text` pill) slides out to its left and the seal tilts (the tilt only without reduced motion); touch screens get no label, the button has an `aria-label`. Click scrolls to the top, smoothly unless reduced motion is on. The script (`src/scripts/to-top.js`) is inline and hashed in `public/_headers` (`npm run csp:hash`); without JS the button stays hidden. Hidden in print.
+`ToTop.astro`, in `BaseLayout`: the brand's diary seal (`SealMark`, the mushroom in its double ring) at 60 px with no disc or shadow behind it, fixed at the bottom right, inset by the page gutter and 2.5 rem from the bottom so it floats clear of the corner. It fades and rises in once the page has scrolled about 60% of a screen and hides again at the top. On hover or keyboard focus a "Back to top" label (`--text` pill) slides out to its left and the seal tilts (the tilt only without reduced motion); touch screens get no label, the button has an `aria-label`. Click scrolls to the top, smoothly unless reduced motion is on. The script (`src/scripts/to-top.js`) is inline and hashed in `public/_headers` (`npm run csp:hash`); without JS the button stays hidden. Hidden in print.
 
 ## Landing sections added in v2
 
