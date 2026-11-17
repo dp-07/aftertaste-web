@@ -111,3 +111,7 @@
 
 - **Two screenshots, one frame.** `PhoneFrame` takes `src` (light) and `srcDark`. System theme: one `<picture>` whose dark `<source>` carries `media="(prefers-color-scheme: dark)"`, so only the matching image is fetched and it keeps the hero's high priority. A manual toggle against the system theme swaps in a lazy second `<picture>` with CSS (`:root[data-theme]` inside a `prefers-color-scheme` query), downloaded only if shown. No JS added, so the CSP hashes and JS budget are untouched.
 - **`npm run placeholders` renders both** from the app's light and dark tokens and the brand's light and `-dark` glyph colours. Real screenshots replace both files (README "Screenshots").
+
+## 2026-11-17 — More doodles
+
+- **Doodle tile grows to 520 px** (`--doodle-size` clamp(340px, 42vw, 520px), so each doodle keeps its on-screen size) and holds 22 objects instead of 14: added burger, churros, takeaway noodle box, momo, chai glass, cinnamon roll (the brand's "e"), verdict stamp, bookmark, camera, dice and a dashed route. Food from the site's own sample copy and the app's own motifs; no lettering, one ink. Density stays close to before so light mode does not get louder.

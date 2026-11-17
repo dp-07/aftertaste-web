@@ -1,10 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="420" height="420" viewBox="0 0 420 420" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="520" viewBox="0 0 520 520" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
   <!-- Aftertaste doodle tile: food-diary line art, used only as a CSS mask (src/styles/base.css, body::before).
        The stroke colour is irrelevant: the mask keeps the shape and the page paints it in a token colour.
        Nothing crosses the tile edge, so it repeats seamlessly. -->
 
   <!-- coffee cup -->
-  <g transform="translate(70 72) rotate(-8)">
+  <g transform="translate(60 62) rotate(-8)">
     <path d="M-18 -6 H14 V8 C14 19 8 24 -2 24 C-12 24 -18 19 -18 8 Z" />
     <path d="M14 -2 H18 C24 -2 24 12 16 12 H13" />
     <path d="M-26 29 H22" />
@@ -12,53 +12,101 @@
   </g>
 
   <!-- fork -->
-  <g transform="translate(192 52) rotate(14)">
+  <g transform="translate(170 54) rotate(14)">
     <path d="M-9 -30 V-12 M0 -30 V-12 M9 -30 V-12" />
     <path d="M-9 -12 C-9 -2 9 -2 9 -12" />
     <path d="M0 -3 V30" />
   </g>
 
   <!-- rating star -->
-  <g transform="translate(322 82) rotate(10) scale(0.85)">
+  <g transform="translate(280 66) rotate(10) scale(0.85)">
     <path d="M0 -22 L5.3 -7.3 L20.9 -6.8 L8.6 2.8 L12.9 17.8 L0 9 L-12.9 17.8 L-8.6 2.8 L-20.9 -6.8 L-5.3 -7.3 Z" />
   </g>
 
+  <!-- burger -->
+  <g transform="translate(390 56) rotate(8) scale(0.85)">
+    <path d="M-24 -4 C-24 -28 24 -28 24 -4 Z" />
+    <path d="M-10 -16 l3 2 M2 -20 l3 2 M10 -12 l3 2 M-2 -10 l3 2" />
+    <path d="M-26 2 q4.3 6 8.7 0 q4.3 6 8.7 0 q4.3 6 8.7 0 q4.3 6 8.7 0 q4.3 6 8.7 0 q4.3 6 8.7 0" />
+    <rect x="-24" y="10" width="48" height="9" rx="4.5" />
+    <path d="M-24 25 H24 V27 C24 33 19 35 13 35 H-13 C-19 35 -24 33 -24 27 Z" />
+  </g>
+
+  <!-- bookmark (Want to try) -->
+  <g transform="translate(482 64) rotate(-6) scale(0.8)">
+    <path d="M-12 -26 H12 V26 L0 15 L-12 26 Z" />
+    <path d="M-5 -16 H5" />
+  </g>
+
   <!-- map pin -->
-  <g transform="translate(132 172) rotate(-6) scale(0.9)">
+  <g transform="translate(108 166) rotate(-6) scale(0.9)">
     <path d="M0 30 C-16 12 -20 4 -20 -6 C-20 -18 -11 -26 0 -26 C11 -26 20 -18 20 -6 C20 4 16 12 0 30 Z" />
     <circle cx="0" cy="-6" r="7" />
   </g>
 
-  <!-- noodle bowl with chopsticks -->
-  <g transform="translate(272 192) rotate(6)">
-    <path d="M-26 -2 H26 C26 18 14 28 0 28 C-14 28 -26 18 -26 -2 Z" />
-    <path d="M-8 31 H8" />
-    <path d="M-6 -4 L16 -30 M2 -4 L24 -26" />
-    <path d="M-16 8 C-10 3 -6 12 0 8 C6 4 10 12 16 8" />
+  <!-- momo -->
+  <g transform="translate(216 160) rotate(5) scale(0.95)">
+    <path d="M-24 8 C-24 -10 -10 -22 0 -22 C10 -22 24 -10 24 8 C24 14 18 18 12 18 H-12 C-18 18 -24 14 -24 8 Z" />
+    <path d="M0 -21 V-6 M-8 -18 L-5 -6 M8 -18 L5 -6 M-15 -12 L-10 -3 M15 -12 L10 -3" />
+    <path d="M-4 -22 C-2 -28 2 -28 4 -22" />
+    <path d="M-28 24 H28" />
+  </g>
+
+  <!-- camera (Gallery) -->
+  <g transform="translate(324 168) rotate(-8) scale(0.9)">
+    <rect x="-26" y="-14" width="52" height="36" rx="7" />
+    <path d="M-10 -14 L-6 -22 H6 L10 -14" />
+    <circle cx="0" cy="4" r="10" />
+    <circle cx="0" cy="4" r="4" />
+    <path d="M17 -7 h3" />
+  </g>
+
+  <!-- heart -->
+  <g transform="translate(432 162) rotate(10) scale(0.8)">
+    <path d="M0 14 C-22 0 -18 -18 -8 -18 C-4 -18 0 -14 0 -10 C0 -14 4 -18 8 -18 C18 -18 22 0 0 14 Z" />
   </g>
 
   <!-- mushroom (the brand cap) -->
-  <g transform="translate(60 212) rotate(-10) scale(0.9)">
+  <g transform="translate(52 270) rotate(-10) scale(0.9)">
     <path d="M-22 4 C-22 -22 22 -22 22 4 Q22 8 18 8 H-18 Q-22 8 -22 4 Z" />
     <path d="M-8 8 V22 Q-8 26 -4 26 H4 Q8 26 8 22 V8" />
     <circle cx="-8" cy="-6" r="3" />
     <circle cx="8" cy="-8" r="3" />
   </g>
 
-  <!-- spoon -->
-  <g transform="translate(182 296) rotate(-14)">
-    <ellipse cx="0" cy="-18" rx="9" ry="13" />
-    <path d="M0 -5 V30" />
+  <!-- noodle bowl with chopsticks -->
+  <g transform="translate(156 264) rotate(6)">
+    <path d="M-26 -2 H26 C26 18 14 28 0 28 C-14 28 -26 18 -26 -2 Z" />
+    <path d="M-8 31 H8" />
+    <path d="M-6 -4 L16 -30 M2 -4 L24 -26" />
+    <path d="M-16 8 C-10 3 -6 12 0 8 C6 4 10 12 16 8" />
   </g>
 
-  <!-- receipt -->
-  <g transform="translate(332 322) rotate(8) scale(0.9)">
-    <path d="M-16 -28 H16 V28 L11 24 L6 28 L1 24 L-4 28 L-9 24 L-16 28 Z" />
-    <path d="M-9 -18 H9 M-9 -10 H9 M-9 -2 H3 M-9 6 H9" />
+  <!-- dice (Pick for me) -->
+  <g transform="translate(256 268) rotate(12) scale(0.95)">
+    <rect x="-20" y="-20" width="40" height="40" rx="8" />
+    <g fill="#000" stroke="none">
+      <circle cx="-9" cy="-9" r="2.8" /><circle cx="9" cy="-9" r="2.8" /><circle cx="0" cy="0" r="2.8" />
+      <circle cx="-9" cy="9" r="2.8" /><circle cx="9" cy="9" r="2.8" />
+    </g>
+  </g>
+
+  <!-- verdict stamp -->
+  <g transform="translate(358 264) rotate(-6)">
+    <circle cx="0" cy="0" r="25" stroke-dasharray="2.5 4.5" />
+    <circle cx="0" cy="0" r="19" />
+    <path d="M-9 1 L-3 7 L9 -7" />
+  </g>
+
+  <!-- herb sprig -->
+  <g transform="translate(458 270) rotate(-6) scale(0.85)">
+    <path d="M0 28 C0 10 0 -10 0 -26" />
+    <path d="M0 10 C-14 10 -18 0 -18 -8 C-6 -6 0 0 0 10" />
+    <path d="M0 -2 C14 -2 18 -12 18 -20 C6 -18 0 -12 0 -2" />
   </g>
 
   <!-- pizza slice -->
-  <g transform="translate(52 350) rotate(12) scale(0.9)">
+  <g transform="translate(102 372) rotate(12) scale(0.9)">
     <path d="M-22 -22 Q0 -30 22 -22" />
     <path d="M-20 -18 L0 28 L20 -18" />
     <circle cx="-5" cy="-8" r="4" />
@@ -66,41 +114,92 @@
     <circle cx="-1" cy="12" r="2.6" />
   </g>
 
-  <!-- herb sprig -->
-  <g transform="translate(244 366) rotate(-6) scale(0.85)">
-    <path d="M0 28 C0 10 0 -10 0 -26" />
-    <path d="M0 10 C-14 10 -18 0 -18 -8 C-6 -6 0 0 0 10" />
-    <path d="M0 -2 C14 -2 18 -12 18 -20 C6 -18 0 -12 0 -2" />
+  <!-- chai glass -->
+  <g transform="translate(208 368) rotate(-6)">
+    <path d="M-14 -14 H14 L11 22 H-11 Z" />
+    <path d="M-12.6 -3 q3.1 3 6.2 0 q3.1 3 6.2 0 q3.1 3 6.2 0 q3.1 3 6.2 0" />
+    <path d="M-6 -20 C-9 -24 -3 -26 -6 -31 M4 -20 C1 -24 7 -26 4 -31" />
+    <path d="M-21 27 H21" />
   </g>
 
-  <!-- heart -->
-  <g transform="translate(386 172) rotate(10) scale(0.7)">
-    <path d="M0 14 C-22 0 -18 -18 -8 -18 C-4 -18 0 -14 0 -10 C0 -14 4 -18 8 -18 C18 -18 22 0 0 14 Z" />
+  <!-- receipt -->
+  <g transform="translate(314 374) rotate(8) scale(0.9)">
+    <path d="M-16 -28 H16 V28 L11 24 L6 28 L1 24 L-4 28 L-9 24 L-16 28 Z" />
+    <path d="M-9 -18 H9 M-9 -10 H9 M-9 -2 H3 M-9 6 H9" />
+  </g>
+
+  <!-- cinnamon roll (the brand "e") -->
+  <g transform="translate(420 368) rotate(-8) scale(0.9)">
+    <circle cx="0" cy="0" r="27" />
+    <g transform="scale(0.9) translate(-52 -50)">
+      <path d="M50 51 c3 0 3 -5 0 -5 c-6 0 -7 9 0 10 c9 1 12 -12 1 -15 c-11 -3 -18 7 -15 16 c3 10 19 12 25 2" />
+    </g>
+  </g>
+
+  <!-- spoon -->
+  <g transform="translate(54 476) rotate(-14)">
+    <ellipse cx="0" cy="-18" rx="9" ry="13" />
+    <path d="M0 -5 V30" />
+  </g>
+
+  <!-- takeaway noodle box with chopsticks -->
+  <g transform="translate(164 474) rotate(-8) scale(0.9)">
+    <path d="M-22 -6 L-15 28 H15 L22 -6 Z" />
+    <path d="M-26 -6 H26" />
+    <path d="M-14 -6 C-14 -16 -6 -12 -6 -22 C-6 -28 -12 -28 -10 -32 M-2 -6 C-2 -16 6 -12 6 -22 M10 -6 C10 -14 16 -12 16 -20" />
+    <path d="M-2 -8 L18 -34 M5 -8 L25 -30" />
+    <path d="M-8 6 H8 M-6 14 H6" />
+  </g>
+
+  <!-- dashed route between two places -->
+  <g transform="translate(290 478) rotate(0)">
+    <circle cx="-30" cy="18" r="4" />
+    <path d="M-24 14 C-12 -10 8 26 24 0" stroke-dasharray="1 7" />
+    <path d="M32 2 C26 -6 24 -8 24 -12 C24 -17 28 -20 32 -20 C36 -20 40 -17 40 -12 C40 -8 38 -6 32 2 Z" />
+    <circle cx="32" cy="-12" r="2.4" />
+  </g>
+
+  <!-- churros with a dip -->
+  <g transform="translate(400 472) rotate(-6) scale(0.85)">
+    <g transform="translate(-9 0) rotate(-14)">
+      <rect x="-5" y="-30" width="10" height="46" rx="5" />
+      <path d="M-5 -18 L5 -14 M-5 -8 L5 -4 M-5 2 L5 6" />
+    </g>
+    <g transform="translate(9 0) rotate(14)">
+      <rect x="-5" y="-30" width="10" height="46" rx="5" />
+      <path d="M-5 -18 L5 -14 M-5 -8 L5 -4 M-5 2 L5 6" />
+    </g>
+    <path d="M-19 12 H19 L14 32 H-14 Z" />
+    <path d="M-15 19 q5 4 10 0 q5 4 10 0 q5 4 10 0" />
   </g>
 
   <!-- sparkles -->
   <g stroke-width="2.6">
-    <path d="M122 118 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 l6 -2 z" />
-    <path d="M256 122 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 l6 -2 z" />
-    <path d="M356 236 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 l6 -2 z" />
-    <path d="M120 262 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 l6 -2 z" />
-    <path d="M300 280 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 l6 -2 z" />
+    <path d="M112 104 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 l6 -2 z" />
+    <path d="M36 158 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 l6 -2 z" />
+    <path d="M484 206 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 l6 -2 z" />
+    <path d="M206 208 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 l6 -2 z" />
+    <path d="M410 314 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 l6 -2 z" />
+    <path d="M36 364 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 l6 -2 z" />
+    <path d="M486 364 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 l6 -2 z" />
+    <path d="M230 416 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 l6 -2 z" />
   </g>
 
   <!-- grain dots -->
   <g fill="#000" stroke="none">
-    <circle cx="20" cy="140" r="3" />
-    <circle cx="132" cy="30" r="3" />
-    <circle cx="260" cy="40" r="3" />
-    <circle cx="400" cy="30" r="3" />
-    <circle cx="200" cy="148" r="3" />
-    <circle cx="392" cy="110" r="3" />
-    <circle cx="190" cy="236" r="3" />
-    <circle cx="20" cy="290" r="3" />
-    <circle cx="400" cy="270" r="3" />
-    <circle cx="130" cy="340" r="3" />
-    <circle cx="340" cy="396" r="3" />
-    <circle cx="150" cy="400" r="3" />
-    <circle cx="20" cy="410" r="3" />
+    <circle cx="20" cy="110" r="3" />
+    <circle cx="250" cy="108" r="3" />
+    <circle cx="470" cy="110" r="3" />
+    <circle cx="60" cy="214" r="3" />
+    <circle cx="300" cy="214" r="3" />
+    <circle cx="500" cy="212" r="3" />
+    <circle cx="30" cy="318" r="3" />
+    <circle cx="200" cy="318" r="3" />
+    <circle cx="470" cy="318" r="3" />
+    <circle cx="70" cy="422" r="3" />
+    <circle cx="160" cy="422" r="3" />
+    <circle cx="340" cy="422" r="3" />
+    <circle cx="500" cy="420" r="3" />
+    <circle cx="20" cy="510" r="3" />
   </g>
 </svg>
