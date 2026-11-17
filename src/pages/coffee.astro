@@ -8,13 +8,16 @@
  * - The QR is generated at build time (qrcode-generator, a devDependency) as
  *   inline SVG: no JS ships, nothing third-party, and no name can be embedded.
  * - Phone or desktop is decided with CSS (pointer, width); both show if unsure.
+ * - The UPI ID is never shown: "Copy UPI ID" copies it from a data attribute, and the
+ *   QR sits behind a native <details> toggle (no JS needed to open it).
  * - The one inline script (src/scripts/coffee-copy.js) is hashed in the CSP.
- *   Without JS the UPI ID is plain selectable text.
+ *   Without JS the copy button stays hidden; the UPI app button and the QR still work.
  */
 import qrcode from 'qrcode-generator';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SealMark from '../components/brand/SealMark.astro';
 import Button from '../components/ui/Button.astro';
+import Icon from '../components/ui/Icon.astro';
 import coffeeCopyScript from '../scripts/coffee-copy.js?raw';
 import { site, upiUrl } from '../config/site';
 
@@ -96,42 +99,47 @@ const does = [
         </Button>
       </div>
 
-      <div class="upi-qr">
-        <svg
-          class="qr"
-          viewBox={`0 0 ${size} ${size}`}
-          width="224"
-          height="224"
-          role="img"
-          aria-label="UPI QR code for Aftertaste"
-          shape-rendering="crispEdges"
-        >
-          <rect class="qr-bg" width={size} height={size}></rect>
-          <path class="qr-fg" d={d}></path>
-        </svg>
-        <p class="t-body-sm muted">Scan with any UPI app.</p>
-      </div>
-
-      <div class="id">
-        <p class="t-label muted">UPI ID</p>
-        <div class="id-row">
-          <code class="t-mono id-value" data-upi-id>
-            {site.upiId}
-          </code>
-          <span class="copy-wrap" data-copy-wrap>
-            <Button variant="secondary" icon="copy" data-copy-upi>
-              Copy
-            </Button>
-          </span>
-        </div>
+      <div class="copy-id">
+        <span class="copy-wrap" data-copy-wrap>
+          <Button variant="secondary" icon="copy" data-copy-upi data-upi-id={site.upiId}>
+            Copy UPI ID
+          </Button>
+        </span>
         <p class="status t-body-sm" role="status" aria-live="polite" data-copy-status></p>
       </div>
+
+      <details class="upi-qr">
+        <summary class="qr-toggle">
+          <Icon name="grid" size={18} />
+          <span class="when-closed">Show QR code</span>
+          <span class="when-open">Hide QR code</span>
+        </summary>
+        <div class="qr-panel">
+          <svg
+            class="qr"
+            viewBox={`0 0 ${size} ${size}`}
+            width="224"
+            height="224"
+            role="img"
+            aria-label="UPI QR code for Aftertaste"
+            shape-rendering="crispEdges"
+          >
+            <rect class="qr-bg" width={size} height={size}></rect>
+            <path class="qr-fg" d={d}></path>
+          </svg>
+          <p class="t-body-sm muted">Scan with any UPI app.</p>
+        </div>
+      </details>
 
       <p class="t-body-sm muted">Your UPI app will show the bank-verified name of the account you’re paying.</p>
     </section>
 
     <p class="foot t-body-sm muted">
-      Payments are handled by Buy Me a Coffee or your own UPI app. Aftertaste never sees your payment details.
+      Payments are handled by{' '}
+      <a class="ink-link" href={site.buyMeACoffeeUrl} target="_blank" rel="noopener">
+        Buy Me a Coffee<span class="visually-hidden"> (opens in a new tab)</span>
+      </a>{' '}
+      or your own UPI app. Aftertaste never sees your payment details.
     </p>
   </div>
 
@@ -229,6 +237,67 @@ const does = [
   .upi-qr {
     display: grid;
     justify-items: start;
+    gap: var(--s-16);
+  }
+
+  /* The QR toggle: a native <details>, styled like the secondary button. */
+  .qr-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-8);
+    min-block-size: var(--control-h);
+    padding-inline: var(--s-24);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r-pill);
+    background: var(--surface);
+    color: var(--text);
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: var(--fs-button);
+    line-height: 1.25;
+    cursor: pointer;
+    list-style: none;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+      transform var(--dur-fast) var(--ease-out),
+      border-color var(--dur-base) var(--ease-out);
+  }
+
+  .qr-toggle::-webkit-details-marker {
+    display: none;
+  }
+
+  .qr-toggle:hover {
+    border-color: var(--text);
+  }
+
+  .qr-toggle:active {
+    transform: scale(var(--press-scale));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .qr-toggle:active {
+      transform: none;
+      opacity: 0.7;
+    }
+  }
+
+  .qr-toggle :global(.icon) {
+    flex: none;
+  }
+
+  .when-open,
+  .upi-qr[open] .when-closed {
+    display: none;
+  }
+
+  .upi-qr[open] .when-open {
+    display: inline;
+  }
+
+  .qr-panel {
+    display: grid;
+    justify-items: start;
     gap: var(--s-8);
   }
 
@@ -248,38 +317,25 @@ const does = [
     fill: #16130f;
   }
 
-  /* Mouse and keyboard devices cannot open a UPI app: show the QR. */
+  /* Mouse and keyboard devices cannot open a UPI app: show the QR toggle only. */
   @media (hover: hover) and (pointer: fine) {
     .upi-app {
       display: none;
     }
   }
 
-  /* Phones: the button replaces the QR. Tablets and desktops keep the QR. */
+  /* Phones: the UPI app button replaces the QR. Tablets and desktops get the toggle. */
   @media (pointer: coarse) and (width < 48rem) {
     .upi-qr {
       display: none;
     }
   }
 
-  .id {
-    display: grid;
-    gap: var(--s-8);
-  }
-
-  .id-row {
+  .copy-id {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--s-12);
-  }
-
-  .id-value {
-    padding: var(--s-8) var(--s-12);
-    border-radius: var(--r-sm);
-    background: var(--surface);
-    overflow-wrap: anywhere;
-    user-select: all;
+    gap: var(--s-8) var(--s-16);
   }
 
   .copy-wrap:not(.ready) {
@@ -287,7 +343,6 @@ const does = [
   }
 
   .status {
-    min-block-size: 1.5em;
     margin: 0;
     color: var(--primary-ink);
   }

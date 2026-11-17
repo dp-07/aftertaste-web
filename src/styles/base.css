@@ -9,7 +9,7 @@
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  scroll-padding-top: var(--s-24);
+  scroll-padding-top: calc(var(--header-h) + var(--s-8));
   hanging-punctuation: first last;
 }
 
@@ -27,6 +27,22 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: clip;
+}
+
+/* Page-wide doodle layer: food-diary line art, fixed behind every page's content.
+   The tile (src/assets/doodle-tile.svg) is only a mask, so one file serves both themes:
+   the ink is --muted, softer in light than in dark (--doodle-ink). Cards and bands with their own fill sit on top. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: var(--doodle-ink);
+  -webkit-mask-image: url('../assets/doodle-tile.svg');
+  mask-image: url('../assets/doodle-tile.svg');
+  -webkit-mask-size: var(--doodle-size) var(--doodle-size);
+  mask-size: var(--doodle-size) var(--doodle-size);
+  pointer-events: none;
 }
 
 main {
@@ -315,6 +331,13 @@ main:focus {
   outline: none;
 }
 
+/* Forced colours would paint the doodle layer as a solid system-colour block. */
+@media (forced-colors: active) {
+  body::before {
+    display: none;
+  }
+}
+
 /* ── Print: ink on white, no site chrome ────────────────────────────── */
 @media print {
   :root {
@@ -323,6 +346,10 @@ main:focus {
 
   body {
     background: #fff;
+  }
+
+  body::before {
+    display: none;
   }
 
   .skip-link,

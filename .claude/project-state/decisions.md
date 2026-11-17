@@ -85,3 +85,24 @@
 - **New stamp variant** `todaysPick` (TODAY’S PICK), as in the app’s v1.10.
 - **Web deviation:** the Gallery replica puts “1 year ago” under each photo, not on the scrim (cream on the scrim is below AA).
 - **Legal held back (STOP):** the policy does not yet cover menu photos, booking details or the fuller export; proposals in `app-sync-report-20261117.md`.
+
+## 2026-11-17 — /coffee tweaks and a page-wide doodle background
+
+- **UPI ID hidden, copy-only.** `/coffee` shows a "Copy UPI ID" button instead of the ID; the value lives in a `data-upi-id` attribute and `coffee-copy.js` reads it (CSP hash re-generated). The ID is still in the `upi://` link and the QR, as before.
+- **QR behind a toggle.** A native `<details>` styled as a secondary button, so it works without JS and needs no new script.
+- **Page-wide doodle layer (owner request), a deliberate exception to "no page-wide pattern".** `body::before` masks `src/assets/doodle-tile.svg` in `--muted` at `--doodle-opacity` 0.14 (new tokens `--doodle-opacity`, `--doodle-size`; no new colour). 0.14 is the highest opacity at which `text`, `muted` and `primary-ink` pass AA on the composite; 0.16 failed, so `check:contrast` now carries three `bgDoodle` pairs. "Web themed" was read as themed to the Aftertaste food diary, not generic web or tech art; the tile reuses the brand cap and adds simple food and diary line art.
+- **Footer sentence:** "Buy Me a Coffee" is now an external ink link (`rel="noopener"`, opens in a new tab), the same plain-link treatment as the main button.
+
+## 2026-11-17 — Quieter doodle in light mode, sticky header
+
+- **Doodle ink is per theme** (`--doodle-ink` via `light-dark(color-mix(...))`, replacing `--doodle-opacity`): 8% `--muted` in light, 14% in dark. At 14% the light version distracted from small text; dark was right. `check:contrast` carries per-theme composites.
+- **The site header is sticky** (`position: sticky`, opaque `--bg`, hairline below, fixed height `--header-h` 3.75rem (60 px, tightened from 4.75rem; wordmark 32 px), z-index 50 under the skip link). The beta banner above it still scrolls away. In-page sticky blocks (legal and support contents, landing "Privacy" and "Every meal" copy, the receipt section) and `scroll-padding-top` are offset by `--header-h`.
+
+## 2026-11-17 — Header styling
+
+- **Cream paper strip with a double ledger rule.** `SiteHeader` uses `--surface` (not `--bg`) and a `3px double --line-strong` bottom border, echoing the app's cards. Hover and current-page links get a `--primary-soft` pill (`--text` on it is already a gated pair); the current page also gets a small `--primary` dot instead of the underline.
+- **"Join the beta" pill in the header** (`--btn-bg`, links to `site.betaAnchor`), shown only when the header is at least 52rem wide so it never crowds the wordmark, links and theme toggle. Narrow screens keep the beta banner's link. No new colours.
+
+## 2026-11-17 — Shorter landing copy with light slang
+
+- **Owner asked for less text and a Gen Z / Gen Alpha flavour.** The hero blurb and the body text under every landing section heading (02-14, plus Save your seat) were cut to one short lead and one short line each, with a few slang touches ("Lowkey tragic", "Free recs, basically", "Come with receipts", "Main character energy", "nothing sus"). Headings, FAQ answers, the form's consent and error text, and the app-feature names are unchanged. Privacy promises were shortened without changing what they claim (each still matches its policy section). Recorded as a voice rule in RULES "Copy".

@@ -1,6 +1,7 @@
 ---
 import Wordmark from './brand/Wordmark.astro';
 import ThemeToggle from './ui/ThemeToggle.astro';
+import { site } from '../config/site';
 
 const path = Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/';
 const links = [
@@ -26,14 +27,26 @@ const links = [
         ))}
       </ul>
     </nav>
+    <a href={site.betaAnchor} class="cta">
+      Join the beta
+    </a>
     <ThemeToggle />
   </div>
 </header>
 
 <style>
+  /* Sticky and opaque: page content scrolls under it. Below the skip link (100).
+     A strip of cream paper (surface) with a double ledger rule, like the app's cards. */
   .site-header {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 50;
     container-type: inline-size;
-    padding-block: var(--s-16);
+    display: flex;
+    align-items: center;
+    block-size: var(--header-h);
+    border-block-end: 3px double var(--line-strong);
+    background: var(--surface);
     view-transition-name: site-header;
   }
 
@@ -48,7 +61,7 @@ const links = [
     align-items: center;
     min-block-size: var(--touch);
     margin-inline-end: auto;
-    font-size: 1.5rem;
+    font-size: 2rem; /* the simple wordmark tops out at 32 px */
     color: var(--text);
     text-decoration: none;
     border-radius: var(--r-sm);
@@ -77,14 +90,56 @@ const links = [
 
   .nav-link:hover,
   .nav-link[aria-current='page'] {
+    background: var(--primary-soft);
     color: var(--text);
   }
 
-  .nav-link[aria-current='page'] {
-    text-decoration: underline;
-    text-decoration-color: var(--primary);
-    text-decoration-thickness: 2px;
-    text-underline-offset: 0.4em;
+  /* The current page also carries a paprika dot. */
+  .nav-link[aria-current='page']::before {
+    content: '';
+    inline-size: 6px;
+    block-size: 6px;
+    margin-inline-end: var(--s-8);
+    border-radius: 50%;
+    background: var(--primary);
+  }
+
+  .cta {
+    display: none;
+    align-items: center;
+    min-block-size: var(--touch);
+    padding-inline: var(--s-20);
+    border-radius: var(--r-pill);
+    background: var(--btn-bg);
+    color: var(--on-primary);
+    font-size: var(--fs-body-sm);
+    font-weight: 500;
+    text-decoration: none;
+    transition:
+      transform var(--dur-fast) var(--ease-out),
+      background-color var(--dur-base) var(--ease-out);
+  }
+
+  .cta:hover {
+    background: var(--btn-bg-hover);
+  }
+
+  .cta:active {
+    transform: scale(var(--press-scale));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cta:active {
+      transform: none;
+      opacity: 0.7;
+    }
+  }
+
+  /* The button needs room: wide headers only. */
+  @container (width >= 52rem) {
+    .cta {
+      display: inline-flex;
+    }
   }
 
   /* Narrow headers keep the wordmark and the theme toggle; the footer has the links. */
