@@ -3,29 +3,28 @@
   "about": "Sync ledger for the sync-with-app skill (.claude/skills/sync-with-app/SKILL.md). Records which app commit each website area was last synced to, plus checksums. The skill reads it in Step 1 and updates it in Step 6. 'basis' says how an area was verified: 'audited' = a recorded sync or a value-for-value comparison; 'baseline' = the area's last-changed app commit, not independently re-audited. Feature-level mapping lives in sync/feature-map.json. Schema 2 adds feature_map, proposal_branch and history.",
   "app": {
     "repo_path_env": "APP_REPO_PATH",
-    "baseline_checkout_branch": "task/about-website",
-    "baseline_head": "9ff6462da33b9d145f1f2e3a245ab73dbb7f658f",
-    "baseline_work_branch_head": "426801d5ba96246e58e76a691e52e9c4b241c3ec",
-    "note": "At baseline the app checkout was on task/about-website, and that branch's v1.9 token commit (9ff6462) was not yet on the app's work-branch. The skill's preflight expects the app on its work-branch, so re-check that 9ff6462 has been merged there before the next run."
+    "checkout_branch": "work-branch",
+    "work_branch_head": "57cb5cb779e1106a0a055a4cd101e6ece358afb4",
+    "note": "On 2026-11-17 the app checkout was clean on work-branch at 57cb5cb (= origin/work-branch). The 9ff6462 baseline note is resolved: 9ff6462 is on the app's work-branch."
   },
-  "last_synced": "9ff6462da33b9d145f1f2e3a245ab73dbb7f658f",
-  "last_checked": "2026-11-14",
-  "last_synced_date": "2026-11-14",
-  "spec_version": "1.9",
-  "last_report": null,
+  "last_synced": "57cb5cb779e1106a0a055a4cd101e6ece358afb4",
+  "last_checked": "2026-11-17",
+  "last_synced_date": "2026-11-17",
+  "spec_version": "1.10",
+  "last_report": ".claude/project-state/app-sync-report-20261117.md",
   "feature_map": "sync/feature-map.json",
   "proposal_branch": null,
   "areas": {
     "tokens": {
-      "synced_commit": "9ff6462da33b9d145f1f2e3a245ab73dbb7f658f",
+      "synced_commit": "57cb5cb779e1106a0a055a4cd101e6ece358afb4",
       "basis": "audited",
-      "app_source": "src/ui-v1/tokens.ts + design/app-ui-v1/SPEC.md (v1.9)",
+      "app_source": "src/ui-v1/tokens.ts + design/app-ui-v1/SPEC.md (v1.10)",
       "website_file": "src/styles/tokens.css",
-      "note": "Aligned in task/website-tokens-v19 (2026-11-14).",
+      "note": "v1.10 adds patternOpacity only (no colour change); the site mirrors balanced as --pattern-opacity and uses the pattern only inside the Today's pick replica (DESIGN.md \"Paper pattern\"). Synced 2026-11-17.",
       "checksums_sha256": {
-        "app/src/ui-v1/tokens.ts": "8c6fc8484e7feff2c4feb8dcdf09904d90d33d83e1d33fcb921286d9b7368ca0",
+        "app/src/ui-v1/tokens.ts": "026b84d0ea92f4e3ff04c0889a5e865bc63c8c3b376721b88be16330378f08c4",
         "app/design/aftertaste-v1/tokens/brand.json": "40310c813c5c65621b2a9d830dcc10af10045aa5ff938233bf64b50a3add2e94",
-        "web/src/styles/tokens.css": "4414c29f1b6c14deb69be6ec0183d0f9e4ac1adb9209436a555f2287502561b7"
+        "web/src/styles/tokens.css": "a8d039bb766fba482b8c74e17ab9411ae7c80daae38cde9342ae81a954543a05"
       }
     },
     "typography_fonts": {
@@ -44,14 +43,15 @@
         "web/public/fonts/OFL-dm-mono.txt": "2bada5ea45c3c63b7f1ea1f88ce9672c9e4f0c42b2c3b7378949084fe55a3066",
         "web/public/fonts/OFL-dm-sans.txt": "9af36190332437f5ecd09974de43c1f7c77a310a996cdd8ceb25628b458840e1",
         "web/public/fonts/OFL-prata.txt": "1e055d25bde41906cc2e1a08bc156e7776d5084e1640d75dbd0065a937b488e3"
-      }
+      },
+      "last_checked": "2026-11-17"
     },
     "icons": {
       "synced_commit": "550feb323459bbd1070c28d9a464caba40b8f2e7",
       "basis": "baseline",
       "app_source": "src/constants/icons.ts (Feather via @expo/vector-icons)",
       "website_file": "feather-icons 4.29.2 (devDependency), src/components/ui/Icon",
-      "note": "Both sides use the Feather family."
+      "note": "Both sides use the Feather family. App icon map unchanged at 57cb5cb; the site added uses of calendar (Gallery) and book-open/bookmark (Today's pick)."
     },
     "brand_assets": {
       "synced_commit": "1c836beb917557a9e52156bde9f1ecdf2d8e1c80",
@@ -65,14 +65,15 @@
         "app/design/aftertaste-v1/icons/source/favicon.svg": "80c29a316d104cb71e75c422d4a75548ba3ae3f9fc995f6d47581cb17addb24c",
         "web/public/favicon.svg": "f340b8b5539fc4e96dd5f4af605730483d7b42ce8aae2afb9a9c64d61210b059",
         "web/public/mask-icon.svg": "a7f28515c1fb93241d27dbdf60ad8bd80b0d51fe34b75cdd2bc0340b8159c1e4"
-      }
+      },
+      "last_checked": "2026-11-17"
     },
     "features": {
-      "synced_commit": "9ff6462da33b9d145f1f2e3a245ab73dbb7f658f",
-      "basis": "baseline",
+      "synced_commit": "57cb5cb779e1106a0a055a4cd101e6ece358afb4",
+      "basis": "audited",
       "app_source": ".claude/project-state/feature-status.md, current-state.md",
       "website_file": "src/pages/index.astro, src/components/landing/*, src/pages/support.astro; map: sync/feature-map.json",
-      "note": "Mapped section by section in sync/feature-map.json (seeded 2026-11-14 against the app's work-branch). Claims are mapped, not yet re-verified; the first skill run assesses them in full."
+      "note": "New and changed features since 9ff6462 verified against the app code on 2026-11-17 (report: app-sync-report-20261117.md). Older claims spot-checked."
     },
     "legal": {
       "synced_commit": "2d334170d543f3cbdd261ca97454cb6cc54866ad",
@@ -80,7 +81,7 @@
       "app_source": "docs/legal/privacy-policy.md @ 2d33417, docs/legal/terms.md @ 04039aa",
       "website_file": "src/content/legal/privacy.md, terms.md",
       "terms_synced_commit": "04039aab6096274797d22c5e7237d69cbd827b6a",
-      "note": "Matches the sourceCommit stamps in the synced files' frontmatter.",
+      "note": "Matches the sourceCommit stamps. At 57cb5cb the app policy is unchanged but behind the app (menu photos shared, booking private, fuller export): STOP proposals in app-sync-report-20261117.md §3.",
       "checksums_sha256": {
         "web/src/content/legal/privacy.md": "fcd024cab6e835fde6b0ef9b7954f7183bfec2e1bd9beed36bfe42cd08f07d1c",
         "web/src/content/legal/terms.md": "c5ce8ba2c5906201bf9d7b2d1960b01f34007d2f702b9bf20145cdc11675ebdf"
@@ -99,11 +100,12 @@
         "appStoreUrl": null,
         "contactEmail": "hello@theaftertaste.app",
         "domain": "https://theaftertaste.app"
-      }
+      },
+      "last_checked": "2026-11-17"
     },
     "app_metadata": {
-      "synced_commit": "9ff6462da33b9d145f1f2e3a245ab73dbb7f658f",
-      "basis": "baseline",
+      "synced_commit": "57cb5cb779e1106a0a055a4cd101e6ece358afb4",
+      "basis": "audited",
       "app_source": "app name, tagline, platforms",
       "website_file": "src/config/site.ts",
       "note": "Website says: Aftertaste, 'Your personal food memory', Android and iOS, private beta (still cooking). Not re-audited at ledger creation.",
@@ -112,7 +114,8 @@
         "tagline": "Your personal food memory",
         "platforms": ["Android", "iOS"],
         "status": "private beta"
-      }
+      },
+      "last_checked": "2026-11-17"
     }
   },
   "history": [
@@ -129,6 +132,13 @@
       "task_branch": "task/skill-sync-v2",
       "app_commit": "9ff6462da33b9d145f1f2e3a245ab73dbb7f658f",
       "report": null
+    },
+    {
+      "date": "2026-11-17",
+      "kind": "sync: suggestions batch 1 (Today's pick, Gallery, menu and booking, Tried, search placeholder, App UI v1.10); legal STOP items proposed",
+      "task_branch": "task/sync-app-20261117",
+      "app_commit": "57cb5cb779e1106a0a055a4cd101e6ece358afb4",
+      "report": ".claude/project-state/app-sync-report-20261117.md"
     }
   ]
 }

@@ -1,0 +1,79 @@
+---
+/**
+ * The paper pattern (App UI v1.10): the four food glyphs as one-colour
+ * silhouettes plus sparse grain dots, repeated on a 144 px tile. Paths are the
+ * brand glyphs as FoodMark draws them; the tile layout is the site's own.
+ *
+ * Ink is `--muted` at the app's `balanced` preset (0.10). Static, decorative,
+ * and only used inside an object (the Today's pick card), never page-wide: see
+ * DESIGN.md "Paper pattern". Text on it must not use `--faint`; the contrast
+ * gate checks the composite. Place it in a positioned parent; it fills it.
+ */
+interface Props {
+  /** Unique per page: the SVG pattern id. */
+  id: string;
+  class?: string;
+}
+const { id, class: className } = Astro.props;
+
+const CAP = 'M33 50 C33 32 67 32 67 50 Q67 53 64 53 H36 Q33 53 33 50 Z';
+const LEAF = 'M47 50 C49 37 60 33 69 36 C65 46 56 50 47 50 Z';
+const NOODLE = 'M58 36 C52 33 42 35 42 43 C42 52 58 49 58 58 C58 67 45 69 40 63';
+const SWIRL = 'M50 51 c3 0 3 -5 0 -5 c-6 0 -7 9 0 10 c9 1 12 -12 1 -15 c-11 -3 -18 7 -15 16 c3 10 19 12 25 2';
+// [x, y, rotation, glyph]: glyph centres inside one tile.
+const PLACE: Array<[number, number, number, 'cap' | 'leaf' | 'noodle' | 'swirl']> = [
+  [28, 26, -12, 'cap'],
+  [104, 34, 16, 'leaf'],
+  [62, 92, 6, 'noodle'],
+  [124, 116, -8, 'swirl'],
+];
+const DOTS: Array<[number, number]> = [
+  [10, 70],
+  [52, 52],
+  [86, 8],
+  [138, 72],
+  [18, 128],
+  [94, 132],
+  [74, 42],
+];
+---
+
+<svg class:list={['paper-pattern', className]} aria-hidden="true" focusable="false">
+  <defs>
+    <pattern id={id} width="144" height="144" patternUnits="userSpaceOnUse">
+      {PLACE.map(([x, y, r, g]) => (
+        <g transform={`translate(${x} ${y}) rotate(${r}) scale(0.56) translate(-50 -50)`}>
+          {g === 'cap' && <path d={CAP} />}
+          {g === 'leaf' && <path d={LEAF} />}
+          {g === 'noodle' && <path class="stroke" d={NOODLE} stroke-width="5.5" />}
+          {g === 'swirl' && <path class="stroke" d={SWIRL} stroke-width="4.5" />}
+        </g>
+      ))}
+      {DOTS.map(([x, y]) => (
+        <circle cx={x} cy={y} r="1.2" />
+      ))}
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill={`url(#${id})`} />
+</svg>
+
+<style>
+  .paper-pattern {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    color: var(--muted);
+    opacity: var(--pattern-opacity);
+    pointer-events: none;
+  }
+  .paper-pattern path,
+  .paper-pattern circle {
+    fill: currentColor;
+  }
+  .paper-pattern .stroke {
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+  }
+</style>

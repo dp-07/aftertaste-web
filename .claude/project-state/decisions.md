@@ -76,3 +76,12 @@
 
 - Adopted the app's v1.9 values for roles the site shares: `--muted` (light), `--faint` (both), `--primary-ink` (dark), `--primary-pressed` (dark), `--danger` (dark). `--herb-ink` and `--stamp-paper` already matched.
 - Kept stricter: `--btn-bg` dark #A8361F (app `primaryFill` #C2412D in dark). No new colours were introduced.
+
+## 2026-11-17 — App sync: suggestions batch 1 (app @ 57cb5cb, App UI v1.10)
+
+- **Two new spreads:** 04 Today’s pick (a token-built replica of the app’s card) and 07 Gallery (On this day strip, month section, mosaic). Smaller features go into a new **10 More in Aftertaste** index (menu and booking, Tried, search a place or a craving). Sections re-numbered 01–15.
+- **Booking privacy stated wherever booking appears** (index line and a new FAQ), per the human’s instruction; checked against the app’s owner-only table and storage policies. Menu-photo visibility is not mentioned until the privacy policy covers it.
+- **Paper pattern adopted only inside the Today’s pick card**, not page-wide: the editorial frame stays flat oat with hairlines, and LCP/CLS are untouched. New token `--pattern-opacity: 0.1` (the app’s `balanced` preset); no new colours.
+- **New stamp variant** `todaysPick` (TODAY’S PICK), as in the app’s v1.10.
+- **Web deviation:** the Gallery replica puts “1 year ago” under each photo, not on the scrim (cream on the scrim is below AA).
+- **Legal held back (STOP):** the policy does not yet cover menu photos, booking details or the fuller export; proposals in `app-sync-report-20261117.md`.
