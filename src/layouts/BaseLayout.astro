@@ -1,8 +1,8 @@
 ---
 /**
  * Every page: head (SEO, social cards, icons, theme), skip link, beta banner, header,
- * <main id="main">, footer. The only inline script is the theme script; its
- * SHA-256 is in public/_headers (CSP) and `npm run check:csp` verifies it.
+ * <main id="main">, footer. The inline scripts are the theme script and the
+ * back-to-top button's; their SHA-256 hashes are in public/_headers (CSP) and `npm run check:csp` verifies them.
  */
 import '../styles/fonts.css';
 import '../styles/tokens.css';
@@ -14,6 +14,7 @@ import themeScript from '../scripts/theme.js?raw';
 import BetaBanner from '../components/BetaBanner.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+import ToTop from '../components/ToTop.astro';
 import { site } from '../config/site';
 
 export type OgKind = 'home' | 'legal' | 'support' | 'default';
@@ -95,5 +96,6 @@ const ogAlt = `${site.name}: ${site.tagline}`;
       <slot />
     </main>
     <SiteFooter coffeeLink={coffeeLink} />
+    <ToTop />
   </body>
 </html>

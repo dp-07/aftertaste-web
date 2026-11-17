@@ -115,3 +115,8 @@
 ## 2026-11-17 — More doodles
 
 - **Doodle tile grows to 520 px** (`--doodle-size` clamp(340px, 42vw, 520px), so each doodle keeps its on-screen size) and holds 22 objects instead of 14: added burger, churros, takeaway noodle box, momo, chai glass, cinnamon roll (the brand's "e"), verdict stamp, bookmark, camera, dice and a dashed route. Food from the site's own sample copy and the app's own motifs; no lettering, one ink. Density stays close to before so light mode does not get louder.
+
+## 2026-11-17 — Back-to-top button
+
+- **A fixed bottom-right button on every page**, shown after scrolling about 60% of a screen. Its icon is the brand mushroom pointing up (cap as arrowhead, rise marks under the stem) on a paprika stamp disc, not a generic arrow. No new colours: `--btn-bg`, `--btn-bg-hover`, `--on-primary`, `--text` (focus ring).
+- **Small inline script, hashed.** `src/scripts/to-top.js` joins the theme and /coffee scripts in `public/_headers` (`npm run csp:hash` hashes all three). No script file ships, so the no-JS budget for legal, support and 404 is unchanged. Without JS the button stays hidden.
