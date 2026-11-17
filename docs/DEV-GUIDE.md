@@ -63,7 +63,7 @@ All scripts are in [package.json](../package.json). Astro telemetry is disabled 
 | `npm run csp:hash`     | Rewrites the theme script's SHA-256 in `public/_headers`. Run after editing `src/scripts/theme.js`.                                                                    |
 | `npm run og`           | Renders the four OG images into `public/og/` (needs Chrome).                                                                                                           |
 | `npm run icons`        | Builds `favicon.ico`, apple-touch and manifest icons from `public/favicon.svg` and `brand/app-icon-1024.png`.                                                          |
-| `npm run placeholders` | Re-renders the placeholder hero screenshot (needs Chrome).                                                                                                             |
+| `npm run placeholders` | Re-renders the placeholder hero screenshots, light and dark (needs Chrome).                                                                                            |
 | `npm run fonts:subset` | Re-subsets the fonts from the app repo's font packages. Needs `APP_REPO_PATH` and `pip install fonttools==4.55.0 brotli==1.1.0`. Outputs are committed; rarely needed. |
 
 `scripts/.runtogether.mjs` (ad hoc) lists adjacent inline text with no space between, which reads as one word in the page text (`node scripts/.runtogether.mjs`, needs `dist/` and Chrome). `scripts/slice-screens.mjs` slices tall screenshots for reading (`node scripts/slice-screens.mjs <file.png>`). `scripts/.cls.mjs` and `scripts/.fontshift.mjs` are throwaway diagnostics for layout shift (see [MEMORY](MEMORY.md#font-loading-layout-shift)).
@@ -124,8 +124,8 @@ Both start their own `serve-dist` server on a random port, so other servers do n
 
 ### Replace the hero screenshot
 
-1. Take a portrait Home screenshot (ideally 1080 × 2340, light theme, no personal data).
-2. Save it over `src/assets/screenshots/home-placeholder.png`, or add a new file and change the import at the top of [Hero.astro](../src/components/landing/Hero.astro). Update the `alt` text if the screen differs.
+1. Take a portrait Home screenshot (ideally 1080 × 2340, no personal data) in the light theme and again in the dark theme.
+2. Save them over `src/assets/screenshots/home-placeholder.png` (light) and `home-placeholder-dark.png` (dark), or add new files and change the imports (`src`, `srcDark`) at the top of [Hero.astro](../src/components/landing/Hero.astro). Update the `alt` text if the screen differs.
 3. `npm run build`. Astro makes AVIF and WebP at several widths with a PNG fallback and sets width and height. A different aspect ratio needs the `.screen` `aspect-ratio` in [PhoneFrame.astro](../src/components/brand/PhoneFrame.astro) changed.
 4. Remove the `TODO(screenshots)` comment in Hero.astro, run `npm run gates`, and check the page at 320 and 1440 px.
 

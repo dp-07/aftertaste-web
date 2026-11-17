@@ -148,9 +148,9 @@ const other =
 
     .toc {
       position: sticky;
-      inset-block-start: var(--s-24);
+      inset-block-start: calc(var(--header-h) + var(--s-24));
       align-self: start;
-      max-block-size: calc(100vh - 3rem);
+      max-block-size: calc(100vh - var(--header-h) - 3rem);
       overflow-y: auto;
     }
   }

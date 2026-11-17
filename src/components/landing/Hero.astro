@@ -1,5 +1,6 @@
 ---
 import heroShot from '../../assets/screenshots/home-placeholder.png';
+import heroShotDark from '../../assets/screenshots/home-placeholder-dark.png';
 import { site } from '../../config/site';
 import PhoneFrame from '../brand/PhoneFrame.astro';
 import SealMark from '../brand/SealMark.astro';
@@ -25,8 +26,8 @@ import StoreBadge from '../ui/StoreBadge.astro';
         <span class="tagline">{site.tagline}</span>
       </h1>
       <p class="support">
-        A food diary for Android and iOS. Log the places you eat at and every dish you order, with a photo and a rating.
-        Months later, you'll know exactly what to order, and what to skip.
+        A food diary for Android and iOS. Log every place and dish with a photo and a rating, so future you knows
+        exactly what to order, and what to skip.
       </p>
       <div class="actions">
         <StoreBadge store="play" />
@@ -43,6 +44,7 @@ import StoreBadge from '../ui/StoreBadge.astro';
     <div class="device">
       <PhoneFrame
         src={heroShot}
+        srcDark={heroShotDark}
         alt="The Aftertaste home screen: What should we eat?, a Pick for me button and a Want to try list."
         priority
       >

@@ -53,10 +53,8 @@ const jsonLd = [
   <HowItWorks />
 
   <Spread id="want-to-try" num="02" label="Want to try" title="A list for the places you keep hearing about." flip>
-    <p class="lead">Save a place from search or a friend’s diary. When you finally go, it moves to Tried.</p>
-    <p>
-      Your Want to try list is yours alone. It never shows up in anyone else’s view, even when your diary is shared.
-    </p>
+    <p class="lead">Save a place from search or a friend’s diary. Went? It moves to Tried.</p>
+    <p>Your Want to try list is yours alone. Nobody sees it, even when you share your diary.</p>
     <ul class="rows" slot="visual" aria-label="Example Want to try list">
       <WishlistRow name="Saffron & Salt" meta="Restaurant · 2.1 km" source="Saved from search" kind="noodle" />
       <WishlistRow name="Little Ladoo Bakery" meta="Bakery · 800 m" source="From Ronnie’s diary" kind="cinnamon" />
@@ -65,22 +63,19 @@ const jsonLd = [
   </Spread>
 
   <Spread id="what-should-we-eat" num="03" label="What should we eat?" title="Can’t decide? Let it pick.">
-    <p class="lead">The question every group chat asks, answered in one tap.</p>
+    <p class="lead">The group chat question, answered in one tap.</p>
     <p>
-      Aftertaste picks from your Want to try list, the places you recommend and the spots friends rate highly, and
-      favours the ones near you. Try it here.
+      It picks from your Want to try list, your recommends and friends’ top spots, and leans towards what’s close. Give
+      it a spin.
     </p>
     <DecisionDemo slot="visual" />
   </Spread>
 
   <Spread id="todays-pick" num="04" label="Today’s pick" title="Once a day, one place to think about." flip>
-    <p class="lead">
-      Open the app and Aftertaste may hand you a place: one from your Want to try list, one you said you’d go back to,
-      or a friend’s favourite.
-    </p>
+    <p class="lead">One place a day: from your list, a spot you’d go back to, or a friend’s fave.</p>
     <p>
-      It shows the photos and why it chose it, then leaves it to you: open the place, save it, or not today. It shows up
-      at most once a day, won’t repeat a place for two weeks, and switches off in Profile.
+      You get the photos and the why. Open it, save it, or not today. At most once a day, no repeats for two weeks, and
+      off any time in Profile.
     </p>
     <TodaysPickCard
       slot="visual"
@@ -94,11 +89,8 @@ const jsonLd = [
   </Spread>
 
   <Spread id="near-you" num="05" label="Near you" title="The places around you, already listed.">
-    <p class="lead">Adding a place takes a tap: the ones nearby are waiting when you open Add place.</p>
-    <p>
-      Your location is used only while you search, only if you allow it, and it is never saved. Search still works if
-      you say no.
-    </p>
+    <p class="lead">Tap Add place and the spots nearby are already there.</p>
+    <p>Location is used only while you search, only if you allow it, and never saved. Say no? Search still works.</p>
     <PlaceList
       slot="visual"
       label="Example Near you list"
@@ -112,13 +104,8 @@ const jsonLd = [
   </Spread>
 
   <Spread id="from-friends" num="06" label="From friends" title="See where your friends ate this week." flip>
-    <p class="lead">
-      If a friend makes their diary discoverable, their recent visits show up for you, with a must-try dish.
-    </p>
-    <p>
-      It is read-only: nobody can add to your diary. Save their finds to your own list. Their notes, and yours, always
-      stay private.
-    </p>
+    <p class="lead">Friends who share their diary show up here, with a must-try dish. Free recs, basically.</p>
+    <p>Read-only: nobody can add to your diary. Save their finds to your list. Notes stay private, theirs and yours.</p>
     <ul class="rows" slot="visual" aria-label="Example From friends list">
       <FriendRow friend="Ronnie" place="Hill Road Momos" rating={5} when="Yesterday" mustTry="Jhol momo" />
       <FriendRow friend="Meera" place="Banyan Tree Dhaba" rating={4} when="3 days ago" tone="mustard" />
@@ -134,13 +121,8 @@ const jsonLd = [
   </Spread>
 
   <Spread id="gallery" num="07" label="Gallery" title="Every dish you’ve photographed, month by month.">
-    <p class="lead">
-      Your photos in a mosaic, a section for each month. Pinch to switch between two and three columns.
-    </p>
-    <p>
-      At the top, On this day brings back what you ate on this date in earlier months and years. Tap a photo to zoom in;
-      press and hold to favourite it or open the place.
-    </p>
+    <p class="lead">Your food pics in one big mosaic, a section for every month.</p>
+    <p>On this day throws back what you ate on this date, months or years ago. Tap to zoom, hold to favourite.</p>
     <GalleryMock
       slot="visual"
       label="Example Gallery (sample photos)"
