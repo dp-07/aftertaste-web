@@ -1,0 +1,122 @@
+---
+/**
+ * Back-to-top button: the brand's diary seal (the mushroom in its double ring), bare
+ * with no disc behind it, fixed near the bottom right and shown once the page has scrolled about
+ * 60% of a screen. A small "Back to top" label slides out on hover and keyboard focus.
+ * Logic: src/scripts/to-top.js (inline, hashed in public/_headers). Without JS the
+ * button stays hidden and the page works as before.
+ */
+import toTopScript from '../scripts/to-top.js?raw';
+import SealMark from './brand/SealMark.astro';
+---
+
+<button class="to-top" type="button" aria-label="Back to top" data-to-top>
+  <SealMark />
+  <span class="tip" aria-hidden="true">
+    Back to top
+  </span>
+</button>
+<script is:inline set:html={toTopScript} />
+<style>
+  .to-top {
+    position: fixed;
+    inset-inline-end: max(var(--gutter), env(safe-area-inset-right));
+    inset-block-end: max(2.5rem, calc(env(safe-area-inset-bottom) + 1.5rem));
+    z-index: 40;
+    display: grid;
+    place-items: center;
+    inline-size: 3.75rem;
+    block-size: 3.75rem;
+    padding: 0;
+    border: 0;
+    border-radius: var(--r-pill);
+    background: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    /* Hidden until the script marks the page as scrolled. */
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(0.75rem) scale(0.92);
+    transition:
+      opacity var(--dur-base) var(--ease-out),
+      transform var(--dur-slow) var(--ease-press),
+      visibility 0s linear var(--dur-base);
+  }
+
+  .to-top[data-show] {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    transition-delay: 0s;
+  }
+
+  .to-top:active {
+    transform: scale(var(--press-scale));
+  }
+
+  .to-top :global(.seal) {
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
+  /* The label sits to the left of the seal, like a stamp's caption. */
+  .tip {
+    position: absolute;
+    inset-inline-end: calc(100% + var(--s-8));
+    inset-block-start: 50%;
+    padding: var(--s-4) var(--s-12);
+    border-radius: var(--r-pill);
+    background: var(--text);
+    color: var(--bg);
+    font-family: var(--font-ui);
+    font-size: var(--fs-body-sm);
+    font-weight: 500;
+    line-height: var(--lh-body-sm);
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(0.5rem, -50%);
+    transition:
+      opacity var(--dur-base) var(--ease-out),
+      transform var(--dur-base) var(--ease-out);
+  }
+
+  .to-top:focus-visible .tip {
+    opacity: 1;
+    transform: translate(0, -50%);
+  }
+
+  @media (hover: hover) {
+    .to-top:hover .tip {
+      opacity: 1;
+      transform: translate(0, -50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .to-top :global(.seal) {
+      transition: transform var(--dur-slow) var(--ease-press);
+    }
+
+    .to-top:hover :global(.seal),
+    .to-top:focus-visible :global(.seal) {
+      transform: translateY(-2px) rotate(-6deg);
+    }
+  }
+
+  @media (forced-colors: active) {
+    .to-top {
+      border: 1px solid ButtonText;
+    }
+
+    .tip {
+      border: 1px solid CanvasText;
+    }
+  }
+
+  @media print {
+    .to-top {
+      display: none;
+    }
+  }
+</style>
