@@ -16,6 +16,9 @@ import JoinBeta from '../components/landing/JoinBeta.astro';
 import WishlistRow from '../components/app/WishlistRow.astro';
 import PlaceList from '../components/app/PlaceList.astro';
 import FriendRow from '../components/app/FriendRow.astro';
+import TodaysPickCard from '../components/app/TodaysPickCard.astro';
+import GalleryMock from '../components/app/GalleryMock.astro';
+import MoreIndex from '../components/landing/MoreIndex.astro';
 import { site } from '../config/site';
 
 const logo = new URL('/icons/icon-512.png', site.url).href;
@@ -70,7 +73,27 @@ const jsonLd = [
     <DecisionDemo slot="visual" />
   </Spread>
 
-  <Spread id="near-you" num="04" label="Near you" title="The places around you, already listed." flip>
+  <Spread id="todays-pick" num="04" label="Today’s pick" title="Once a day, one place to think about." flip>
+    <p class="lead">
+      Open the app and Aftertaste may hand you a place: one from your Want to try list, one you said you’d go back to,
+      or a friend’s favourite.
+    </p>
+    <p>
+      It shows the photos and why it chose it, then leaves it to you: open the place, save it, or not today. It shows up
+      at most once a day, won’t repeat a place for two weeks, and switches off in Profile.
+    </p>
+    <TodaysPickCard
+      slot="visual"
+      label="Example Today’s pick card (sample place)"
+      name="Hill Road Momos"
+      meta="Restaurant · Dehradun"
+      rating={4.6}
+      reason="You rated this 5★ in March"
+      kind="noodle"
+    />
+  </Spread>
+
+  <Spread id="near-you" num="05" label="Near you" title="The places around you, already listed.">
     <p class="lead">Adding a place takes a tap: the ones nearby are waiting when you open Add place.</p>
     <p>
       Your location is used only while you search, only if you allow it, and it is never saved. Search still works if
@@ -88,7 +111,7 @@ const jsonLd = [
     />
   </Spread>
 
-  <Spread id="from-friends" num="05" label="From friends" title="See where your friends ate this week.">
+  <Spread id="from-friends" num="06" label="From friends" title="See where your friends ate this week." flip>
     <p class="lead">
       If a friend makes their diary discoverable, their recent visits show up for you, with a must-try dish.
     </p>
@@ -110,8 +133,39 @@ const jsonLd = [
     </ul>
   </Spread>
 
+  <Spread id="gallery" num="07" label="Gallery" title="Every dish you’ve photographed, month by month.">
+    <p class="lead">
+      Your photos in a mosaic, a section for each month. Pinch to switch between two and three columns.
+    </p>
+    <p>
+      At the top, On this day brings back what you ate on this date in earlier months and years. Tap a photo to zoom in;
+      press and hold to favourite it or open the place.
+    </p>
+    <GalleryMock
+      slot="visual"
+      label="Example Gallery (sample photos)"
+      onThisDay={[
+        { kind: 'noodle', when: '1 year ago', dish: 'Jhol momo' },
+        { kind: 'cinnamon', when: '3 months ago', dish: 'Cinnamon roll' },
+        { kind: 'sprout', when: '2 years ago', dish: 'Sarson ka saag' },
+      ]}
+      month="October"
+      count={14}
+      tiles={[
+        { kind: 'noodle', tall: true },
+        { kind: 'mushroom' },
+        { kind: 'sprout' },
+        { kind: 'cinnamon', wide: true, mustTry: true },
+        { kind: 'mushroom' },
+        { kind: 'sprout' },
+        { kind: 'noodle' },
+      ]}
+    />
+  </Spread>
+
   <ReceiptFeature />
   <EveryMeal />
+  <MoreIndex />
   <FromTheDiary />
   <TasteReport />
   <Privacy />

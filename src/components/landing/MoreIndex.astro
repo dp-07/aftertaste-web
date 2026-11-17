@@ -1,0 +1,87 @@
+---
+/**
+ * "More in Aftertaste": smaller features, one ruled line each, like the index
+ * at the back of a notebook. Promote an item to its own spread if it grows.
+ * Sources per item: sync/feature-map.json.
+ */
+const items = [
+  {
+    name: 'Menu and booking',
+    body: 'Keep a place’s menu photos next to your visits, plus your booking details: the number to call, the booking link and the QR to show at the door. Booking details are only ever visible to you, even when your diary is shared.',
+  },
+  {
+    name: 'Tried',
+    body: 'Log a place from your Want to try list and it moves to Tried, with a quick way to take it off the list. Tried places drop out of view after 30 days, or clear them in one go.',
+  },
+  {
+    name: 'Search a place or a craving',
+    body: 'Type “momo” and find every momo in your diary, and in the diaries others share.',
+  },
+];
+---
+
+<section id="more" class="more defer-render" aria-labelledby="more-title">
+  <div class="wrap">
+    <p class="running-head t-label">
+      <span class="num">10</span> More in Aftertaste
+    </p>
+    <div class="grid-12 layout">
+      <h2 id="more-title" class="t-display">
+        And the small things.
+      </h2>
+      <dl class="list">
+        {items.map((it) => (
+          <div class="item">
+            <dt class="t-card-title">{it.name}</dt>
+            <dd class="muted">{it.body}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style>
+  .more {
+    padding-block-start: var(--space-section);
+    scroll-margin-block-start: var(--s-16);
+  }
+
+  .layout {
+    row-gap: var(--space-block);
+    margin-block-start: var(--space-block);
+  }
+
+  .list {
+    margin: 0;
+    border-block-start: 1px solid var(--line);
+  }
+
+  .item {
+    display: grid;
+    gap: var(--s-8);
+    padding-block: var(--s-20);
+    border-block-end: 1px solid var(--line);
+  }
+
+  dd {
+    margin: 0;
+    max-inline-size: var(--measure);
+  }
+
+  @media (width >= 48rem) {
+    .item {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+      gap: var(--s-24);
+    }
+  }
+
+  @media (width >= 64rem) {
+    h2 {
+      grid-column: 1 / span 4;
+    }
+    .list {
+      grid-column: 6 / -1;
+    }
+  }
+</style>
