@@ -1,45 +1,36 @@
 ---
 /**
- * Back-to-top button: fixed bottom-right, shown once the page has scrolled about
- * 60% of a screen. The icon is the brand mushroom pointing up, its cap the arrowhead,
- * with three rise marks under the stem, on a stamp-style paprika disc.
+ * Back-to-top button: the brand's diary seal (the mushroom in its double ring) on a
+ * paper disc, fixed near the bottom right and shown once the page has scrolled about
+ * 60% of a screen. A small "Back to top" label slides out on hover and keyboard focus.
  * Logic: src/scripts/to-top.js (inline, hashed in public/_headers). Without JS the
  * button stays hidden and the page works as before.
  */
 import toTopScript from '../scripts/to-top.js?raw';
+import SealMark from './brand/SealMark.astro';
 ---
 
 <button class="to-top" type="button" aria-label="Back to top" data-to-top>
-  <svg class="icon" viewBox="0 0 24 26" width="24" height="26" aria-hidden="true" focusable="false">
-    <g class="shroom">
-      <path class="stem" d="M9.4 12.5 H14.6 L15.2 19 Q12 20.8 8.8 19 Z" />
-      <path
-        class="cap"
-        d="M12 1.5 C5 1.5 2.8 7 2.8 11 Q2.8 12.8 4.6 12.8 H19.4 Q21.2 12.8 21.2 11 C21.2 7 19 1.5 12 1.5 Z"
-      />
-      <circle class="spot" cx="8.2" cy="8.2" r="1.7" />
-      <circle class="spot" cx="13.6" cy="5.6" r="1.4" />
-      <circle class="spot" cx="16.6" cy="9.4" r="1.4" />
-    </g>
-    <path class="rise" d="M8.4 22.2 V23.4 M12 22.2 V24.6 M15.6 22.2 V23.4" />
-  </svg>
+  <SealMark />
+  <span class="tip" aria-hidden="true">
+    Back to top
+  </span>
 </button>
 <script is:inline set:html={toTopScript} />
 <style>
   .to-top {
     position: fixed;
-    inset-inline-end: max(var(--s-16), env(safe-area-inset-right));
-    inset-block-end: max(var(--s-16), env(safe-area-inset-bottom));
+    inset-inline-end: max(var(--gutter), env(safe-area-inset-right));
+    inset-block-end: max(2.5rem, calc(env(safe-area-inset-bottom) + 1.5rem));
     z-index: 40;
     display: grid;
     place-items: center;
-    inline-size: 3.25rem;
-    block-size: 3.25rem;
-    padding: 0;
+    inline-size: 3.75rem;
+    block-size: 3.75rem;
+    padding: 0.25rem;
     border: 0;
     border-radius: var(--r-pill);
-    background: var(--btn-bg);
-    color: var(--on-primary);
+    background: var(--stamp-paper);
     box-shadow: var(--elevation);
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
@@ -50,8 +41,7 @@ import toTopScript from '../scripts/to-top.js?raw';
     transition:
       opacity var(--dur-base) var(--ease-out),
       transform var(--dur-slow) var(--ease-press),
-      visibility 0s linear var(--dur-base),
-      background-color var(--dur-base) var(--ease-out);
+      visibility 0s linear var(--dur-base);
   }
 
   .to-top[data-show] {
@@ -61,90 +51,67 @@ import toTopScript from '../scripts/to-top.js?raw';
     transition-delay: 0s;
   }
 
-  /* The stamp's dashed inner ring. */
-  .to-top::before {
-    content: '';
-    position: absolute;
-    inset: 4px;
-    border: 1.5px dashed color-mix(in srgb, var(--on-primary) 55%, transparent);
-    border-radius: inherit;
-    pointer-events: none;
-  }
-
-  .to-top:hover {
-    background: var(--btn-bg-hover);
-  }
-
   .to-top:active {
     transform: scale(var(--press-scale));
   }
 
-  /* The paprika disc swallows a paprika outline, so the focus ring uses the text ink. */
-  .to-top:focus-visible {
-    outline: 2px solid var(--text);
-    outline-offset: 3px;
+  .to-top :global(.seal) {
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
+  /* The label sits to the left of the seal, like a stamp's caption. */
+  .tip {
+    position: absolute;
+    inset-inline-end: calc(100% + var(--s-8));
+    inset-block-start: 50%;
+    padding: var(--s-4) var(--s-12);
     border-radius: var(--r-pill);
+    background: var(--text);
+    color: var(--bg);
+    font-family: var(--font-ui);
+    font-size: var(--fs-body-sm);
+    font-weight: 500;
+    line-height: var(--lh-body-sm);
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(0.5rem, -50%);
+    transition:
+      opacity var(--dur-base) var(--ease-out),
+      transform var(--dur-base) var(--ease-out);
   }
 
-  .icon {
-    overflow: visible;
+  .to-top:focus-visible .tip {
+    opacity: 1;
+    transform: translate(0, -50%);
   }
 
-  .stem,
-  .cap {
-    fill: var(--on-primary);
-  }
-
-  .spot {
-    fill: var(--btn-bg);
-    transition: fill var(--dur-base) var(--ease-out);
-  }
-
-  .to-top:hover .spot {
-    fill: var(--btn-bg-hover);
-  }
-
-  .rise {
-    fill: none;
-    stroke: var(--on-primary);
-    stroke-width: 1.6;
-    stroke-linecap: round;
-    opacity: 0.6;
+  @media (hover: hover) {
+    .to-top:hover .tip {
+      opacity: 1;
+      transform: translate(0, -50%);
+    }
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .shroom {
+    .to-top :global(.seal) {
       transition: transform var(--dur-slow) var(--ease-press);
     }
 
-    .to-top:hover .shroom,
-    .to-top:focus-visible .shroom {
-      transform: translateY(-2px);
+    .to-top:hover :global(.seal),
+    .to-top:focus-visible :global(.seal) {
+      transform: translateY(-2px) rotate(-6deg);
     }
   }
 
   @media (forced-colors: active) {
     .to-top {
       border: 1px solid ButtonText;
-      background: ButtonFace;
-      color: ButtonText;
     }
 
-    .to-top::before {
-      display: none;
-    }
-
-    .stem,
-    .cap {
-      fill: ButtonText;
-    }
-
-    .spot {
-      fill: ButtonFace;
-    }
-
-    .rise {
-      stroke: ButtonText;
+    .tip {
+      border: 1px solid CanvasText;
     }
   }
 

@@ -118,5 +118,5 @@
 
 ## 2026-11-17 — Back-to-top button
 
-- **A fixed bottom-right button on every page**, shown after scrolling about 60% of a screen. Its icon is the brand mushroom pointing up (cap as arrowhead, rise marks under the stem) on a paprika stamp disc, not a generic arrow. No new colours: `--btn-bg`, `--btn-bg-hover`, `--on-primary`, `--text` (focus ring).
+- **A fixed bottom-right button on every page**, shown after scrolling about 60% of a screen. The button is the brand seal (the owner chose it over a paprika disc with an up-pointing mushroom) on a paper disc, with a "Back to top" label on hover and focus; it sits inset from the corner (gutter from the right, 2.5 rem from the bottom). No new colours: `--stamp-paper`, `--text`, `--bg`.
 - **Small inline script, hashed.** `src/scripts/to-top.js` joins the theme and /coffee scripts in `public/_headers` (`npm run csp:hash` hashes all three). No script file ships, so the no-JS budget for legal, support and 404 is unchanged. Without JS the button stays hidden.
