@@ -158,6 +158,14 @@ Durable lessons so future sessions do not repeat mistakes. Each entry: what happ
 - **What happened:** "A ₹40 cutting chai…" is a Prata headline; Prata and DM Mono lack U+20B9.
 - **What to do:** wrap the ₹ in a span set in DM Sans (`.rupee` in `EveryMeal.astro`). Mono text already falls back to DM Sans via the font stack.
 
+## The contrast gate keeps its own copy of the tokens
+
+`scripts/check-contrast.mjs` hard-codes token values instead of reading `tokens.css`. The v1.9 alignment changed `tokens.css` but not the script, so the gate kept passing on old values (light `muted` #6B6257, dark `primary-ink` #E0573D) until the 2026-11-17 sync. Whenever a colour token changes, change it in the script too. Text on the paper pattern is checked against a computed composite (`bgPattern` = `muted` at `--pattern-opacity` over `bg`).
+
+## Percentage glyph sizes inside grid tiles
+
+`Thumb` centres a `FoodMark` with `display: grid` and sizes it at 62 %. In a tile whose height comes from the parent grid (the Gallery mosaic's spanning tiles), that percentage height does not resolve and the glyph grows to its width-derived size and spills out. Mosaic tiles use fixed rem sizes instead.
+
 ## Smaller gotchas
 
 - **Scoped styles and child components:** a class passed to a child component needs `:global()` in the parent's scoped style.

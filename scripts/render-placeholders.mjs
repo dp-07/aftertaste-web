@@ -61,7 +61,7 @@ nav .on{color:#C2412D}nav .on svg{background:#F3DED6;border-radius:999px;padding
 <div class="status"><span>9:41</span><span><i></i></span></div>
 <header>${wordmark}<span class="ib">${icon('map', 20)}</span></header>
 <div class="greet">Good evening</div>
-<div class="search">${icon('search', 20)}<span>Search places near you</span></div>
+<div class="search">${icon('search', 20)}<span>Search a place or a craving</span></div>
 <div class="card">
   <div class="ct"><span class="tile">${icon('shuffle', 18)}</span><span class="cardtitle">What should we eat?</span></div>
   <div class="body">We'll pick from your list, your favourites and friends' top spots.</div>
