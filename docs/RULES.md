@@ -58,6 +58,7 @@ The hard rules for this repo. They are the source of truth; `CLAUDE.md` links he
 ## Copy
 
 - Warm, short, specific, sentence case. Write as people talking to a person, in "we" and "us" (never first person singular, never a personal name).
+- **Voice (decision 2026-11-17):** landing section copy is short and self-explanatory, with light, family-friendly Gen Z / Gen Alpha slang used sparingly (about one phrase per section, never in privacy, legal or error text; no emoji). Privacy and feature claims keep their exact meaning.
 - **Banned words:** unlock, elevate, seamless, revolutionize, delve, supercharge, game-changer, "in today's fast-paced world", effortlessly, all-in-one.
 - No emoji, no stock-photo language, no hype. Feature names are the app's own (Want to try, Tried, What should we eat?, Pick for me).
 - Demo places and friends are invented examples, and the demo says so.

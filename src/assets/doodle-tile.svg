@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="420" viewBox="0 0 420 420" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Aftertaste doodle tile: food-diary line art, used only as a CSS mask (src/styles/base.css, body::before).
+       The stroke colour is irrelevant: the mask keeps the shape and the page paints it in a token colour.
+       Nothing crosses the tile edge, so it repeats seamlessly. -->
+
+  <!-- coffee cup -->
+  <g transform="translate(70 72) rotate(-8)">
+    <path d="M-18 -6 H14 V8 C14 19 8 24 -2 24 C-12 24 -18 19 -18 8 Z" />
+    <path d="M14 -2 H18 C24 -2 24 12 16 12 H13" />
+    <path d="M-26 29 H22" />
+    <path d="M-9 -12 C-13 -17 -5 -20 -9 -26 M1 -12 C-3 -17 5 -20 1 -26" />
+  </g>
+
+  <!-- fork -->
+  <g transform="translate(192 52) rotate(14)">
+    <path d="M-9 -30 V-12 M0 -30 V-12 M9 -30 V-12" />
+    <path d="M-9 -12 C-9 -2 9 -2 9 -12" />
+    <path d="M0 -3 V30" />
+  </g>
+
+  <!-- rating star -->
+  <g transform="translate(322 82) rotate(10) scale(0.85)">
+    <path d="M0 -22 L5.3 -7.3 L20.9 -6.8 L8.6 2.8 L12.9 17.8 L0 9 L-12.9 17.8 L-8.6 2.8 L-20.9 -6.8 L-5.3 -7.3 Z" />
+  </g>
+
+  <!-- map pin -->
+  <g transform="translate(132 172) rotate(-6) scale(0.9)">
+    <path d="M0 30 C-16 12 -20 4 -20 -6 C-20 -18 -11 -26 0 -26 C11 -26 20 -18 20 -6 C20 4 16 12 0 30 Z" />
+    <circle cx="0" cy="-6" r="7" />
+  </g>
+
+  <!-- noodle bowl with chopsticks -->
+  <g transform="translate(272 192) rotate(6)">
+    <path d="M-26 -2 H26 C26 18 14 28 0 28 C-14 28 -26 18 -26 -2 Z" />
+    <path d="M-8 31 H8" />
+    <path d="M-6 -4 L16 -30 M2 -4 L24 -26" />
+    <path d="M-16 8 C-10 3 -6 12 0 8 C6 4 10 12 16 8" />
+  </g>
+
+  <!-- mushroom (the brand cap) -->
+  <g transform="translate(60 212) rotate(-10) scale(0.9)">
+    <path d="M-22 4 C-22 -22 22 -22 22 4 Q22 8 18 8 H-18 Q-22 8 -22 4 Z" />
+    <path d="M-8 8 V22 Q-8 26 -4 26 H4 Q8 26 8 22 V8" />
+    <circle cx="-8" cy="-6" r="3" />
+    <circle cx="8" cy="-8" r="3" />
+  </g>
+
+  <!-- spoon -->
+  <g transform="translate(182 296) rotate(-14)">
+    <ellipse cx="0" cy="-18" rx="9" ry="13" />
+    <path d="M0 -5 V30" />
+  </g>
+
+  <!-- receipt -->
+  <g transform="translate(332 322) rotate(8) scale(0.9)">
+    <path d="M-16 -28 H16 V28 L11 24 L6 28 L1 24 L-4 28 L-9 24 L-16 28 Z" />
+    <path d="M-9 -18 H9 M-9 -10 H9 M-9 -2 H3 M-9 6 H9" />
+  </g>
+
+  <!-- pizza slice -->
+  <g transform="translate(52 350) rotate(12) scale(0.9)">
+    <path d="M-22 -22 Q0 -30 22 -22" />
+    <path d="M-20 -18 L0 28 L20 -18" />
+    <circle cx="-5" cy="-8" r="4" />
+    <circle cx="7" cy="0" r="3.5" />
+    <circle cx="-1" cy="12" r="2.6" />
+  </g>
+
+  <!-- herb sprig -->
+  <g transform="translate(244 366) rotate(-6) scale(0.85)">
+    <path d="M0 28 C0 10 0 -10 0 -26" />
+    <path d="M0 10 C-14 10 -18 0 -18 -8 C-6 -6 0 0 0 10" />
+    <path d="M0 -2 C14 -2 18 -12 18 -20 C6 -18 0 -12 0 -2" />
+  </g>
+
+  <!-- heart -->
+  <g transform="translate(386 172) rotate(10) scale(0.7)">
+    <path d="M0 14 C-22 0 -18 -18 -8 -18 C-4 -18 0 -14 0 -10 C0 -14 4 -18 8 -18 C18 -18 22 0 0 14 Z" />
+  </g>
+
+  <!-- sparkles -->
+  <g stroke-width="2.6">
+    <path d="M122 118 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 l6 -2 z" />
+    <path d="M256 122 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 l6 -2 z" />
+    <path d="M356 236 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 l6 -2 z" />
+    <path d="M120 262 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 l6 -2 z" />
+    <path d="M300 280 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 l6 -2 z" />
+  </g>
+
+  <!-- grain dots -->
+  <g fill="#000" stroke="none">
+    <circle cx="20" cy="140" r="3" />
+    <circle cx="132" cy="30" r="3" />
+    <circle cx="260" cy="40" r="3" />
+    <circle cx="400" cy="30" r="3" />
+    <circle cx="200" cy="148" r="3" />
+    <circle cx="392" cy="110" r="3" />
+    <circle cx="190" cy="236" r="3" />
+    <circle cx="20" cy="290" r="3" />
+    <circle cx="400" cy="270" r="3" />
+    <circle cx="130" cy="340" r="3" />
+    <circle cx="340" cy="396" r="3" />
+    <circle cx="150" cy="400" r="3" />
+    <circle cx="20" cy="410" r="3" />
+  </g>
+</svg>
