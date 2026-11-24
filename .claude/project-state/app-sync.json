@@ -4,25 +4,25 @@
   "app": {
     "repo_path_env": "APP_REPO_PATH",
     "checkout_branch": "work-branch",
-    "work_branch_head": "57cb5cb779e1106a0a055a4cd101e6ece358afb4",
-    "note": "On 2026-11-17 the app checkout was clean on work-branch at 57cb5cb (= origin/work-branch). The 9ff6462 baseline note is resolved: 9ff6462 is on the app's work-branch."
+    "work_branch_head": "7f76e4b4f5cca633f37d3770f97f5ca7f6db19d7",
+    "note": "On 2026-11-24 the app checkout was clean on work-branch at 7f76e4b (= origin/work-branch). last_synced stays at 57cb5cb: features and legal are not synced (STOP items in the 2026-11-24 report)."
   },
   "last_synced": "57cb5cb779e1106a0a055a4cd101e6ece358afb4",
-  "last_checked": "2026-11-17",
+  "last_checked": "2026-11-24",
   "last_synced_date": "2026-11-17",
-  "spec_version": "1.10",
-  "last_report": ".claude/project-state/app-sync-report-20261117.md",
+  "spec_version": "1.12",
+  "last_report": ".claude/project-state/app-sync-report-20261124.md",
   "feature_map": "sync/feature-map.json",
   "proposal_branch": null,
   "areas": {
     "tokens": {
-      "synced_commit": "57cb5cb779e1106a0a055a4cd101e6ece358afb4",
+      "synced_commit": "7f76e4b4f5cca633f37d3770f97f5ca7f6db19d7",
       "basis": "audited",
-      "app_source": "src/ui-v1/tokens.ts + design/app-ui-v1/SPEC.md (v1.10)",
+      "app_source": "src/ui-v1/tokens.ts + design/app-ui-v1/SPEC.md (v1.12)",
       "website_file": "src/styles/tokens.css",
-      "note": "v1.10 adds patternOpacity only (no colour change); the site mirrors balanced as --pattern-opacity and uses the pattern only inside the Today's pick replica (DESIGN.md \"Paper pattern\"). Synced 2026-11-17.",
+      "note": "v1.10 adds patternOpacity only (no colour change); the site mirrors balanced as --pattern-opacity and uses the pattern only inside the Today's pick replica (DESIGN.md \"Paper pattern\"). Synced 2026-11-17. 2026-11-24: v1.11/v1.12 add doodleOpacity, backdropLetterOpacity and taste-report components only; no colour change, nothing mirrored on the site (the doodle originates there).",
       "checksums_sha256": {
-        "app/src/ui-v1/tokens.ts": "026b84d0ea92f4e3ff04c0889a5e865bc63c8c3b376721b88be16330378f08c4",
+        "app/src/ui-v1/tokens.ts": "96ad722977539419f1b85f825615b896a204a033572cd9b1d0364499a27c5779",
         "app/design/aftertaste-v1/tokens/brand.json": "40310c813c5c65621b2a9d830dcc10af10045aa5ff938233bf64b50a3add2e94",
         "web/src/styles/tokens.css": "a8d039bb766fba482b8c74e17ab9411ae7c80daae38cde9342ae81a954543a05"
       }
@@ -112,7 +112,10 @@
       "values": {
         "name": "Aftertaste",
         "tagline": "Your personal food memory",
-        "platforms": ["Android", "iOS"],
+        "platforms": [
+          "Android",
+          "iOS"
+        ],
         "status": "private beta"
       },
       "last_checked": "2026-11-17"
@@ -139,6 +142,13 @@
       "task_branch": "task/sync-app-20261117",
       "app_commit": "57cb5cb779e1106a0a055a4cd101e6ece358afb4",
       "report": ".claude/project-state/app-sync-report-20261117.md"
+    },
+    {
+      "date": "2026-11-24",
+      "kind": "check: AUTO tokens checksum only; taste report feature and privacy policy change left as STOP items",
+      "task_branch": "task/sync-app-20261124",
+      "app_commit": "7f76e4b4f5cca633f37d3770f97f5ca7f6db19d7",
+      "report": ".claude/project-state/app-sync-report-20261124.md"
     }
   ]
 }
