@@ -112,10 +112,7 @@
       "values": {
         "name": "Aftertaste",
         "tagline": "Your personal food memory",
-        "platforms": [
-          "Android",
-          "iOS"
-        ],
+        "platforms": ["Android", "iOS"],
         "status": "private beta"
       },
       "last_checked": "2026-11-17"
