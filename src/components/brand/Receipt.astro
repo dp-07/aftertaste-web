@@ -2,9 +2,11 @@
 /**
  * The visit receipt (brand pack README §8, brand.json `receipt`): 330 px of
  * paper (#FFFDF8 in both themes; it is a physical object), DM Mono rows,
- * dashed rules, a zigzag bottom edge, a barcode and the LOGGED stamp at −12°.
- * Text is real text in reading order; rules, barcode and edge are hidden from
- * assistive tech; the stamp is announced last as "Logged <date>".
+ * dashed rules, a zigzag bottom edge, a barcode and the LOGGED stamp. App UI
+ * v1.12: the stamp sits top-right in the header row beside the wordmark and
+ * "TASTE DIARY" (in flow, so it never covers text), at −8°, smaller; the footer
+ * reads "UNTIL THE NEXT BITE". Text is real text in reading order; rules, barcode
+ * and edge are hidden from assistive tech; the stamp is announced as "Logged <date>".
  */
 import Wordmark from './Wordmark.astro';
 import Stamp from './Stamp.astro';
@@ -68,8 +70,11 @@ const zigzag = `M0 0 ${Array.from({ length: 33 }, (_, i) => `L${i * 10 + 5} ${i 
 <figure class:list={['receipt', className]} aria-label={`Sample receipt from ${placeName}`}>
   <div class="paper">
     <div class="head">
-      <Wordmark simple class="rc-mark" />
-      <p class="meta">TASTE DIARY</p>
+      <div class="head-text">
+        <Wordmark simple class="rc-mark" />
+        <p class="meta">TASTE DIARY</p>
+      </div>
+      <Stamp variant="logged" date={date} press={pressStamp} class="rc-stamp" />
     </div>
     <hr />
     <div>
@@ -125,12 +130,11 @@ const zigzag = `M0 0 ${Array.from({ length: 33 }, (_, i) => `L${i * 10 + 5} ${i 
         <rect x={b.x} y="0" width={b.w} height="28" />
       ))}
     </svg>
-    <p class="meta thanks">THANKS FOR TASTING</p>
+    <p class="meta thanks">UNTIL THE NEXT BITE</p>
   </div>
   <svg class="edge" viewBox="0 0 330 10" preserveAspectRatio="none" aria-hidden="true" focusable="false">
     <path d={zigzag}></path>
   </svg>
-  <Stamp variant="logged" date={date} press={pressStamp} class="rc-stamp" />
 </figure>
 
 <style>
@@ -139,6 +143,7 @@ const zigzag = `M0 0 ${Array.from({ length: 33 }, (_, i) => `L${i * 10 + 5} ${i 
     color-scheme: light;
     position: relative;
     inline-size: min(330px, 100%);
+    container-type: inline-size;
     margin: 0;
     color: var(--paper-ink);
     filter: drop-shadow(0 1px 1px rgb(31 27 22 / 0.08)) drop-shadow(0 10px 18px rgb(31 27 22 / 0.12));
@@ -155,13 +160,23 @@ const zigzag = `M0 0 ${Array.from({ length: 33 }, (_, i) => `L${i * 10 + 5} ${i 
   }
 
   .head {
-    display: grid;
-    justify-items: center;
-    gap: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
   }
 
+  .head-text {
+    display: grid;
+    justify-items: start;
+    gap: 6px;
+    min-inline-size: 0;
+  }
+
+  /* Like the app: the wordmark shrinks (18 px minimum) so it and the stamp always fit side by side.
+     148px = the paper's side padding (48) plus the stamp's slot (100). */
   .head :global(.rc-mark) {
-    font-size: 30px;
+    font-size: clamp(18px, calc((100cqw - 148px) / 4.9), 30px);
   }
 
   p {
@@ -264,9 +279,8 @@ const zigzag = `M0 0 ${Array.from({ length: 33 }, (_, i) => `L${i * 10 + 5} ${i 
     fill: var(--paper);
   }
 
-  .receipt :global(.rc-stamp) {
-    position: absolute;
-    inset-inline-end: 14px;
-    inset-block-end: 20px;
+  .head :global(.rc-stamp) {
+    flex-shrink: 0;
+    margin-inline-end: 2px;
   }
 </style>
