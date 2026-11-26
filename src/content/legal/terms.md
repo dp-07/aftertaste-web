@@ -4,7 +4,7 @@ title: "Aftertaste Terms of Use"
 source: "docs/legal/terms.md"
 sourceCommit: "04039aab6096274797d22c5e7237d69cbd827b6a"
 sourceUpdated: "2026-11-13"
-syncedAt: "2026-11-13"
+syncedAt: "2026-11-26"
 ---
 <!-- draft-notes
 DRAFT for the human to review. Not legal advice. Resolve any open placeholder before publishing.

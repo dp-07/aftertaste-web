@@ -1,14 +1,15 @@
 ---
 /**
- * "Your taste report (still cooking)": a teaser for a feature that is not
- * built yet, stamped COMING LATER, with obviously made-up numbers.
+ * "Your taste report": the app's optional AI taste report (privacy policy
+ * section 8), described in plain words from the policy's own facts, beside a
+ * sample report with obviously made-up numbers.
  *
  * The bars are one series in one hue (paprika), every value is written next
  * to its bar in text colours, so there is no legend and no colour-only
  * meaning. Bars are SVG rects with percentage widths: the CSP forbids style
  * attributes, and attributes are not styles.
  */
-import Stamp from '../brand/Stamp.astro';
+import InkLink from '../ui/InkLink.astro';
 
 // Sample data: not from anyone's diary.
 const cuisines = [
@@ -16,7 +17,6 @@ const cuisines = [
   { name: 'North Indian', share: 27 },
   { name: 'Bakes and sweets', share: 18 },
 ];
-const mustTry = 23;
 const favourite = { place: 'Hill Road Momos', visits: 7 };
 ---
 
@@ -28,12 +28,46 @@ const favourite = { place: 'Hill Road Momos', visits: 7 };
     <div class="grid-12 body">
       <div class="copy">
         <h2 id="taste-title" class="t-display">
-          Your taste report <span class="cooking">(still cooking)</span>
+          Your taste report
         </h2>
-        <p class="lead">One day, your diary will tell you what you actually like.</p>
+        <p class="lead">A monthly look at how you eat. Off until you turn it on.</p>
         <p>
-          A short report, made with AI from your own entries: the food you keep going back to, your top-rated dishes,
-          the spots you can’t quit. Not built yet. Before it ships, the privacy policy will say exactly how it works.
+          Your go-to dishes, your rhythm, your best-value bite. Our own code works out every number from your diary. An
+          AI model only writes the short lines of text around those numbers.
+        </p>
+        <dl class="facts">
+          <div>
+            <dt class="t-label">Sent to the AI</dt>
+            <dd>
+              The names of your dishes, so each can be labelled with a cuisine, a dish type and flavours, plus
+              statistics we calculate from your diary. Your places show up in those only as placeholders like “place 1”.
+            </dd>
+          </div>
+          <div>
+            <dt class="t-label">Never sent</dt>
+            <dd>
+              Your notes, photos, place names, addresses, cities, map positions, your device’s location, visit dates,
+              your name, email address or account ID, and anything about other people.
+            </dd>
+          </div>
+          <div>
+            <dt class="t-label">Who gets it</dt>
+            <dd>
+              Anthropic, through its Claude API, as our service provider. By default it doesn’t use that data to train
+              its models. It keeps it for a limited time under its API data retention policy, and longer only where
+              needed to enforce its usage policy or required by law.
+            </dd>
+          </div>
+          <div>
+            <dt class="t-label">What we keep</dt>
+            <dd>
+              Your latest report, until a newer one replaces it, you turn the feature off or you delete your account.
+              Turn it off in Profile and your current report and dish labels are deleted straight away.
+            </dd>
+          </div>
+        </dl>
+        <p class="source">
+          <InkLink href="/privacy#ai-taste-report">Privacy policy, section 8</InkLink>
         </p>
       </div>
 
@@ -42,7 +76,6 @@ const favourite = { place: 'Hill Road Momos', visits: 7 };
           <span class="t-label kicker">Taste report · sample data</span>
           <span class="t-title">Your taste, so far</span>
         </figcaption>
-        <Stamp variant="later" class="later-stamp" />
 
         <div class="block">
           <h3 class="t-label muted">Top cuisines, by share of dishes logged</h3>
@@ -61,10 +94,6 @@ const favourite = { place: 'Hill Road Momos', visits: 7 };
         </div>
 
         <dl class="stats">
-          <div class="stat">
-            <dt class="t-label muted">Must-try dishes</dt>
-            <dd class="figure">{mustTry}</dd>
-          </div>
           <div class="stat">
             <dt class="t-label muted">Most returned to</dt>
             <dd>
@@ -96,8 +125,31 @@ const favourite = { place: 'Hill Road Momos', visits: 7 };
     max-inline-size: var(--measure);
   }
 
-  .cooking {
+  .facts {
+    display: grid;
+    gap: var(--s-16);
+    margin: 0;
+    padding-block-start: var(--s-8);
+  }
+
+  .facts > div {
+    display: grid;
+    gap: var(--s-4);
+    padding-block-start: var(--s-12);
+    border-block-start: 1px solid var(--line);
+  }
+
+  .facts dt {
+    color: var(--primary-ink);
+  }
+
+  .facts dd {
+    margin: 0;
     color: var(--muted);
+  }
+
+  .source {
+    font-size: var(--fs-body-sm);
   }
 
   .copy p {
@@ -125,31 +177,10 @@ const favourite = { place: 'Hill Road Momos', visits: 7 };
   .report-head {
     display: grid;
     gap: var(--s-8);
-    padding-inline-end: 7rem;
   }
 
   .kicker {
     color: var(--primary-ink);
-  }
-
-  .report :global(.later-stamp) {
-    position: absolute;
-    inset-block-start: var(--s-20);
-    inset-inline-end: var(--s-16);
-    --rot: 6deg;
-  }
-
-  /* Narrow cards: the stamp sits above the heading instead of over it. */
-  @media (width < 40rem) {
-    .report-head {
-      padding-inline-end: 0;
-    }
-    .report :global(.later-stamp) {
-      position: static;
-      order: -1;
-      justify-self: start;
-      margin-block-end: calc(-1 * var(--s-8));
-    }
   }
 
   .block {

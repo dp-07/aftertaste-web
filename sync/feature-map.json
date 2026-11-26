@@ -411,21 +411,28 @@
     },
     {
       "id": "taste-report",
-      "app_feature": "AI taste report",
-      "status": "parked",
-      "app_sources": [".claude/project-state/feature-status.md ('PARKED — AI taste report')"],
+      "app_feature": "AI taste report (optional, off until turned on in Profile): a monthly look at how you eat; app code computes the numbers, an AI model (Anthropic Claude API) writes the lines around them",
+      "status": "merged",
+      "app_sources": [
+        "docs/legal/privacy-policy.md section 8 (#ai-taste-report) @ c4d9e81",
+        ".claude/project-state/feature-status.md ('AI taste report')",
+        "src/screens/TasteReportScreen.tsx"
+      ],
       "website": [
         {
-          "where": "Section 12 #taste-report (teaser with sample data, 'not built yet')",
+          "where": "Section 12 #taste-report (policy-sourced facts list + labelled sample card)",
           "file": "src/components/landing/TasteReport.astro"
         }
       ],
       "claims": [
-        "short report put together with AI from your own entries",
-        "it isn't built yet",
-        "privacy policy will say how it works before it ships"
+        "a monthly look at how you eat; off until you turn it on",
+        "app code calculates every number; an AI model writes the short lines",
+        "sent: dish names and calculated statistics (places as placeholders)",
+        "never sent: notes, photos, place names, addresses, cities, map positions, device location, visit dates, name, email, account ID, other people",
+        "Anthropic via the Claude API as service provider; not used for training by default; limited retention under its API policy",
+        "latest report kept until replaced, feature turned off or account deleted; turning off deletes the report and dish labels straight away"
       ],
-      "notes": "2026-11-26: the app's feature-status says the report is live on dev and prod and tested on the app (7429336), and Home's mushroom menu has a 'Your taste report' tag. The site teaser still says 'it isn't built yet'. STOP: wording touches data use and waits for the human (and the privacy-policy sync). See app-sync-report-20261126.md."
+      "notes": "Synced 2026-11-26 with the human's approval. Every claim is quoted from the policy; do not add claims. The menu's 'Your taste report' tag is NOT mentioned (no released build carrying it is recorded). The policy says 'monthly look' and also 'refreshes once a week'; the site says monthly only. The weekly cron is not scheduled yet (app feature-status)."
     },
     {
       "id": "privacy-promises",
