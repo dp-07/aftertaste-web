@@ -1,147 +1,206 @@
 ---
 /**
- * The app's Today's pick card (SPEC v1.10): a printed card on page paper with
- * square corners and a double rule (1.5 px line-strong, 3 px gap, 1 px line),
- * the photo carousel (a glyph stands in, dots on a scrim pill), the TODAY'S PICK
- * stamp, then name, mono meta, rating and one reason line over the paper
- * pattern, and the three actions. A static replica: the actions are drawn, not
- * buttons, and are hidden from assistive tech.
+ * The app's Today's pick (SPEC v1.12): a bottom sheet over Home on the raised
+ * surface, a grab handle and a close button, then a rounded photo carousel with a
+ * TODAY'S PICK pill (top-left), a rating chip (top-right) and a pill page
+ * indicator; the place name in Prata, "Category • City" in mono, the reason as a
+ * soft primary chip; "Open place" and "Not today" side by side, and an "Another
+ * pick" text link. A static replica: the controls are drawn, not buttons, and are
+ * hidden from assistive tech. (The v1.10 printed card it replaces is retired.)
  */
-import Stamp from '../brand/Stamp.astro';
-import PaperPattern from '../brand/PaperPattern.astro';
 import Icon from '../ui/Icon.astro';
-import Rating from '../ui/Rating.astro';
 import Thumb from './Thumb.astro';
 
 interface Props {
   name: string;
+  /** "Category • City", as the app prints it. */
   meta: string;
   rating: number;
   reason: string;
   kind: 'mushroom' | 'sprout' | 'noodle' | 'cinnamon';
-  /** Number of photos in the carousel (dots); the first is shown. */
+  /** Number of photos in the carousel (page indicator); the first is shown. */
   photos?: number;
   label: string;
 }
 const { name, meta, rating, reason, kind, photos = 4, label } = Astro.props;
 ---
 
-<figure class="pick" aria-label={label}>
-  <div class="inner">
-    <div class="photo">
-      <Thumb kind={kind} class="pick-photo" />
-      <span class="dots" aria-hidden="true">
-        {Array.from({ length: photos }, (_, i) => (
-          <span class:list={['dot', { on: i === 0 }]} />
-        ))}
+<figure class="sheet" aria-label={label}>
+  <div class="top" aria-hidden="true">
+    <span class="handle"></span>
+    <span class="close">
+      <Icon name="x" size={20} />
+    </span>
+  </div>
+  <div class="photo">
+    <Thumb kind={kind} class="pick-photo" />
+    <span class="pill pill--tag t-label" aria-hidden="true">
+      TODAY’S PICK
+    </span>
+    <span class="pill pill--rating t-mono">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M12 2.6l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.5l-5.9 3.2 1.3-6.6-4.9-4.6 6.6-.8z"></path>
+      </svg>
+      <span>
+        <span class="visually-hidden">Rated </span>
+        {rating.toFixed(1)}
+        <span class="visually-hidden"> out of 5</span>
+      </span>
+    </span>
+    <span class="dots" aria-hidden="true">
+      {Array.from({ length: photos }, (_, i) => (
+        <span class:list={['dot', { on: i === 0 }]} />
+      ))}
+    </span>
+  </div>
+  <div class="body">
+    <p class="name">{name}</p>
+    <p class="t-mono muted meta">{meta}</p>
+    <p class="chip">{reason}</p>
+    <div class="actions" aria-hidden="true">
+      <span class="act act--primary">
+        <Icon name="book-open" size={18} /> Open place
+      </span>
+      <span class="act act--secondary">
+        <Icon name="x" size={18} /> Not today
       </span>
     </div>
-    <div class="body">
-      <PaperPattern id="pick-pattern" />
-      <Stamp variant="todaysPick" press class="pick-stamp" />
-      <p class="t-card-title name">{name}</p>
-      <p class="t-mono muted meta">
-        <span>{meta}</span>
-        <Rating value={rating} />
-      </p>
-      <p class="reason">{reason}</p>
-      <div class="actions" aria-hidden="true">
-        <span class="act act--primary">
-          <Icon name="book-open" size={18} /> Open place
-        </span>
-        <span class="row">
-          <span class="act act--secondary">
-            <Icon name="bookmark" size={18} /> Save
-          </span>
-          <span class="act act--ghost">Not today</span>
-        </span>
-      </div>
-    </div>
+    <p class="another" aria-hidden="true">
+      <span>Another pick</span>
+    </p>
   </div>
 </figure>
 
 <style>
-  .pick {
+  .sheet {
     max-inline-size: 26rem;
     margin: 0;
-    padding: 3px;
-    border: 1.5px solid var(--line-strong);
-    background: var(--bg);
+    padding: 0 var(--s-20) var(--s-20);
+    border-radius: var(--r-xl);
+    background: var(--raised);
     box-shadow: var(--elevation);
   }
-  .inner {
-    overflow: hidden;
-    border: 1px solid var(--line);
+  .top {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    min-block-size: 48px;
+    margin-inline-end: calc(var(--s-12) * -1);
+  }
+  .handle {
+    position: absolute;
+    inset-block-start: 10px;
+    inset-inline-start: 50%;
+    inline-size: 40px;
+    block-size: 4px;
+    border-radius: 2px;
+    background: var(--line-strong);
+    transform: translateX(-50%);
+  }
+  .close {
+    display: inline-grid;
+    place-items: center;
+    inline-size: 40px;
+    block-size: 40px;
+    color: var(--text);
   }
   .photo {
     position: relative;
+    overflow: hidden;
+    border-radius: var(--r-lg);
   }
   .photo :global(.pick-photo) {
     inline-size: 100%;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 100 / 74;
     border-radius: 0;
   }
   .photo :global(.pick-photo .food) {
-    inline-size: 38%;
-    block-size: 38%;
+    inline-size: 34%;
+    block-size: 34%;
+  }
+  .pill {
+    position: absolute;
+    inset-block-start: var(--s-12);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-4);
+    block-size: 28px;
+    padding-inline: var(--s-12);
+    border-radius: var(--r-pill);
+    background: var(--surface);
+  }
+  .pill--tag {
+    inset-inline-start: var(--s-12);
+    color: var(--primary-ink);
+    letter-spacing: 0.12em;
+  }
+  .pill--rating {
+    inset-inline-end: var(--s-12);
+    padding-inline: var(--s-8);
+    color: var(--text);
+  }
+  .pill--rating svg {
+    inline-size: 13px;
+    block-size: 13px;
+    fill: var(--primary);
   }
   .dots {
     position: absolute;
     inset-block-end: var(--s-8);
     inset-inline-start: 50%;
     display: flex;
-    gap: 6px;
-    padding: 6px var(--s-8);
-    border-radius: var(--r-sm);
+    align-items: center;
+    gap: 4px;
+    padding: 7px var(--s-8);
+    border-radius: var(--r-pill);
     background: var(--scrim);
     transform: translateX(-50%);
   }
   .dot {
     inline-size: 6px;
     block-size: 6px;
-    border-radius: 50%;
+    border-radius: 3px;
     background: var(--on-primary);
-    opacity: 0.5;
+    opacity: 0.55;
   }
   .dot.on {
+    inline-size: 18px;
     opacity: 1;
   }
   .body {
-    position: relative;
     display: grid;
     gap: var(--s-8);
-    padding: var(--s-20);
+    margin-block-start: var(--s-16);
   }
-  .body > :not(.paper-pattern) {
-    position: relative;
-  }
-  .body :global(.pick-stamp) {
-    justify-self: start;
-    margin-block-end: var(--s-4);
+  .body > p {
+    margin: 0;
   }
   .name {
-    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    line-height: 1.15;
+    color: var(--text);
   }
   .meta {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--s-12);
     margin: 0;
   }
-  .reason {
-    margin: 0;
-    color: var(--text);
+  .chip {
+    justify-self: start;
+    margin-block-start: var(--s-4);
+    padding: var(--s-4) var(--s-12);
+    border-radius: var(--r-pill);
+    background: var(--primary-soft);
+    color: var(--primary-ink);
+    font-size: var(--fs-body-sm);
+    line-height: var(--lh-body-sm);
+    font-weight: 500;
   }
   .actions {
     display: grid;
-    gap: var(--s-8);
-    margin-block-start: var(--s-12);
-  }
-  .row {
-    display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--s-8);
+    margin-block-start: var(--s-8);
   }
   .act {
     display: inline-flex;
@@ -162,7 +221,16 @@ const { name, meta, rating, reason, kind, photos = 4, label } = Astro.props;
     background: var(--raised);
     color: var(--text);
   }
-  .act--ghost {
+  .another {
+    justify-self: center;
+    font-size: var(--fs-body-sm);
+    font-weight: 500;
     color: var(--primary-ink);
+  }
+  .another span {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 44px;
+    padding-inline: var(--s-16);
   }
 </style>

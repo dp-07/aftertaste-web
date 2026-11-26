@@ -7,7 +7,8 @@ export const site = {
   name: 'Aftertaste',
   url: 'https://theaftertaste.app',
   locale: 'en-IN',
-  tagline: 'Your personal food memory',
+  /** The app's tagline since 2026-11-24 (Login, About). Replaced "Your personal food memory". */
+  tagline: 'Taste you don’t want to forget.',
   description:
     'Aftertaste is a private food diary for Android and iOS. Log the places you eat at and every dish you order, with a photo and a rating, and know what to order next time.',
   contactEmail: 'hello@theaftertaste.app',
