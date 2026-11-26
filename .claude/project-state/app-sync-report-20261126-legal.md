@@ -1,6 +1,6 @@
-# Legal and taste report sync, 2026-11-26 (human-approved, NOT merged)
+# Legal and taste report sync, 2026-11-26 (human-approved, merged)
 
-Branch `task/sync-legal-taste-report-20261126`, off `work-branch`. Not merged because of the effective-date conflict below.
+Branch `task/sync-legal-taste-report-20261126`, off `work-branch`. Merged after the human accepted the app's date (23 December 2026) as stated; the legal text is not edited.
 
 ## Effective date: conflict, needs a decision
 

@@ -13,3 +13,4 @@
 - **Node 22.23.5** (2026-11-11, security release) can replace 22.23.4 once it is 14 days old (2026-11-25).
 - **Sample content:** place names in the demos (Hill Road Momos, Banyan Tree Dhaba, Little Ladoo Bakery, Saffron & Salt, Mosaic Café, Hill Road Bakehouse, Clock Tower Tea Stall), the sample receipts, the diary placeholders and the taste-report numbers and friend names (Ronnie, Meera, Kabir) are invented examples; the demo says so.
 - **Full-page screenshots** must set `content-visibility: visible` on `.defer-render` (the audit script does), or Chrome leaves offscreen sections blank in the capture. Real browsing is unaffected.
+- **Policy wording (2026-11-26):** the app's privacy policy §8 says both "a monthly look" and that the report "refreshes once a week", and the weekly refresh is not scheduled yet (app feature-status: cron not run). The site says "monthly" only. Fix the wording in the app repo later, then re-sync.
