@@ -4,27 +4,27 @@
   "app": {
     "repo_path_env": "APP_REPO_PATH",
     "checkout_branch": "work-branch",
-    "work_branch_head": "7f76e4b4f5cca633f37d3770f97f5ca7f6db19d7",
-    "note": "On 2026-11-24 the app checkout was clean on work-branch at 7f76e4b (= origin/work-branch). last_synced stays at 57cb5cb: features and legal are not synced (STOP items in the 2026-11-24 report)."
+    "work_branch_head": "d6360ba9741d25378e80f3ff3bb3fa5463547bd9",
+    "note": "On 2026-11-26 the app checkout was clean on work-branch at d6360ba (= the sprint merge). Legal stays at 2d33417: the privacy policy and taste report are STOP items."
   },
-  "last_synced": "57cb5cb779e1106a0a055a4cd101e6ece358afb4",
-  "last_checked": "2026-11-24",
-  "last_synced_date": "2026-11-17",
+  "last_synced": "d6360ba9741d25378e80f3ff3bb3fa5463547bd9",
+  "last_checked": "2026-11-26",
+  "last_synced_date": "2026-11-26",
   "spec_version": "1.12",
-  "last_report": ".claude/project-state/app-sync-report-20261124.md",
+  "last_report": ".claude/project-state/app-sync-report-20261126.md",
   "feature_map": "sync/feature-map.json",
   "proposal_branch": null,
   "areas": {
     "tokens": {
-      "synced_commit": "7f76e4b4f5cca633f37d3770f97f5ca7f6db19d7",
+      "synced_commit": "d6360ba9741d25378e80f3ff3bb3fa5463547bd9",
       "basis": "audited",
       "app_source": "src/ui-v1/tokens.ts + design/app-ui-v1/SPEC.md (v1.12)",
       "website_file": "src/styles/tokens.css",
-      "note": "v1.10 adds patternOpacity only (no colour change); the site mirrors balanced as --pattern-opacity and uses the pattern only inside the Today's pick replica (DESIGN.md \"Paper pattern\"). Synced 2026-11-17. 2026-11-24: v1.11/v1.12 add doodleOpacity, backdropLetterOpacity and taste-report components only; no colour change, nothing mirrored on the site (the doodle originates there).",
+      "note": "v1.10 adds patternOpacity only (no colour change); the site mirrors balanced as --pattern-opacity and uses the pattern only inside the Today's pick replica (DESIGN.md \"Paper pattern\"). Synced 2026-11-17. 2026-11-24: v1.11/v1.12 add doodleOpacity, backdropLetterOpacity and taste-report components only; no colour change, nothing mirrored on the site (the doodle originates there). 2026-11-26: v1.11.1/v1.12 sprint adds letter-tint constants only; the stored web checksum was stale and is corrected.",
       "checksums_sha256": {
-        "app/src/ui-v1/tokens.ts": "96ad722977539419f1b85f825615b896a204a033572cd9b1d0364499a27c5779",
+        "app/src/ui-v1/tokens.ts": "4200f035c3d07b7797a8b620c51e83172591aa5d29a022107252d77a30a4f512",
         "app/design/aftertaste-v1/tokens/brand.json": "40310c813c5c65621b2a9d830dcc10af10045aa5ff938233bf64b50a3add2e94",
-        "web/src/styles/tokens.css": "a8d039bb766fba482b8c74e17ab9411ae7c80daae38cde9342ae81a954543a05"
+        "web/src/styles/tokens.css": "2bbe90446fd95610252ae45f873334254e05e34559447f039dde397611c8360a"
       }
     },
     "typography_fonts": {
@@ -69,11 +69,11 @@
       "last_checked": "2026-11-17"
     },
     "features": {
-      "synced_commit": "57cb5cb779e1106a0a055a4cd101e6ece358afb4",
+      "synced_commit": "d6360ba9741d25378e80f3ff3bb3fa5463547bd9",
       "basis": "audited",
       "app_source": ".claude/project-state/feature-status.md, current-state.md",
       "website_file": "src/pages/index.astro, src/components/landing/*, src/pages/support.astro; map: sync/feature-map.json",
-      "note": "New and changed features since 9ff6462 verified against the app code on 2026-11-17 (report: app-sync-report-20261117.md). Older claims spot-checked."
+      "note": "2026-11-26: Today's pick (v1.12 sheet), Home add-place entry (mushroom menu), receipt layout and tagline synced (report: app-sync-report-20261126.md). The AI taste report is NOT synced (STOP)."
     },
     "legal": {
       "synced_commit": "2d334170d543f3cbdd261ca97454cb6cc54866ad",
@@ -81,7 +81,7 @@
       "app_source": "docs/legal/privacy-policy.md @ 2d33417, docs/legal/terms.md @ 04039aa",
       "website_file": "src/content/legal/privacy.md, terms.md",
       "terms_synced_commit": "04039aab6096274797d22c5e7237d69cbd827b6a",
-      "note": "Matches the sourceCommit stamps. At 57cb5cb the app policy is unchanged but behind the app (menu photos shared, booking private, fuller export): STOP proposals in app-sync-report-20261117.md §3.",
+      "note": "Matches the sourceCommit stamps. At 57cb5cb the app policy is unchanged but behind the app (menu photos shared, booking private, fuller export): STOP proposals in app-sync-report-20261117.md §3. 2026-11-26: app policy still at c4d9e81, so the STOP stands.",
       "checksums_sha256": {
         "web/src/content/legal/privacy.md": "fcd024cab6e835fde6b0ef9b7954f7183bfec2e1bd9beed36bfe42cd08f07d1c",
         "web/src/content/legal/terms.md": "c5ce8ba2c5906201bf9d7b2d1960b01f34007d2f702b9bf20145cdc11675ebdf"
@@ -104,18 +104,18 @@
       "last_checked": "2026-11-17"
     },
     "app_metadata": {
-      "synced_commit": "57cb5cb779e1106a0a055a4cd101e6ece358afb4",
+      "synced_commit": "d6360ba9741d25378e80f3ff3bb3fa5463547bd9",
       "basis": "audited",
       "app_source": "app name, tagline, platforms",
       "website_file": "src/config/site.ts",
-      "note": "Website says: Aftertaste, 'Your personal food memory', Android and iOS, private beta (still cooking). Not re-audited at ledger creation.",
+      "note": "Tagline changed in the app on 2026-11-24 and synced 2026-11-26. Name, platforms and status unchanged.",
       "values": {
         "name": "Aftertaste",
-        "tagline": "Your personal food memory",
+        "tagline": "Taste you don't want to forget.",
         "platforms": ["Android", "iOS"],
         "status": "private beta"
       },
-      "last_checked": "2026-11-17"
+      "last_checked": "2026-11-26"
     }
   },
   "history": [
@@ -146,6 +146,13 @@
       "task_branch": "task/sync-app-20261124",
       "app_commit": "7f76e4b4f5cca633f37d3770f97f5ca7f6db19d7",
       "report": ".claude/project-state/app-sync-report-20261124.md"
+    },
+    {
+      "date": "2026-11-26",
+      "kind": "sync: tagline, Today's pick sheet, Log a place entry, receipt layout; taste report and privacy policy remain STOP",
+      "task_branch": "task/sync-app-20261126",
+      "app_commit": "d6360ba9741d25378e80f3ff3bb3fa5463547bd9",
+      "report": ".claude/project-state/app-sync-report-20261126.md"
     }
   ]
 }
