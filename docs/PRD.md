@@ -89,6 +89,6 @@ Every change must pass `npm run gates`. Changes to the beta list must also pass 
 - **Android App Links:** `public/.well-known/assetlinks.json` once the release-signing SHA-256 fingerprint exists.
 - Real app screenshots (more than one, light and dark).
 - Real "From the diary" entries and photos (placeholders now; [TASKS](TASKS.md)).
-- The taste report is teased as "coming later"; when it is real, the privacy policy must describe it first.
+- The taste report is described in section 12 from the privacy policy's own section 8 (what is sent, to whom, retention, off by default) beside a labelled sample. Keep the text in step with the policy; add nothing the policy does not say.
 - An admin export for the beta list is out of scope; export from D1 ([DEV-GUIDE](DEV-GUIDE.md#export-the-beta-list)).
 - Optional cookieless Cloudflare Web Analytics, only by explicit owner decision (it changes the privacy promise).
