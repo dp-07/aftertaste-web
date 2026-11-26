@@ -41,7 +41,7 @@ const pages = {
     <div class="frame"></div>
     <div style="position:absolute;left:96px;top:92px" class="label">A private food diary for Android and <span style="text-transform:none">iOS</span></div>
     <div style="position:absolute;left:90px;top:136px;font-size:150px">${stacked}</div>
-    <div style="position:absolute;left:96px;bottom:84px;font:40px Prata">Your personal food memory</div>
+    <div style="position:absolute;left:96px;bottom:84px;font:40px Prata">Taste you don’t want to forget.</div>
     <div style="position:absolute;right:100px;top:140px;width:290px;height:290px">${seal}</div>
     <div style="position:absolute;right:96px;bottom:98px" class="mono">theaftertaste.app</div>`,
   legal: `

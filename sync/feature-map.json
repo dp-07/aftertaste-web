@@ -20,7 +20,8 @@
       "app_sources": [
         "app.config.js (name, platforms)",
         ".claude/project-state/current-state.md",
-        "docs/store/listing.md (draft; tagline and description)"
+        "docs/store/listing.md (draft; tagline and description)",
+        "src/config/site.ts (TAGLINE, 2026-11-24)"
       ],
       "website": [
         {
@@ -40,17 +41,18 @@
           "file": "src/components/landing/Faq.astro"
         }
       ],
-      "notes": "The site says both platforms are in private beta and 'still cooking'. The iOS wording is a human decision (decisions.md); do not change it from the app's state alone."
+      "notes": "The site says both platforms are in private beta and 'still cooking'. The iOS wording is a human decision (decisions.md); do not change it from the app's state alone. Tagline synced 2026-11-26 to 'Taste you don't want to forget.' (site.ts, BaseLayout title, OG home render, webmanifest)."
     },
     {
       "id": "log-place",
-      "app_feature": "Add a place: Google search, 'Near you' list, or manual entry; each place keeps every visit",
+      "app_feature": "Add a place: Google search, 'Near you' list, or manual entry; each place keeps every visit. Home's entry is the mushroom menu's 'Log a place' tag (the + FAB is gone); Search's empty state also lists Near you and 'Add a place manually'",
       "status": "merged",
       "app_sources": [
         "src/screens/AddPlaceScreen.tsx (search / manual modes)",
         "src/screens/SearchScreen.tsx",
         "src/screens/AddVisitScreen.tsx",
-        "src/screens/PlaceDetailScreen.tsx"
+        "src/screens/PlaceDetailScreen.tsx",
+        "src/screens/home/MushroomMenu.tsx"
       ],
       "website": [
         {
@@ -181,15 +183,15 @@
     },
     {
       "id": "todays-pick",
-      "app_feature": "Today's pick: a printed card on app open (3rd open of the day, at most once a day) picking one place from the What-should-we-eat pool with photos; reason line; Open place / Save / Not today; no repeat within 14 days; Profile switch",
+      "app_feature": "Today's pick (v1.12): a sheet over Home opened from the mushroom menu's 'Today's pick' tag; always on (no Profile switch, no app-open pop-up); one place from the What-should-we-eat pool with photos, the same pick all day; reason chip; Open place / Not today / Another pick; swipeable photo carousel; no repeat within 14 days where possible",
       "status": "merged",
       "app_sources": [
         "src/utils/todaysPick.ts",
-        "src/utils/appOpenCount.ts",
-        "src/screens/shared/TodaysPickHost.tsx",
+        "src/services/todaysPickStore.ts",
+        "src/screens/home/TodaysPickSheet.tsx",
+        "src/screens/home/MushroomMenu.tsx",
         "src/components/brand/TodaysPickCard.tsx",
-        "src/screens/ProfileScreen.tsx (Today's pick switch)",
-        "design/app-ui-v1/SPEC.md (v1.10 items 2, 3)"
+        "design/app-ui-v1/SPEC.md (v1.12 item 2, 3)"
       ],
       "website": [
         {
@@ -206,15 +208,14 @@
         }
       ],
       "claims": [
-        "may hand you a place when you open the app",
-        "from your Want to try list, a place you said you'd go back to, or a friend's favourite",
+        "tap the mushroom on Home to see it",
+        "from your Want to try list, a place you'd go back to, or a friend's favourite",
         "shows the photos and why it chose it",
-        "open the place, save it, or not today",
-        "at most once a day",
-        "won't repeat a place for two weeks",
-        "switches off in Profile"
+        "open the place, say not today, or ask for another pick",
+        "stays the same all day",
+        "tries not to repeat a place for two weeks"
       ],
-      "evidence": "Merged into app work-branch: 4d63309, ad16b58, 489d7d0 (57cb5cb). Not yet run on a device (feature-status)."
+      "evidence": "Merged into app work-branch via d6360ba (task/sprint-pick-polish-search, approved 2026-11-26): 0f4ba35, c76b204, 8bd6f0f, beee7d2. Not run on a device (feature-status). Site replica rebuilt to the v1.12 sheet on 2026-11-26."
     },
     {
       "id": "near-you",
@@ -304,7 +305,7 @@
     },
     {
       "id": "receipt",
-      "app_feature": "Visit receipt: dishes, ratings, total, overall verdict, LOGGED stamp; shared as an image",
+      "app_feature": "Visit receipt: dishes, ratings, total, overall verdict, LOGGED stamp (top-right beside the wordmark since v1.12), footer 'UNTIL THE NEXT BITE'; shared as an image",
       "status": "merged",
       "app_sources": [
         "src/screens/VisitReceiptScreen.tsx",
@@ -327,7 +328,7 @@
         "share as an image",
         "dishes, ratings, total, overall verdict, LOGGED stamp"
       ],
-      "evidence": "Image share merged: cb677c6. The app's feature-status notes the image share needs a native rebuild to ship; confirm before the launch."
+      "evidence": "Image share merged: cb677c6. The app's feature-status notes the image share needs a native rebuild to ship; confirm before the launch. v1.12 layout (stamp in the header row, -8 deg, footer) mirrored in Receipt.astro 2026-11-26 from 402bb4c."
     },
     {
       "id": "every-meal",
@@ -424,7 +425,7 @@
         "it isn't built yet",
         "privacy policy will say how it works before it ships"
       ],
-      "notes": "Parked in the app. The site's 'coming later' teaser predates this ledger. Under the skill's STOP rules, any change to it, or keeping it after the app drops it, needs human approval."
+      "notes": "2026-11-26: the app's feature-status says the report is live on dev and prod and tested on the app (7429336), and Home's mushroom menu has a 'Your taste report' tag. The site teaser still says 'it isn't built yet'. STOP: wording touches data use and waits for the human (and the privacy-policy sync). See app-sync-report-20261126.md."
     },
     {
       "id": "privacy-promises",
@@ -606,8 +607,8 @@
     }
   ],
   "last_verified": {
-    "date": "2026-11-17",
-    "app_work_branch_head": "57cb5cb779e1106a0a055a4cd101e6ece358afb4",
-    "method": "New and changed features checked against the app's code (read-only); unchanged features spot-checked."
+    "date": "2026-11-26",
+    "app_work_branch_head": "d6360ba9741d25378e80f3ff3bb3fa5463547bd9",
+    "method": "Changed features (Today's pick, Home add-place entry, receipt, tagline) checked against the app's code and SPEC v1.12 (read-only); unchanged features not re-audited."
   }
 }

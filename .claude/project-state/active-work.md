@@ -26,7 +26,7 @@ Read-only reads of the app repo (`DishDiary`, branch `work-branch`, legal docs a
 
 - **Product:** Aftertaste (display name; package identifiers stay `bitemarks`). Private food diary. At v1 the site said Android only; since 2026-11-14 it is a native app for Android and iOS, both still cooking. Not yet on Google Play or the App Store.
 - **Owner / contact:** an individual in India (named in the earlier legal drafts; the site publishes no personal name). Governing law: India, courts at Dehradun.
-- **Tagline:** "Your personal food memory" (LoginScreen). Store taglines: "Remember every good bite." Store short description: "Your private food diary: places, dishes, photos and what to eat next."
+- **Tagline:** "Taste you don't want to forget." (Login and About; changed 2026-11-24, was "Your personal food memory"; site synced 2026-11-26). Store taglines: "Remember every good bite." Store short description: "Your private food diary: places, dishes, photos and what to eat next."
 - **Feature names (app copy):** Want to try, Tried, What should we eat?, Pick for me, Another, From your Want to try, One of your favourites, Loved by {name}, Near you, From friends, Visit logged, LOGGED stamp, RECOMMENDED · WOULD RETURN, MUST-TRY, TRIED, Export my data, Delete account, share my diary (discoverable).
 - **Icons:** Feather is the app icon set; Ionicons only for star/heart glyphs. No emoji as icons. Website uses `feather-icons` SVGs (MIT) inlined at build time.
 - **Fonts:** Prata 400 (display), DM Sans 400/500/600 (UI), DM Mono 400/500 (mono role, receipt). All SIL OFL 1.1 (`@expo-google-fonts/*/LICENSE_FONT`). DM Mono and Prata have no ₹ (U+20B9); DM Sans does, so the mono stack falls back to DM Sans for ₹.
