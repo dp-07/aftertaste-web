@@ -1,6 +1,6 @@
 # Product requirements: theaftertaste.app
 
-The public website for **Aftertaste**, a private food diary, a native app for Android and iOS ("Your personal food memory"). Live at <https://theaftertaste.app>. Related: [ARCHITECTURE](ARCHITECTURE.md), [RULES](RULES.md), [DESIGN](DESIGN.md), [TASKS](TASKS.md).
+The public website for **Aftertaste**, a private food diary, a native app for Android and iOS ("Taste you don’t want to forget."). Live at <https://theaftertaste.app>. Related: [ARCHITECTURE](ARCHITECTURE.md), [RULES](RULES.md), [DESIGN](DESIGN.md), [TASKS](TASKS.md).
 
 ## Purpose
 
