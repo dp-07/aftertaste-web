@@ -1,5 +1,5 @@
 // Rewrites the inline scripts' sha256 hashes in public/_headers: the theme
-// script and the back-to-top script (every page) and the /coffee copy button script. Run after editing
+// script and the back-to-top script (every page) and the /patron copy button script. Run after editing
 // either; `npm run check:csp` verifies the result.
 import { createHash } from 'node:crypto';
 import { readFileSync, writeFileSync } from 'node:fs';
