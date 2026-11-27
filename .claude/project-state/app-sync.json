@@ -153,6 +153,13 @@
       "task_branch": "task/sync-app-20261126",
       "app_commit": "d6360ba9741d25378e80f3ff3bb3fa5463547bd9",
       "report": ".claude/project-state/app-sync-report-20261126.md"
+    },
+    {
+      "date": "2026-11-27",
+      "kind": "website restructure (no app sync): feature-map website paths moved to the new pages; no claim changed",
+      "task_branch": "task/web-revamp-20261127",
+      "app_commit": "d6360ba9741d25378e80f3ff3bb3fa5463547bd9",
+      "report": ".claude/project-state/web-revamp-report-20261127.md"
     }
   ]
 }

@@ -62,6 +62,7 @@ try {
   await page.focus('[data-seal-btn]');
   await page.keyboard.press('Enter');
   const sealOpen = await page.getAttribute('[data-seal-btn]', 'aria-expanded');
+  await page.waitForTimeout(150); // a human's next keypress: the tags become visible on the next frame
   await page.keyboard.press('Tab');
   const tagFocused = await page.evaluate(() => document.activeElement?.closest('#seal-tags') !== null);
   await page.keyboard.press('Escape');

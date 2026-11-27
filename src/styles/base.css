@@ -271,13 +271,13 @@ a {
 }
 
 /* Scroll reveal (web revamp 2026-11-27): a short rise as an element enters the
-   viewport. CSS only (scroll-driven animations), transform and opacity only,
-   so nothing shifts; where the browser lacks view timelines, or motion is
+   viewport. CSS only (scroll-driven animations), transform only, so nothing
+   shifts and nothing is ever faded; where the browser lacks view timelines, or motion is
    reduced, the element is simply there. */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     .reveal {
-      animation-name: reveal;
+      animation-name: rise-in;
       animation-fill-mode: both;
       animation-timing-function: var(--ease-out);
       animation-timeline: view();
@@ -286,10 +286,11 @@ a {
   }
 }
 
-@keyframes reveal {
+/* A rise only, never a fade: an element that stops half-way in at the bottom
+   of the viewport must still be fully opaque (contrast). */
+@keyframes rise-in {
   from {
-    opacity: 0.001;
-    transform: translateY(1.25rem);
+    transform: translateY(1.5rem);
   }
 }
 

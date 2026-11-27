@@ -63,8 +63,14 @@ import Receipt from '../components/brand/Receipt.astro';
 </script>
 
 <style>
+  /* A definite width (a grid item's percentage resolves against its area), so
+     the receipt's max-inline-size: 100% can cap it on narrow screens. */
   .chai {
-    padding: var(--s-16) var(--s-24);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    inline-size: min(100%, 26rem);
+    padding: var(--s-16) var(--s-8);
   }
 
   .chai :global(.receipt) {

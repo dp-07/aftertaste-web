@@ -33,6 +33,7 @@ const props = Astro.props;
 <style>
   .printer {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     justify-items: center;
     inline-size: min(100%, 400px);
   }
@@ -49,8 +50,10 @@ const props = Astro.props;
       0 0 0 1px light-dark(transparent, #4d453b);
   }
 
+  /* One shrinkable column: an auto column would grow to the receipt's 330 px. */
   .feed {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     justify-items: center;
     inline-size: 100%;
     margin-block-start: -9px;

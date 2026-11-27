@@ -107,7 +107,8 @@ const onFeature = features.some((f) => f.href === path);
     display: flex;
     align-items: center;
     block-size: var(--header-h);
-    border-block-end: 1px solid var(--line);
+    /* A strip of cream paper with a double ledger rule, like the app's cards (decision 2026-11-17). */
+    border-block-end: 3px double var(--line-strong);
     background: var(--surface);
     view-transition-name: site-header;
   }

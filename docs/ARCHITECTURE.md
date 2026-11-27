@@ -26,18 +26,20 @@ src/
   components/
     brand/              Wordmark, Glyph, SealMark, Stamp, Receipt, PhoneFrame, Loader, FoodMark
     ui/                 Button, InkLink, Icon, ThemeToggle, StoreBadge, Rating, DietaryMark
-    landing/            Hero, Opener, HowItWorks, Spread, DecisionDemo, ReceiptFeature, EveryMeal,
-                        FromTheDiary, TasteReport, Privacy, Faq, JoinBeta
-    app/                replicas of app UI rows/cards used as demos
+    landing/            home: Hero, HeroSeal, Steps, Teasers, PrivacyLine, JoinBeta; DecisionDemo (on /today)
+    feature/            feature pages: FeatureHead, Block, NextUp, ReceiptPrinter
+    support/            Faq (on /support)
+    app/                replicas of app UI rows/cards (TodaysPickCard and TasteReportMock are interactive)
     LegalPage.astro, BetaBanner.astro, SiteHeader.astro, SiteFooter.astro
   config/site.ts        name, URL, contact email, Play URL (null = beta, no badge), beta endpoint
-  config/diary.ts       "From the diary" entries (placeholders until real ones)
+  config/features.ts    the feature pages (menu, teasers, hero tags, Next up) and moved home anchors
   content/legal/        synced legal markdown (never edit by hand)
   content.config.ts     `legal` collection schema
   layouts/BaseLayout.astro
   lib/remark-legal.mjs  remark plugin for the legal pages
-  pages/                index, privacy, terms, support, 404
-  scripts/              theme.js (inline: theme + beta banner), landing.ts (the one module)
+  pages/                index, log, today, receipt, taste-report, privacy, terms, support, coffee, 404
+  scripts/              theme.js (inline: theme, beta banner, header menus); modules: landing.ts (stamps,
+                        printers, Pick for me, beta form), seal.ts, pick.ts, count-up.ts, moved-anchors.ts
   styles/               tokens.css, fonts.css, base.css, brand.css
 .claude/project-state/  live status and decisions (not duplicated here)
 wrangler.toml           Pages config: output dir, compatibility date, the D1 binding
@@ -46,7 +48,7 @@ wrangler.toml           Pages config: output dir, compatibility date, the D1 bin
 ## How pages, components, styles and tokens fit
 
 - Every page wraps its content in [BaseLayout.astro](../src/layouts/BaseLayout.astro): head (title, description, canonical, OG/Twitter, icons, manifest, theme script, font preloads, optional JSON-LD), skip link, beta banner, header, `<main id="main">`, footer.
-- Pages compose components. The landing page ([index.astro](../src/pages/index.astro)) is Hero → Opener → HowItWorks → `Spread` sections → ReceiptFeature → EveryMeal → FromTheDiary → TasteReport → Privacy → Faq → JoinBeta. `/privacy` and `/terms` are thin pages around `LegalPage.astro`. The privacy policy's section 13 covers the beta list.
+- Pages compose components. Home ([index.astro](../src/pages/index.astro)) is Hero → Steps → Teasers → PrivacyLine → JoinBeta and loads `landing.ts`, `seal.ts` and `moved-anchors.ts`. Each feature page is `FeatureHead` → `Block`s → `NextUp` and loads only what it uses. Legal, support and 404 pages ship no script files: the header menus are native `<details>`, enhanced by the inline theme script. `/privacy` and `/terms` are thin pages around `LegalPage.astro`. The privacy policy's section 13 covers the beta list.
 - **Styles:** global CSS is imported by the layout in this order: [fonts.css](../src/styles/fonts.css) (self-hosted faces and metric-matched fallbacks), [tokens.css](../src/styles/tokens.css) (every custom property), [base.css](../src/styles/base.css) (reset, type roles, links, focus, layout primitives, view transitions, print), [brand.css](../src/styles/brand.css) (glyph colours, wordmark, seal, loader). Everything else is an Astro **scoped** style inside its component. A class passed to a child component must be targeted with `:global()`.
 - **Tokens** are the app's values as CSS custom properties; colours use `light-dark()` so both themes sit side by side. Components use tokens, never literal colours. See [DESIGN](DESIGN.md#tokens).
 - **Config:** change site facts (email, Play URL, tagline) in [src/config/site.ts](../src/config/site.ts), not in components.
@@ -90,9 +92,9 @@ The app repo is the source of truth for `docs/legal/privacy-policy.md` and `docs
 Details and reduced-motion behaviour per effect are in [DESIGN](DESIGN.md#motion-inventory).
 
 - **CSS first.** Keyframes use the app's motion tokens. No animation library ([MEMORY](MEMORY.md#why-there-is-no-motion-library)).
-- **Scroll-driven receipt:** on wide and tall viewports with `animation-timeline` support, `ReceiptFeature.astro` makes the section tall with a sticky stage and a CSS view timeline (`--print`) feed the paper as you scroll. Longhand properties only ([MEMORY](MEMORY.md#the-css-minifier-breaks-scroll-driven-animations)).
-- **Opener name fade:** `Opener.astro` animates a registered custom property (`@property --kept`) that drives a `mask-image` gradient, on a CSS `view()` timeline (longhands). Without timelines or with reduced motion it rests half-faded.
-- **IntersectionObserver fallback:** [landing.ts](../src/scripts/landing.ts) presses stamps when half visible (except `data-press="manual"` ones, which their owner presses: the beta form's SEAT SAVED), and, where scroll-driven printing does not apply, switches the receipt to a time-based print (`data-mode="time"`, same steps) once it is visible. It also drives the "What should we eat?" demo. Without JS, stamps, receipt and a sample pick are shown statically.
+- **Receipt printing:** `ReceiptPrinter.astro` hides the paper under `html.js` (set before first paint) and `landing.ts` adds `.is-printing` when a third is in view: four timed feed steps, the stamp lands, a 3 px thud. Reduced motion or no JS: printed and stamped.
+- **Scroll reveal:** `.reveal` in `base.css`, a CSS `view()` timeline (longhands, [MEMORY](MEMORY.md#the-css-minifier-breaks-scroll-driven-animations)), a rise only ([MEMORY](MEMORY.md#a-scroll-reveal-must-never-fade)).
+- **IntersectionObserver fallback:** [landing.ts](../src/scripts/landing.ts) presses stamps when half visible (except `data-press="manual"` ones, which their owner presses: the beta form's SEAT SAVED), and starts each receipt printer once it is a third in view. It also drives the "What should we eat?" demo. Without JS, stamps, receipt and a sample pick are shown statically.
 - **View Transitions:** cross-document `@view-transition { navigation: auto }` in `base.css` fades pages; the header has `view-transition-name: site-header`. No JS.
 - All of it sits behind `prefers-reduced-motion`.
 
