@@ -1,0 +1,73 @@
+---
+/**
+ * /receipt (web revamp 2026-11-27): the visit receipt, printed as it comes into
+ * view, and "every meal counts" (a one-line chai). Claims mapped in
+ * sync/feature-map.json (receipt, every-meal).
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FeatureHead from '../components/feature/FeatureHead.astro';
+import Block from '../components/feature/Block.astro';
+import NextUp from '../components/feature/NextUp.astro';
+import ReceiptPrinter from '../components/feature/ReceiptPrinter.astro';
+import Receipt from '../components/brand/Receipt.astro';
+---
+
+<BaseLayout
+  title="The receipt"
+  description="Turn any visit into a receipt: the dishes, your ratings, the total and a verdict, stamped LOGGED and ready to share as an image."
+>
+  <FeatureHead
+    title="Every visit, on paper."
+    line="Turn any visit into a receipt: dishes, ratings, the total and a verdict. Share it as an image."
+  >
+    <ReceiptPrinter
+      slot="visual"
+      placeName="Hill Road Momos"
+      area="Dehradun"
+      date="12 Nov 2026"
+      dishes={[
+        { name: 'Jhol momo', rating: 5 },
+        { name: 'Thukpa', rating: 4 },
+        { name: 'Ginger lemon tea', rating: 4 },
+      ]}
+      notes="Ask for the spicy chutney."
+      total="₹480"
+      overall={5}
+    />
+  </FeatureHead>
+
+  <Block
+    id="every-meal"
+    title="Every meal counts."
+    line="A ₹40 cutting chai gets the same paper and the same stamp as the birthday dinner."
+    flip
+  >
+    <div class="chai" slot="visual">
+      <Receipt
+        placeName="Clock Tower Tea Stall"
+        area="Dehradun"
+        date="14 Nov 2026"
+        dishes={[{ name: 'Cutting chai', rating: 5 }]}
+        total="₹40"
+        overall={5}
+        pressStamp
+      />
+    </div>
+  </Block>
+
+  <NextUp current="/receipt" />
+</BaseLayout>
+
+<script>
+  import '../scripts/landing';
+</script>
+
+<style>
+  .chai {
+    padding: var(--s-16) var(--s-24);
+  }
+
+  .chai :global(.receipt) {
+    transform: rotate(-2deg);
+  }
+</style>

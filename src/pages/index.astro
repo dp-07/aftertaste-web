@@ -1,24 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/landing/Hero.astro';
-import Opener from '../components/landing/Opener.astro';
-import HowItWorks from '../components/landing/HowItWorks.astro';
-import Spread from '../components/landing/Spread.astro';
-import DecisionDemo from '../components/landing/DecisionDemo.astro';
-import ReceiptFeature from '../components/landing/ReceiptFeature.astro';
-import EveryMeal from '../components/landing/EveryMeal.astro';
-import FromTheDiary from '../components/landing/FromTheDiary.astro';
-import TasteReport from '../components/landing/TasteReport.astro';
-import Privacy from '../components/landing/Privacy.astro';
-import Faq from '../components/landing/Faq.astro';
-import CoffeeNote from '../components/landing/CoffeeNote.astro';
+import Steps from '../components/landing/Steps.astro';
+import Teasers from '../components/landing/Teasers.astro';
+import PrivacyLine from '../components/landing/PrivacyLine.astro';
 import JoinBeta from '../components/landing/JoinBeta.astro';
-import WishlistRow from '../components/app/WishlistRow.astro';
-import PlaceList from '../components/app/PlaceList.astro';
-import FriendRow from '../components/app/FriendRow.astro';
-import TodaysPickCard from '../components/app/TodaysPickCard.astro';
-import GalleryMock from '../components/app/GalleryMock.astro';
-import MoreIndex from '../components/landing/MoreIndex.astro';
 import { site } from '../config/site';
 
 const logo = new URL('/icons/icon-512.png', site.url).href;
@@ -49,125 +35,14 @@ const jsonLd = [
 
 <BaseLayout description={site.description} og="home" jsonLd={jsonLd} coffeeLink>
   <Hero />
-  <Opener />
-  <HowItWorks />
-
-  <Spread id="want-to-try" num="02" label="Want to try" title="A list for the places you keep hearing about." flip>
-    <p class="lead">Save a place from search or a friend’s diary. Went? It moves to Tried.</p>
-    <p>Your Want to try list is yours alone. Nobody sees it, even when you share your diary.</p>
-    <ul class="rows" slot="visual" aria-label="Example Want to try list">
-      <WishlistRow name="Saffron & Salt" meta="Restaurant · 2.1 km" source="Saved from search" kind="noodle" />
-      <WishlistRow name="Little Ladoo Bakery" meta="Bakery · 800 m" source="From Ronnie’s diary" kind="cinnamon" />
-      <WishlistRow name="Mosaic Café" meta="Café · Rajpur Road" source="Added by you" kind="sprout" tried="yesterday" />
-    </ul>
-  </Spread>
-
-  <Spread id="what-should-we-eat" num="03" label="What should we eat?" title="Can’t decide? Let it pick.">
-    <p class="lead">The group chat question, answered in one tap.</p>
-    <p>
-      It picks from your Want to try list, your recommends and friends’ top spots, and leans towards what’s close. Give
-      it a spin.
-    </p>
-    <DecisionDemo slot="visual" />
-  </Spread>
-
-  <Spread id="todays-pick" num="04" label="Today’s pick" title="Once a day, one place to think about." flip>
-    <p class="lead">One place a day: from your list, a spot you’d go back to, or a friend’s fave.</p>
-    <p>
-      Tap the mushroom on Home to see it: the photos and the why. Open it, say not today, or ask for another pick. It
-      stays the same all day and tries not to repeat a place for two weeks.
-    </p>
-    <TodaysPickCard
-      slot="visual"
-      label="Example Today’s pick card (sample place)"
-      name="Hill Road Momos"
-      meta="Restaurant • Dehradun"
-      rating={4.6}
-      reason="You rated this 5★ in March"
-      kind="noodle"
-    />
-  </Spread>
-
-  <Spread id="near-you" num="05" label="Near you" title="The places around you, already listed.">
-    <p class="lead">Tap Log a place and the spots nearby are already there.</p>
-    <p>Location is used only while you search, only if you allow it, and never saved. Say no? Search still works.</p>
-    <PlaceList
-      slot="visual"
-      label="Example Near you list"
-      heading="Near you"
-      items={[
-        { name: 'Hill Road Momos', meta: 'Restaurant · 120 m' },
-        { name: 'Little Ladoo Bakery', meta: 'Bakery · 260 m', chip: 'On your list' },
-        { name: 'Banyan Tree Dhaba', meta: 'Dhaba · 540 m' },
-      ]}
-    />
-  </Spread>
-
-  <Spread id="from-friends" num="06" label="From friends" title="See where your friends ate this week." flip>
-    <p class="lead">Friends who share their diary show up here, with a must-try dish. Free recs, basically.</p>
-    <p>Read-only: nobody can add to your diary. Save their finds to your list. Notes stay private, theirs and yours.</p>
-    <ul class="rows" slot="visual" aria-label="Example From friends list">
-      <FriendRow friend="Ronnie" place="Hill Road Momos" rating={5} when="Yesterday" mustTry="Jhol momo" />
-      <FriendRow friend="Meera" place="Banyan Tree Dhaba" rating={4} when="3 days ago" tone="mustard" />
-      <FriendRow
-        friend="Kabir"
-        place="Little Ladoo Bakery"
-        rating={4}
-        when="5 days ago"
-        mustTry="Besan ladoo"
-        tone="primary"
-      />
-    </ul>
-  </Spread>
-
-  <Spread id="gallery" num="07" label="Gallery" title="Every dish you’ve photographed, month by month.">
-    <p class="lead">Your food pics in one big mosaic, a section for every month.</p>
-    <p>On this day throws back what you ate on this date, months or years ago. Tap to zoom, hold to favourite.</p>
-    <GalleryMock
-      slot="visual"
-      label="Example Gallery (sample photos)"
-      onThisDay={[
-        { kind: 'noodle', when: '1 year ago', dish: 'Jhol momo' },
-        { kind: 'cinnamon', when: '3 months ago', dish: 'Cinnamon roll' },
-        { kind: 'sprout', when: '2 years ago', dish: 'Sarson ka saag' },
-      ]}
-      month="October"
-      count={14}
-      tiles={[
-        { kind: 'noodle', tall: true },
-        { kind: 'mushroom' },
-        { kind: 'sprout' },
-        { kind: 'cinnamon', wide: true, mustTry: true },
-        { kind: 'mushroom' },
-        { kind: 'sprout' },
-        { kind: 'noodle' },
-      ]}
-    />
-  </Spread>
-
-  <ReceiptFeature />
-  <EveryMeal />
-  <MoreIndex />
-  <FromTheDiary />
-  <TasteReport />
-  <Privacy />
-  <Faq />
-  <CoffeeNote />
+  <Steps />
+  <Teasers />
+  <PrivacyLine />
   <JoinBeta />
 </BaseLayout>
 
 <script>
   import '../scripts/landing';
+  import '../scripts/seal';
+  import '../scripts/moved-anchors';
 </script>
-
-<style>
-  .rows {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--s-8);
-    max-inline-size: 28rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-</style>

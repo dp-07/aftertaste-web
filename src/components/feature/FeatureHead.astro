@@ -1,0 +1,93 @@
+---
+/**
+ * The top of a feature page (web revamp 2026-11-27): the page's one h1, one
+ * short line, and the main replica beside it (slot "visual").
+ */
+interface Props {
+  title: string;
+  line: string;
+  /** The visible sample-data note (RULES: sample content is labelled as sample). */
+  note?: string;
+}
+const { title, line, note = 'Places, dishes and people in these examples are made up.' } = Astro.props;
+---
+
+<section class="head" aria-labelledby="page-title">
+  <div class="wrap grid-12 grid">
+    <div class="copy">
+      <p class="t-label crumb">
+        <a href="/#features">Features</a>
+      </p>
+      <h1 id="page-title" class="t-display">
+        {title}
+      </h1>
+      <p class="line">{line}</p>
+      <slot />
+      <p class="t-body-sm note">{note}</p>
+    </div>
+    <div class="visual">
+      <slot name="visual" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .head {
+    padding-block: clamp(2rem, 1rem + 4vw, 5rem) 0;
+  }
+
+  .grid {
+    row-gap: var(--s-40);
+    align-items: center;
+  }
+
+  .copy {
+    display: grid;
+    gap: var(--s-16);
+    max-inline-size: 32rem;
+  }
+
+  .crumb {
+    margin: 0;
+  }
+
+  .crumb a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+
+  .crumb a:hover {
+    color: var(--primary-ink);
+  }
+
+  h1 {
+    margin: 0;
+  }
+
+  .line {
+    margin: 0;
+    color: var(--muted);
+    font-size: var(--fs-lede);
+    line-height: 1.45;
+  }
+
+  .note {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .visual {
+    display: grid;
+    justify-items: center;
+    min-inline-size: 0;
+  }
+
+  @media (width >= 64rem) {
+    .copy {
+      grid-column: 1 / span 5;
+    }
+    .visual {
+      grid-column: 7 / -1;
+    }
+  }
+</style>

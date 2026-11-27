@@ -1,0 +1,325 @@
+---
+/**
+ * Home teaser row (web revamp 2026-11-27): one card per feature page, each a
+ * single link with a tiny token-built illustration (no screenshots, no stock).
+ * Samples are invented. Hover lifts the card and tilts its illustration.
+ */
+import { features } from '../../config/features';
+import Thumb from '../app/Thumb.astro';
+import Icon from '../ui/Icon.astro';
+---
+
+<section id="features" class="teasers" aria-labelledby="features-title">
+  <div class="wrap">
+    <h2 id="features-title" class="t-display title">
+      Have a look around.
+    </h2>
+    <ul class="cards">
+      {features.map((f) => (
+        <li class="reveal">
+          <a href={f.href} class="card">
+            <span class="art" aria-hidden="true">
+              {f.href === '/log' && (
+                <span class="mini-rows">
+                  <span class="mini-row">
+                    <Thumb kind="sprout" class="mini-thumb" />
+                    <span class="mini-lines">
+                      <span class="l1" />
+                      <span class="l2" />
+                    </span>
+                  </span>
+                  <span class="mini-row">
+                    <Thumb kind="noodle" class="mini-thumb" />
+                    <span class="mini-lines">
+                      <span class="l1" />
+                      <span class="l2" />
+                    </span>
+                  </span>
+                </span>
+              )}
+              {f.href === '/today' && (
+                <span class="mini-pick">
+                  <Thumb kind="mushroom" class="mini-photo" />
+                  <span class="mini-pill">TODAY’S PICK</span>
+                </span>
+              )}
+              {f.href === '/receipt' && (
+                <span class="mini-receipt">
+                  <span class="r-line w60" />
+                  <span class="r-rule" />
+                  <span class="r-line w80" />
+                  <span class="r-line w70" />
+                  <span class="r-rule" />
+                  <span class="r-stamp">LOGGED</span>
+                </span>
+              )}
+              {f.href === '/taste-report' && (
+                <span class="mini-report">
+                  <span class="m-num">4.3</span>
+                  <span class="m-bars">
+                    <span class="b b1" />
+                    <span class="b b2" />
+                    <span class="b b3" />
+                  </span>
+                </span>
+              )}
+            </span>
+            <span class="text">
+              <span class="name">
+                {f.label}
+                <Icon name="arrow-right" size={18} class="go" />
+              </span>
+              <span class="line">{f.line}</span>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .teasers {
+    padding-block-start: var(--space-section);
+  }
+
+  .title {
+    margin: 0;
+  }
+
+  .cards {
+    display: grid;
+    gap: var(--s-12);
+    margin: var(--space-block) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .card {
+    display: grid;
+    grid-template-columns: 6rem 1fr;
+    align-items: center;
+    gap: var(--s-16);
+    block-size: 100%;
+    padding: var(--s-12);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    background: var(--surface);
+    color: var(--text);
+    text-decoration: none;
+    transition:
+      transform var(--dur-base) var(--ease-out),
+      border-color var(--dur-base) var(--ease-out);
+  }
+
+  .card:hover {
+    border-color: var(--line-strong);
+  }
+
+  .art {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: var(--r-md);
+    background: var(--bg);
+    transition: transform var(--dur-slow) var(--ease-out);
+  }
+
+  .text {
+    display: grid;
+    gap: var(--s-4);
+  }
+
+  .name {
+    display: flex;
+    align-items: center;
+    gap: var(--s-8);
+    font-family: var(--font-display);
+    font-size: var(--fs-card-title);
+    line-height: var(--lh-card-title);
+  }
+
+  .card :global(.go) {
+    color: var(--primary-ink);
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+
+  .line {
+    color: var(--muted);
+    font-size: var(--fs-body-sm);
+    line-height: var(--lh-body-sm);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .card:hover {
+      transform: translateY(-2px);
+    }
+    .card:hover .art {
+      transform: rotate(-3deg) scale(1.03);
+    }
+    .card:hover :global(.go) {
+      transform: translateX(3px);
+    }
+  }
+
+  /* ── Illustrations ── */
+  .mini-rows {
+    display: grid;
+    gap: 6px;
+    inline-size: 78%;
+  }
+  .mini-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px;
+    border-radius: 6px;
+    background: var(--raised);
+  }
+  .art :global(.mini-thumb) {
+    inline-size: 20px;
+    block-size: 20px;
+    border-radius: 4px;
+  }
+  .mini-lines {
+    display: grid;
+    gap: 3px;
+    flex: 1;
+  }
+  .l1,
+  .l2 {
+    display: block;
+    block-size: 4px;
+    border-radius: 2px;
+    background: var(--line-strong);
+  }
+  .l2 {
+    inline-size: 60%;
+    background: var(--line);
+  }
+
+  .mini-pick {
+    position: relative;
+    inline-size: 78%;
+    aspect-ratio: 1;
+  }
+  .art :global(.mini-photo) {
+    inline-size: 100%;
+    block-size: 100%;
+    border-radius: 8px;
+  }
+  .mini-pill {
+    position: absolute;
+    inset-block-start: 5px;
+    inset-inline-start: 5px;
+    padding: 2px 5px;
+    border-radius: var(--r-pill);
+    background: var(--surface);
+    color: var(--primary-ink);
+    font-size: 6px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+  }
+
+  .mini-receipt {
+    position: relative;
+    display: grid;
+    gap: 5px;
+    inline-size: 58%;
+    padding: 8px 7px 12px;
+    background: var(--paper);
+    box-shadow: 0 1px 2px rgb(31 27 22 / 0.12);
+    transform: rotate(-3deg);
+  }
+  .r-line {
+    display: block;
+    block-size: 3px;
+    border-radius: 2px;
+    background: var(--paper-meta);
+    opacity: 0.6;
+  }
+  .w60 {
+    inline-size: 60%;
+  }
+  .w70 {
+    inline-size: 70%;
+  }
+  .w80 {
+    inline-size: 80%;
+  }
+  .r-rule {
+    display: block;
+    block-size: 1px;
+    background: repeating-linear-gradient(90deg, var(--paper-rule) 0 3px, transparent 3px 5px);
+  }
+  .r-stamp {
+    position: absolute;
+    inset-block-end: 4px;
+    inset-inline-end: -6px;
+    padding: 1px 3px;
+    border: 1.5px solid var(--stamp-logged);
+    border-radius: 3px;
+    color: var(--stamp-logged);
+    font-size: 6px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    transform: rotate(-8deg);
+  }
+
+  .mini-report {
+    display: grid;
+    gap: 6px;
+    justify-items: start;
+    inline-size: 70%;
+  }
+  .m-num {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    line-height: 1;
+    color: var(--primary-ink);
+  }
+  .m-bars {
+    display: grid;
+    gap: 4px;
+    inline-size: 100%;
+  }
+  .b {
+    display: block;
+    block-size: 5px;
+    border-radius: 3px;
+    background: var(--primary);
+  }
+  .b1 {
+    inline-size: 90%;
+  }
+  .b2 {
+    inline-size: 65%;
+    opacity: 0.75;
+  }
+  .b3 {
+    inline-size: 40%;
+    opacity: 0.5;
+  }
+
+  @media (width >= 40rem) {
+    .cards {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (width >= 64rem) {
+    .cards {
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--s-16);
+    }
+    .card {
+      grid-template-columns: 1fr;
+      align-content: start;
+      padding: var(--s-16);
+    }
+    .art {
+      aspect-ratio: 4 / 3;
+    }
+  }
+</style>

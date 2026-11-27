@@ -15,7 +15,8 @@ if (!existsSync(CHROME)) {
   process.exit(1);
 }
 const PAGES = (
-  process.argv.find((a) => a.startsWith('--pages='))?.split('=')[1] ?? '/,/privacy,/terms,/support,/coffee'
+  process.argv.find((a) => a.startsWith('--pages='))?.split('=')[1] ??
+  '/,/log,/today,/receipt,/taste-report,/privacy,/terms,/support,/coffee'
 ).split(',');
 const OUT = join(ROOT, 'reports/lighthouse');
 mkdirSync(OUT, { recursive: true });

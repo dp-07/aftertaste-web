@@ -142,7 +142,10 @@ const zigzag = `M0 0 ${Array.from({ length: 33 }, (_, i) => `L${i * 10 + 5} ${i 
     /* Paper is paper in both themes: every light-dark() token resolves light here. */
     color-scheme: light;
     position: relative;
-    inline-size: min(330px, 100%);
+    /* A fixed width (not a percentage), so the inline-size container below never
+       collapses inside a shrink-to-fit parent. */
+    inline-size: 330px;
+    max-inline-size: 100%;
     container-type: inline-size;
     margin: 0;
     color: var(--paper-ink);

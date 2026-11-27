@@ -1,0 +1,94 @@
+---
+/**
+ * /log (web revamp 2026-11-27): logging a place, Near you, rating a dish and
+ * the Gallery. Claims mapped in sync/feature-map.json (log-place, near-you,
+ * rate-dish, gallery, location-use).
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FeatureHead from '../components/feature/FeatureHead.astro';
+import Block from '../components/feature/Block.astro';
+import NextUp from '../components/feature/NextUp.astro';
+import PlaceList from '../components/app/PlaceList.astro';
+import DishCard from '../components/app/DishCard.astro';
+import GalleryMock from '../components/app/GalleryMock.astro';
+---
+
+<BaseLayout
+  title="Log a place"
+  description="Log every café, dhaba and bakery you eat at, rate each dish for taste and value, and keep every food photo, month by month."
+>
+  <FeatureHead
+    title="Log the place. Rate what you ate."
+    line="Search a café, dhaba or bakery, or type it in yourself. Every visit stays under one place."
+  >
+    <PlaceList
+      slot="visual"
+      label="Example: searching for a place"
+      query="hill road"
+      items={[
+        { name: 'Hill Road Momos', meta: 'Restaurant · 450 m' },
+        { name: 'Hill Road Bakehouse', meta: 'Bakery · 1.1 km' },
+      ]}
+    />
+  </FeatureHead>
+
+  <Block
+    id="near-you"
+    title="The places around you, already listed."
+    line="Tap Log a place and nearby spots are there. Location is used only while you search, never saved."
+    flip
+  >
+    <PlaceList
+      slot="visual"
+      label="Example Near you list"
+      heading="Near you"
+      items={[
+        { name: 'Hill Road Momos', meta: 'Restaurant · 120 m' },
+        { name: 'Little Ladoo Bakery', meta: 'Bakery · 260 m', chip: 'On your list' },
+        { name: 'Banyan Tree Dhaba', meta: 'Dhaba · 540 m' },
+      ]}
+    />
+  </Block>
+
+  <Block
+    id="rate"
+    title="Rate what you ate."
+    line="Snap the dish. Rate taste and value out of 5, add the price and a note for future you."
+  >
+    <DishCard slot="visual" name="Jhol momo" taste={5} value={4} price="₹180" diet="nonVeg" mustTry kind="noodle" />
+  </Block>
+
+  <Block
+    id="gallery"
+    title="Every dish photo, month by month."
+    line="One big mosaic. On this day throws back what you ate on this date, months or years ago."
+    flip
+  >
+    <GalleryMock
+      slot="visual"
+      label="Example Gallery (sample photos)"
+      onThisDay={[
+        { kind: 'noodle', when: '1 year ago', dish: 'Jhol momo' },
+        { kind: 'cinnamon', when: '3 months ago', dish: 'Cinnamon roll' },
+        { kind: 'sprout', when: '2 years ago', dish: 'Sarson ka saag' },
+      ]}
+      month="October"
+      count={14}
+      tiles={[
+        { kind: 'noodle', tall: true },
+        { kind: 'mushroom' },
+        { kind: 'sprout' },
+        { kind: 'cinnamon', wide: true, mustTry: true },
+        { kind: 'mushroom' },
+        { kind: 'sprout' },
+        { kind: 'noodle' },
+      ]}
+    />
+  </Block>
+
+  <NextUp current="/log" />
+</BaseLayout>
+
+<script>
+  import '../scripts/landing';
+</script>

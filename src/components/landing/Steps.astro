@@ -1,0 +1,90 @@
+---
+/**
+ * Home "How it works" (web revamp 2026-11-27): three steps, one line each.
+ * Keeps the #how-it-works anchor that the app and old links use.
+ */
+const steps = [
+  { title: 'Log the place', body: 'Search it, pick one near you, or type it in.' },
+  { title: 'Rate what you ate', body: 'A photo, taste and value out of 5, and the price.' },
+  { title: 'Know next time', body: 'What you had, what it cost, and whether it’s a repeat.' },
+];
+---
+
+<section id="how-it-works" class="how" aria-labelledby="how-title">
+  <div class="wrap">
+    <h2 id="how-title" class="t-display title">
+      Three small habits.
+    </h2>
+    <ol class="steps">
+      {steps.map((s, i) => (
+        <li class="step reveal">
+          <span class="numeral" aria-hidden="true">
+            {i + 1}
+          </span>
+          <h3 class="t-title">{s.title}</h3>
+          <p class="muted">{s.body}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .how {
+    padding-block: var(--space-section) 0;
+    scroll-margin-block-start: var(--s-16);
+  }
+
+  .title {
+    margin: 0;
+  }
+
+  .steps {
+    display: grid;
+    gap: var(--s-32);
+    margin: var(--space-block) 0 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: none;
+  }
+
+  .step {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: var(--s-20);
+    row-gap: var(--s-4);
+    align-items: baseline;
+  }
+
+  .numeral {
+    grid-row: span 2;
+    min-inline-size: 1.6ch;
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: clamp(2.75rem, 2rem + 3vw, 4.5rem);
+    line-height: 1;
+    color: var(--primary);
+  }
+
+  h3,
+  p {
+    margin: 0;
+  }
+
+  @media (width >= 48rem) {
+    .steps {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--s-40);
+      padding-block-start: var(--s-24);
+      border-block-start: 1px solid var(--line);
+    }
+    .step {
+      grid-template-columns: 1fr;
+    }
+    .numeral {
+      grid-row: auto;
+      text-align: start;
+      margin-block-end: var(--s-12);
+    }
+  }
+</style>

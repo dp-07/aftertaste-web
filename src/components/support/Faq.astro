@@ -1,16 +1,17 @@
 ---
+/**
+ * Short questions and answers (moved from the home page to /support in the web
+ * revamp, 2026-11-27). Keeps the #questions anchor.
+ */
 import Icon from '../ui/Icon.astro';
 import InkLink from '../ui/InkLink.astro';
 ---
 
-<section id="questions" class="faq defer-render" aria-labelledby="faq-title">
+<section id="questions" class="faq" aria-labelledby="faq-title">
   <div class="wrap">
-    <p class="running-head t-label">
-      <span class="num">14</span> Questions
-    </p>
     <div class="grid-12 layout">
-      <h2 id="faq-title" class="t-display">
-        Good to know.
+      <h2 id="faq-title" class="t-title">
+        Good to know
       </h2>
       <div class="list">
         <details>
@@ -19,7 +20,7 @@ import InkLink from '../ui/InkLink.astro';
             <Icon name="plus" size={20} class="mark" />
           </summary>
           <p>
-            It’s in private beta. <InkLink href="#join">Join the list</InkLink> and we’ll invite you as we open up.
+            It’s in private beta. <InkLink href="/#join">Join the list</InkLink> and we’ll invite you as we open up.
           </p>
         </details>
         <details>
@@ -29,7 +30,7 @@ import InkLink from '../ui/InkLink.astro';
           </summary>
           <p>
             We’re letting people in a few at a time while we finish cooking, and we’ll put Aftertaste on Google Play and
-            the App Store after that. <InkLink href="#join">Save your seat</InkLink> and we’ll tell you first.
+            the App Store after that. <InkLink href="/#join">Save your seat</InkLink> and we’ll tell you first.
           </p>
         </details>
         <details>
@@ -60,7 +61,7 @@ import InkLink from '../ui/InkLink.astro';
           </summary>
           <p>
             Only if you switch on sharing, and even then never your notes, favourites or Want to try list.{' '}
-            <InkLink href="/support#what-friends-see">See exactly what is shared</InkLink>.
+            <InkLink href="#what-friends-see">See exactly what is shared</InkLink>.
           </p>
         </details>
         <details>
@@ -80,7 +81,7 @@ import InkLink from '../ui/InkLink.astro';
           </summary>
           <p>
             In the app: Profile, Settings, Delete account.{' '}
-            <InkLink href="/support#delete-account">Other ways and what gets deleted</InkLink>.
+            <InkLink href="#delete-account">Other ways and what gets deleted</InkLink>.
           </p>
         </details>
       </div>

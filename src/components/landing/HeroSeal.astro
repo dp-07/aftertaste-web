@@ -1,0 +1,242 @@
+---
+/**
+ * The hero's sealed mushroom (web revamp 2026-11-27). The diary seal with its
+ * cap as a separate lid: hover (mouse) or tap lifts the lid −16° and three
+ * stamp-style tags rise out of it, fanned (−2°, +3°, −4°), each a link to a
+ * feature page. The construction follows the app's Home seal (App UI v1.12),
+ * but this is site navigation, not a replica of the app's menu.
+ *
+ * Without JavaScript the lid is lifted and the tags are simply there. With it,
+ * src/scripts/seal.ts toggles data-open and aria-expanded; Escape closes.
+ * Reduced motion: the lid stays shut and the tags fade.
+ */
+import Icon from '../ui/Icon.astro';
+
+const tags = [
+  { href: '/log', label: 'Log a place', icon: 'plus', rot: -2, inset: 6 },
+  { href: '/today', label: 'Today’s pick', icon: 'sunrise', rot: 3, inset: 22 },
+  { href: '/receipt', label: 'The receipt', icon: 'file-text', rot: -4, inset: 10 },
+];
+---
+
+<div class="hero-seal" data-seal>
+  <ul id="seal-tags" class="tags" aria-label="Features">
+    {[...tags].reverse().map((t, i) => (
+      <li class={`tag-slot tag-${tags.length - 1 - i}`}>
+        <a href={t.href} class="tag">
+          <Icon name={t.icon} size={16} />
+          <span>{t.label}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+  <p class="hint t-label" aria-hidden="true">
+    Lift the lid <Icon name="arrow-down" size={14} />
+  </p>
+  <button type="button" class="seal-btn" aria-expanded="false" aria-controls="seal-tags" data-seal-btn>
+    <span class="visually-hidden">Lift the lid</span>
+    <svg class="seal" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+      <circle class="seal-disc" cx="50" cy="50" r="44"></circle>
+      <circle class="seal-ink-stroke" cx="50" cy="50" r="40" stroke-width="4"></circle>
+      <circle class="seal-ink-stroke" cx="50" cy="50" r="33.5" stroke-width="1.6"></circle>
+      <circle class="seal-ink" cx="50" cy="13.3" r="1.4"></circle>
+      <circle class="seal-ink" cx="50" cy="86.7" r="1.4"></circle>
+      <circle class="seal-ink" cx="13.3" cy="50" r="1.4"></circle>
+      <circle class="seal-ink" cx="86.7" cy="50" r="1.4"></circle>
+      <g transform="translate(0 -3)">
+        <path
+          class="seal-stem"
+          d="M44 55 H56 L57.5 71 Q50 76 42.5 71 Z"
+          stroke-width="2.5"
+          stroke-linejoin="round"
+        ></path>
+        <g class="lid">
+          <path class="seal-ink" d="M29 52 C29 30 71 30 71 52 Q71 56 67 56 H33 Q29 56 29 52 Z"></path>
+          <circle class="seal-spot" cx="40" cy="44" r="3"></circle>
+          <circle class="seal-spot" cx="53" cy="38" r="2.6"></circle>
+          <circle class="seal-spot" cx="62" cy="46" r="2.6"></circle>
+        </g>
+      </g>
+    </svg>
+  </button>
+</div>
+
+<style>
+  .hero-seal {
+    --seal: clamp(10.5rem, 8rem + 10vw, 15rem);
+    --tag-h: 2.75rem;
+    position: relative;
+    display: grid;
+    justify-items: center;
+    /* The tags' room is reserved up front, so opening never moves anything. */
+    grid-template-rows: calc(3 * var(--tag-h) + 2 * var(--s-12)) auto;
+    row-gap: var(--s-12);
+    inline-size: min(100%, 22rem);
+    margin-inline: auto;
+  }
+
+  .tags {
+    grid-row: 1;
+    grid-column: 1;
+    display: grid;
+    align-content: end;
+    justify-items: center;
+    gap: var(--s-12);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .hint {
+    grid-row: 1;
+    grid-column: 1;
+    align-self: end;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-4);
+    margin: 0;
+    color: var(--muted);
+    transition: opacity var(--dur-base) var(--ease-out);
+  }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-8);
+    min-block-size: var(--tag-h);
+    padding: 0 var(--s-16);
+    border: 1.5px solid var(--primary);
+    border-radius: var(--r-sm);
+    outline: 1px solid var(--primary);
+    outline-offset: -5px;
+    background: var(--stamp-paper);
+    box-shadow: var(--elevation);
+    color: var(--primary-ink);
+    font-size: var(--fs-label);
+    font-weight: 600;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .tag:hover {
+    background: var(--primary-soft);
+  }
+
+  .tag:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 3px;
+  }
+
+  .tag-slot {
+    transform: rotate(var(--rot)) translateX(var(--dx));
+  }
+  .tag-0 {
+    --rot: -2deg;
+    --dx: -0.5rem;
+  }
+  .tag-1 {
+    --rot: 3deg;
+    --dx: 1rem;
+  }
+  .tag-2 {
+    --rot: -4deg;
+    --dx: -0.25rem;
+  }
+
+  .seal-btn {
+    grid-row: 2;
+    display: grid;
+    place-items: center;
+    inline-size: var(--seal);
+    block-size: var(--seal);
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    cursor: pointer;
+  }
+
+  .seal-btn:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 6px;
+  }
+
+  .seal {
+    inline-size: 100%;
+    block-size: 100%;
+    overflow: visible;
+  }
+
+  .seal-disc {
+    fill: var(--bg);
+  }
+
+  .lid {
+    transform-box: view-box;
+    transform-origin: 71px 53px;
+  }
+
+  /* Closed (scripted only): tags tucked into the seal, lid down. */
+  :global(html.js) .hero-seal:not([data-open]) .tag-slot {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(calc(var(--s-40) * 2)) scale(0.55);
+  }
+
+  /* Open (and the no-JS default): lid lifted, hint gone. */
+  .hero-seal .lid {
+    transform: translateY(-16px) rotate(-16deg);
+  }
+  :global(html.js) .hero-seal:not([data-open]) .lid {
+    transform: none;
+  }
+  .hint {
+    opacity: 0;
+  }
+  :global(html.js) .hero-seal:not([data-open]) .hint {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .lid {
+      transition: transform 420ms cubic-bezier(0.3, 1.45, 0.5, 1);
+    }
+    .tag-slot {
+      transition:
+        transform 380ms cubic-bezier(0.3, 1.3, 0.5, 1),
+        opacity var(--dur-base) var(--ease-out),
+        visibility 0s linear 0s;
+    }
+    /* Bottom tag first, then up the fan. */
+    .tag-1 {
+      transition-delay: var(--stagger);
+    }
+    .tag-0 {
+      transition-delay: calc(2 * var(--stagger));
+    }
+    :global(html.js) .hero-seal:not([data-open]) .tag-slot {
+      transition:
+        transform var(--dur-base) var(--ease-out),
+        opacity var(--dur-fast) var(--ease-out),
+        visibility 0s linear var(--dur-base);
+    }
+    .seal-btn:active .seal {
+      transform: scale(var(--press-scale));
+    }
+  }
+
+  /* Reduced motion: the lid stays shut; the tags only fade. */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-seal .lid,
+    :global(html.js) .hero-seal:not([data-open]) .lid {
+      transform: none;
+    }
+    .tag-slot,
+    :global(html.js) .hero-seal:not([data-open]) .tag-slot {
+      transform: rotate(var(--rot)) translateX(var(--dx));
+      transition: opacity var(--dur-base) linear;
+    }
+  }
+</style>

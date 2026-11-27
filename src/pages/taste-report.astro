@@ -1,0 +1,124 @@
+---
+/**
+ * /taste-report (web revamp 2026-11-27): the optional AI taste report. Every
+ * fact on this page comes from the synced privacy policy, section 8
+ * (#ai-taste-report); the fact-to-line map is in sync/feature-map.json
+ * (taste-report) and .claude/project-state/app-sync-report-20261126-legal.md.
+ * Add nothing the policy does not say.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FeatureHead from '../components/feature/FeatureHead.astro';
+import Block from '../components/feature/Block.astro';
+import NextUp from '../components/feature/NextUp.astro';
+import TasteReportMock from '../components/app/TasteReportMock.astro';
+import InkLink from '../components/ui/InkLink.astro';
+
+const facts = [
+  {
+    term: 'Sent to the AI',
+    text: 'The names of your dishes, so each can be labelled with a cuisine, a dish type and flavours, plus statistics we calculate from your diary. Your places show up in those only as placeholders like “place 1”.',
+  },
+  {
+    term: 'Never sent',
+    text: 'Your notes, photos, place names, addresses, cities, map positions, your device’s location, visit dates, your name, email address or account ID, and anything about other people.',
+  },
+  {
+    term: 'Who gets it',
+    text: 'Anthropic, through its Claude API, as our service provider. By default it doesn’t use that data to train its models. It keeps it for a limited time under its API data retention policy, and longer only where needed to enforce its usage policy or required by law.',
+  },
+  {
+    term: 'What we keep',
+    text: 'Your latest report, until a newer one replaces it, you turn the feature off or you delete your account. Turn it off in Profile and your current report and dish labels are deleted straight away.',
+  },
+];
+---
+
+<BaseLayout
+  title="Your taste report"
+  description="An optional monthly look at how you eat, off until you turn it on. What is sent to the AI, what never is, and what we keep."
+>
+  <FeatureHead
+    title="Your taste report"
+    line="A monthly look at how you eat: your go-to dishes, your rhythm, your best-value bite. Off until you turn it on."
+    note="The report shown is a sample with made-up numbers."
+  >
+    <TasteReportMock slot="visual" />
+  </FeatureHead>
+
+  <Block
+    id="how-its-made"
+    title="Numbers by us. Words by AI."
+    line="Our own code works out every number from your diary. An AI model only writes the short lines around them."
+  />
+
+  <section id="your-data" class="data" aria-labelledby="data-title">
+    <div class="wrap">
+      <h2 id="data-title" class="t-title">
+        What happens to your data
+      </h2>
+      <dl class="facts">
+        {facts.map((f) => (
+          <div class="fact reveal">
+            <dt class="t-label">{f.term}</dt>
+            <dd>{f.text}</dd>
+          </div>
+        ))}
+      </dl>
+      <p class="source">
+        <InkLink href="/privacy#ai-taste-report">Privacy policy, section 8</InkLink>
+      </p>
+    </div>
+  </section>
+
+  <NextUp current="/taste-report" />
+</BaseLayout>
+
+<script>
+  import '../scripts/count-up';
+</script>
+
+<style>
+  .data {
+    padding-block-start: var(--space-section);
+  }
+
+  h2 {
+    margin: 0;
+  }
+
+  .facts {
+    display: grid;
+    gap: var(--s-16);
+    margin: var(--s-24) 0 0;
+  }
+
+  .fact {
+    display: grid;
+    gap: var(--s-4);
+    padding-block-start: var(--s-12);
+    border-block-start: 1px solid var(--line);
+  }
+
+  dt {
+    color: var(--primary-ink);
+  }
+
+  dd {
+    margin: 0;
+    max-inline-size: 40rem;
+    color: var(--muted);
+  }
+
+  .source {
+    margin: var(--s-24) 0 0;
+    font-size: var(--fs-body-sm);
+  }
+
+  @media (width >= 48rem) {
+    .facts {
+      grid-template-columns: repeat(2, 1fr);
+      column-gap: var(--s-40);
+      row-gap: var(--s-24);
+    }
+  }
+</style>

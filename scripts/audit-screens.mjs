@@ -10,7 +10,7 @@ import { ROOT, requireDist } from './lib.mjs';
 
 requireDist();
 const arg = (name, fallback) => process.argv.find((a) => a.startsWith(`--${name}=`))?.split('=')[1] ?? fallback;
-const pages = arg('pages', '/,/privacy').split(',');
+const pages = arg('pages', '/,/log,/today,/receipt,/taste-report').split(',');
 const widths = arg('widths', '375,768,1440').split(',').map(Number);
 const themes = arg('themes', 'light,dark').split(',');
 const reduced = process.argv.includes('--reduced');
