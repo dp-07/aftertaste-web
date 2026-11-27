@@ -6,11 +6,11 @@ Target launch: **23 Nov 2026** (owner-stated).
 
 ## Web revamp (2026-11-27)
 
-| Item                                                         | Owner                                      | Status                                     | Notes                                                                                              |
-| ------------------------------------------------------------ | ------------------------------------------ | ------------------------------------------ | -------------------------------------------------------------------------------------------------- |
+| Item                                                         | Owner                                      | Status                                    | Notes                                                                                              |
+| ------------------------------------------------------------ | ------------------------------------------ | ----------------------------------------- | -------------------------------------------------------------------------------------------------- |
 | Short home + four feature pages (`task/web-revamp-20261127`) | human reviews; Claude merges on "approved" | **done** (approved and merged 2026-11-27) | Decisions 2026-11-27; recon `.claude/project-state/web-revamp-recon-20261127.md`.                  |
-| Search a place or a craving, Menu and booking                | human decides                              | open                                       | Cut with the "More in Aftertaste" index; could return as one-line blocks on `/log`.                |
-| Real app screenshots                                         | human supplies                             | open                                       | `PhoneFrame` is unused since the hero shows the seal; a screenshot could return on a feature page. |
+| Search a place or a craving, Menu and booking                | human decides                              | open                                      | Cut with the "More in Aftertaste" index; could return as one-line blocks on `/log`.                |
+| Real app screenshots                                         | human supplies                             | open                                      | `PhoneFrame` is unused since the hero shows the seal; a screenshot could return on a feature page. |
 
 ## Open placeholders
 
