@@ -27,8 +27,14 @@ export const site = {
   betaAnchor: '/#join',
   /** Support page (/patron, was /coffee until 2026-11-28): UPI (India), Bondin and Buy Me a Coffee. Never linked from /privacy, /terms or /support. */
   buyMeACoffeeUrl: 'https://buymeacoffee.com/parasdp',
-  /** Bondin support page (link only: its embed script is not loaded, see decisions 2026-11-28). */
+  /** Buy Me a Coffee page id (the path of the URL above), used by the in-page payment sheet. */
+  buyMeACoffeeId: 'parasdp',
+  /** Bondin username; the support page and the tap-to-load widget both use it. */
+  bondinUsername: 'dp_paras07',
+  /** Bondin support page: the link and the no-JS fallback. */
   bondinUrl: 'https://bondin.io/dp_paras07/support',
+  /** Bondin embed script, loaded only after the visitor taps "Support with Bondin" (see decisions 2026-11-28). */
+  bondinScriptUrl: 'https://bondin.io/embed/v1.js',
   /** UPI ID (VPA) only. The payee name is deliberately not stored: UPI apps show the bank-verified name. */
   upiId: 'dp.paras1707@oksbi',
   themeColor: { light: '#F4EFE6', dark: '#16130F' },

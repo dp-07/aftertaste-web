@@ -584,7 +584,7 @@
           "file": "src/config/site.ts"
         }
       ],
-      "notes": "Payments rule applies: never link /patron, buymeacoffee.com or upi:// from /privacy, /terms or /support; no pn= in UPI links. Bondin (site.bondinUrl) is a plain link, never the embed script (CSP, no third-party requests). Changes beyond mirroring the config values are STOP."
+      "notes": "Payments rule applies: never link /patron, buymeacoffee.com or upi:// from /privacy, /terms or /support; no pn= in UPI links. Bondin and Buy Me a Coffee open their checkouts only after a tap on /patron (tap-to-load; wider CSP on /patron only, see RULES Payments); never load either on page load. Changes beyond mirroring the config values are STOP."
     },
     {
       "id": "beta-list",

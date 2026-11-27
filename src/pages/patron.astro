@@ -9,8 +9,11 @@
  *   inline SVG: no JS ships, nothing third-party, and no name can be embedded.
  * - Phone or desktop is decided with CSS (pointer, width); both show if unsure.
  * - The UPI ID is never shown: "Copy UPI ID" copies it from a data attribute.
- * - Bondin is a plain link. Its embed script (bondin.io/embed/v1.js) is deliberately not
- *   loaded: CSP is default-src 'none' and the site makes no third-party requests.
+ * - Bondin and Buy Me a Coffee are real links first (no JS, new tab). With JS, tapping them opens
+ *   the provider's checkout in the page: Bondin's embed script is loaded only on that tap, and Buy
+ *   Me a Coffee's widget page opens in a native <dialog> (the same iframe its widget script builds,
+ *   without the script, the floating bubble or its cookie). Nothing third-party loads with the page.
+ *   Only /patron gets the wider CSP and Permissions-Policy (public/_headers).
  * - A THANK YOU stamp presses after any option is tapped (hidden without JS).
  * - Route /patron (renamed from /coffee on 2026-11-28; /coffee 301s here).
  * - The one inline script (src/scripts/patron.js) is hashed in the CSP.
@@ -20,9 +23,12 @@ import qrcode from 'qrcode-generator';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SealMark from '../components/brand/SealMark.astro';
 import Button from '../components/ui/Button.astro';
+import Icon from '../components/ui/Icon.astro';
 import Stamp from '../components/brand/Stamp.astro';
 import patronScript from '../scripts/patron.js?raw';
 import { site, upiUrl } from '../config/site';
+
+const bmcEmbedUrl = `https://buymeacoffee.com/widget/page/${site.buyMeACoffeeId}?description=${encodeURIComponent('Support Aftertaste')}&color=${encodeURIComponent('#c2412d')}`;
 
 const qr = qrcode(0, 'M');
 qr.addData(upiUrl());
@@ -98,7 +104,16 @@ const size = count + QUIET * 2;
           <p class="best muted">Support on Bondin.</p>
         </div>
         <div class="act">
-          <Button href={site.bondinUrl} icon="external-link" target="_blank" rel="noopener" data-support>
+          <Button
+            href={site.bondinUrl}
+            icon="external-link"
+            target="_blank"
+            rel="noopener"
+            data-support
+            data-embed="bondin"
+            data-bondin-user={site.bondinUsername}
+            data-bondin-script={site.bondinScriptUrl}
+          >
             Support with Bondin<span class="visually-hidden"> (opens in a new tab)</span>
           </Button>
         </div>
@@ -110,12 +125,42 @@ const size = count + QUIET * 2;
           <p class="best muted">Cards and international.</p>
         </div>
         <div class="act">
-          <Button href={site.buyMeACoffeeUrl} icon="coffee" target="_blank" rel="noopener" data-support>
+          <Button
+            href={site.buyMeACoffeeUrl}
+            icon="coffee"
+            target="_blank"
+            rel="noopener"
+            data-support
+            data-embed="bmc"
+          >
             Support with Buy Me a Coffee<span class="visually-hidden"> (opens Buy Me a Coffee in a new tab)</span>
           </Button>
         </div>
       </li>
     </ul>
+
+    <dialog class="sheet" data-bmc-dialog aria-labelledby="bmc-sheet-title">
+      <div class="sheet-bar">
+        <p id="bmc-sheet-title" class="t-card-title">
+          Buy Me a Coffee
+        </p>
+        <button type="button" class="sheet-close" data-bmc-close aria-label="Close">
+          <Icon name="x" size={20} />
+        </button>
+      </div>
+      <iframe
+        class="sheet-frame"
+        title="Buy Me a Coffee checkout"
+        allow="payment"
+        referrerpolicy="strict-origin-when-cross-origin"
+        data-src={bmcEmbedUrl}
+      ></iframe>
+      <p class="sheet-foot t-body-sm">
+        <a class="ink-link" href={site.buyMeACoffeeUrl} target="_blank" rel="noopener">
+          Trouble paying? Open it on Buy Me a Coffee<span class="visually-hidden"> (opens in a new tab)</span>
+        </a>
+      </p>
+    </dialog>
 
     <div class="thanks" data-thanks hidden>
       <Stamp variant="thanks" size="lg" press="manual" />
@@ -297,6 +342,73 @@ const size = count + QUIET * 2;
 
   .status:empty {
     display: none;
+  }
+
+  /* Buy Me a Coffee's checkout in a native dialog (focus trap, Esc and backdrop for free). */
+  .sheet {
+    inline-size: min(26rem, calc(100vw - var(--s-24)));
+    block-size: min(46rem, calc(100dvh - var(--s-24)));
+    max-inline-size: none;
+    max-block-size: none;
+    margin: auto;
+    padding: 0;
+    border: 0;
+    border-radius: var(--r-lg);
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: var(--elevation);
+    overflow: hidden;
+  }
+
+  .sheet[open] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sheet::backdrop {
+    background: rgb(15 13 11 / 0.64);
+  }
+
+  .sheet-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-12);
+    padding: var(--s-12) var(--s-12) var(--s-12) var(--s-20);
+  }
+
+  .sheet-bar p {
+    margin: 0;
+  }
+
+  .sheet-close {
+    display: grid;
+    place-items: center;
+    inline-size: 44px;
+    block-size: 44px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r-pill);
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+  }
+
+  .sheet-close:hover {
+    border-color: var(--text);
+  }
+
+  .sheet-frame {
+    flex: 1;
+    min-block-size: 0;
+    inline-size: 100%;
+    border: 0;
+    background: #fff;
+  }
+
+  .sheet-foot {
+    margin: 0;
+    padding: var(--s-12) var(--s-20);
+    text-align: center;
   }
 
   .thanks {
