@@ -9,7 +9,7 @@ Context for Claude Code working in this repository. Keep it in sync: when you ch
 
 ## Overview
 
-The public website for **Aftertaste**, a private food diary, a native app for Android and iOS ("Taste you don’t want to forget."), at **https://theaftertaste.app** (apex is canonical; `www` redirects to it via a Cloudflare Bulk Redirect). Static Astro site deployed by Cloudflare Pages from `main`, plus one Pages Function (`functions/api/beta.ts`, the private-beta list in Cloudflare D1). The app is in private beta ("still cooking"): no download is offered. Pages: `/`, the feature pages `/log`, `/today`, `/receipt`, `/taste-report` (web revamp 2026-11-27), `/privacy`, `/terms`, `/support`, `/coffee`, and a branded `404`. Contact: `hello@theaftertaste.app`. The app lives in a separate repo (`DishDiary`, package `bitemarks`); this repo is public.
+The public website for **Aftertaste**, a private food diary, a native app for Android and iOS ("Taste you don’t want to forget."), at **https://theaftertaste.app** (apex is canonical; `www` redirects to it via a Cloudflare Bulk Redirect). Static Astro site deployed by Cloudflare Pages from `main`, plus one Pages Function (`functions/api/beta.ts`, the private-beta list in Cloudflare D1). The app is in private beta ("still cooking"): no download is offered. Pages: `/`, the feature pages `/log`, `/today`, `/receipt`, `/taste-report` (web revamp 2026-11-27), `/privacy`, `/terms`, `/support`, `/patron`, and a branded `404`. Contact: `hello@theaftertaste.app`. The app lives in a separate repo (`DishDiary`, package `bitemarks`); this repo is public.
 
 ## Non-negotiables (details in [RULES](docs/RULES.md))
 
