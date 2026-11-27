@@ -57,49 +57,47 @@ const size = count + QUIET * 2;
     </header>
 
     <ul class="options">
-      <li class="card">
-        <h2 id="upi-title" class="t-title">
-          UPI
-        </h2>
-        <p class="best muted">Best in India, no fees.</p>
-        <div class="card-body">
+      <li class="card card--upi">
+        <div class="info">
+          <h2 class="t-card-title">UPI</h2>
+          <p class="best muted">Best in India, no fees.</p>
+        </div>
+        <div class="act">
           <div class="upi-app">
             <Button href={upiUrl()} icon="smartphone" data-support>
               Open UPI app
             </Button>
           </div>
-          <div class="upi-qr">
-            <svg
-              class="qr"
-              viewBox={`0 0 ${size} ${size}`}
-              width="176"
-              height="176"
-              role="img"
-              aria-label="UPI QR code for Aftertaste"
-              shape-rendering="crispEdges"
-            >
-              <rect class="qr-bg" width={size} height={size}></rect>
-              <path class="qr-fg" d={d}></path>
-            </svg>
-            <p class="t-body-sm muted">Scan with any UPI app.</p>
-          </div>
-          <div class="copy-id">
-            <span class="copy-wrap" data-copy-wrap>
-              <Button variant="secondary" icon="copy" data-copy-upi data-upi-id={site.upiId}>
-                Copy UPI ID
-              </Button>
-            </span>
-            <p class="status t-body-sm" role="status" aria-live="polite" data-copy-status></p>
-          </div>
+          <span class="copy-wrap" data-copy-wrap>
+            <Button variant="secondary" icon="copy" data-copy-upi data-upi-id={site.upiId}>
+              Copy UPI ID
+            </Button>
+          </span>
+          <p class="status t-body-sm" role="status" aria-live="polite" data-copy-status></p>
+        </div>
+        <div class="upi-qr">
+          <svg
+            class="qr"
+            viewBox={`0 0 ${size} ${size}`}
+            width="132"
+            height="132"
+            role="img"
+            aria-label="UPI QR code for Aftertaste"
+            shape-rendering="crispEdges"
+          >
+            <rect class="qr-bg" width={size} height={size}></rect>
+            <path class="qr-fg" d={d}></path>
+          </svg>
+          <p class="t-body-sm muted">Scan with any UPI app</p>
         </div>
       </li>
 
       <li class="card">
-        <h2 id="bondin-title" class="t-title">
-          Bondin
-        </h2>
-        <p class="best muted">Support on Bondin.</p>
-        <div class="card-body">
+        <div class="info">
+          <h2 class="t-card-title">Bondin</h2>
+          <p class="best muted">Support on Bondin.</p>
+        </div>
+        <div class="act">
           <Button href={site.bondinUrl} icon="external-link" target="_blank" rel="noopener" data-support>
             Support with Bondin<span class="visually-hidden"> (opens in a new tab)</span>
           </Button>
@@ -107,11 +105,11 @@ const size = count + QUIET * 2;
       </li>
 
       <li class="card">
-        <h2 id="bmc-title" class="t-title">
-          Buy Me a Coffee
-        </h2>
-        <p class="best muted">Cards and international.</p>
-        <div class="card-body">
+        <div class="info">
+          <h2 class="t-card-title">Buy Me a Coffee</h2>
+          <p class="best muted">Cards and international.</p>
+        </div>
+        <div class="act">
           <Button href={site.buyMeACoffeeUrl} icon="coffee" target="_blank" rel="noopener" data-support>
             Support with Buy Me a Coffee<span class="visually-hidden"> (opens Buy Me a Coffee in a new tab)</span>
           </Button>
@@ -135,8 +133,8 @@ const size = count + QUIET * 2;
 <style>
   .patron {
     display: grid;
-    gap: var(--space-block);
-    max-inline-size: 64rem;
+    gap: var(--s-32);
+    max-inline-size: 40rem;
     margin-inline: auto;
     padding-block-start: clamp(2rem, 1rem + 4vw, 4.5rem);
   }
@@ -145,75 +143,90 @@ const size = count + QUIET * 2;
     display: grid;
     justify-items: start;
     gap: var(--s-16);
-    max-inline-size: 44rem;
   }
 
   .head :global(.seal) {
-    inline-size: 88px;
-    block-size: 88px;
+    inline-size: 72px;
+    block-size: 72px;
   }
 
   .kicker {
     color: var(--primary-ink);
   }
 
-  /* Three cards of the same size and style: one column, then three from 60rem. */
+  /* Three compact cards of the same width and style, stacked: text left, action right. */
   .options {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--s-16);
+    gap: var(--s-12);
     margin: 0;
     padding: 0;
     list-style: none;
-  }
-
-  @media (min-width: 60rem) {
-    .options {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: var(--s-24);
-    }
+    max-inline-size: 40rem;
   }
 
   .card {
-    display: flex;
-    flex-direction: column;
-    gap: var(--s-4);
-    padding: var(--s-24);
+    --control-h: 44px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: 'info act';
+    align-items: center;
+    gap: var(--s-12) var(--s-24);
+    padding: var(--s-16) var(--s-20);
     border-radius: var(--r-lg);
     background: var(--surface);
     box-shadow: var(--elevation);
   }
 
-  .card h2 {
-    margin: 0;
+  .info {
+    grid-area: info;
   }
 
+  .act {
+    grid-area: act;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--s-8);
+  }
+
+  .card h2,
   .best {
     margin: 0;
   }
 
-  .card-body {
-    display: grid;
-    justify-items: start;
-    align-content: start;
-    gap: var(--s-16);
-    margin-block-start: var(--s-16);
+  .best {
+    font-size: var(--fs-body-sm);
   }
 
-  .card-body :global(.btn) {
-    max-inline-size: 100%;
+  /* The UPI card adds the QR on desktop and tablets, so it is a little taller. */
+  .card--upi {
+    grid-template-areas:
+      'info qr'
+      'act qr';
+    align-items: start;
+  }
+
+  .card--upi .act {
+    justify-content: flex-start;
+    align-self: end;
   }
 
   .upi-qr {
+    grid-area: qr;
     display: grid;
-    justify-items: start;
-    gap: var(--s-8);
+    justify-items: center;
+    gap: var(--s-4);
+  }
+
+  .upi-qr p {
+    margin: 0;
   }
 
   /* A fixed light card with dark modules in both themes, so it always scans. */
   .qr {
-    inline-size: 176px;
-    block-size: 176px;
+    inline-size: 132px;
+    block-size: 132px;
     border-radius: var(--r-md);
     box-shadow: var(--elevation);
   }
@@ -238,13 +251,38 @@ const size = count + QUIET * 2;
     .upi-qr {
       display: none;
     }
+
+    .card--upi {
+      grid-template-areas:
+        'info'
+        'act';
+      grid-template-columns: minmax(0, 1fr);
+    }
   }
 
-  .copy-id {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--s-8) var(--s-16);
+  /* Narrow screens: the action goes under the text. */
+  @media (width < 34rem) {
+    .card {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas:
+        'info'
+        'act';
+    }
+
+    .card .act {
+      justify-content: flex-start;
+    }
+
+    .card--upi {
+      grid-template-areas:
+        'info'
+        'act'
+        'qr';
+    }
+
+    .upi-qr {
+      justify-items: start;
+    }
   }
 
   .copy-wrap:not(.ready) {
@@ -253,7 +291,12 @@ const size = count + QUIET * 2;
 
   .status {
     margin: 0;
+    flex-basis: 100%;
     color: var(--primary-ink);
+  }
+
+  .status:empty {
+    display: none;
   }
 
   .thanks {
@@ -267,7 +310,6 @@ const size = count + QUIET * 2;
   }
 
   .foot {
-    max-inline-size: 44rem;
     margin: 0;
     padding-block-start: var(--s-20);
     border-block-start: 1px solid var(--line);
