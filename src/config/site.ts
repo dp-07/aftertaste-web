@@ -25,8 +25,10 @@ export const site = {
   betaEndpoint: '/api/beta',
   /** In-page anchor of the "Save your seat" form on the landing page. */
   betaAnchor: '/#join',
-  /** Support page (/patron, was /coffee until 2026-11-28): Buy Me a Coffee, plus UPI for India. Never linked from /privacy, /terms or /support. */
+  /** Support page (/patron, was /coffee until 2026-11-28): UPI (India), Bondin and Buy Me a Coffee. Never linked from /privacy, /terms or /support. */
   buyMeACoffeeUrl: 'https://buymeacoffee.com/parasdp',
+  /** Bondin support page (link only: its embed script is not loaded, see decisions 2026-11-28). */
+  bondinUrl: 'https://bondin.io/dp_paras07/support',
   /** UPI ID (VPA) only. The payee name is deliberately not stored: UPI apps show the bank-verified name. */
   upiId: 'dp.paras1707@oksbi',
   themeColor: { light: '#F4EFE6', dark: '#16130F' },

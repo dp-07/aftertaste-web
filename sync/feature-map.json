@@ -567,7 +567,7 @@
     },
     {
       "id": "support-coffee",
-      "app_feature": "Support the app: Buy Me a Coffee and UPI (direct build)",
+      "app_feature": "Support the app: UPI, Bondin and Buy Me a Coffee (direct build; Bondin is web-only so far)",
       "status": "merged",
       "app_sources": ["src/config/supportDirect.ts (BMC_URL, UPI_ID)", "src/screens/support/SupportScreen.tsx"],
       "website": [
@@ -584,7 +584,7 @@
           "file": "src/config/site.ts"
         }
       ],
-      "notes": "Payments rule applies: never link /patron, buymeacoffee.com or upi:// from /privacy, /terms or /support; no pn= in UPI links. Changes beyond mirroring the two config values are STOP."
+      "notes": "Payments rule applies: never link /patron, buymeacoffee.com or upi:// from /privacy, /terms or /support; no pn= in UPI links. Bondin (site.bondinUrl) is a plain link, never the embed script (CSP, no third-party requests). Changes beyond mirroring the config values are STOP."
     },
     {
       "id": "beta-list",

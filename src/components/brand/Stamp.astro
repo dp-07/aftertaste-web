@@ -8,6 +8,7 @@
  *   logged       LOGGED + date (the receipt stamp, −12°, 0.88 opacity)
  *   seat         SEAT SAVED (the beta form's confirmation; site only)
  *   later        COMING LATER (features that are not built yet; site only)
+ *   thanks       THANK YOU (/patron, after a support option is tapped; site only)
  *
  * Construction per SPEC: outer rule, inner rule, uppercase tracked DM Sans
  * Medium on an opaque paper fill, rotated −4°. Measured in em from the
@@ -20,7 +21,7 @@
  * (the beta form presses SEAT SAVED when the server confirms).
  */
 interface Props {
-  variant: 'placeStrong' | 'mustTry' | 'tried' | 'todaysPick' | 'logged' | 'seat' | 'later';
+  variant: 'placeStrong' | 'mustTry' | 'tried' | 'todaysPick' | 'logged' | 'seat' | 'later' | 'thanks';
   size?: 'sm' | 'md' | 'lg';
   /** LOGGED stamp date, e.g. "12 Nov 2026". */
   date?: string;
@@ -38,6 +39,7 @@ const copy = {
   logged: { lines: ['LOGGED'], label: `Logged ${date}`.trim() },
   seat: { lines: ['SEAT SAVED'], label: 'Seat saved' },
   later: { lines: ['COMING LATER'], label: 'Coming later' },
+  thanks: { lines: ['THANK YOU'], label: 'Thank you' },
 }[variant];
 const lines = variant === 'placeStrong' && size !== 'sm' ? [copy.lines.join(' · ')] : copy.lines;
 ---

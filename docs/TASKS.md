@@ -34,10 +34,10 @@ Synced from the app repo @ `04039aa` (2026-11-13): **0 TODOs** in both documents
 
 ## Coffee page
 
-| Item                                                 | Owner  | Status                | Notes                                                                                                                |
-| ---------------------------------------------------- | ------ | --------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| `/coffee` (now `/patron`) with Buy Me a Coffee + UPI | Claude | **done** (2026-11-14) | Build-time QR (`qrcode-generator@2.0.4`), payment-link gate, footer variant. See [RULES](RULES.md#payments-patron).  |
-| Prefer a business UPI ID                             | human  | open                  | The ID in `site.upiId` is personal-looking; swapping to a business VPA is a one-line change in `src/config/site.ts`. |
+| Item                                                          | Owner  | Status                                                            | Notes                                                                                                                |
+| ------------------------------------------------------------- | ------ | ----------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `/patron` (was `/coffee`): UPI, Bondin, Buy Me a Coffee cards | Claude | **done** (2026-11-14; redesigned 2026-11-28, awaiting "approved") | Build-time QR (`qrcode-generator@2.0.4`), payment-link gate, footer variant. See [RULES](RULES.md#payments-patron).  |
+| Prefer a business UPI ID                                      | human  | open                                                              | The ID in `site.upiId` is personal-looking; swapping to a business VPA is a one-line change in `src/config/site.ts`. |
 
 ## Launch checklist (23 Nov 2026)
 
