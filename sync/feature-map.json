@@ -221,7 +221,7 @@
         }
       ],
       "claims": [
-        "tap the mushroom on Home to see it",
+        "open Today’s pick in the app (neutral wording until production-direct ships the mushroom menu)",
         "from your Want to try list, a place you'd go back to, or a friend's favourite",
         "shows the photos and why it chose it",
         "open the place, say not today, or ask for another pick",

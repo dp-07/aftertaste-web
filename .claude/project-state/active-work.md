@@ -1,6 +1,6 @@
-# Active work: web revamp (`task/web-revamp-20261127`) — pushed, awaiting "approved" (2026-11-27)
+# Active work: web revamp (`task/web-revamp-20261127`) — approved and merged into `work-branch` (2026-11-27)
 
-Short home (hero, three steps, feature teasers, one privacy line, beta form) and four feature pages (`/log`, `/today`, `/receipt`, `/taste-report`); FAQ on `/support`; interactive hero seal, Today's pick swipe and Another pick, receipt print with a thud, taste report count-up, scroll rise. Recon: `web-revamp-recon-20261127.md`; results: `web-revamp-report-20261127.md`; decisions 2026-11-27. Not merged into `work-branch` until the human says "approved".
+Short home (hero, three steps, feature teasers, one privacy line, beta form) and four feature pages (`/log`, `/today`, `/receipt`, `/taste-report`); FAQ on `/support`; interactive hero seal, Today's pick swipe and Another pick, receipt print with a thud, taste report count-up, scroll rise. Recon: `web-revamp-recon-20261127.md`; results: `web-revamp-report-20261127.md`; decisions 2026-11-27. Approved by the human on 2026-11-27 with one copy change (/today: "Open Today’s pick in the app").
 
 ---
 
