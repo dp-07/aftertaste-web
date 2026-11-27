@@ -30,8 +30,33 @@
   mq.addEventListener('change', function () {
     if (pref === 'system') apply('system');
   });
+  // Header menus are native <details> (SiteHeader.astro); this adds one open at
+  // a time, Escape (focus back on the button), outside click and close on a link.
+  function closeMenus(except) {
+    var ms = document.querySelectorAll('details[data-menu][open]');
+    for (var k = 0; k < ms.length; k++) if (ms[k] !== except) ms[k].open = false;
+  }
+  document.addEventListener(
+    'toggle',
+    function (e) {
+      var m = e.target;
+      if (m instanceof HTMLDetailsElement && m.hasAttribute('data-menu') && m.open) closeMenus(m);
+    },
+    true,
+  );
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    var m = e.target instanceof Element ? e.target.closest('details[data-menu][open]') : null;
+    if (!m) return;
+    m.open = false;
+    var s = m.querySelector('summary');
+    if (s) s.focus();
+  });
   document.addEventListener('click', function (e) {
     var t = e.target instanceof Element ? e.target : null;
+    var inMenu = t ? t.closest('details[data-menu]') : null;
+    if (!inMenu) closeMenus(null);
+    else if (t.closest('a')) inMenu.open = false;
     if (t && t.closest('[data-banner-dismiss]')) {
       try {
         localStorage.setItem(BANNER_KEY, 'dismissed');

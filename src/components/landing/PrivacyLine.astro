@@ -1,0 +1,57 @@
+---
+/**
+ * Home privacy line (web revamp 2026-11-27). Two claims the site already made,
+ * each grounded in the synced privacy policy: sharing is off until you turn it
+ * on (§7), and no ads, analytics, cookies or trackers (§1). Keeps #privacy.
+ */
+import SealMark from '../brand/SealMark.astro';
+import InkLink from '../ui/InkLink.astro';
+---
+
+<section id="privacy" class="privacy" aria-labelledby="privacy-title">
+  <div class="wrap">
+    <div class="band reveal">
+      <SealMark class="mark" />
+      <div class="copy">
+        <h2 id="privacy-title" class="t-title">
+          Private by default.
+        </h2>
+        <p class="muted">
+          Your diary is just for you until you turn on sharing. No ads, no trackers, no cookies.{' '}
+          <InkLink href="/privacy">Read the privacy policy</InkLink>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .privacy {
+    padding-block-start: var(--space-section);
+  }
+
+  .band {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: var(--s-20);
+    padding-block: var(--s-24);
+    border-block: 1px solid var(--line);
+  }
+
+  .band :global(.mark) {
+    inline-size: clamp(3.5rem, 2.5rem + 4vw, 5.5rem);
+    block-size: auto;
+  }
+
+  .copy {
+    display: grid;
+    gap: var(--s-8);
+    max-inline-size: 40rem;
+  }
+
+  h2,
+  p {
+    margin: 0;
+  }
+</style>

@@ -1,5 +1,7 @@
 # Current state (2026-11-13)
 
+- **2026-11-27:** web revamp on `task/web-revamp-20261127` (pushed, not merged): home cut from 18,326 to about 3,900 px at 375 px; new pages `/log`, `/today`, `/receipt`, `/taste-report`. See `active-work.md`.
+
 - **Site:** static Astro site for https://theaftertaste.app (contact `hello@theaftertaste.app`), deployed by Cloudflare Pages from `main`, plus one Pages Function (`functions/api/beta.ts`) for the private-beta list in Cloudflare D1. Aftertaste is a native app for Android and iOS, both in private beta (iOS parked); the site says "still cooking" and offers no download. Target launch 23 Nov 2026 (owner-stated).
 - **Branches:** `task/website-v2` approved by the owner on 2026-11-14 and merged into `work-branch` (see git log); `main` is promoted by the human only.
 - **Docs:** `docs/` (PRD, ARCHITECTURE, RULES, DESIGN, TASKS, MEMORY, DEV-GUIDE) is the source of truth for rules and architecture; this folder keeps live status and decisions.

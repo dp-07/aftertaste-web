@@ -1,0 +1,106 @@
+---
+/**
+ * /today (web revamp 2026-11-27): Today's pick, What should we eat? (Pick for
+ * me), Want to try and From friends: the ways Aftertaste helps you choose.
+ * Claims mapped in sync/feature-map.json (todays-pick, what-should-we-eat,
+ * want-to-try, from-friends).
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FeatureHead from '../components/feature/FeatureHead.astro';
+import Block from '../components/feature/Block.astro';
+import NextUp from '../components/feature/NextUp.astro';
+import TodaysPickCard from '../components/app/TodaysPickCard.astro';
+import DecisionDemo from '../components/landing/DecisionDemo.astro';
+import WishlistRow from '../components/app/WishlistRow.astro';
+import FriendRow from '../components/app/FriendRow.astro';
+---
+
+<BaseLayout
+  title="Today’s pick"
+  description="Today’s pick hands you one place a day from your own lists. Can’t decide? Pick for me answers the group chat in one tap."
+>
+  <FeatureHead
+    title="One place a day, picked for you."
+    line="Open Today’s pick in the app: one place from your list, a spot you’d go back to, or a friend’s fave."
+  >
+    <TodaysPickCard
+      slot="visual"
+      label="Example Today’s pick card (sample places)"
+      picks={[
+        {
+          name: 'Hill Road Momos',
+          meta: 'Restaurant • Dehradun',
+          rating: 4.6,
+          reason: 'You rated this 5★ in March',
+          photos: ['noodle', 'mushroom', 'sprout', 'cinnamon'],
+        },
+        {
+          name: 'Little Ladoo Bakery',
+          meta: 'Bakery • Dehradun',
+          rating: null,
+          reason: 'On your Want to try',
+          photos: ['cinnamon', 'sprout', 'noodle'],
+        },
+        {
+          name: 'Banyan Tree Dhaba',
+          meta: 'Dhaba • Dehradun',
+          rating: 4.8,
+          reason: 'Meera’s must-try',
+          photos: ['sprout', 'noodle', 'mushroom'],
+        },
+      ]}
+    />
+  </FeatureHead>
+
+  <Block
+    id="pick-for-me"
+    title="Can’t decide? Let it pick."
+    line="The group chat question, answered in one tap: from your list, your favourites and friends’ top spots."
+    flip
+  >
+    <DecisionDemo slot="visual" />
+  </Block>
+
+  <Block
+    id="want-to-try"
+    title="A list for the places you keep hearing about."
+    line="Save a place from search or a friend’s diary. Went? It moves to Tried. Nobody else sees it."
+  >
+    <ul class="rows" slot="visual" aria-label="Example Want to try list">
+      <WishlistRow name="Saffron & Salt" meta="Restaurant · 2.1 km" source="Saved from search" kind="noodle" />
+      <WishlistRow name="Little Ladoo Bakery" meta="Bakery · 800 m" source="From Ronnie’s diary" kind="cinnamon" />
+      <WishlistRow name="Mosaic Café" meta="Café · Rajpur Road" source="Added by you" kind="sprout" tried="yesterday" />
+    </ul>
+  </Block>
+
+  <Block
+    id="from-friends"
+    title="See where your friends ate."
+    line="Friends who share their diary show up with a must-try dish. Read-only, and notes stay private."
+    flip
+  >
+    <ul class="rows" slot="visual" aria-label="Example From friends list">
+      <FriendRow friend="Ronnie" place="Hill Road Momos" rating={5} when="Yesterday" mustTry="Jhol momo" />
+      <FriendRow friend="Meera" place="Banyan Tree Dhaba" rating={4} when="3 days ago" tone="mustard" />
+    </ul>
+  </Block>
+
+  <NextUp current="/today" />
+</BaseLayout>
+
+<script>
+  import '../scripts/landing';
+  import '../scripts/pick';
+</script>
+
+<style>
+  .rows {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-8);
+    inline-size: min(100%, 28rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+</style>

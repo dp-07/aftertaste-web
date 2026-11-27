@@ -135,17 +135,12 @@ Aftertaste is a native app for Android and iOS. During the beta the hero shows n
 
 1. In [src/config/site.ts](../src/config/site.ts) set `playStoreUrl` (`https://play.google.com/store/apps/details?id=…`) and/or `appStoreUrl` (`https://apps.apple.com/app/…`) as each store goes live. [Hero.astro](../src/components/landing/Hero.astro) renders a [StoreBadge](../src/components/ui/StoreBadge.astro) for each URL that is set.
 2. Replace the text plate in `StoreBadge.astro` with each store's **official** artwork (Google's "Get it on Google Play", Apple's "Download on the App Store"), following their badge guidelines; add under `src/assets/`, render with `astro:assets`. Do not draw imitations.
-3. Retire the beta copy: hero eyebrow and buttons, [BetaBanner.astro](../src/components/BetaBanner.astro), the FAQ answers "Can I use it now?", "When can I get it?" and "Is there an iPhone app?" in [Faq.astro](../src/components/landing/Faq.astro), the footer colophon, and the taste-report "(still cooking)" if it has shipped. Consider adding `offers` to the `MobileApplication` JSON-LD in [index.astro](../src/pages/index.astro) (its `operatingSystem` is already "Android, iOS").
+3. Retire the beta copy: hero eyebrow and buttons, [BetaBanner.astro](../src/components/BetaBanner.astro), the FAQ answers "Can I use it now?", "When can I get it?" and "Is there an iPhone app?" in [Faq.astro](../src/components/support/Faq.astro) (on /support), the footer colophon, and the taste-report "(still cooking)" if it has shipped. Consider adding `offers` to the `MobileApplication` JSON-LD in [index.astro](../src/pages/index.astro) (its `operatingSystem` is already "Android, iOS").
 4. `npm run gates`.
 
-### Add diary photos
+### Diary photos (retired)
 
-"From the diary" ([FromTheDiary.astro](../src/components/landing/FromTheDiary.astro)) reads its entries from [src/config/diary.ts](../src/config/diary.ts). They are placeholders (`sample: true`) until real ones go in.
-
-1. Put each photo in `src/assets/diary/`: JPEG, PNG, WebP or AVIF, landscape about 4:3 (cards crop to 4:3), at least 640 px wide. Only food: no faces, receipts with card numbers, or anything personal. Strip location metadata if your camera adds it (Astro re-encodes the image, which drops EXIF, but keep originals clean anyway).
-2. In `diary.ts`, edit an entry (dish, place, city, rating 1–5, a one-line note, a short date, an optional `stamp`) and set `photo: 'jhol-momo.jpg'` (the file name only) and `alt`: what is on the plate, in a sentence ("A steel bowl of jhol momos in a red sesame broth, with a spoon"). The build fails if `alt` is missing or the file does not exist.
-3. Remove `sample: true` from real entries. The "Sample pages for now" note disappears when no samples remain; remove the `TODO(diary)` comment then.
-4. `npm run gates`, then check the strip at 320 and 1440 px (`npm run audit:screens -- --pages=/ --widths=320,1440`). Astro emits AVIF and WebP at 320 and 640 px, lazily loaded.
+The "From the diary" strip was cut in the web revamp (2026-11-27, see decisions.md) with its config. To bring real diary photos back, add them as a section on a feature page and keep the old rules: food only, no faces or personal details, location metadata stripped, real alt text, `astro:assets` for AVIF/WebP. `src/assets/diary/` is kept empty for that.
 
 ## Beta list
 
