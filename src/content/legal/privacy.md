@@ -20,7 +20,7 @@ The AI taste report section (section 8) applies from 25 November 2026.
 
 Aftertaste is a private food diary for iOS and Android. You keep a list of places you have eaten at, log visits and dishes with photos and ratings, and keep a private list of places you want to try. This policy explains what the app collects, why, who else handles it, and how to delete it. We have tried to keep it short and plain.
 
-**Who is responsible:** Paras D Prasad, an individual in India. Contact: [hello@theaftertaste.app](mailto:hello@theaftertaste.app).
+**Who is responsible:** Contact for support: [hello@theaftertaste.app](mailto:hello@theaftertaste.app).
 
 ## 1. What we collect
 
