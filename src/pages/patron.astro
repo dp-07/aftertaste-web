@@ -63,41 +63,6 @@ const size = count + QUIET * 2;
     </header>
 
     <ul class="options">
-      <li class="card card--upi">
-        <div class="info">
-          <h2 class="t-card-title">UPI</h2>
-          <p class="best muted">Best in India, no fees.</p>
-        </div>
-        <div class="act">
-          <div class="upi-app">
-            <Button href={upiUrl()} icon="smartphone" data-support>
-              Open UPI app
-            </Button>
-          </div>
-          <span class="copy-wrap" data-copy-wrap>
-            <Button variant="secondary" icon="copy" data-copy-upi data-upi-id={site.upiId}>
-              Copy UPI ID
-            </Button>
-          </span>
-          <p class="status t-body-sm" role="status" aria-live="polite" data-copy-status></p>
-        </div>
-        <div class="upi-qr">
-          <svg
-            class="qr"
-            viewBox={`0 0 ${size} ${size}`}
-            width="132"
-            height="132"
-            role="img"
-            aria-label="UPI QR code for Aftertaste"
-            shape-rendering="crispEdges"
-          >
-            <rect class="qr-bg" width={size} height={size}></rect>
-            <path class="qr-fg" d={d}></path>
-          </svg>
-          <p class="t-body-sm muted">Scan with any UPI app</p>
-        </div>
-      </li>
-
       <li class="card">
         <div class="info">
           <h2 class="t-card-title">Bondin</h2>
@@ -133,8 +98,43 @@ const size = count + QUIET * 2;
             data-support
             data-embed="bmc"
           >
-            Support with Buy Me a Coffee<span class="visually-hidden"> (opens Buy Me a Coffee in a new tab)</span>
+            Buy Me a Coffee<span class="visually-hidden"> (opens Buy Me a Coffee in a new tab)</span>
           </Button>
+        </div>
+      </li>
+
+      <li class="card card--upi">
+        <div class="info">
+          <h2 class="t-card-title">UPI</h2>
+          <p class="best muted">Best in India, no fees.</p>
+        </div>
+        <div class="act">
+          <div class="upi-app">
+            <Button href={upiUrl()} icon="smartphone" data-support>
+              Open UPI app
+            </Button>
+          </div>
+          <span class="copy-wrap" data-copy-wrap>
+            <Button variant="secondary" icon="copy" data-copy-upi data-upi-id={site.upiId}>
+              Copy UPI ID
+            </Button>
+          </span>
+          <p class="status t-body-sm" role="status" aria-live="polite" data-copy-status></p>
+        </div>
+        <div class="upi-qr">
+          <svg
+            class="qr"
+            viewBox={`0 0 ${size} ${size}`}
+            width="132"
+            height="132"
+            role="img"
+            aria-label="UPI QR code for Aftertaste"
+            shape-rendering="crispEdges"
+          >
+            <rect class="qr-bg" width={size} height={size}></rect>
+            <path class="qr-fg" d={d}></path>
+          </svg>
+          <p class="t-body-sm muted">Scan with any UPI app</p>
         </div>
       </li>
     </ul>
