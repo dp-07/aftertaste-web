@@ -20,3 +20,6 @@
 /todays-pick         /today                   301
 /receipts           /receipt                 301
 /faq                 /support#questions       301
+/coffee              /patron                  301
+/coffee/             /patron                  301
+/patron/             /patron                  301

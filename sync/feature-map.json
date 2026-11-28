@@ -567,13 +567,13 @@
     },
     {
       "id": "support-coffee",
-      "app_feature": "Support the app: Buy Me a Coffee and UPI (direct build)",
+      "app_feature": "Support the app: UPI, Bondin and Buy Me a Coffee (direct build; Bondin is web-only so far)",
       "status": "merged",
       "app_sources": ["src/config/supportDirect.ts (BMC_URL, UPI_ID)", "src/screens/support/SupportScreen.tsx"],
       "website": [
         {
-          "where": "/coffee page",
-          "file": "src/pages/coffee.astro"
+          "where": "/patron page",
+          "file": "src/pages/patron.astro"
         },
         {
           "where": "Footer link",
@@ -584,7 +584,7 @@
           "file": "src/config/site.ts"
         }
       ],
-      "notes": "Payments rule applies: never link /coffee, buymeacoffee.com or upi:// from /privacy, /terms or /support; no pn= in UPI links. Changes beyond mirroring the two config values are STOP."
+      "notes": "Payments rule applies: never link /patron, buymeacoffee.com or upi:// from /privacy, /terms or /support; no pn= in UPI links. Bondin and Buy Me a Coffee open their checkouts only after a tap on /patron (tap-to-load; wider CSP on /patron only, see RULES Payments); never load either on page load. Changes beyond mirroring the config values are STOP."
     },
     {
       "id": "beta-list",

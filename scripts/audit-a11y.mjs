@@ -11,7 +11,7 @@ import { ROOT, requireDist } from './lib.mjs';
 
 requireDist();
 const axeSource = readFileSync(createRequire(import.meta.url).resolve('axe-core/axe.min.js'), 'utf8');
-const PAGES = ['/', '/log', '/today', '/receipt', '/taste-report', '/privacy', '/terms', '/support', '/coffee', '/404'];
+const PAGES = ['/', '/log', '/today', '/receipt', '/taste-report', '/privacy', '/terms', '/support', '/patron', '/404'];
 const PORT = 4500 + Math.floor(Math.random() * 300);
 const server = spawn(process.execPath, [join(ROOT, 'scripts/serve-dist.mjs'), String(PORT)], { stdio: 'pipe' });
 await new Promise((r) => server.stdout.once('data', r));

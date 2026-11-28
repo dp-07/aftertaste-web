@@ -10,18 +10,31 @@ type Variant = 'primary' | 'secondary' | 'ghost';
 
 interface Props extends Omit<HTMLAttributes<'button'>, 'class'> {
   href?: string;
+  /** Link only (opens in a new tab when '_blank'; add rel="noopener"). */
+  target?: '_blank';
+  rel?: string;
   variant?: Variant;
   icon?: string;
   iconEnd?: boolean;
   class?: string;
 }
 
-const { href, variant = 'primary', icon, iconEnd = false, class: className, type = 'button', ...rest } = Astro.props;
+const {
+  href,
+  target,
+  rel,
+  variant = 'primary',
+  icon,
+  iconEnd = false,
+  class: className,
+  type = 'button',
+  ...rest
+} = Astro.props;
 const classes = ['btn', `btn--${variant}`, className];
 ---
 
 {href ? (
-  <a href={href} class:list={classes}>
+  <a href={href} target={target} rel={rel} class:list={classes} {...rest}>
     {icon && !iconEnd && <Icon name={icon} size={18} />}
     <span class="btn-label">
       <slot />
