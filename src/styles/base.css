@@ -270,6 +270,30 @@ a {
   contain-intrinsic-size: auto 900px;
 }
 
+/* Scroll reveal (web revamp 2026-11-27): a short rise as an element enters the
+   viewport. CSS only (scroll-driven animations), transform only, so nothing
+   shifts and nothing is ever faded; where the browser lacks view timelines, or motion is
+   reduced, the element is simply there. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation-name: rise-in;
+      animation-fill-mode: both;
+      animation-timing-function: var(--ease-out);
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+  }
+}
+
+/* A rise only, never a fade: an element that stops half-way in at the bottom
+   of the viewport must still be fully opaque (contrast). */
+@keyframes rise-in {
+  from {
+    transform: translateY(1.5rem);
+  }
+}
+
 /* A section opens with a hairline and a running head: number + label. */
 .running-head {
   display: flex;

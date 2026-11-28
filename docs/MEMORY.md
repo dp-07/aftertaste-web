@@ -92,10 +92,10 @@ Durable lessons so future sessions do not repeat mistakes. Each entry: what happ
 ## UPI: no payee name, and why the QR is generated
 
 - **Payee name:** the app's UPI link carries a `pn=` payee name, which is a personal name. The site's link has only `pa` (the ID), `cu` and `tn`: UPI apps show the bank-verified name anyway, and the no-name rule ([RULES](RULES.md#privacy-and-third-parties)) stays true. `check:payments` fails on `pn=` in any `upi://` link. Only the ID value was copied from the app repo.
-- **The name gate does not trip on the ID:** the owner's first name appears inside the ID, but followed by digits, so `\bparas\b` does not match. No allowance exists or is needed. If the ID ever changes to one where the name is a whole word, add a narrow allowance for that exact ID on `/coffee` only.
+- **The name gate does not trip on the ID:** the owner's first name appears inside the ID, but followed by digits, so `\bparas\b` does not match. No allowance exists or is needed. If the ID ever changes to one where the name is a whole word, add a narrow allowance for that exact ID on `/patron` only.
 - **Why the QR is generated:** the app's QR image may embed the payee name, and an image would drift from the link. `qrcode-generator` (devDependency, zero dependencies) runs at build and emits an inline SVG path, so no JS ships and the QR always encodes `upiUrl()`.
 - **Why the extra CSP hash:** the Copy button needs a tiny script; it is inline and hashed like the theme script (`npm run csp:hash` rewrites both). Without JS the ID is selectable text and the Copy button never appears.
-- **Why `/privacy`, `/terms`, `/support` never link here:** the app links to them and Google Play's payment policy; see [RULES](RULES.md#payments-coffee).
+- **Why `/privacy`, `/terms`, `/support` never link here:** the app links to them and Google Play's payment policy; see [RULES](RULES.md#payments-patron).
 
 ## Docs are scanned by the no-app-code gate
 
@@ -178,3 +178,23 @@ Durable lessons so future sessions do not repeat mistakes. Each entry: what happ
 - **Playwright and `javaScriptEnabled: false`:** `page.evaluate` (and axe injection) hangs in such a context. Test no-JS flows with clicks and visibility checks only, as `test:beta` does.
 - **ESM ignores `NODE_PATH`:** an ad hoc script outside the repo cannot `import 'playwright-core'`; use `createRequire('<repo>/package.json')`.
 - **`main` is already promoted:** at 2026-11-13 `origin/main` and `work-branch` pointed at the same commit (`7b20e7c`), so the project-state note "main does not exist yet" is stale.
+
+## `@keyframes` names are global
+
+- **What happened (2026-11-27):** a new global `@keyframes reveal` in `base.css` collided with `DecisionDemo.astro`'s own `@keyframes reveal` (Astro scopes selectors, not keyframe names). The demo's fade-from-0 replaced the scroll rise, so blocks on `/today` rested half-transparent and Lighthouse failed colour contrast.
+- **What to do:** give keyframes distinctive names (`rise-in`, `pick-in`, `logged-land`) and check for duplicates: `grep -rhn "@keyframes" src | sed -E 's/.*@keyframes ([a-z-]+).*/\1/' | sort | uniq -d` must print nothing.
+
+## A scroll reveal must never fade
+
+- **What happened:** `animation-timeline: view()` holds an element at its mid-animation state for as long as it rests part-way into the viewport. With an opacity fade, text at the bottom of the screen stayed faded (a real contrast failure, not only a tool's).
+- **What to do:** `.reveal` is a transform-only rise. Never add opacity to it.
+
+## `container-type: inline-size` collapses in a shrink-to-fit parent
+
+- **What happened:** `Receipt` became an inline-size container (so its wordmark can shrink with `cqw`). Inside a parent sized by its content (a grid item with `justify-items: start`), `inline-size: min(330px, 100%)` resolved against an indefinite width and the receipt collapsed to a sliver.
+- **What to do:** give containers a fixed width with a cap and a zero minimum (`inline-size: 330px; max-inline-size: 100%; min-inline-size: 0`), not a percentage. Its grid parent also needs `grid-template-columns: minmax(0, 1fr)`: an implicit `auto` column grows to the item's 330 px, and the 100% cap then resolves against that, so 320 px screens overflow.
+
+## Tab straight after opening the hero seal
+
+- **What happened:** the audit pressed Enter then Tab in the same frame; with reduced motion the tags' `visibility` flips on the next style pass, so Tab skipped them. A person cannot type that fast.
+- **What to do:** the audit waits 150 ms before Tab. Keep the tags after the seal button in source order (they stack bottom-up with `column-reverse`) so Tab goes seal → nearest tag.

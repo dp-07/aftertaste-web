@@ -1,0 +1,74 @@
+---
+/**
+ * One idea on a feature page (web revamp 2026-11-27): an h2, one short line
+ * (≤ ~20 words) and a visual. `flip` puts the visual first on wide screens.
+ */
+interface Props {
+  id: string;
+  title: string;
+  line: string;
+  flip?: boolean;
+}
+const { id, title, line, flip = false } = Astro.props;
+---
+
+<section {id} class:list={['block', { flip }]} aria-labelledby={`${id}-title`}>
+  <div class="wrap grid-12 grid">
+    <div class="copy reveal">
+      <h2 id={`${id}-title`} class="t-title">
+        {title}
+      </h2>
+      <p class="muted">{line}</p>
+      <slot />
+    </div>
+    <div class="visual reveal">
+      <slot name="visual" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .block {
+    padding-block-start: var(--space-section);
+    scroll-margin-block-start: var(--s-16);
+  }
+
+  .grid {
+    row-gap: var(--s-24);
+    align-items: center;
+  }
+
+  .copy {
+    display: grid;
+    gap: var(--s-12);
+    max-inline-size: 28rem;
+  }
+
+  h2,
+  p {
+    margin: 0;
+  }
+
+  .visual {
+    display: grid;
+    justify-items: start;
+    min-inline-size: 0;
+  }
+
+  @media (width >= 64rem) {
+    .copy {
+      grid-column: 1 / span 5;
+    }
+    .visual {
+      grid-column: 7 / -1;
+    }
+    .flip .copy {
+      grid-column: 8 / -1;
+      grid-row: 1;
+    }
+    .flip .visual {
+      grid-column: 1 / span 6;
+      grid-row: 1;
+    }
+  }
+</style>

@@ -6,6 +6,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from '../components/ui/Icon.astro';
 import InkLink from '../components/ui/InkLink.astro';
+import Faq from '../components/support/Faq.astro';
 import { mailto, site } from '../config/site';
 
 const topics = [
@@ -74,7 +75,7 @@ const topics = [
             sign in with and we will delete the account for you.
           </p>
           <p class="source">
-            <InkLink href="/privacy#delete-your-data">Privacy policy, section 8</InkLink>
+            <InkLink href="/privacy#delete-your-data">Privacy policy, section 9</InkLink>
           </p>
         </section>
 
@@ -138,12 +139,13 @@ const topics = [
             so you can save it wherever you like. We never receive a copy.
           </p>
           <p class="source">
-            <InkLink href="/privacy#delete-your-data">Privacy policy, section 8</InkLink>
+            <InkLink href="/privacy#delete-your-data">Privacy policy, section 9</InkLink>
           </p>
         </section>
       </div>
     </div>
   </div>
+  <Faq />
 </BaseLayout>
 
 <style>

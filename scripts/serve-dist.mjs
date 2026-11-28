@@ -38,6 +38,11 @@ function parseHeaders() {
       current = { pattern: line.trim(), headers: [] };
       rules.push(current);
     } else if (current) {
+      const t = line.trim();
+      if (t.startsWith('!')) {
+        current.headers.push([t.slice(1).trim(), null]); // detach an inherited header
+        continue;
+      }
       const i = line.indexOf(':');
       current.headers.push([line.slice(0, i).trim(), line.slice(i + 1).trim()]);
     }
@@ -95,7 +100,15 @@ createServer((req, res) => {
     file = '404.html';
   }
   const headers = { 'Content-Type': TYPES[extname(file)] || 'application/octet-stream' };
-  for (const r of rules) if (matches(r.pattern, path)) for (const [k, v] of r.headers) headers[k] = v;
+  // Like Cloudflare Pages: every matching rule applies in order, a repeated header is
+  // joined with ", " and "! Name" detaches what earlier rules set.
+  for (const r of rules) {
+    if (!matches(r.pattern, path)) continue;
+    for (const [k, v] of r.headers) {
+      if (v === null) delete headers[k];
+      else headers[k] = headers[k] ? `${headers[k]}, ${v}` : v;
+    }
+  }
   // Meaningless (or harmful) on http://localhost.
   delete headers['Strict-Transport-Security'];
   if (headers['Content-Security-Policy']) {

@@ -1,3 +1,15 @@
+# Active work: /patron redesign (`task/web-patron-20261128`) — pushed, awaiting "approved"
+
+Branched from `work-branch`, with the `task/patron-route` commits (footer link on feature pages, `/coffee` → `/patron`) cherry-picked minus its hand-edit of the synced privacy text. Three option cards (UPI, Bondin link, Buy Me a Coffee), THANK YOU stamp. Report: `app-sync-report-20261128-patron.md`; decisions 2026-11-28.
+
+---
+
+# Active work: web revamp (`task/web-revamp-20261127`) — approved and merged into `work-branch` (2026-11-27)
+
+Short home (hero, three steps, feature teasers, one privacy line, beta form) and four feature pages (`/log`, `/today`, `/receipt`, `/taste-report`); FAQ on `/support`; interactive hero seal, Today's pick swipe and Another pick, receipt print with a thud, taste report count-up, scroll rise. Recon: `web-revamp-recon-20261127.md`; results: `web-revamp-report-20261127.md`; decisions 2026-11-27. Approved by the human on 2026-11-27 with one copy change (/today: "Open Today’s pick in the app").
+
+---
+
 # Active work: website v2 (`task/website-v2`) — approved 2026-11-14, merged into `work-branch`
 
 Branched from `origin/work-branch` @ `fb4d0b4` (v1, docs and fixes-1 merged). Local checkpoint commits only; push and merge wait for the human's "approved".
