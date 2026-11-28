@@ -5,6 +5,9 @@
   var btn = document.querySelector('[data-copy-upi]');
   var live = document.querySelector('[data-copy-status]');
   var sheet = document.querySelector('[data-bmc-dialog]');
+  var qrWrap = document.querySelector('[data-qr-wrap]');
+  var qrBtn = document.querySelector('[data-qr-toggle]');
+  var qrPanel = document.querySelector('[data-qr-panel]');
   var bondin = null;
   var bondinLoading = false;
   var timer;
@@ -82,6 +85,17 @@
     };
   }
   for (var i = 0; i < options.length; i++) options[i].addEventListener('click', onTap(options[i]));
+
+  // The QR sits behind a toggle (without JS it simply shows).
+  if (qrWrap && qrBtn && qrPanel) {
+    qrWrap.classList.add('ready');
+    var qrLabel = qrBtn.querySelector('.btn-label');
+    qrBtn.addEventListener('click', function () {
+      var open = qrPanel.classList.toggle('open');
+      qrBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (qrLabel) qrLabel.textContent = open ? 'Hide QR code' : 'Show QR code';
+    });
+  }
 
   if (!wrap || !btn || !btn.dataset.upiId || !live || !navigator.clipboard) return;
   wrap.classList.add('ready');

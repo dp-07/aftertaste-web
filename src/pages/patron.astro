@@ -119,14 +119,19 @@ const size = count + QUIET * 2;
               Copy UPI ID
             </Button>
           </span>
+          <span class="qr-toggle-wrap" data-qr-wrap>
+            <Button variant="secondary" icon="grid" aria-expanded="false" aria-controls="upi-qr" data-qr-toggle>
+              Show QR code
+            </Button>
+          </span>
           <p class="status t-body-sm" role="status" aria-live="polite" data-copy-status></p>
         </div>
-        <div class="upi-qr">
+        <div class="upi-qr" id="upi-qr" data-qr-panel>
           <svg
             class="qr"
             viewBox={`0 0 ${size} ${size}`}
-            width="132"
-            height="132"
+            width="176"
+            height="176"
             role="img"
             aria-label="UPI QR code for Aftertaste"
             shape-rendering="crispEdges"
@@ -244,24 +249,23 @@ const size = count + QUIET * 2;
     font-size: var(--fs-body-sm);
   }
 
-  /* The UPI card adds the QR on desktop and tablets, so it is a little taller. */
-  .card--upi {
-    grid-template-areas:
-      'info qr'
-      'act qr';
-    align-items: start;
+  /* The UPI card: the QR sits behind a "Show QR code" toggle on desktop and tablets.
+     Without JS there is no toggle, so the QR simply shows. */
+  .card--upi .act :global(.btn) {
+    padding-inline: var(--s-16);
   }
 
-  .card--upi .act {
-    justify-content: flex-start;
-    align-self: end;
-  }
-
+  /* No second grid row while the QR is hidden (an empty row would still add a gap). */
   .upi-qr {
-    grid-area: qr;
+    grid-column: 1 / -1;
     display: grid;
     justify-items: center;
     gap: var(--s-4);
+    padding-block: var(--s-8) var(--s-4);
+  }
+
+  :global(html.js) .upi-qr:not(.open) {
+    display: none;
   }
 
   .upi-qr p {
@@ -270,8 +274,8 @@ const size = count + QUIET * 2;
 
   /* A fixed light card with dark modules in both themes, so it always scans. */
   .qr {
-    inline-size: 132px;
-    block-size: 132px;
+    inline-size: 176px;
+    block-size: 176px;
     border-radius: var(--r-md);
     box-shadow: var(--elevation);
   }
@@ -297,6 +301,10 @@ const size = count + QUIET * 2;
       display: none;
     }
 
+    .qr-toggle-wrap {
+      display: none;
+    }
+
     .card--upi {
       grid-template-areas:
         'info'
@@ -318,19 +326,13 @@ const size = count + QUIET * 2;
       justify-content: flex-start;
     }
 
-    .card--upi {
-      grid-template-areas:
-        'info'
-        'act'
-        'qr';
-    }
-
     .upi-qr {
       justify-items: start;
     }
   }
 
-  .copy-wrap:not(.ready) {
+  .copy-wrap:not(.ready),
+  .qr-toggle-wrap:not(.ready) {
     display: none;
   }
 

@@ -152,3 +152,5 @@ Owner feedback: one very long page, crammed, too many words, not intuitive. Bran
 - **Script renamed** `src/scripts/coffee-copy.js` → `patron.js` (copy button plus stamp); CSP hash updated.
 
 - **Card order and label (owner, later 2026-11-28).** Order is Bondin, Buy Me a Coffee, UPI (UPI last). The Buy Me a Coffee button reads "Buy Me a Coffee" (no "Support with"); Bondin's reads "Support with Bondin".
+
+- **QR behind a toggle (owner, 2026-11-28).** On desktop and tablets the UPI QR opens from a "Show QR code" button (176 px, so it still scans), keeping all three cards the same height. `html.js` gates it: no JS means no toggle and a visible QR. The deep link and QR still come from `upiUrl()`.
