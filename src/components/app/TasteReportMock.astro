@@ -1,0 +1,218 @@
+---
+/**
+ * The app's taste report screen (App UI v1.12, screens/tasteReport/*), the top
+ * of it: the "Taste report · <period>" label, the display headline the AI
+ * writes, the "Last 30 days" number strip of DeltaStat tiles (up = herb, down =
+ * muted, never red), and two Highlights tiles. Sample data, labelled as such.
+ *
+ * Numbers count up the first time the card is half in view
+ * (src/scripts/count-up.ts). Without JavaScript, or with reduced motion, they
+ * are simply the final values. Each tile's numbers are hidden from assistive
+ * tech and read as one sentence instead, so nothing is announced mid-count.
+ */
+import Icon from '../ui/Icon.astro';
+
+interface Stat {
+  label: string;
+  value: number;
+  decimals?: number;
+  prefix?: string;
+  change?: { direction: 'up' | 'down' | 'flat'; text: string };
+}
+
+const stats: Stat[] = [
+  { label: 'Places', value: 6, change: { direction: 'up', text: '+2' } },
+  { label: 'Dishes', value: 19, change: { direction: 'up', text: '+5' } },
+  { label: 'New spots', value: 3, change: { direction: 'up', text: '+1' } },
+  { label: 'Avg rating', value: 4.3, decimals: 1, change: { direction: 'flat', text: 'same' } },
+  { label: 'Spend', value: 2860, prefix: '₹', change: { direction: 'down', text: '−₹340' } },
+];
+
+const fmt = (s: Stat) =>
+  `${s.prefix ?? ''}${s.value.toLocaleString('en-IN', {
+    minimumFractionDigits: s.decimals ?? 0,
+    maximumFractionDigits: s.decimals ?? 0,
+  })}`;
+const arrow = { up: 'arrow-up-right', down: 'arrow-down-right', flat: 'minus' } as const;
+const said = (s: Stat) =>
+  `${s.label}: ${fmt(s)}${
+    !s.change
+      ? ''
+      : s.change.direction === 'flat'
+        ? ', same as the 30 days before'
+        : `, ${s.change.direction} ${s.change.text.replace(/^[+−-]/, '')} on the 30 days before`
+  }`;
+---
+
+<figure class="report" aria-labelledby="report-caption" data-count-root>
+  <figcaption id="report-caption" class="cap">
+    <span class="t-label muted">Taste report · 1–30 Nov · sample</span>
+    <span class="headline">Momo season never really ended.</span>
+  </figcaption>
+
+  <p class="t-heading strip-title">Last 30 days</p>
+  <ul class="tiles">
+    {stats.map((s) => (
+      <li class="tile">
+        <span class="visually-hidden">{said(s)}</span>
+        <span
+          class="value"
+          aria-hidden="true"
+          data-count={s.value}
+          data-decimals={s.decimals ?? 0}
+          data-prefix={s.prefix ?? ''}
+        >
+          {fmt(s)}
+        </span>
+        <span class="label" aria-hidden="true">
+          {s.label}
+        </span>
+        {s.change && (
+          <span class:list={['change', `change--${s.change.direction}`]} aria-hidden="true">
+            <Icon name={arrow[s.change.direction]} size={14} />
+            {s.change.text}
+          </span>
+        )}
+      </li>
+    ))}
+  </ul>
+
+  <p class="t-heading strip-title">Highlights</p>
+  <ul class="highlights">
+    <li class="hl">
+      <span class="hl-icon">
+        <Icon name="award" size={18} />
+      </span>
+      <span class="hl-text">
+        <span class="t-label muted">Best bite</span>
+        <span class="hl-title">Jhol momo</span>
+        <span class="t-body-sm muted">Hill Road Momos · 5/5</span>
+      </span>
+    </li>
+    <li class="hl">
+      <span class="hl-icon">
+        <Icon name="repeat" size={18} />
+      </span>
+      <span class="hl-text">
+        <span class="t-label muted">Most returned</span>
+        <span class="hl-title">Hill Road Momos</span>
+        <span class="t-body-sm muted">4 visits</span>
+      </span>
+    </li>
+  </ul>
+</figure>
+
+<style>
+  .report {
+    display: grid;
+    gap: var(--s-16);
+    inline-size: min(100%, 26rem);
+    margin: 0;
+    padding: var(--s-20);
+    border-radius: var(--r-xl);
+    background: var(--bg);
+    box-shadow: var(--elevation);
+    outline: 1px solid var(--line);
+  }
+
+  .cap {
+    display: grid;
+    gap: var(--s-8);
+  }
+
+  .headline {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    line-height: 1.15;
+    color: var(--text);
+  }
+
+  .strip-title {
+    margin: var(--s-4) 0 0;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--s-8);
+  }
+
+  .tile {
+    display: grid;
+    gap: 2px;
+    padding: var(--s-12);
+    border-radius: var(--r-lg);
+    background: var(--surface);
+  }
+
+  .tile:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .value {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    line-height: 1.1;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .label {
+    font-size: var(--fs-body-sm);
+    color: var(--muted);
+  }
+
+  .change {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    font-family: var(--font-mono);
+    font-size: var(--fs-mono);
+    color: var(--muted);
+  }
+
+  .change--up {
+    color: var(--herb-ink);
+  }
+
+  .highlights {
+    display: grid;
+    gap: var(--s-8);
+  }
+
+  .hl {
+    display: flex;
+    gap: var(--s-12);
+    align-items: center;
+    padding: var(--s-12);
+    border-radius: var(--r-lg);
+    background: var(--surface);
+  }
+
+  .hl-icon {
+    display: grid;
+    place-items: center;
+    flex: none;
+    inline-size: var(--icon-tile);
+    block-size: var(--icon-tile);
+    border-radius: var(--r-sm);
+    background: var(--primary-soft);
+    color: var(--primary-ink);
+  }
+
+  .hl-text {
+    display: grid;
+  }
+
+  .hl-title {
+    font-family: var(--font-display);
+    font-size: var(--fs-card-title);
+    line-height: var(--lh-card-title);
+  }
+</style>

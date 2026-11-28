@@ -1,0 +1,96 @@
+---
+/**
+ * The end of a feature page (web revamp 2026-11-27): the next feature, and the
+ * beta call to action.
+ */
+import { nextFeature } from '../../config/features';
+import { site } from '../../config/site';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+
+interface Props {
+  current: string;
+}
+const next = nextFeature(Astro.props.current);
+---
+
+<section class="next" aria-labelledby="next-title">
+  <div class="wrap">
+    <div class="row">
+      <a href={next.href} class="next-link">
+        <span class="t-label muted">Next up</span>
+        <span id="next-title" class="name">
+          {next.label}
+          <Icon name="arrow-right" size={22} class="go" />
+        </span>
+        <span class="muted line">{next.line}</span>
+      </a>
+      <div class="cta">
+        <p class="t-title">Want in?</p>
+        <p class="muted">Aftertaste is in private beta on Android and iOS.</p>
+        <Button href={site.betaAnchor}>Join the beta</Button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .next {
+    padding-block: var(--space-section) 0;
+  }
+
+  .row {
+    display: grid;
+    gap: var(--s-32);
+    padding-block-start: var(--s-24);
+    border-block-start: 1px solid var(--line);
+  }
+
+  .next-link {
+    display: grid;
+    gap: var(--s-4);
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .name {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-12);
+    font-family: var(--font-display);
+    font-size: var(--fs-title);
+    line-height: var(--lh-title);
+  }
+
+  .next-link :global(.go) {
+    color: var(--primary-ink);
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+
+  .next-link:hover .name {
+    color: var(--primary-ink);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .next-link:hover :global(.go) {
+      transform: translateX(4px);
+    }
+  }
+
+  .cta {
+    display: grid;
+    justify-items: start;
+    gap: var(--s-8);
+  }
+
+  .cta p {
+    margin: 0;
+  }
+
+  @media (width >= 48rem) {
+    .row {
+      grid-template-columns: 1fr auto;
+      align-items: end;
+    }
+  }
+</style>

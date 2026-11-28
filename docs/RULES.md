@@ -13,24 +13,26 @@ The hard rules for this repo. They are the source of truth; `CLAUDE.md` links he
 
 - **No personal name on the site, except the legal name in the legal documents where required** ("Paras D Prasad" on `/privacy` and `/terms`, synced from the app repo). Everywhere else (pages, components, banner, footer, JSON-LD, OG images, meta, the beta-list addendum) the responsible party is "Aftertaste" and copy says "we" and "us". JSON-LD has an `Organization` "Aftertaste" and never a `Person`; the `MobileApplication` lists `operatingSystem: "Android, iOS"`. `npm run check:no-name` fails if the owner's first name appears in `dist/` outside the legal pages, and warns on the legal pages if it is not in the exact legal form. Keep that gate as it is; do not make it stricter.
 
-- No analytics, cookies, trackers or third-party requests. Fonts and assets are self-hosted. Astro telemetry is off in the npm scripts.
+- No analytics, cookies, trackers or third-party requests. **One exception (2026-11-28): `/patron`, after a tap** (see Payments). Fonts and assets are self-hosted. Astro telemetry is off in the npm scripts.
 - **First-party only.** Anything that collects data runs on our own Cloudflare Pages Function and D1 database. No form services, no captcha or bot-check scripts, no email-marketing embeds. The beta form posts only to `/api/beta` (`form-action 'self'`, `connect-src 'self'`).
 - **Beta list data minimisation:** store only the form's fields and the sign-up time. Never store or log IP addresses, user agents or submitted values; rate limiting uses a keyed, hourly-rotating hash ([ARCHITECTURE](ARCHITECTURE.md#beta-list-pages-functions-and-d1)). Answer duplicates and bots like a success. Any change to what is collected must be reflected in the privacy policy (section 13, in the app repo) first, then re-synced.
 - **No secrets in the repo.** `RATE_LIMIT_SALT` lives in the Cloudflare dashboard and in a git-ignored `.dev.vars`. The D1 `database_id` in `wrangler.toml` is an identifier, not a secret. Exported sign-ups are personal data: keep them out of the repo (`exports/` is git-ignored).
 - Cloudflare Web Analytics is off. Enabling it needs a deliberate decision plus CSP and privacy-copy changes (README "Analytics").
 - Keep these Cloudflare features **off** (they inject scripts or rewrite HTML and break the CSP): Email Address Obfuscation, Rocket Loader, automatic Web Analytics, "JavaScript detections".
 
-## Payments (`/coffee`)
+## Payments (`/patron`)
 
-- The support page `/coffee` (Buy Me a Coffee plus UPI) is **never linked from `/privacy`, `/terms` or `/support`**, and those three pages (footer included) contain no `buymeacoffee.com` link and no `upi://` link. The app links to these pages, and Google Play's payment policy must not see off-store payment prompts there. They use the footer variant without the "Buy us a coffee" link (`BaseLayout` `coffeeLink` is off by default; only the landing page, 404 and the footer's other users opt in). `npm run check:payments` (a gate) fails otherwise.
+The page was `/coffee` until 2026-11-28; `/coffee` 301s to `/patron`.
+
+- The support page `/patron` (UPI, Bondin and Buy Me a Coffee) is **never linked from `/privacy`, `/terms` or `/support`**, and those three pages (footer included) contain no `buymeacoffee.com` link and no `upi://` link. The app links to these pages, and Google Play's payment policy must not see off-store payment prompts there. They use the footer variant without the "Buy us a coffee" link (`BaseLayout` `coffeeLink` is off by default; only the landing page, 404 and the footer's other users opt in). `npm run check:payments` (a gate) fails otherwise.
 - UPI links never carry a payee name (`pn=`) or an amount: the UPI app shows the bank-verified name and asks for the amount. The gate fails on `pn=` in any `upi://` link in `dist/`. Only the UPI ID value is copied from the app repo (into `site.upiId`), never the payee name.
 - The UPI QR is generated at build time (inline SVG); never use or copy the app's QR image.
-- No third-party scripts or embeds: Buy Me a Coffee is a plain external link (`rel="noopener"`, no logo or brand colours).
+- **The one exception to "no third-party scripts or embeds" (owner decision, 2026-11-28): `/patron`, only after a tap.** Nothing third-party loads with the page. Tapping "Support with Bondin" loads `https://bondin.io/embed/v1.js` and opens Bondin's checkout from our own button (its default button is never shown). Tapping "Buy Me a Coffee" opens `https://buymeacoffee.com/widget/page/<id>` in our own native `<dialog>` (the page its widget builds, without its script, bubble or cookie). Both are real `rel="noopener"` links first, the no-JS and failure fallback, with no logo or brand colours. Only `/patron` gets the wider CSP and Permissions-Policy (`public/_headers`: `script-src https://bondin.io`, `frame-src https://bondin.io https://buymeacoffee.com`, `payment=` delegated to those two origins; `style-src` stays `'self'`, `connect-src` stays `'self'`, never `unsafe-inline`). `check:csp` fails if any other host or page is added. Do not load these scripts or iframes on page load, and do not use `widget.prod.min.js` (it needs DOMContentLoaded, draws a bubble and writes a cookie).
 
 ## CSP
 
 - Strict policy in `public/_headers`: `default-src 'none'`, scripts `'self'` plus one hash, styles `'self'`, `connect-src 'self'`, `form-action 'self'`. Forms must post to a same-origin path.
-- **No inline scripts except the theme script and the `/coffee` copy-button script**, whose SHA-256 hashes are in `_headers`. After editing `src/scripts/theme.js` or `src/scripts/coffee-copy.js` run `npm run csp:hash`.
+- **No inline scripts except the theme script and the `/patron` script (copy button, thank-you stamp)**, whose SHA-256 hashes are in `_headers`. After editing `src/scripts/theme.js` or `src/scripts/patron.js` run `npm run csp:hash`.
 - No inline `<style>`, no `style=` attributes, no `unsafe-inline`/`unsafe-eval`. The build is configured so Astro never inlines styles or scripts (`inlineStylesheets: 'never'`, `assetsInlineLimit: 0`).
 - JSON-LD blocks are data, not scripts, and are allowed.
 - `npm run check:csp` enforces all of this, including `form-action`/`connect-src` and same-origin form actions.

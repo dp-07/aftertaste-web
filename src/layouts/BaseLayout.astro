@@ -32,7 +32,7 @@ interface Props {
 }
 
 const { title, description, og = 'default', noindex = false, jsonLd = [], coffeeLink = false } = Astro.props;
-const fullTitle = title ? `${title} · ${site.name}` : `${site.name}: ${site.tagline.toLowerCase()}`;
+const fullTitle = title ? `${title} · ${site.name}` : `${site.name}: ${site.tagline.toLowerCase().replace(/\.$/, '')}`;
 const pathname = Astro.url.pathname.replace(/\.html$/, '').replace(/\/index$/, '/');
 const canonical = new URL(pathname === '/' ? '/' : pathname.replace(/\/$/, ''), site.url).href;
 const ogImage = new URL(`/og/${og}.png`, site.url).href;

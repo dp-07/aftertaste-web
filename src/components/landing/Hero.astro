@@ -1,13 +1,14 @@
 ---
-import heroShot from '../../assets/screenshots/home-placeholder.png';
-import heroShotDark from '../../assets/screenshots/home-placeholder-dark.png';
+/**
+ * Home hero (web revamp 2026-11-27): status line, the wordmark and the tagline
+ * as the page's one h1, one line on what the app is, the call to action, and
+ * the sealed mushroom whose lid opens onto the feature pages.
+ */
 import { site } from '../../config/site';
-import PhoneFrame from '../brand/PhoneFrame.astro';
-import SealMark from '../brand/SealMark.astro';
 import Wordmark from '../brand/Wordmark.astro';
 import Button from '../ui/Button.astro';
 import StoreBadge from '../ui/StoreBadge.astro';
-// TODO(screenshots): home-placeholder.png is a rendered placeholder; replace it with a real Home screenshot (README "Screenshots").
+import HeroSeal from './HeroSeal.astro';
 ---
 
 <section class="hero" aria-labelledby="hero-title">
@@ -25,42 +26,31 @@ import StoreBadge from '../ui/StoreBadge.astro';
         <span class="visually-hidden"> — </span>
         <span class="tagline">{site.tagline}</span>
       </h1>
-      <p class="support">
-        A food diary for Android and iOS. Log every place and dish with a photo and a rating, so future you knows
-        exactly what to order, and what to skip.
-      </p>
+      <p class="support">A private food diary. Log the place, rate the dish, know what to order next time.</p>
       <div class="actions">
         <StoreBadge store="play" />
         <StoreBadge store="appStore" />
         <Button href="#join" icon="arrow-down" iconEnd={true}>
           Join the beta
         </Button>
-        <Button href="#how-it-works" variant="secondary">
-          See how it works
+        <Button href="#how-it-works" variant="ghost">
+          How it works
         </Button>
       </div>
-      <p class="t-body-sm fine">Free. Private by default. No ads, no tracking.</p>
     </div>
-    <div class="device">
-      <PhoneFrame
-        src={heroShot}
-        srcDark={heroShotDark}
-        alt="The Aftertaste home screen: What should we eat?, a Pick for me button and a Want to try list."
-        priority
-      >
-        <SealMark class="seal-stamp" />
-      </PhoneFrame>
+    <div class="visual">
+      <HeroSeal />
     </div>
   </div>
 </section>
 
 <style>
   .hero {
-    padding-block: clamp(2rem, 1rem + 4vw, 5rem) 0;
+    padding-block: clamp(2rem, 1rem + 4vw, 5rem) clamp(1rem, 0.5rem + 2vw, 2rem);
   }
 
   .hero-grid {
-    row-gap: var(--space-block);
+    row-gap: var(--s-32);
     align-items: center;
   }
 
@@ -71,6 +61,7 @@ import StoreBadge from '../ui/StoreBadge.astro';
   }
 
   .kicker {
+    margin: 0;
     color: var(--primary-ink);
   }
 
@@ -80,9 +71,8 @@ import StoreBadge from '../ui/StoreBadge.astro';
   }
 
   /* The eyebrow must not rewrap when DM Sans 500 replaces its fallback (not
-     preloaded), or the hero shifts. Segments never break inside, and on
-     narrow screens "still cooking" always takes the second line: the first
-     line fits at 320 px in both fonts (236 and 259 of 280 px). */
+     preloaded), or the hero shifts. On narrow screens "still cooking" always
+     takes the second line. */
   .seg {
     white-space: nowrap;
   }
@@ -124,9 +114,11 @@ import StoreBadge from '../ui/StoreBadge.astro';
   }
 
   .support {
-    max-inline-size: 30rem;
+    max-inline-size: 26rem;
+    margin: 0;
     color: var(--muted);
-    font-size: var(--fs-body);
+    font-size: var(--fs-lede);
+    line-height: 1.45;
   }
 
   .actions {
@@ -136,44 +128,12 @@ import StoreBadge from '../ui/StoreBadge.astro';
     gap: var(--s-12);
   }
 
-  .fine {
-    color: var(--muted);
-  }
-
-  .device {
-    display: grid;
-    justify-items: center;
-  }
-
-  .device :global(.phone) {
-    max-inline-size: min(20rem, 78vw);
-  }
-
-  /* The diary seal, pressed onto the page beside the phone (wide layouts only:
-     on narrow screens it would sit on the app's own content). */
-  .device :global(.seal-stamp) {
-    display: none;
-  }
-
   @media (width >= 64rem) {
     .intro {
       grid-column: 1 / span 7;
     }
-    .device {
+    .visual {
       grid-column: 8 / -1;
-      justify-items: end;
-    }
-    .device :global(.phone) {
-      max-inline-size: 21rem;
-    }
-    .device :global(.seal-stamp) {
-      display: block;
-      position: absolute;
-      inline-size: 7.5rem;
-      inset-inline-start: -30%;
-      inset-block-end: 6%;
-      transform: rotate(-8deg);
-      opacity: 0.94;
     }
   }
 </style>

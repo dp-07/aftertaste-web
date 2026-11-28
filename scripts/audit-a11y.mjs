@@ -11,7 +11,7 @@ import { ROOT, requireDist } from './lib.mjs';
 
 requireDist();
 const axeSource = readFileSync(createRequire(import.meta.url).resolve('axe-core/axe.min.js'), 'utf8');
-const PAGES = ['/', '/privacy', '/terms', '/support', '/coffee', '/404'];
+const PAGES = ['/', '/log', '/today', '/receipt', '/taste-report', '/privacy', '/terms', '/support', '/patron', '/404'];
 const PORT = 4500 + Math.floor(Math.random() * 300);
 const server = spawn(process.execPath, [join(ROOT, 'scripts/serve-dist.mjs'), String(PORT)], { stdio: 'pipe' });
 await new Promise((r) => server.stdout.once('data', r));
@@ -54,17 +54,27 @@ try {
     }
   }
 
-  // Keyboard: the demo and the theme toggle work without a pointer.
+  // Keyboard: every interactive piece works without a pointer.
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
+
+  // Home: the seal opens with Enter, Tab reaches a tag, Escape closes and returns focus.
   await page.goto(base + '/', { waitUntil: 'networkidle' });
-  await page.focus('[data-pick-btn]');
+  await page.focus('[data-seal-btn]');
   await page.keyboard.press('Enter');
-  const status = await page.textContent('[data-status]');
-  if (!status?.startsWith('Tonight: ')) problems.push(`demo: live region not updated by keyboard (got "${status}")`);
-  else console.log(`demo via keyboard: "${status}"`);
-  await page.keyboard.press('Space');
-  const status2 = await page.textContent('[data-status]');
-  if (status2 === status) problems.push('demo: second pick repeated the first');
+  const sealOpen = await page.getAttribute('[data-seal-btn]', 'aria-expanded');
+  await page.waitForTimeout(150); // a human's next keypress: the tags become visible on the next frame
+  await page.keyboard.press('Tab');
+  const tagFocused = await page.evaluate(() => document.activeElement?.closest('#seal-tags') !== null);
+  await page.keyboard.press('Escape');
+  const sealAfter = await page.evaluate(() => [
+    document.querySelector('[data-seal-btn]').getAttribute('aria-expanded'),
+    document.activeElement?.hasAttribute('data-seal-btn'),
+  ]);
+  if (sealOpen !== 'true' || !tagFocused || sealAfter[0] !== 'false' || !sealAfter[1])
+    problems.push(`seal via keyboard: open=${sealOpen} tag=${tagFocused} after=${sealAfter}`);
+  else console.log('seal via keyboard: opens, tags reachable, Escape closes and returns focus');
+
+  // Home: the theme toggle.
   await page.focus('[data-theme-set="dark"]');
   await page.keyboard.press('Enter');
   const theme = await page.evaluate(() => [
@@ -81,14 +91,39 @@ try {
   if (after[0] !== 'dark' || after[1] !== 'true') problems.push(`theme not restored on reload: ${after}`);
   else console.log('theme restored on reload, toggle state announced');
 
-  // Keyboard: the diary strip scrolls with arrow keys; the beta banner dismisses.
-  await page.focus('#from-the-diary .strip');
+  // Header: the Features menu opens with Enter and closes with Escape.
+  await page.focus('.wide summary');
+  await page.keyboard.press('Enter');
+  const menuOpen = await page.evaluate(() => document.querySelector('.wide details').open);
+  await page.keyboard.press('Escape');
+  const menuClosed = await page.evaluate(() => !document.querySelector('.wide details').open);
+  if (!menuOpen || !menuClosed) problems.push(`Features menu via keyboard: open=${menuOpen} closed=${menuClosed}`);
+  else console.log('Features menu via keyboard: opens and closes');
+
+  // /today: Pick for me, Another pick, and the photo track.
+  await page.goto(base + '/today', { waitUntil: 'networkidle' });
+  await page.focus('[data-pick-btn]');
+  await page.keyboard.press('Enter');
+  const status = await page.textContent('[data-status]');
+  if (!status?.startsWith('Tonight: ')) problems.push(`demo: live region not updated by keyboard (got "${status}")`);
+  else console.log(`demo via keyboard: "${status}"`);
+  await page.keyboard.press('Space');
+  const status2 = await page.textContent('[data-status]');
+  if (status2 === status) problems.push('demo: second pick repeated the first');
+  await page.focus('[data-another]');
+  await page.keyboard.press('Enter');
+  const another = await page.textContent('[data-pick-status]');
+  if (!another?.startsWith('Another pick: ')) problems.push(`Another pick via keyboard: "${another}"`);
+  else console.log(`Another pick via keyboard: "${another}"`);
+  await page.focus('[data-pick-panel]:not([hidden]) [data-track]');
   await page.keyboard.press('ArrowRight');
-  await page.keyboard.press('ArrowRight');
-  await page.waitForTimeout(300);
-  const scrolled = await page.$eval('#from-the-diary .strip', (s) => s.scrollLeft);
-  if (!(scrolled > 0)) problems.push('diary strip: arrow keys do not scroll it');
-  else console.log(`diary strip via keyboard: scrolled ${scrolled}px`);
+  await page.waitForTimeout(400);
+  const scrolled = await page.$eval('[data-pick-panel]:not([hidden]) [data-track]', (s) => s.scrollLeft);
+  if (!(scrolled > 0)) problems.push('pick photos: arrow keys do not scroll them');
+  else console.log(`pick photos via keyboard: scrolled ${scrolled}px`);
+
+  // Home: the beta banner dismisses.
+  await page.goto(base + '/', { waitUntil: 'networkidle' });
   await page.focus('[data-banner-dismiss]');
   await page.keyboard.press('Enter');
   const banner = await page.evaluate(() => [

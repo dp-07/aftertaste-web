@@ -5,6 +5,10 @@
 /privacy/            /privacy                 301
 /terms/              /terms                   301
 /support/            /support                 301
+/log/                /log                     301
+/today/              /today                   301
+/receipt/            /receipt                 301
+/taste-report/       /taste-report            301
 
 # Friendly aliases.
 /privacy-policy      /privacy                 301
@@ -13,3 +17,9 @@
 /contact             /support                 301
 /help                /support                 301
 /delete-account      /support#delete-account  301
+/todays-pick         /today                   301
+/receipts           /receipt                 301
+/faq                 /support#questions       301
+/coffee              /patron                  301
+/coffee/             /patron                  301
+/patron/             /patron                  301

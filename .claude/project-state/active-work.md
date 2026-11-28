@@ -1,3 +1,15 @@
+# Active work: /patron redesign (`task/web-patron-20261128`) — pushed, awaiting "approved"
+
+Branched from `work-branch`, with the `task/patron-route` commits (footer link on feature pages, `/coffee` → `/patron`) cherry-picked minus its hand-edit of the synced privacy text. Three option cards (UPI, Bondin link, Buy Me a Coffee), THANK YOU stamp. Report: `app-sync-report-20261128-patron.md`; decisions 2026-11-28.
+
+---
+
+# Active work: web revamp (`task/web-revamp-20261127`) — approved and merged into `work-branch` (2026-11-27)
+
+Short home (hero, three steps, feature teasers, one privacy line, beta form) and four feature pages (`/log`, `/today`, `/receipt`, `/taste-report`); FAQ on `/support`; interactive hero seal, Today's pick swipe and Another pick, receipt print with a thud, taste report count-up, scroll rise. Recon: `web-revamp-recon-20261127.md`; results: `web-revamp-report-20261127.md`; decisions 2026-11-27. Approved by the human on 2026-11-27 with one copy change (/today: "Open Today’s pick in the app").
+
+---
+
 # Active work: website v2 (`task/website-v2`) — approved 2026-11-14, merged into `work-branch`
 
 Branched from `origin/work-branch` @ `fb4d0b4` (v1, docs and fixes-1 merged). Local checkpoint commits only; push and merge wait for the human's "approved".
@@ -26,7 +38,7 @@ Read-only reads of the app repo (`DishDiary`, branch `work-branch`, legal docs a
 
 - **Product:** Aftertaste (display name; package identifiers stay `bitemarks`). Private food diary. At v1 the site said Android only; since 2026-11-14 it is a native app for Android and iOS, both still cooking. Not yet on Google Play or the App Store.
 - **Owner / contact:** an individual in India (named in the earlier legal drafts; the site publishes no personal name). Governing law: India, courts at Dehradun.
-- **Tagline:** "Your personal food memory" (LoginScreen). Store taglines: "Remember every good bite." Store short description: "Your private food diary: places, dishes, photos and what to eat next."
+- **Tagline:** "Taste you don't want to forget." (Login and About; changed 2026-11-24, was "Your personal food memory"; site synced 2026-11-26). Store taglines: "Remember every good bite." Store short description: "Your private food diary: places, dishes, photos and what to eat next."
 - **Feature names (app copy):** Want to try, Tried, What should we eat?, Pick for me, Another, From your Want to try, One of your favourites, Loved by {name}, Near you, From friends, Visit logged, LOGGED stamp, RECOMMENDED · WOULD RETURN, MUST-TRY, TRIED, Export my data, Delete account, share my diary (discoverable).
 - **Icons:** Feather is the app icon set; Ionicons only for star/heart glyphs. No emoji as icons. Website uses `feather-icons` SVGs (MIT) inlined at build time.
 - **Fonts:** Prata 400 (display), DM Sans 400/500/600 (UI), DM Mono 400/500 (mono role, receipt). All SIL OFL 1.1 (`@expo-google-fonts/*/LICENSE_FONT`). DM Mono and Prata have no ₹ (U+20B9); DM Sans does, so the mono stack falls back to DM Sans for ₹.

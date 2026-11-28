@@ -1,0 +1,447 @@
+---
+/**
+ * Keep Aftertaste brewing: three equal option cards (UPI, Bondin, Buy Me a Coffee).
+ * Not in the nav and never linked from /privacy, /terms or /support (see RULES, "Payments").
+ *
+ * - The UPI link has no payee name and no amount, so the UPI app shows the
+ *   bank-verified name and its own enter-amount screen.
+ * - The QR is generated at build time (qrcode-generator, a devDependency) as
+ *   inline SVG: no JS ships, nothing third-party, and no name can be embedded.
+ * - Phone or desktop is decided with CSS (pointer, width); both show if unsure.
+ * - The UPI ID is never shown: "Copy UPI ID" copies it from a data attribute.
+ * - Bondin and Buy Me a Coffee are real links first (no JS, new tab). With JS, tapping them opens
+ *   the provider's checkout in the page: Bondin's embed script is loaded only on that tap, and Buy
+ *   Me a Coffee's widget page opens in a native <dialog> (the same iframe its widget script builds,
+ *   without the script, the floating bubble or its cookie). Nothing third-party loads with the page.
+ *   Only /patron gets the wider CSP and Permissions-Policy (public/_headers).
+ * - A THANK YOU stamp presses after any option is tapped (hidden without JS).
+ * - Route /patron (renamed from /coffee on 2026-11-28; /coffee 301s here).
+ * - The one inline script (src/scripts/patron.js) is hashed in the CSP.
+ *   Without JS the copy button and the stamp stay hidden; all three links and the QR still work.
+ */
+import qrcode from 'qrcode-generator';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SealMark from '../components/brand/SealMark.astro';
+import Button from '../components/ui/Button.astro';
+import Icon from '../components/ui/Icon.astro';
+import Stamp from '../components/brand/Stamp.astro';
+import patronScript from '../scripts/patron.js?raw';
+import { site, upiUrl } from '../config/site';
+
+const bmcEmbedUrl = `https://buymeacoffee.com/widget/page/${site.buyMeACoffeeId}?description=${encodeURIComponent('Support Aftertaste')}&color=${encodeURIComponent('#c2412d')}`;
+
+const qr = qrcode(0, 'M');
+qr.addData(upiUrl());
+qr.make();
+const count = qr.getModuleCount();
+const QUIET = 4;
+let d = '';
+for (let r = 0; r < count; r++) {
+  for (let c = 0; c < count; c++) {
+    if (!qr.isDark(r, c)) continue;
+    let end = c;
+    while (end + 1 < count && qr.isDark(r, end + 1)) end++;
+    d += `M${c + QUIET} ${r + QUIET}h${end - c + 1}v1h-${end - c + 1}z`;
+    c = end;
+  }
+}
+const size = count + QUIET * 2;
+---
+
+<BaseLayout
+  title="Keep Aftertaste brewing"
+  description="Aftertaste is free and has no ads. If you enjoy it, support it with UPI, Bondin or Buy Me a Coffee."
+>
+  <div class="wrap patron">
+    <header class="head">
+      <SealMark />
+      <p class="t-label kicker">Support Aftertaste</p>
+      <h1 class="t-display">Keep Aftertaste brewing</h1>
+      <p class="t-lede muted">
+        Aftertaste is free, with no ads and never will be. Support is optional and unlocks nothing.
+      </p>
+    </header>
+
+    <ul class="options">
+      <li class="card">
+        <div class="info">
+          <h2 class="t-card-title">Bondin</h2>
+          <p class="best muted">Support on Bondin.</p>
+        </div>
+        <div class="act">
+          <Button
+            href={site.bondinUrl}
+            icon="external-link"
+            target="_blank"
+            rel="noopener"
+            data-support
+            data-embed="bondin"
+            data-bondin-user={site.bondinUsername}
+            data-bondin-script={site.bondinScriptUrl}
+          >
+            Support with Bondin<span class="visually-hidden"> (opens in a new tab)</span>
+          </Button>
+        </div>
+      </li>
+
+      <li class="card">
+        <div class="info">
+          <h2 class="t-card-title">Buy Me a Coffee</h2>
+          <p class="best muted">Cards and international.</p>
+        </div>
+        <div class="act">
+          <Button
+            href={site.buyMeACoffeeUrl}
+            icon="coffee"
+            target="_blank"
+            rel="noopener"
+            data-support
+            data-embed="bmc"
+          >
+            Buy Me a Coffee<span class="visually-hidden"> (opens Buy Me a Coffee in a new tab)</span>
+          </Button>
+        </div>
+      </li>
+
+      <li class="card card--upi">
+        <div class="info">
+          <h2 class="t-card-title">UPI</h2>
+          <p class="best muted">Best in India, no fees.</p>
+        </div>
+        <div class="act">
+          <div class="upi-app">
+            <Button href={upiUrl()} icon="smartphone" data-support>
+              Open UPI app
+            </Button>
+          </div>
+          <span class="copy-wrap" data-copy-wrap>
+            <Button variant="secondary" icon="copy" data-copy-upi data-upi-id={site.upiId}>
+              Copy UPI ID
+            </Button>
+          </span>
+          <span class="qr-toggle-wrap" data-qr-wrap>
+            <Button variant="secondary" icon="grid" aria-expanded="false" aria-controls="upi-qr" data-qr-toggle>
+              Show QR code
+            </Button>
+          </span>
+          <p class="status t-body-sm" role="status" aria-live="polite" data-copy-status></p>
+        </div>
+        <div class="upi-qr" id="upi-qr" data-qr-panel>
+          <svg
+            class="qr"
+            viewBox={`0 0 ${size} ${size}`}
+            width="176"
+            height="176"
+            role="img"
+            aria-label="UPI QR code for Aftertaste"
+            shape-rendering="crispEdges"
+          >
+            <rect class="qr-bg" width={size} height={size}></rect>
+            <path class="qr-fg" d={d}></path>
+          </svg>
+          <p class="t-body-sm muted">Scan with any UPI app</p>
+        </div>
+      </li>
+    </ul>
+
+    <dialog class="sheet" data-bmc-dialog aria-labelledby="bmc-sheet-title">
+      <div class="sheet-bar">
+        <p id="bmc-sheet-title" class="t-card-title">
+          Buy Me a Coffee
+        </p>
+        <button type="button" class="sheet-close" data-bmc-close aria-label="Close">
+          <Icon name="x" size={20} />
+        </button>
+      </div>
+      <iframe
+        class="sheet-frame"
+        title="Buy Me a Coffee checkout"
+        allow="payment"
+        referrerpolicy="strict-origin-when-cross-origin"
+        data-src={bmcEmbedUrl}
+      ></iframe>
+      <p class="sheet-foot t-body-sm">
+        <a class="ink-link" href={site.buyMeACoffeeUrl} target="_blank" rel="noopener">
+          Trouble paying? Open it on Buy Me a Coffee<span class="visually-hidden"> (opens in a new tab)</span>
+        </a>
+      </p>
+    </dialog>
+
+    <div class="thanks" data-thanks hidden>
+      <Stamp variant="thanks" size="lg" press="manual" />
+    </div>
+
+    <p class="foot t-body-sm muted">
+      Payments are handled by Bondin, Buy Me a Coffee or your own UPI app, which shows the bank-verified name you are
+      paying. Aftertaste never sees your payment details.
+    </p>
+  </div>
+
+  <script is:inline set:html={patronScript} />
+</BaseLayout>
+
+<style>
+  .patron {
+    display: grid;
+    gap: var(--s-32);
+    max-inline-size: 40rem;
+    margin-inline: auto;
+    padding-block-start: clamp(2rem, 1rem + 4vw, 4.5rem);
+  }
+
+  .head {
+    display: grid;
+    justify-items: start;
+    gap: var(--s-16);
+  }
+
+  .head :global(.seal) {
+    inline-size: 72px;
+    block-size: 72px;
+  }
+
+  .kicker {
+    color: var(--primary-ink);
+  }
+
+  /* Three compact cards of the same width and style, stacked: text left, action right. */
+  .options {
+    display: grid;
+    gap: var(--s-12);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    max-inline-size: 40rem;
+  }
+
+  .card {
+    --control-h: 44px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: 'info act';
+    align-items: center;
+    gap: var(--s-12) var(--s-24);
+    padding: var(--s-16) var(--s-20);
+    border-radius: var(--r-lg);
+    background: var(--surface);
+    box-shadow: var(--elevation);
+  }
+
+  .info {
+    grid-area: info;
+  }
+
+  .act {
+    grid-area: act;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--s-8);
+  }
+
+  .card h2,
+  .best {
+    margin: 0;
+  }
+
+  .best {
+    font-size: var(--fs-body-sm);
+  }
+
+  /* The UPI card: the QR sits behind a "Show QR code" toggle on desktop and tablets.
+     Without JS there is no toggle, so the QR simply shows. */
+  .card--upi .act :global(.btn) {
+    padding-inline: var(--s-16);
+  }
+
+  /* No second grid row while the QR is hidden (an empty row would still add a gap). */
+  .upi-qr {
+    grid-column: 1 / -1;
+    display: grid;
+    justify-items: center;
+    gap: var(--s-4);
+    padding-block: var(--s-8) var(--s-4);
+  }
+
+  :global(html.js) .upi-qr:not(.open) {
+    display: none;
+  }
+
+  .upi-qr p {
+    margin: 0;
+  }
+
+  /* A fixed light card with dark modules in both themes, so it always scans. */
+  .qr {
+    inline-size: 176px;
+    block-size: 176px;
+    border-radius: var(--r-md);
+    box-shadow: var(--elevation);
+  }
+
+  .qr-bg {
+    fill: #fff;
+  }
+
+  .qr-fg {
+    fill: #16130f;
+  }
+
+  /* Mouse and keyboard devices cannot open a UPI app: QR only. */
+  @media (hover: hover) and (pointer: fine) {
+    .upi-app {
+      display: none;
+    }
+  }
+
+  /* Phones: the UPI app button replaces the QR. Tablets and desktops get the QR. */
+  @media (pointer: coarse) and (width < 48rem) {
+    .upi-qr {
+      display: none;
+    }
+
+    .qr-toggle-wrap {
+      display: none;
+    }
+
+    .card--upi {
+      grid-template-areas:
+        'info'
+        'act';
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  /* Narrow screens: the action goes under the text. */
+  @media (width < 34rem) {
+    .card {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas:
+        'info'
+        'act';
+    }
+
+    .card .act {
+      justify-content: flex-start;
+    }
+
+    .upi-qr {
+      justify-items: start;
+    }
+  }
+
+  .copy-wrap:not(.ready),
+  .qr-toggle-wrap:not(.ready) {
+    display: none;
+  }
+
+  .status {
+    margin: 0;
+    flex-basis: 100%;
+    color: var(--primary-ink);
+  }
+
+  .status:empty {
+    display: none;
+  }
+
+  /* Buy Me a Coffee's checkout in a native dialog (focus trap, Esc and backdrop for free). */
+  .sheet {
+    inline-size: min(26rem, calc(100vw - var(--s-24)));
+    block-size: min(46rem, calc(100dvh - var(--s-24)));
+    max-inline-size: none;
+    max-block-size: none;
+    margin: auto;
+    padding: 0;
+    border: 0;
+    border-radius: var(--r-lg);
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: var(--elevation);
+    overflow: hidden;
+  }
+
+  .sheet[open] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sheet::backdrop {
+    background: rgb(15 13 11 / 0.64);
+  }
+
+  .sheet-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-12);
+    padding: var(--s-12) var(--s-12) var(--s-12) var(--s-20);
+  }
+
+  .sheet-bar p {
+    margin: 0;
+  }
+
+  .sheet-close {
+    display: grid;
+    place-items: center;
+    inline-size: 44px;
+    block-size: 44px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r-pill);
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+  }
+
+  .sheet-close:hover {
+    border-color: var(--text);
+  }
+
+  .sheet-frame {
+    flex: 1;
+    min-block-size: 0;
+    inline-size: 100%;
+    border: 0;
+    background: #fff;
+  }
+
+  .sheet-foot {
+    margin: 0;
+    padding: var(--s-12) var(--s-20);
+    text-align: center;
+  }
+
+  /* Bondin's element is only a handle for its checkout; its own :host style would show a button. */
+  :global(bondin-support) {
+    display: none !important;
+  }
+
+  /* Bondin's modal sets purple inline; !important in our sheet wins over inline styles. */
+  :global([data-bondin-fallback-bar] a) {
+    color: var(--primary-ink) !important;
+  }
+
+  /* Its "Continue securely" fallback button (only shown when checkout fails to load). */
+  :global([data-bondin-overlay] a[href]:not([data-bondin-fallback-bar] a)) {
+    background: var(--btn-bg) !important;
+    color: var(--on-primary) !important;
+  }
+
+  .thanks {
+    display: flex;
+    justify-content: center;
+    padding-block: var(--s-8);
+  }
+
+  .thanks[hidden] {
+    display: none;
+  }
+
+  .foot {
+    margin: 0;
+    padding-block-start: var(--s-20);
+    border-block-start: 1px solid var(--line);
+  }
+</style>

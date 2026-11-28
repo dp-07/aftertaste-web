@@ -20,11 +20,12 @@
       "app_sources": [
         "app.config.js (name, platforms)",
         ".claude/project-state/current-state.md",
-        "docs/store/listing.md (draft; tagline and description)"
+        "docs/store/listing.md (draft; tagline and description)",
+        "src/config/site.ts (TAGLINE, 2026-11-24)"
       ],
       "website": [
         {
-          "where": "Hero kicker, copy and CTAs",
+          "where": "Hero status line, tagline and CTAs",
           "file": "src/components/landing/Hero.astro"
         },
         {
@@ -36,26 +37,39 @@
           "file": "src/pages/index.astro"
         },
         {
-          "where": "FAQ: Can I use it now? / When can I get it? / Is there an iPhone app?",
-          "file": "src/components/landing/Faq.astro"
+          "where": "FAQ on /support: Can I use it now? / When can I get it? / Is there an iPhone app?",
+          "file": "src/components/support/Faq.astro"
+        },
+        {
+          "where": "Feature page end: \"Aftertaste is in private beta on Android and iOS.\"",
+          "file": "src/components/feature/NextUp.astro"
         }
       ],
-      "notes": "The site says both platforms are in private beta and 'still cooking'. The iOS wording is a human decision (decisions.md); do not change it from the app's state alone."
+      "notes": "The site says both platforms are in private beta and 'still cooking'. The iOS wording is a human decision (decisions.md); do not change it from the app's state alone. Tagline synced 2026-11-26 to 'Taste you don't want to forget.' (site.ts, BaseLayout title, OG home render, webmanifest)."
     },
     {
       "id": "log-place",
-      "app_feature": "Add a place: Google search, 'Near you' list, or manual entry; each place keeps every visit",
+      "app_feature": "Add a place: Google search, 'Near you' list, or manual entry; each place keeps every visit. Home's entry is the mushroom menu's 'Log a place' tag (the + FAB is gone); Search's empty state also lists Near you and 'Add a place manually'",
       "status": "merged",
       "app_sources": [
         "src/screens/AddPlaceScreen.tsx (search / manual modes)",
         "src/screens/SearchScreen.tsx",
         "src/screens/AddVisitScreen.tsx",
-        "src/screens/PlaceDetailScreen.tsx"
+        "src/screens/PlaceDetailScreen.tsx",
+        "src/screens/home/MushroomMenu.tsx"
       ],
       "website": [
         {
-          "where": "How it works, step 1 'Log the place'",
-          "file": "src/components/landing/HowItWorks.astro"
+          "where": "Home step 1 'Log the place'",
+          "file": "src/components/landing/Steps.astro"
+        },
+        {
+          "where": "/log head (search or type in) and #near-you (\"Tap Log a place\")",
+          "file": "src/pages/log.astro"
+        },
+        {
+          "where": "Hero seal tag and teaser 'Log a place'",
+          "file": "src/config/features.ts"
         }
       ],
       "claims": [
@@ -77,11 +91,15 @@
       ],
       "website": [
         {
-          "where": "How it works, step 2 'Rate what you ate'",
-          "file": "src/components/landing/HowItWorks.astro"
+          "where": "Home step 2 'Rate what you ate'",
+          "file": "src/components/landing/Steps.astro"
         },
         {
-          "where": "Sample dish and place cards",
+          "where": "/log #rate",
+          "file": "src/pages/log.astro"
+        },
+        {
+          "where": "Sample dish card",
           "file": "src/components/app/DishCard.astro"
         }
       ],
@@ -105,8 +123,8 @@
       ],
       "website": [
         {
-          "where": "How it works, step 3 'Remember it forever'",
-          "file": "src/components/landing/HowItWorks.astro"
+          "where": "Home step 3 'Know next time'",
+          "file": "src/components/landing/Steps.astro"
         },
         {
           "where": "Stamp component (token-built)",
@@ -131,16 +149,12 @@
       ],
       "website": [
         {
-          "where": "Section 02 #want-to-try",
-          "file": "src/pages/index.astro"
+          "where": "/today #want-to-try",
+          "file": "src/pages/today.astro"
         },
         {
           "where": "Row component",
           "file": "src/components/app/WishlistRow.astro"
-        },
-        {
-          "where": "Section 10 #more, 'Tried' line",
-          "file": "src/components/landing/MoreIndex.astro"
         }
       ],
       "claims": [
@@ -151,7 +165,8 @@
         "Tried places drop out of view after 30 days",
         "clear them in one go"
       ],
-      "evidence": "Merged into app work-branch: a298344 (home-explore-revamp). Tried handling merged: f0f5974, e4b6285 (57cb5cb)."
+      "evidence": "Merged into app work-branch: a298344 (home-explore-revamp). Tried handling merged: f0f5974, e4b6285 (57cb5cb).",
+      "notes": "2026-11-27: the Tried line now lives in the /today copy (\"Went? It moves to Tried.\")."
     },
     {
       "id": "what-should-we-eat",
@@ -164,8 +179,8 @@
       ],
       "website": [
         {
-          "where": "Section 03 #what-should-we-eat",
-          "file": "src/pages/index.astro"
+          "where": "/today #pick-for-me",
+          "file": "src/pages/today.astro"
         },
         {
           "where": "Interactive demo",
@@ -181,40 +196,39 @@
     },
     {
       "id": "todays-pick",
-      "app_feature": "Today's pick: a printed card on app open (3rd open of the day, at most once a day) picking one place from the What-should-we-eat pool with photos; reason line; Open place / Save / Not today; no repeat within 14 days; Profile switch",
+      "app_feature": "Today's pick (v1.12): a sheet over Home opened from the mushroom menu's 'Today's pick' tag; always on (no Profile switch, no app-open pop-up); one place from the What-should-we-eat pool with photos, the same pick all day; reason chip; Open place / Not today / Another pick; swipeable photo carousel; no repeat within 14 days where possible",
       "status": "merged",
       "app_sources": [
         "src/utils/todaysPick.ts",
-        "src/utils/appOpenCount.ts",
-        "src/screens/shared/TodaysPickHost.tsx",
+        "src/services/todaysPickStore.ts",
+        "src/screens/home/TodaysPickSheet.tsx",
+        "src/screens/home/MushroomMenu.tsx",
         "src/components/brand/TodaysPickCard.tsx",
-        "src/screens/ProfileScreen.tsx (Today's pick switch)",
-        "design/app-ui-v1/SPEC.md (v1.10 items 2, 3)"
+        "design/app-ui-v1/SPEC.md (v1.12 item 2, 3)"
       ],
       "website": [
         {
-          "where": "Section 04 #todays-pick",
-          "file": "src/pages/index.astro"
+          "where": "/today head",
+          "file": "src/pages/today.astro"
         },
         {
-          "where": "Card replica",
+          "where": "Interactive replica (swipe, Another pick)",
           "file": "src/components/app/TodaysPickCard.astro"
         },
         {
-          "where": "TODAY'S PICK stamp",
-          "file": "src/components/brand/Stamp.astro"
+          "where": "Hero seal tag and teaser 'Today’s pick'",
+          "file": "src/config/features.ts"
         }
       ],
       "claims": [
-        "may hand you a place when you open the app",
-        "from your Want to try list, a place you said you'd go back to, or a friend's favourite",
+        "open Today’s pick in the app (neutral wording until production-direct ships the mushroom menu)",
+        "from your Want to try list, a place you'd go back to, or a friend's favourite",
         "shows the photos and why it chose it",
-        "open the place, save it, or not today",
-        "at most once a day",
-        "won't repeat a place for two weeks",
-        "switches off in Profile"
+        "open the place, say not today, or ask for another pick",
+        "stays the same all day",
+        "tries not to repeat a place for two weeks"
       ],
-      "evidence": "Merged into app work-branch: 4d63309, ad16b58, 489d7d0 (57cb5cb). Not yet run on a device (feature-status)."
+      "evidence": "Merged into app work-branch via d6360ba (task/sprint-pick-polish-search, approved 2026-11-26): 0f4ba35, c76b204, 8bd6f0f, beee7d2. Not run on a device (feature-status). Site replica rebuilt to the v1.12 sheet on 2026-11-26."
     },
     {
       "id": "near-you",
@@ -228,8 +242,8 @@
       ],
       "website": [
         {
-          "where": "Section 05 #near-you",
-          "file": "src/pages/index.astro"
+          "where": "/log #near-you",
+          "file": "src/pages/log.astro"
         },
         {
           "where": "List component",
@@ -255,8 +269,8 @@
       ],
       "website": [
         {
-          "where": "Section 06 #from-friends",
-          "file": "src/pages/index.astro"
+          "where": "/today #from-friends",
+          "file": "src/pages/today.astro"
         },
         {
           "where": "Row component",
@@ -285,8 +299,8 @@
       ],
       "website": [
         {
-          "where": "Section 07 #gallery",
-          "file": "src/pages/index.astro"
+          "where": "/log #gallery",
+          "file": "src/pages/log.astro"
         },
         {
           "where": "Gallery replica",
@@ -304,7 +318,7 @@
     },
     {
       "id": "receipt",
-      "app_feature": "Visit receipt: dishes, ratings, total, overall verdict, LOGGED stamp; shared as an image",
+      "app_feature": "Visit receipt: dishes, ratings, total, overall verdict, LOGGED stamp (top-right beside the wordmark since v1.12), footer 'UNTIL THE NEXT BITE'; shared as an image",
       "status": "merged",
       "app_sources": [
         "src/screens/VisitReceiptScreen.tsx",
@@ -314,8 +328,12 @@
       ],
       "website": [
         {
-          "where": "Section 08 #receipt (sticky printer)",
-          "file": "src/components/landing/ReceiptFeature.astro"
+          "where": "/receipt head (printer)",
+          "file": "src/pages/receipt.astro"
+        },
+        {
+          "where": "Printer",
+          "file": "src/components/feature/ReceiptPrinter.astro"
         },
         {
           "where": "Receipt component",
@@ -327,7 +345,7 @@
         "share as an image",
         "dishes, ratings, total, overall verdict, LOGGED stamp"
       ],
-      "evidence": "Image share merged: cb677c6. The app's feature-status notes the image share needs a native rebuild to ship; confirm before the launch."
+      "evidence": "Image share merged: cb677c6. The app's feature-status notes the image share needs a native rebuild to ship; confirm before the launch. v1.12 layout (stamp in the header row, -8 deg, footer) mirrored in Receipt.astro 2026-11-26 from 402bb4c."
     },
     {
       "id": "every-meal",
@@ -336,8 +354,8 @@
       "app_sources": ["src/screens/AddDishScreen.tsx", "src/utils/receipt.ts"],
       "website": [
         {
-          "where": "Section 09 #every-meal (₹40 cutting chai receipt, sample)",
-          "file": "src/components/landing/EveryMeal.astro"
+          "where": "/receipt #every-meal (₹40 cutting chai receipt, sample)",
+          "file": "src/pages/receipt.astro"
         }
       ],
       "notes": "Editorial section over rate-dish and receipt. The sample receipt is made up and labelled as such."
@@ -354,12 +372,8 @@
       ],
       "website": [
         {
-          "where": "Section 10 #more, 'Menu and booking'",
-          "file": "src/components/landing/MoreIndex.astro"
-        },
-        {
-          "where": "FAQ: Who can see my booking details?",
-          "file": "src/components/landing/Faq.astro"
+          "where": "FAQ on /support: Who can see my booking details?",
+          "file": "src/components/support/Faq.astro"
         }
       ],
       "claims": [
@@ -368,7 +382,7 @@
         "booking details only ever visible to you, even when your diary is shared"
       ],
       "evidence": "Merged: 589cc28 (57cb5cb). Migration not yet applied to production (feature-status).",
-      "notes": "Booking privacy is stated wherever booking is mentioned (human instruction, 2026-11-16). The privacy policy does not yet list menu photos as shared or booking details as private: proposal in .claude/project-state/app-sync-report-20261117.md §3 (STOP). The site deliberately says nothing about menu-photo visibility until the policy does."
+      "notes": "Booking privacy is stated wherever booking is mentioned (human instruction, 2026-11-16). The privacy policy does not yet list menu photos as shared or booking details as private: proposal in .claude/project-state/app-sync-report-20261117.md §3 (STOP). The site deliberately says nothing about menu-photo visibility until the policy does. 2026-11-27: the \"More in Aftertaste\" line was cut; only the FAQ answer remains."
     },
     {
       "id": "search-craving",
@@ -378,53 +392,51 @@
         "src/screens/HomeScreen.tsx (SearchPill placeholder)",
         "src/screens/SearchScreen.tsx (matchDishes)"
       ],
-      "website": [
-        {
-          "where": "Section 10 #more, 'Search a place or a craving'",
-          "file": "src/components/landing/MoreIndex.astro"
-        },
-        {
-          "where": "Hero placeholder screenshot",
-          "file": "scripts/render-placeholders.mjs"
-        }
-      ],
+      "website": [],
       "claims": ["type a dish and find it in your diary and in the diaries others share"],
-      "evidence": "Merged: aa3f4d8 (57cb5cb)."
+      "evidence": "Merged: aa3f4d8 (57cb5cb).",
+      "notes": "2026-11-27: not shown on the site (the \"More in Aftertaste\" index was cut in the web revamp). May return as a /log block."
     },
     {
       "id": "from-the-diary",
       "app_feature": "None: the site's own sample diary entries (placeholders until the human adds real photos)",
       "status": "site-only",
       "app_sources": [],
-      "website": [
-        {
-          "where": "Section 11 #from-the-diary",
-          "file": "src/components/landing/FromTheDiary.astro"
-        },
-        {
-          "where": "Entries",
-          "file": "src/config/diary.ts"
-        }
-      ],
-      "notes": "Never replace with app data or real users' entries."
+      "website": [],
+      "notes": "Never replace with app data or real users' entries. 2026-11-27: cut in the web revamp with src/config/diary.ts."
     },
     {
       "id": "taste-report",
-      "app_feature": "AI taste report",
-      "status": "parked",
-      "app_sources": [".claude/project-state/feature-status.md ('PARKED — AI taste report')"],
+      "app_feature": "AI taste report (optional, off until turned on in Profile): a monthly look at how you eat; app code computes the numbers, an AI model (Anthropic Claude API) writes the lines around them",
+      "status": "merged",
+      "app_sources": [
+        "docs/legal/privacy-policy.md section 8 (#ai-taste-report) @ c4d9e81",
+        ".claude/project-state/feature-status.md ('AI taste report')",
+        "src/screens/TasteReportScreen.tsx"
+      ],
       "website": [
         {
-          "where": "Section 12 #taste-report (teaser with sample data, 'not built yet')",
-          "file": "src/components/landing/TasteReport.astro"
+          "where": "/taste-report: replica, how it is made, four data blocks and the §8 link",
+          "file": "src/pages/taste-report.astro"
+        },
+        {
+          "where": "Replica with count-up",
+          "file": "src/components/app/TasteReportMock.astro"
+        },
+        {
+          "where": "Home teaser 'Taste report' (not a hero seal tag)",
+          "file": "src/config/features.ts"
         }
       ],
       "claims": [
-        "short report put together with AI from your own entries",
-        "it isn't built yet",
-        "privacy policy will say how it works before it ships"
+        "a monthly look at how you eat; off until you turn it on",
+        "app code calculates every number; an AI model writes the short lines",
+        "sent: dish names and calculated statistics (places as placeholders)",
+        "never sent: notes, photos, place names, addresses, cities, map positions, device location, visit dates, name, email, account ID, other people",
+        "Anthropic via the Claude API as service provider; not used for training by default; limited retention under its API policy",
+        "latest report kept until replaced, feature turned off or account deleted; turning off deletes the report and dish labels straight away"
       ],
-      "notes": "Parked in the app. The site's 'coming later' teaser predates this ledger. Under the skill's STOP rules, any change to it, or keeping it after the app drops it, needs human approval."
+      "notes": "Synced 2026-11-26 with the human's approval. Every claim is quoted from the policy; do not add claims. The menu's 'Your taste report' tag is NOT mentioned (no released build carrying it is recorded). The policy says 'monthly look' and also 'refreshes once a week'; the site says monthly only. The weekly cron is not scheduled yet (app feature-status)."
     },
     {
       "id": "privacy-promises",
@@ -438,8 +450,8 @@
       ],
       "website": [
         {
-          "where": "Section 13 #privacy (six promises)",
-          "file": "src/components/landing/Privacy.astro"
+          "where": "Home #privacy: one line (sharing off until you turn it on §7; no ads, trackers, cookies §1) and the policy link",
+          "file": "src/components/landing/PrivacyLine.astro"
         }
       ],
       "notes": "STOP class for any change beyond a verbatim legal sync. Each promise carries its policy section in a code comment."
@@ -451,8 +463,8 @@
       "app_sources": ["src/config/supportStore.ts", "src/config/supportDirect.ts", "src/services/storeTips.ts"],
       "website": [
         {
-          "where": "FAQ: Is Aftertaste free?",
-          "file": "src/components/landing/Faq.astro"
+          "where": "FAQ on /support: Is Aftertaste free?",
+          "file": "src/components/support/Faq.astro"
         }
       ],
       "evidence": "Merged into app work-branch: ceb0799 (store-tips). Store tips are not live until the app is on Play."
@@ -464,8 +476,8 @@
       "app_sources": ["src/screens/LoginScreen.tsx", "src/screens/login/GoogleSignInButton.tsx"],
       "website": [
         {
-          "where": "FAQ: How do I sign in?",
-          "file": "src/components/landing/Faq.astro"
+          "where": "FAQ on /support: How do I sign in?",
+          "file": "src/components/support/Faq.astro"
         }
       ]
     },
@@ -480,12 +492,16 @@
       ],
       "website": [
         {
-          "where": "FAQ: Can my friends see my diary?",
-          "file": "src/components/landing/Faq.astro"
+          "where": "FAQ on /support: Can my friends see my diary?",
+          "file": "src/components/support/Faq.astro"
         },
         {
           "where": "/support#what-friends-see",
           "file": "src/pages/support.astro"
+        },
+        {
+          "where": "/today #from-friends (\"Read-only, and notes stay private\")",
+          "file": "src/pages/today.astro"
         }
       ],
       "notes": "The list of shared and always-private fields must match privacy §7 exactly (STOP class if it changes). Since 57cb5cb menu photos are shared with the place and booking details are always private; §7 does not say so yet (STOP proposal, app-sync-report-20261117.md)."
@@ -502,8 +518,8 @@
       ],
       "website": [
         {
-          "where": "FAQ: How do I delete my account?",
-          "file": "src/components/landing/Faq.astro"
+          "where": "FAQ on /support: How do I delete my account?",
+          "file": "src/components/support/Faq.astro"
         },
         {
           "where": "/support#delete-account",
@@ -525,13 +541,9 @@
         {
           "where": "/support#export",
           "file": "src/pages/support.astro"
-        },
-        {
-          "where": "Privacy promise 'Take it with you'",
-          "file": "src/components/landing/Privacy.astro"
         }
       ],
-      "notes": "Since 57cb5cb the export also holds menu photos, booking details, QR images and a README. /support#export and the policy (§8) still describe the older contents (true but incomplete): STOP proposal in app-sync-report-20261117.md §3."
+      "notes": "Since 57cb5cb the export also holds menu photos, booking details, QR images and a README. /support#export and the policy (§8) still describe the older contents (true but incomplete): STOP proposal in app-sync-report-20261117.md §3. 2026-11-27: the home \"Take it with you\" promise was cut; /support#export remains."
     },
     {
       "id": "location-use",
@@ -546,29 +558,33 @@
         {
           "where": "/support#location",
           "file": "src/pages/support.astro"
+        },
+        {
+          "where": "/log #near-you (\"used only while you search, never saved\")",
+          "file": "src/pages/log.astro"
         }
       ]
     },
     {
       "id": "support-coffee",
-      "app_feature": "Support the app: Buy Me a Coffee and UPI (direct build)",
+      "app_feature": "Support the app: UPI, Bondin and Buy Me a Coffee (direct build; Bondin is web-only so far)",
       "status": "merged",
       "app_sources": ["src/config/supportDirect.ts (BMC_URL, UPI_ID)", "src/screens/support/SupportScreen.tsx"],
       "website": [
         {
-          "where": "/coffee page",
-          "file": "src/pages/coffee.astro"
+          "where": "/patron page",
+          "file": "src/pages/patron.astro"
         },
         {
-          "where": "Landing note",
-          "file": "src/components/landing/CoffeeNote.astro"
+          "where": "Footer link",
+          "file": "src/components/SiteFooter.astro"
         },
         {
           "where": "Config values",
           "file": "src/config/site.ts"
         }
       ],
-      "notes": "Payments rule applies: never link /coffee, buymeacoffee.com or upi:// from /privacy, /terms or /support; no pn= in UPI links. Changes beyond mirroring the two config values are STOP."
+      "notes": "Payments rule applies: never link /patron, buymeacoffee.com or upi:// from /privacy, /terms or /support; no pn= in UPI links. Bondin and Buy Me a Coffee open their checkouts only after a tap on /patron (tap-to-load; wider CSP on /patron only, see RULES Payments); never load either on page load. Changes beyond mirroring the config values are STOP."
     },
     {
       "id": "beta-list",
@@ -577,7 +593,7 @@
       "app_sources": ["docs/legal/privacy-policy.md §13 (beta list)"],
       "website": [
         {
-          "where": "Section 15 #join",
+          "where": "Home #join",
           "file": "src/components/landing/JoinBeta.astro"
         },
         {
@@ -606,8 +622,13 @@
     }
   ],
   "last_verified": {
-    "date": "2026-11-17",
-    "app_work_branch_head": "57cb5cb779e1106a0a055a4cd101e6ece358afb4",
-    "method": "New and changed features checked against the app's code (read-only); unchanged features spot-checked."
+    "date": "2026-11-26",
+    "app_work_branch_head": "d6360ba9741d25378e80f3ff3bb3fa5463547bd9",
+    "method": "Changed features (Today's pick, Home add-place entry, receipt, tagline) checked against the app's code and SPEC v1.12 (read-only); unchanged features not re-audited."
+  },
+  "website_revamp": {
+    "date": "2026-11-27",
+    "branch": "task/web-revamp-20261127",
+    "note": "Every section moved to the page map in docs/PRD.md; no new claims. Taste report facts map to policy §8 (app-sync-report-20261126-legal.md)."
   }
 }

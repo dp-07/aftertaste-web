@@ -1,5 +1,6 @@
 // Payment-link rules on dist/:
-// 1. /privacy, /terms and /support must not link to /coffee or buymeacoffee.com,
+// 1. /privacy, /terms and /support must not link to /patron (or its old path
+//    /coffee) or buymeacoffee.com,
 //    nor contain any upi:// link (the app links to these pages; Google Play
 //    payment policy). Plain-text mentions in the synced policy are fine.
 // 2. No upi:// link anywhere may carry a payee name (pn=): UPI apps show the
@@ -10,7 +11,8 @@ import { DIST, read, report, requireDist, walkFiles } from './lib.mjs';
 requireDist();
 const PLAY_PAGES = new Set(['privacy.html', 'terms.html', 'support.html']);
 const FORBIDDEN = [
-  [/href="\/coffee[#?"]/i, 'a link to /coffee'],
+  [/href="\/patron[#?"]/i, 'a link to /patron'],
+  [/href="\/coffee[#?"]/i, 'a link to /coffee (old path of /patron)'],
   [/buymeacoffee\.com/i, 'buymeacoffee.com'],
   [/upi:\/\//i, 'a upi:// link'],
 ];

@@ -23,24 +23,25 @@ function pressStamps() {
   stamps.forEach((s) => io.observe(s));
 }
 
-/** The receipt prints over time where scroll-driven printing does not apply. */
+/** Each receipt printer prints once, when a third of it is in view (motion allowed). */
 function printReceipt() {
-  const printer = document.querySelector<HTMLElement>('[data-printer]');
-  if (!printer) return;
-  const scrollDriven =
-    CSS.supports('animation-timeline: view()') &&
-    matchMedia('(prefers-reduced-motion: no-preference) and (width >= 48rem) and (height >= 46rem)').matches;
-  if (scrollDriven || reduced.matches || !('IntersectionObserver' in window)) return;
-  printer.dataset.mode = 'time';
+  const printers = document.querySelectorAll<HTMLElement>('[data-printer]');
+  if (printers.length === 0 || reduced.matches) return;
+  if (!('IntersectionObserver' in window)) {
+    printers.forEach((p) => p.classList.add('is-printing'));
+    return;
+  }
   const io = new IntersectionObserver(
-    ([e]) => {
-      if (!e?.isIntersecting) return;
-      printer.classList.add('is-printing');
-      io.disconnect();
+    (entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        e.target.classList.add('is-printing');
+        io.unobserve(e.target);
+      }
     },
     { threshold: 0.35 },
   );
-  io.observe(printer);
+  printers.forEach((p) => io.observe(p));
 }
 
 interface Sample {
