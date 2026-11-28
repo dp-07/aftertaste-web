@@ -416,6 +416,17 @@ const size = count + QUIET * 2;
     display: none !important;
   }
 
+  /* Bondin's modal sets purple inline; !important in our sheet wins over inline styles. */
+  :global([data-bondin-fallback-bar] a) {
+    color: var(--primary-ink) !important;
+  }
+
+  /* Its "Continue securely" fallback button (only shown when checkout fails to load). */
+  :global([data-bondin-overlay] a[href]:not([data-bondin-fallback-bar] a)) {
+    background: var(--btn-bg) !important;
+    color: var(--on-primary) !important;
+  }
+
   .thanks {
     display: flex;
     justify-content: center;
