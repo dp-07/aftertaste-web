@@ -411,6 +411,11 @@ const size = count + QUIET * 2;
     text-align: center;
   }
 
+  /* Bondin's element is only a handle for its checkout; its own :host style would show a button. */
+  :global(bondin-support) {
+    display: none !important;
+  }
+
   .thanks {
     display: flex;
     justify-content: center;

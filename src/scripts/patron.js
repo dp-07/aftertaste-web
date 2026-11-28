@@ -44,7 +44,10 @@
         bondin = document.createElement('bondin-support');
         bondin.setAttribute('username', link.getAttribute('data-bondin-user'));
         bondin.hidden = true;
-        bondin.addEventListener('bondin:close', thank);
+        bondin.addEventListener('bondin:close', function () {
+          link.focus();
+          thank();
+        });
         document.body.appendChild(bondin);
       }
       bondin.open();
